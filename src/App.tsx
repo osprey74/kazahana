@@ -4,6 +4,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AppLayout } from "./components/layout";
 import { LoginForm } from "./components/auth/LoginForm";
 import { TimelineView } from "./components/timeline/TimelineView";
+import { ThreadView } from "./components/thread/ThreadView";
+import { NotificationList } from "./components/notification/NotificationList";
 import { LoadingSpinner } from "./components/common/LoadingSpinner";
 import { useAuthStore } from "./stores/authStore";
 
@@ -24,13 +26,6 @@ function SearchPage() {
   );
 }
 
-function NotificationsPage() {
-  return (
-    <div className="flex items-center justify-center h-64 text-gray-400">
-      <p>通知（未実装）</p>
-    </div>
-  );
-}
 
 function ProfilePage() {
   return (
@@ -65,8 +60,9 @@ function AuthGate() {
         <Route element={<AppLayout />}>
           <Route path="/" element={<TimelineView />} />
           <Route path="/search" element={<SearchPage />} />
-          <Route path="/notifications" element={<NotificationsPage />} />
+          <Route path="/notifications" element={<NotificationList />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/post/:uri" element={<ThreadView />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import type { FeedViewPost } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
 import type { ViewImage } from "@atproto/api/dist/client/types/app/bsky/embed/images";
 import { formatDistanceToNowStrict } from "date-fns";
@@ -12,6 +13,7 @@ interface PostCardProps {
 }
 
 export function PostCard({ feedItem }: PostCardProps) {
+  const navigate = useNavigate();
   const { post, reason } = feedItem;
   const author = post.author;
   const record = post.record as { text?: string; facets?: unknown[]; createdAt?: string };
@@ -28,7 +30,14 @@ export function PostCard({ feedItem }: PostCardProps) {
     : "";
 
   return (
-    <article className="px-4 py-3 border-b border-border-light hover:bg-gray-50 transition-colors">
+    <article
+      className="px-4 py-3 border-b border-border-light hover:bg-gray-50 transition-colors cursor-pointer"
+      onClick={(e) => {
+        // Don't navigate if clicking on a button or link
+        if ((e.target as HTMLElement).closest("button, a")) return;
+        navigate(`/post/${encodeURIComponent(post.uri)}`);
+      }}
+    >
       {isRepost && repostBy && (
         <div className="flex items-center gap-1 text-xs text-gray-500 mb-1 ml-12">
           <span>🔁</span>

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { PostView } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
 import { getAgent } from "../../lib/agent";
+import { useComposeStore } from "../../stores/composeStore";
 
 interface PostActionsProps {
   post: PostView;
@@ -16,6 +17,21 @@ export function PostActions({ post }: PostActionsProps) {
   const [repostUri, setRepostUri] = useState(post.viewer?.repost ?? "");
 
   const replyCount = post.replyCount ?? 0;
+  const openCompose = useComposeStore((s) => s.open);
+
+  const handleReply = () => {
+    const record = post.record as { text?: string };
+    openCompose({
+      uri: post.uri,
+      cid: post.cid,
+      author: {
+        handle: post.author.handle,
+        displayName: post.author.displayName,
+        avatar: post.author.avatar,
+      },
+      text: record.text ?? "",
+    });
+  };
 
   const handleLike = async () => {
     const agent = getAgent();
@@ -67,7 +83,7 @@ export function PostActions({ post }: PostActionsProps) {
         icon="💬"
         count={replyCount}
         active={false}
-        onClick={() => {}}
+        onClick={handleReply}
       />
       <ActionButton
         icon="🔁"
