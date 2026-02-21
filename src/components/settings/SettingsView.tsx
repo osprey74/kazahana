@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { openUrl } from "@tauri-apps/plugin-opener";
 import { useSettingsStore } from "../../stores/settingsStore";
 import { useAuthStore } from "../../stores/authStore";
 
@@ -101,6 +102,23 @@ export function SettingsView() {
             {t("settings.readme")}
           </button>
         </div>
+      </section>
+
+      {/* Support */}
+      <section className="mt-6 pt-6 border-t border-border-light dark:border-border-dark text-center text-sm text-gray-500 dark:text-gray-400">
+        <p className="mb-3">{t("settings.supportMessage")}</p>
+        <button
+          onClick={() => openUrl("https://ko-fi.com/A0A71UNW9H")}
+          className="inline-flex items-center gap-2 px-5 py-2 text-sm font-semibold text-white rounded-md transition-opacity hover:opacity-90"
+          style={{ backgroundColor: "#0085FF", fontFamily: "'Quicksand', sans-serif" }}
+        >
+          <img
+            src="https://storage.ko-fi.com/cdn/cup-border.png"
+            alt=""
+            className="h-4 w-4"
+          />
+          Buy the developer a coffee on Ko-fi
+        </button>
       </section>
     </div>
   );

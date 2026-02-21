@@ -82,6 +82,8 @@
     "logout": "ログアウト",
     "license": "MIT License",
     "readme": "README (日本語)",
-    "version": "v{{version}}"
+    "version": "v{{version}}",
+    "supportMessage": "アプリ作者にコーヒーをご馳走する",
+    "supportButton": "Ko-fi でサポート"
   }
 }

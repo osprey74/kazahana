@@ -82,6 +82,8 @@
     "logout": "Logout",
     "license": "MIT License",
     "readme": "README",
-    "version": "v{{version}}"
+    "version": "v{{version}}",
+    "supportMessage": "Buy the developer a coffee",
+    "supportButton": "Support on Ko-fi"
   }
 }

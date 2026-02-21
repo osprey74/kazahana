@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { TabBar } from "./TabBar";
 import { ComposeModal } from "../post/ComposeModal";
@@ -7,8 +7,10 @@ import { useAuthStore } from "../../stores/authStore";
 
 export function AppLayout() {
   const { t } = useTranslation();
+  const location = useLocation();
   const openCompose = useComposeStore((s) => s.open);
   const profile = useAuthStore((s) => s.profile);
+  const isSettings = location.pathname.startsWith("/settings");
 
   return (
     <div className="flex flex-col h-screen bg-white dark:bg-bg-dark">
@@ -29,13 +31,15 @@ export function AppLayout() {
       </main>
 
       {/* FAB - New Post */}
-      <button
-        onClick={() => openCompose()}
-        className="fixed bottom-6 right-6 w-14 h-14 bg-primary text-white rounded-full shadow-lg hover:bg-blue-600 transition-colors flex items-center justify-center text-2xl z-40"
-        title={t("compose.newPost")}
-      >
-        +
-      </button>
+      {!isSettings && (
+        <button
+          onClick={() => openCompose()}
+          className="fixed bottom-5 right-5 w-11 h-11 bg-primary/60 text-white rounded-full shadow-lg hover:bg-primary/80 transition-colors flex items-center justify-center text-xl leading-none z-40"
+          title={t("compose.newPost")}
+        >
+          <span className="-mt-px">+</span>
+        </button>
+      )}
 
       {/* Compose Modal */}
       <ComposeModal />
