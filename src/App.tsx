@@ -1,13 +1,20 @@
+import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AppLayout } from "./components/layout";
+import { LoginForm } from "./components/auth/LoginForm";
+import { TimelineView } from "./components/timeline/TimelineView";
+import { LoadingSpinner } from "./components/common/LoadingSpinner";
+import { useAuthStore } from "./stores/authStore";
 
-function HomePage() {
-  return (
-    <div className="flex items-center justify-center h-64 text-gray-400">
-      <p>ホームタイムライン（未実装）</p>
-    </div>
-  );
-}
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 function SearchPage() {
   return (
@@ -33,18 +40,44 @@ function ProfilePage() {
   );
 }
 
-function App() {
+function AuthGate() {
+  const { isLoggedIn, isLoading, restoreSession } = useAuthStore();
+
+  useEffect(() => {
+    restoreSession();
+  }, [restoreSession]);
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
+  if (!isLoggedIn) {
+    return <LoginForm />;
+  }
+
   return (
     <BrowserRouter>
       <Routes>
         <Route element={<AppLayout />}>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<TimelineView />} />
           <Route path="/search" element={<SearchPage />} />
           <Route path="/notifications" element={<NotificationsPage />} />
           <Route path="/profile" element={<ProfilePage />} />
         </Route>
       </Routes>
     </BrowserRouter>
+  );
+}
+
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <AuthGate />
+    </QueryClientProvider>
   );
 }
 
