@@ -53,7 +53,8 @@
     "retry": "再試行"
   },
   "image": {
-    "addImages": "画像を追加（最大{{max}}枚、1MB以下）"
+    "addImages": "画像を追加（最大{{max}}枚、1MB以下）",
+    "altPlaceholder": "ALT テキスト"
   },
   "profile": {
     "follow": "フォロー",

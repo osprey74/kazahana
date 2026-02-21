@@ -40,6 +40,7 @@ export function ComposeModal() {
       id: crypto.randomUUID(),
       file,
       preview: URL.createObjectURL(file),
+      alt: "",
     }));
     setImages((prev) => [...prev, ...newImages]);
   }, []);
@@ -52,6 +53,10 @@ export function ComposeModal() {
     });
   }, []);
 
+  const handleUpdateAlt = useCallback((id: string, alt: string) => {
+    setImages((prev) => prev.map((img) => (img.id === id ? { ...img, alt } : img)));
+  }, []);
+
   const handleSubmit = async () => {
     if (!canPost) return;
 
@@ -59,7 +64,7 @@ export function ComposeModal() {
     const imageData = await Promise.all(
       images.map(async (img) => {
         const buf = await img.file.arrayBuffer();
-        return { data: new Uint8Array(buf), mimeType: img.file.type };
+        return { data: new Uint8Array(buf), mimeType: img.file.type, alt: img.alt };
       }),
     );
 
@@ -131,6 +136,7 @@ export function ComposeModal() {
             images={images}
             onAdd={handleAddImages}
             onRemove={handleRemoveImage}
+            onUpdateAlt={handleUpdateAlt}
           />
         </div>
 

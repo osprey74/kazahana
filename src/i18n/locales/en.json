@@ -53,7 +53,8 @@
     "retry": "Retry"
   },
   "image": {
-    "addImages": "Add images (max {{max}}, under 1MB)"
+    "addImages": "Add images (max {{max}}, under 1MB)",
+    "altPlaceholder": "ALT text"
   },
   "profile": {
     "follow": "Follow",

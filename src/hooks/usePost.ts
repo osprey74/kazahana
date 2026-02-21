@@ -4,7 +4,7 @@ import { getAgent } from "../lib/agent";
 
 interface CreatePostParams {
   text: string;
-  images?: { data: Uint8Array; mimeType: string }[];
+  images?: { data: Uint8Array; mimeType: string; alt: string }[];
   replyTo?: {
     uri: string;
     cid: string;
@@ -31,7 +31,7 @@ export function useCreatePost() {
             encoding: img.mimeType,
           });
           imageEmbeds.push({
-            alt: "",
+            alt: img.alt,
             image: res.data.blob,
           });
         }

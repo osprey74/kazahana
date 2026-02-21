@@ -5,19 +5,21 @@ interface ImageFile {
   id: string;
   file: File;
   preview: string;
+  alt: string;
 }
 
 interface ImageUploadProps {
   images: ImageFile[];
   onAdd: (files: File[]) => void;
   onRemove: (id: string) => void;
+  onUpdateAlt: (id: string, alt: string) => void;
 }
 
 const MAX_IMAGES = 4;
 const MAX_SIZE = 1_000_000; // 1MB
 const ACCEPTED = ["image/jpeg", "image/png", "image/webp"];
 
-export function ImageUpload({ images, onAdd, onRemove }: ImageUploadProps) {
+export function ImageUpload({ images, onAdd, onRemove, onUpdateAlt }: ImageUploadProps) {
   const { t } = useTranslation();
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -52,20 +54,29 @@ export function ImageUpload({ images, onAdd, onRemove }: ImageUploadProps) {
     <div>
       {/* Preview grid */}
       {images.length > 0 && (
-        <div className="grid grid-cols-2 gap-1 mb-2">
+        <div className="grid grid-cols-2 gap-2 mb-2">
           {images.map((img) => (
-            <div key={img.id} className="relative group">
-              <img
-                src={img.preview}
-                alt=""
-                className="w-full h-24 object-cover rounded"
+            <div key={img.id} className="flex flex-col gap-1">
+              <div className="relative group">
+                <img
+                  src={img.preview}
+                  alt=""
+                  className="w-full h-24 object-cover rounded"
+                />
+                <button
+                  onClick={() => onRemove(img.id)}
+                  className="absolute top-1 right-1 w-5 h-5 bg-black/60 text-white rounded-full text-xs flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                >
+                  x
+                </button>
+              </div>
+              <input
+                type="text"
+                value={img.alt}
+                onChange={(e) => onUpdateAlt(img.id, e.target.value)}
+                placeholder={t("image.altPlaceholder")}
+                className="w-full text-[11px] px-1.5 py-1 rounded border border-border-light dark:border-border-dark bg-transparent text-text-light dark:text-text-dark placeholder-gray-400 focus:outline-none focus:border-primary"
               />
-              <button
-                onClick={() => onRemove(img.id)}
-                className="absolute top-1 right-1 w-5 h-5 bg-black/60 text-white rounded-full text-xs flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-              >
-                x
-              </button>
             </div>
           ))}
         </div>
