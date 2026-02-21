@@ -56,7 +56,7 @@ export function ThreadView() {
   return (
     <div>
       {/* Back button */}
-      <div className="px-4 py-2 border-b border-border-light">
+      <div className="px-4 py-2 border-b border-border-light dark:border-border-dark">
         <button
           onClick={() => navigate(-1)}
           className="text-sm text-primary hover:underline"
@@ -104,8 +104,8 @@ function ThreadPostItem({
 
   return (
     <article
-      className={`px-4 py-3 border-b border-border-light ${
-        isHighlighted ? "bg-blue-50" : ""
+      className={`px-4 py-3 border-b border-border-light dark:border-border-dark ${
+        isHighlighted ? "bg-blue-50 dark:bg-blue-900/20" : ""
       }`}
     >
       <div className="flex gap-3">

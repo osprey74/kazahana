@@ -15,10 +15,10 @@ export function LoginForm() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-50">
+    <div className="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-bg-dark">
       <div className="w-full max-w-sm mx-auto p-8">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-text-light">{t("app.title")}</h1>
+          <h1 className="text-3xl font-bold text-text-light dark:text-text-dark">{t("app.title")}</h1>
           <p className="text-gray-500 mt-2 text-sm">{t("auth.tagline")}</p>
         </div>
 

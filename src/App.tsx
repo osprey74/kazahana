@@ -1,14 +1,17 @@
 import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useTranslation } from "react-i18next";
 import { AppLayout } from "./components/layout";
 import { LoginForm } from "./components/auth/LoginForm";
 import { TimelineView } from "./components/timeline/TimelineView";
 import { ThreadView } from "./components/thread/ThreadView";
 import { NotificationList } from "./components/notification/NotificationList";
+import { ProfileView } from "./components/profile/ProfileView";
+import { SearchView } from "./components/search/SearchView";
+import { SettingsView } from "./components/settings/SettingsView";
 import { LoadingSpinner } from "./components/common/LoadingSpinner";
 import { useAuthStore } from "./stores/authStore";
+import { applyTheme, useSettingsStore } from "./stores/settingsStore";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -19,31 +22,26 @@ const queryClient = new QueryClient({
   },
 });
 
-function SearchPage() {
-  const { t } = useTranslation();
-  return (
-    <div className="flex items-center justify-center h-64 text-gray-400">
-      <p>{t("placeholder.search")}</p>
-    </div>
-  );
-}
-
-
-function ProfilePage() {
-  const { t } = useTranslation();
-  return (
-    <div className="flex items-center justify-center h-64 text-gray-400">
-      <p>{t("placeholder.profile")}</p>
-    </div>
-  );
-}
-
 function AuthGate() {
   const { isLoggedIn, isLoading, restoreSession } = useAuthStore();
+  const theme = useSettingsStore((s) => s.theme);
 
   useEffect(() => {
     restoreSession();
   }, [restoreSession]);
+
+  // Apply theme on mount and when it changes
+  useEffect(() => {
+    applyTheme(theme);
+
+    // Listen for system theme changes
+    const mq = window.matchMedia("(prefers-color-scheme: dark)");
+    const handler = () => {
+      if (theme === "system") applyTheme("system");
+    };
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, [theme]);
 
   if (isLoading) {
     return (
@@ -62,10 +60,12 @@ function AuthGate() {
       <Routes>
         <Route element={<AppLayout />}>
           <Route path="/" element={<TimelineView />} />
-          <Route path="/search" element={<SearchPage />} />
+          <Route path="/search" element={<SearchView />} />
           <Route path="/notifications" element={<NotificationList />} />
-          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/profile" element={<ProfileView />} />
+          <Route path="/profile/:handle" element={<ProfileView />} />
           <Route path="/post/:uri" element={<ThreadView />} />
+          <Route path="/settings" element={<SettingsView />} />
         </Route>
       </Routes>
     </BrowserRouter>

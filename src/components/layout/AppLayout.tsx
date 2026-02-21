@@ -9,10 +9,11 @@ export function AppLayout() {
   const openCompose = useComposeStore((s) => s.open);
 
   return (
-    <div className="flex flex-col h-screen bg-white">
+    <div className="flex flex-col h-screen bg-white dark:bg-bg-dark">
       {/* Header */}
-      <header className="flex items-center justify-center py-2 border-b border-border-light">
-        <h1 className="text-lg font-bold text-text-light">{t("app.title")}</h1>
+      <header className="flex items-center justify-between py-2 px-4 border-b border-border-light dark:border-border-dark">
+        <h1 className="text-lg font-bold text-text-light dark:text-text-dark flex-1 text-center">{t("app.title")}</h1>
+        <a href="/settings" className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 text-lg" title={t("settings.title")}>⚙</a>
       </header>
 
       {/* Tab Navigation */}

@@ -35,7 +35,7 @@ export function PostCard({ feedItem }: PostCardProps) {
 
   return (
     <article
-      className="px-4 py-3 border-b border-border-light hover:bg-gray-50 transition-colors cursor-pointer"
+      className="px-4 py-3 border-b border-border-light dark:border-border-dark hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors cursor-pointer"
       onClick={(e) => {
         // Don't navigate if clicking on a button or link
         if ((e.target as HTMLElement).closest("button, a")) return;
@@ -55,7 +55,7 @@ export function PostCard({ feedItem }: PostCardProps) {
         <div className="flex-1 min-w-0">
           {/* Author info */}
           <div className="flex items-baseline gap-1">
-            <span className="font-bold text-sm text-text-light truncate">
+            <span className="font-bold text-sm text-text-light dark:text-text-dark truncate">
               {author.displayName || author.handle}
             </span>
             <span className="text-xs text-gray-500 truncate">

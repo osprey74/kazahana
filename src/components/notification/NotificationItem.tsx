@@ -56,8 +56,8 @@ export function NotificationItem({ notification }: NotificationItemProps) {
   return (
     <div
       onClick={handleClick}
-      className={`flex gap-3 px-4 py-3 border-b border-border-light transition-colors cursor-pointer hover:bg-gray-50 ${
-        !isRead ? "bg-blue-50/50" : ""
+      className={`flex gap-3 px-4 py-3 border-b border-border-light dark:border-border-dark transition-colors cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 ${
+        !isRead ? "bg-blue-50/50 dark:bg-blue-900/20" : ""
       }`}
     >
       <Avatar src={author.avatar} size="sm" />

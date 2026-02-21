@@ -55,8 +55,30 @@
   "image": {
     "addImages": "画像を追加（最大{{max}}枚、1MB以下）"
   },
-  "placeholder": {
-    "search": "検索（未実装）",
-    "profile": "プロフィール（未実装）"
+  "profile": {
+    "follow": "フォロー",
+    "following": "フォロー中",
+    "followers": "フォロワー",
+    "posts": "投稿",
+    "noPosts": "投稿はありません",
+    "loadFailed": "プロフィールの読み込みに失敗しました",
+    "logout": "ログアウト"
+  },
+  "search": {
+    "placeholder": "ユーザーや投稿を検索...",
+    "posts": "投稿",
+    "users": "ユーザー",
+    "hint": "キーワードを入力して検索",
+    "noResults": "結果が見つかりません",
+    "loadFailed": "検索に失敗しました"
+  },
+  "settings": {
+    "title": "設定",
+    "theme": "テーマ",
+    "light": "ライト",
+    "dark": "ダーク",
+    "system": "システム",
+    "language": "言語",
+    "logout": "ログアウト"
   }
 }

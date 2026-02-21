@@ -80,9 +80,9 @@ export function ComposeModal() {
 
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center pt-16 bg-black/40">
-      <div className="bg-white rounded-card w-full max-w-md mx-4 shadow-xl">
+      <div className="bg-white dark:bg-bg-dark rounded-card w-full max-w-md mx-4 shadow-xl">
         {/* Header */}
-        <div className="flex items-center justify-between px-4 py-3 border-b border-border-light">
+        <div className="flex items-center justify-between px-4 py-3 border-b border-border-light dark:border-border-dark">
           <button
             onClick={close}
             className="text-sm text-gray-500 hover:text-gray-700"
@@ -120,7 +120,7 @@ export function ComposeModal() {
             value={text}
             onChange={(e) => setText(e.target.value)}
             placeholder={replyTo ? t("compose.replyPlaceholder") : t("compose.placeholder")}
-            className="w-full min-h-[120px] resize-none text-sm text-text-light placeholder-gray-400 focus:outline-none"
+            className="w-full min-h-[120px] resize-none text-sm text-text-light dark:text-text-dark bg-transparent placeholder-gray-400 focus:outline-none"
             autoFocus
           />
         </div>
@@ -135,7 +135,7 @@ export function ComposeModal() {
         </div>
 
         {/* Footer: character count + error */}
-        <div className="flex items-center justify-between px-4 py-2 border-t border-border-light">
+        <div className="flex items-center justify-between px-4 py-2 border-t border-border-light dark:border-border-dark">
           <div>
             {createPost.isError && (
               <p className="text-xs text-red-500">{t("compose.postFailed")}</p>

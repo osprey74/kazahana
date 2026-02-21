@@ -55,8 +55,30 @@
   "image": {
     "addImages": "Add images (max {{max}}, under 1MB)"
   },
-  "placeholder": {
-    "search": "Search (coming soon)",
-    "profile": "Profile (coming soon)"
+  "profile": {
+    "follow": "Follow",
+    "following": "Following",
+    "followers": "Followers",
+    "posts": "Posts",
+    "noPosts": "No posts yet",
+    "loadFailed": "Failed to load profile",
+    "logout": "Logout"
+  },
+  "search": {
+    "placeholder": "Search users or posts...",
+    "posts": "Posts",
+    "users": "Users",
+    "hint": "Enter a keyword to search",
+    "noResults": "No results found",
+    "loadFailed": "Search failed"
+  },
+  "settings": {
+    "title": "Settings",
+    "theme": "Theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System",
+    "language": "Language",
+    "logout": "Logout"
   }
 }

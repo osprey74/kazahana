@@ -15,6 +15,12 @@
     font-family: system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    @apply bg-bg-light text-text-light;
+  }
+
+  .dark body,
+  html.dark body {
+    @apply bg-bg-dark text-text-dark;
   }
 
   /* Prevent text selection during drag operations */

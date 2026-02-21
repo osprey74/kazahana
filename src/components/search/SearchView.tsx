@@ -1,0 +1,174 @@
+import { useState, useMemo, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { Virtuoso } from "react-virtuoso";
+import type { FeedViewPost } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
+import type { ProfileView } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
+import { useSearchActors, useSearchPosts } from "../../hooks/useSearch";
+import { PostCard } from "../timeline/PostCard";
+import { Avatar } from "../common/Avatar";
+import { LoadingSpinner } from "../common/LoadingSpinner";
+
+type SearchTab = "posts" | "users";
+
+export function SearchView() {
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+  const [query, setQuery] = useState("");
+  const [activeQuery, setActiveQuery] = useState("");
+  const [tab, setTab] = useState<SearchTab>("posts");
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    setActiveQuery(query.trim());
+  };
+
+  return (
+    <div>
+      {/* Search bar */}
+      <form onSubmit={handleSearch} className="px-4 py-3 border-b border-border-light">
+        <input
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder={t("search.placeholder")}
+          className="w-full px-3 py-2 border border-border-light rounded-btn text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+        />
+      </form>
+
+      {/* Tabs */}
+      {activeQuery && (
+        <div className="flex border-b border-border-light">
+          <button
+            onClick={() => setTab("posts")}
+            className={`flex-1 py-2.5 text-sm font-medium transition-colors ${
+              tab === "posts"
+                ? "text-primary border-b-2 border-primary"
+                : "text-gray-500 hover:text-gray-700"
+            }`}
+          >
+            {t("search.posts")}
+          </button>
+          <button
+            onClick={() => setTab("users")}
+            className={`flex-1 py-2.5 text-sm font-medium transition-colors ${
+              tab === "users"
+                ? "text-primary border-b-2 border-primary"
+                : "text-gray-500 hover:text-gray-700"
+            }`}
+          >
+            {t("search.users")}
+          </button>
+        </div>
+      )}
+
+      {/* Results */}
+      {activeQuery && tab === "posts" && (
+        <PostResults query={activeQuery} />
+      )}
+      {activeQuery && tab === "users" && (
+        <UserResults query={activeQuery} onUserClick={(handle) => navigate(`/profile/${handle}`)} />
+      )}
+
+      {!activeQuery && (
+        <div className="flex items-center justify-center py-12 text-gray-400">
+          <p>{t("search.hint")}</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function PostResults({ query }: { query: string }) {
+  const { t } = useTranslation();
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+    isError,
+  } = useSearchPosts(query);
+
+  const items = useMemo(() => {
+    if (!data?.pages) return [];
+    return data.pages.flatMap((page) =>
+      page.posts.map((post) => ({ post } as FeedViewPost))
+    );
+  }, [data]);
+
+  const loadMore = useCallback(() => {
+    if (hasNextPage && !isFetchingNextPage) fetchNextPage();
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+
+  if (isLoading) return <LoadingSpinner />;
+  if (isError) return <p className="text-center py-8 text-gray-500">{t("search.loadFailed")}</p>;
+  if (items.length === 0) return <p className="text-center py-8 text-gray-400">{t("search.noResults")}</p>;
+
+  return (
+    <Virtuoso
+      useWindowScroll
+      data={items}
+      endReached={loadMore}
+      itemContent={(_index, item: FeedViewPost) => (
+        <PostCard feedItem={item} />
+      )}
+      components={{
+        Footer: () => (isFetchingNextPage ? <LoadingSpinner /> : null),
+      }}
+    />
+  );
+}
+
+function UserResults({ query, onUserClick }: { query: string; onUserClick: (handle: string) => void }) {
+  const { t } = useTranslation();
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+    isError,
+  } = useSearchActors(query);
+
+  const items = useMemo(() => {
+    if (!data?.pages) return [];
+    return data.pages.flatMap((page) => page.actors);
+  }, [data]);
+
+  const loadMore = useCallback(() => {
+    if (hasNextPage && !isFetchingNextPage) fetchNextPage();
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+
+  if (isLoading) return <LoadingSpinner />;
+  if (isError) return <p className="text-center py-8 text-gray-500">{t("search.loadFailed")}</p>;
+  if (items.length === 0) return <p className="text-center py-8 text-gray-400">{t("search.noResults")}</p>;
+
+  return (
+    <Virtuoso
+      useWindowScroll
+      data={items}
+      endReached={loadMore}
+      itemContent={(_index, actor: ProfileView) => (
+        <div
+          onClick={() => onUserClick(actor.handle)}
+          className="flex gap-3 px-4 py-3 border-b border-border-light hover:bg-gray-50 cursor-pointer transition-colors"
+        >
+          <Avatar src={actor.avatar} alt={actor.displayName} />
+          <div className="flex-1 min-w-0">
+            <p className="font-bold text-sm text-text-light truncate">
+              {actor.displayName || actor.handle}
+            </p>
+            <p className="text-xs text-gray-500 truncate">@{actor.handle}</p>
+            {actor.description && (
+              <p className="text-xs text-gray-500 mt-0.5 line-clamp-2">{actor.description}</p>
+            )}
+          </div>
+        </div>
+      )}
+      components={{
+        Footer: () => (isFetchingNextPage ? <LoadingSpinner /> : null),
+      }}
+    />
+  );
+}

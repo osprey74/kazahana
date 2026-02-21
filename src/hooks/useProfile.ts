@@ -1,0 +1,63 @@
+import { useQuery, useInfiniteQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { getAgent } from "../lib/agent";
+
+export function useProfile(handle: string) {
+  return useQuery({
+    queryKey: ["profile", handle],
+    queryFn: async () => {
+      const agent = getAgent();
+      const res = await agent.getProfile({ actor: handle });
+      return res.data;
+    },
+    enabled: !!handle,
+    staleTime: 30_000,
+  });
+}
+
+export function useAuthorFeed(handle: string) {
+  return useInfiniteQuery({
+    queryKey: ["authorFeed", handle],
+    queryFn: async ({ pageParam }) => {
+      const agent = getAgent();
+      const res = await agent.getAuthorFeed({
+        actor: handle,
+        limit: 20,
+        cursor: pageParam as string | undefined,
+      });
+      return res.data;
+    },
+    initialPageParam: undefined as string | undefined,
+    getNextPageParam: (lastPage) => lastPage.cursor,
+    enabled: !!handle,
+    staleTime: 30_000,
+  });
+}
+
+export function useFollow() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ did }: { did: string }) => {
+      const agent = getAgent();
+      return agent.follow(did);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["profile"] });
+    },
+  });
+}
+
+export function useUnfollow() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ followUri }: { followUri: string }) => {
+      const agent = getAgent();
+      const rkey = followUri.split("/").pop()!;
+      return agent.deleteFollow(rkey);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["profile"] });
+    },
+  });
+}
