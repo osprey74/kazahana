@@ -95,6 +95,7 @@ function ThreadPostItem({
   post: PostView;
   isHighlighted: boolean;
 }) {
+  const navigate = useNavigate();
   const record = post.record as { text?: string; facets?: unknown[]; createdAt?: string };
   const images = getImages(post);
   const locale = i18n.language.startsWith("ja") ? ja : enUS;
@@ -109,15 +110,19 @@ function ThreadPostItem({
       }`}
     >
       <div className="flex gap-3">
-        <Avatar src={post.author.avatar} alt={post.author.displayName} />
+        <button onClick={() => navigate(`/profile/${post.author.handle}`)} className="self-start hover:opacity-80">
+          <Avatar src={post.author.avatar} alt={post.author.displayName} />
+        </button>
         <div className="flex-1 min-w-0">
           <div className="flex items-baseline gap-1">
-            <span className="font-bold text-sm text-text-light truncate">
-              {post.author.displayName || post.author.handle}
-            </span>
-            <span className="text-xs text-gray-500 truncate">
-              @{post.author.handle}
-            </span>
+            <button onClick={() => navigate(`/profile/${post.author.handle}`)} className="flex items-baseline gap-1 min-w-0 hover:underline">
+              <span className="font-bold text-sm text-text-light truncate">
+                {post.author.displayName || post.author.handle}
+              </span>
+              <span className="text-xs text-gray-500 truncate">
+                @{post.author.handle}
+              </span>
+            </button>
             {timeAgo && (
               <>
                 <span className="text-xs text-gray-400">·</span>

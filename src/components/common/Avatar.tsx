@@ -2,6 +2,7 @@ interface AvatarProps {
   src?: string;
   alt?: string;
   size?: "sm" | "md" | "lg";
+  badge?: "reply";
 }
 
 const sizeClasses = {
@@ -10,23 +11,38 @@ const sizeClasses = {
   lg: "w-14 h-14",
 };
 
-export function Avatar({ src, alt = "", size = "md" }: AvatarProps) {
+const badgeSize = {
+  sm: "w-3.5 h-3.5 text-[8px]",
+  md: "w-4 h-4 text-[9px]",
+  lg: "w-5 h-5 text-[11px]",
+};
+
+export function Avatar({ src, alt = "", size = "md", badge }: AvatarProps) {
   return (
-    <div
-      className={`${sizeClasses[size]} rounded-full overflow-hidden bg-gray-200 flex-shrink-0`}
-    >
-      {src ? (
-        <img src={src} alt={alt} className="w-full h-full object-cover" />
-      ) : (
-        <div className="w-full h-full flex items-center justify-center text-gray-400">
-          <svg
-            className="w-1/2 h-1/2"
-            fill="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z" />
-          </svg>
-        </div>
+    <div className="relative flex-shrink-0">
+      <div
+        className={`${sizeClasses[size]} rounded-full overflow-hidden bg-gray-200`}
+      >
+        {src ? (
+          <img src={src} alt={alt} className="w-full h-full object-cover" />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center text-gray-400">
+            <svg
+              className="w-1/2 h-1/2"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z" />
+            </svg>
+          </div>
+        )}
+      </div>
+      {badge === "reply" && (
+        <span
+          className={`absolute -bottom-0.5 -right-0.5 ${badgeSize[size]} flex items-center justify-center rounded-full bg-gray-500 text-white leading-none`}
+        >
+          ↩
+        </span>
       )}
     </div>
   );

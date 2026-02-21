@@ -59,7 +59,7 @@ export function ProfileView() {
           data={items}
           endReached={loadMore}
           itemContent={(_index, item: FeedViewPost) => (
-            <PostCard feedItem={item} />
+            <PostCard feedItem={item} showParentContext />
           )}
           components={{
             Footer: () => (isFetchingNextPage ? <LoadingSpinner /> : null),

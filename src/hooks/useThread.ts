@@ -6,7 +6,7 @@ export function useThread(uri: string) {
     queryKey: ["thread", uri],
     queryFn: async () => {
       const agent = getAgent();
-      const res = await agent.getPostThread({ uri, depth: 10 });
+      const res = await agent.getPostThread({ uri, depth: 10, parentHeight: 80 });
       return res.data.thread;
     },
     enabled: !!uri,
