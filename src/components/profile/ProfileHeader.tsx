@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import type { ProfileViewDetailed } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
 import { useFollow, useUnfollow } from "../../hooks/useProfile";
+import { useAuthStore } from "../../stores/authStore";
 import { Avatar } from "../common/Avatar";
 
 interface ProfileHeaderProps {
@@ -11,6 +13,8 @@ interface ProfileHeaderProps {
 
 export function ProfileHeader({ profile, isOwnProfile }: ProfileHeaderProps) {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const logout = useAuthStore((s) => s.logout);
   const follow = useFollow();
   const unfollow = useUnfollow();
 
@@ -65,8 +69,8 @@ export function ProfileHeader({ profile, isOwnProfile }: ProfileHeaderProps) {
           )}
           {isOwnProfile && (
             <button
-              onClick={() => {}}
-              className="px-4 py-1.5 text-sm font-medium rounded-btn border border-border-light text-gray-700 hover:bg-gray-50"
+              onClick={() => { logout(); navigate("/"); }}
+              className="px-4 py-1.5 text-sm font-medium rounded-btn bg-gray-200 text-gray-900 hover:bg-gray-300 transition-colors"
             >
               {t("profile.logout")}
             </button>

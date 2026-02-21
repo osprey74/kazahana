@@ -1,6 +1,6 @@
 [English](README.md)
 
-# 🌸 かざはな（Kazahana）
+# 🌸 kazahana
 
 **軽量な Bluesky デスクトップクライアント**
 
@@ -12,7 +12,7 @@
 
 ## 概要
 
-かざはな（Kazahana）は、[Bluesky](https://bsky.app/) 向けの軽量デスクトップクライアントです。  
+kazahana は、[Bluesky](https://bsky.app/) 向けの軽量デスクトップクライアントです。  
 Tauri v2 を採用し、OS標準の WebView を利用することで、低メモリで快適に動作します。
 
 ## 特徴
@@ -70,7 +70,7 @@ npm run tauri build
 
 ## Support / 開発を応援する
 
-かざはなを気に入っていただけたら、開発の継続を応援してください ☕
+kazahana を気に入っていただけたら、開発の継続を応援してください ☕
 
 [![GitHub Sponsors](https://img.shields.io/badge/Sponsor-GitHub-ea4aaa?logo=github)](https://github.com/sponsors/osprey74)
 [![Ko-fi](https://img.shields.io/badge/Ko--fi-Support-ff5e5b?logo=ko-fi)](https://ko-fi.com/osprey74)

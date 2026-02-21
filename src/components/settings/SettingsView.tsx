@@ -82,6 +82,26 @@ export function SettingsView() {
           {t("settings.logout")}
         </button>
       </section>
+
+      {/* About */}
+      <section className="mt-6 pt-6 border-t border-border-light dark:border-border-dark text-sm text-gray-500 dark:text-gray-400">
+        <p className="font-medium text-text-light dark:text-text-dark">kazahana {t("settings.version", { version: "0.1.0" })}</p>
+        <div className="mt-2 flex gap-3">
+          <button
+            onClick={() => navigate("/settings/license")}
+            className="hover:underline hover:text-primary"
+          >
+            {t("settings.license")}
+          </button>
+          <span className="text-gray-300 dark:text-gray-600">|</span>
+          <button
+            onClick={() => navigate("/settings/readme")}
+            className="hover:underline hover:text-primary"
+          >
+            {t("settings.readme")}
+          </button>
+        </div>
+      </section>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 {
   "app": {
-    "title": "かざはな"
+    "title": "kazahana"
   },
   "tabs": {
     "home": "ホーム",
@@ -79,6 +79,9 @@
     "dark": "ダーク",
     "system": "システム",
     "language": "言語",
-    "logout": "ログアウト"
+    "logout": "ログアウト",
+    "license": "MIT License",
+    "readme": "README (日本語)",
+    "version": "v{{version}}"
   }
 }

@@ -1,6 +1,6 @@
 {
   "app": {
-    "title": "Kazahana"
+    "title": "kazahana"
   },
   "tabs": {
     "home": "Home",
@@ -79,6 +79,9 @@
     "dark": "Dark",
     "system": "System",
     "language": "Language",
-    "logout": "Logout"
+    "logout": "Logout",
+    "license": "MIT License",
+    "readme": "README",
+    "version": "v{{version}}"
   }
 }

@@ -9,6 +9,8 @@ import { NotificationList } from "./components/notification/NotificationList";
 import { ProfileView } from "./components/profile/ProfileView";
 import { SearchView } from "./components/search/SearchView";
 import { SettingsView } from "./components/settings/SettingsView";
+import { LicenseView } from "./components/settings/LicenseView";
+import { ReadmeView } from "./components/settings/ReadmeView";
 import { LoadingSpinner } from "./components/common/LoadingSpinner";
 import { useAuthStore } from "./stores/authStore";
 import { applyTheme, useSettingsStore } from "./stores/settingsStore";
@@ -66,6 +68,8 @@ function AuthGate() {
           <Route path="/profile/:handle" element={<ProfileView />} />
           <Route path="/post/:uri" element={<ThreadView />} />
           <Route path="/settings" element={<SettingsView />} />
+          <Route path="/settings/license" element={<LicenseView />} />
+          <Route path="/settings/readme" element={<ReadmeView />} />
         </Route>
       </Routes>
     </BrowserRouter>

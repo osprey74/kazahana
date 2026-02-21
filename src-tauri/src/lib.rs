@@ -18,13 +18,6 @@ pub fn run() {
 
       Ok(())
     })
-    .on_window_event(|window, event| {
-      // Minimize to tray on close instead of quitting
-      if let tauri::WindowEvent::CloseRequested { api, .. } = event {
-        let _ = window.hide();
-        api.prevent_close();
-      }
-    })
     .run(tauri::generate_context!())
     .expect("error while running tauri application");
 }
