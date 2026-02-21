@@ -1,4 +1,5 @@
 import { useRef, useCallback, type DragEvent } from "react";
+import { useTranslation } from "react-i18next";
 
 interface ImageFile {
   id: string;
@@ -17,6 +18,7 @@ const MAX_SIZE = 1_000_000; // 1MB
 const ACCEPTED = ["image/jpeg", "image/png", "image/webp"];
 
 export function ImageUpload({ images, onAdd, onRemove }: ImageUploadProps) {
+  const { t } = useTranslation();
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleFiles = useCallback(
@@ -77,7 +79,7 @@ export function ImageUpload({ images, onAdd, onRemove }: ImageUploadProps) {
           onClick={() => inputRef.current?.click()}
           className="border-2 border-dashed border-border-light rounded-btn p-3 text-center text-xs text-gray-400 cursor-pointer hover:border-primary hover:text-primary transition-colors"
         >
-          画像を追加（最大{MAX_IMAGES}枚、1MB以下）
+          {t("image.addImages", { max: MAX_IMAGES })}
           <input
             ref={inputRef}
             type="file"

@@ -1,29 +1,44 @@
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import type { Notification } from "@atproto/api/dist/client/types/app/bsky/notification/listNotifications";
 import { formatDistanceToNowStrict } from "date-fns";
 import { ja } from "date-fns/locale";
+import { enUS } from "date-fns/locale";
 import { Avatar } from "../common/Avatar";
 
 interface NotificationItemProps {
   notification: Notification;
 }
 
-const REASON_MAP: Record<string, { icon: string; label: string }> = {
-  like: { icon: "❤️", label: "がいいねしました" },
-  repost: { icon: "🔁", label: "がリポストしました" },
-  follow: { icon: "👤", label: "にフォローされました" },
-  mention: { icon: "💬", label: "があなたをメンションしました" },
-  reply: { icon: "💬", label: "が返信しました" },
-  quote: { icon: "🔁", label: "が引用しました" },
+const REASON_ICONS: Record<string, string> = {
+  like: "❤️",
+  repost: "🔁",
+  follow: "👤",
+  mention: "💬",
+  reply: "💬",
+  quote: "🔁",
+};
+
+const REASON_KEYS: Record<string, string> = {
+  like: "notification.liked",
+  repost: "notification.reposted",
+  follow: "notification.followed",
+  mention: "notification.mentioned",
+  reply: "notification.replied",
+  quote: "notification.quoted",
 };
 
 export function NotificationItem({ notification }: NotificationItemProps) {
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const { author, reason, indexedAt, isRead } = notification;
-  const info = REASON_MAP[reason] ?? { icon: "🔔", label: "" };
+  const icon = REASON_ICONS[reason] ?? "🔔";
+  const labelKey = REASON_KEYS[reason];
+  const label = labelKey ? t(labelKey) : "";
 
+  const locale = i18n.language.startsWith("ja") ? ja : enUS;
   const timeAgo = formatDistanceToNowStrict(new Date(indexedAt), {
-    locale: ja,
+    locale,
     addSuffix: false,
   });
 
@@ -48,11 +63,11 @@ export function NotificationItem({ notification }: NotificationItemProps) {
       <Avatar src={author.avatar} size="sm" />
       <div className="flex-1 min-w-0">
         <div className="flex items-baseline gap-1 text-sm">
-          <span className="mr-1">{info.icon}</span>
+          <span className="mr-1">{icon}</span>
           <span className="font-bold text-text-light truncate">
             {author.displayName || author.handle}
           </span>
-          <span className="text-gray-500 flex-shrink-0">{info.label}</span>
+          <span className="text-gray-500 flex-shrink-0">{label}</span>
         </div>
         {(reason === "reply" || reason === "mention" || reason === "quote") &&
           record?.text && (

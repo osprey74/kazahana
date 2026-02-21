@@ -30,7 +30,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       get().fetchProfile();
     } catch (e) {
       const message =
-        e instanceof Error ? e.message : "ログインに失敗しました";
+        e instanceof Error ? e.message : "Login failed";
       set({ isLoggedIn: false, isLoading: false, error: message });
     }
   },

@@ -1,0 +1,62 @@
+{
+  "app": {
+    "title": "かざはな"
+  },
+  "tabs": {
+    "home": "ホーム",
+    "search": "検索",
+    "notifications": "通知",
+    "profile": "プロフィール"
+  },
+  "auth": {
+    "tagline": "Bluesky デスクトップクライアント",
+    "handle": "ハンドル",
+    "handlePlaceholder": "user.bsky.social",
+    "appPassword": "アプリパスワード",
+    "appPasswordPlaceholder": "xxxx-xxxx-xxxx-xxxx",
+    "login": "ログイン",
+    "loggingIn": "ログイン中...",
+    "helpText": "アプリパスワードは Bluesky の設定画面から生成できます",
+    "loginFailed": "ログインに失敗しました"
+  },
+  "compose": {
+    "cancel": "キャンセル",
+    "post": "投稿する",
+    "posting": "投稿中...",
+    "placeholder": "いまどうしてる？",
+    "replyPlaceholder": "返信を入力...",
+    "postFailed": "投稿に失敗しました",
+    "newPost": "新しい投稿を作成"
+  },
+  "post": {
+    "reposted": "がリポスト",
+    "replyTo": "に返信"
+  },
+  "notification": {
+    "liked": "がいいねしました",
+    "reposted": "がリポストしました",
+    "followed": "にフォローされました",
+    "mentioned": "があなたをメンションしました",
+    "replied": "が返信しました",
+    "quoted": "が引用しました",
+    "empty": "通知はありません",
+    "loadFailed": "通知の読み込みに失敗しました"
+  },
+  "timeline": {
+    "loadFailed": "タイムラインの読み込みに失敗しました"
+  },
+  "thread": {
+    "notFound": "投稿が見つかりません",
+    "back": "戻る"
+  },
+  "common": {
+    "retry": "再試行"
+  },
+  "image": {
+    "addImages": "画像を追加（最大{{max}}枚、1MB以下）"
+  },
+  "placeholder": {
+    "search": "検索（未実装）",
+    "profile": "プロフィール（未実装）"
+  }
+}

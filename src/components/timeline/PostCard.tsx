@@ -1,8 +1,10 @@
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import type { FeedViewPost } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
 import type { ViewImage } from "@atproto/api/dist/client/types/app/bsky/embed/images";
 import { formatDistanceToNowStrict } from "date-fns";
 import { ja } from "date-fns/locale";
+import { enUS } from "date-fns/locale";
 import { Avatar } from "../common/Avatar";
 import { ImageGrid } from "../common/ImageGrid";
 import { PostContent } from "./PostContent";
@@ -13,6 +15,7 @@ interface PostCardProps {
 }
 
 export function PostCard({ feedItem }: PostCardProps) {
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const { post, reason } = feedItem;
   const author = post.author;
@@ -25,8 +28,9 @@ export function PostCard({ feedItem }: PostCardProps) {
     : null;
 
   const images = getImages(post);
+  const locale = i18n.language.startsWith("ja") ? ja : enUS;
   const timeAgo = record.createdAt
-    ? formatDistanceToNowStrict(new Date(record.createdAt), { locale: ja, addSuffix: false })
+    ? formatDistanceToNowStrict(new Date(record.createdAt), { locale, addSuffix: false })
     : "";
 
   return (
@@ -41,7 +45,7 @@ export function PostCard({ feedItem }: PostCardProps) {
       {isRepost && repostBy && (
         <div className="flex items-center gap-1 text-xs text-gray-500 mb-1 ml-12">
           <span>🔁</span>
-          <span>{repostBy.displayName || repostBy.handle} がリポスト</span>
+          <span>{repostBy.displayName || repostBy.handle} {t("post.reposted")}</span>
         </div>
       )}
 
@@ -71,7 +75,7 @@ export function PostCard({ feedItem }: PostCardProps) {
           {feedItem.reply?.parent && (
             <div className="text-xs text-gray-500 mt-0.5">
               <span>
-                ↩ {(feedItem.reply.parent as { author?: { handle?: string } }).author?.handle ?? "..."} に返信
+                ↩ {(feedItem.reply.parent as { author?: { handle?: string } }).author?.handle ?? "..."} {t("post.replyTo")}
               </span>
             </div>
           )}

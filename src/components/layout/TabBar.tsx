@@ -1,15 +1,17 @@
 import { NavLink } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useUnreadCount } from "../../hooks/useNotifications";
 
-const tabs = [
-  { to: "/", label: "ホーム", icon: "🏠" },
-  { to: "/search", label: "検索", icon: "🔍" },
-  { to: "/notifications", label: "通知", icon: "🔔" },
-  { to: "/profile", label: "プロフィール", icon: "👤" },
-] as const;
-
 export function TabBar() {
+  const { t } = useTranslation();
   const { data: unreadCount } = useUnreadCount();
+
+  const tabs = [
+    { to: "/", label: t("tabs.home"), icon: "🏠" },
+    { to: "/search", label: t("tabs.search"), icon: "🔍" },
+    { to: "/notifications", label: t("tabs.notifications"), icon: "🔔" },
+    { to: "/profile", label: t("tabs.profile"), icon: "👤" },
+  ] as const;
 
   return (
     <nav className="flex border-b border-border-light bg-white">

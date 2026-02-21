@@ -1,4 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import type { PostView } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
 import { useThread } from "../../hooks/useThread";
 import { LoadingSpinner } from "../common/LoadingSpinner";
@@ -9,6 +10,8 @@ import { ImageGrid } from "../common/ImageGrid";
 import type { ViewImage } from "@atproto/api/dist/client/types/app/bsky/embed/images";
 import { formatDistanceToNowStrict } from "date-fns";
 import { ja } from "date-fns/locale";
+import { enUS } from "date-fns/locale";
+import i18n from "../../i18n";
 
 interface ThreadViewPost {
   $type: string;
@@ -18,6 +21,7 @@ interface ThreadViewPost {
 }
 
 export function ThreadView() {
+  const { t } = useTranslation();
   const { uri } = useParams<{ uri: string }>();
   const navigate = useNavigate();
   const decodedUri = uri ? decodeURIComponent(uri) : "";
@@ -28,12 +32,12 @@ export function ThreadView() {
   if (isError || !thread || thread.$type === "app.bsky.feed.defs#blockedPost" || thread.$type === "app.bsky.feed.defs#notFoundPost") {
     return (
       <div className="flex flex-col items-center justify-center py-12 text-gray-500">
-        <p>投稿が見つかりません</p>
+        <p>{t("thread.notFound")}</p>
         <button
           onClick={() => navigate(-1)}
           className="mt-2 text-primary text-sm hover:underline"
         >
-          戻る
+          {t("thread.back")}
         </button>
       </div>
     );
@@ -57,7 +61,7 @@ export function ThreadView() {
           onClick={() => navigate(-1)}
           className="text-sm text-primary hover:underline"
         >
-          ← 戻る
+          ← {t("thread.back")}
         </button>
       </div>
 
@@ -93,8 +97,9 @@ function ThreadPostItem({
 }) {
   const record = post.record as { text?: string; facets?: unknown[]; createdAt?: string };
   const images = getImages(post);
+  const locale = i18n.language.startsWith("ja") ? ja : enUS;
   const timeAgo = record.createdAt
-    ? formatDistanceToNowStrict(new Date(record.createdAt), { locale: ja, addSuffix: false })
+    ? formatDistanceToNowStrict(new Date(record.createdAt), { locale, addSuffix: false })
     : "";
 
   return (

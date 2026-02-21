@@ -1,4 +1,5 @@
 import { useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { Virtuoso } from "react-virtuoso";
 import type { FeedViewPost } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
 import { useTimeline } from "../../hooks/useTimeline";
@@ -6,6 +7,7 @@ import { PostCard } from "./PostCard";
 import { LoadingSpinner } from "../common/LoadingSpinner";
 
 export function TimelineView() {
+  const { t } = useTranslation();
   const {
     data,
     fetchNextPage,
@@ -32,12 +34,12 @@ export function TimelineView() {
   if (isError) {
     return (
       <div className="flex flex-col items-center justify-center py-12 text-gray-500">
-        <p>タイムラインの読み込みに失敗しました</p>
+        <p>{t("timeline.loadFailed")}</p>
         <button
           onClick={() => refetch()}
           className="mt-2 px-4 py-1.5 bg-primary text-white text-sm rounded-btn hover:bg-blue-600"
         >
-          再試行
+          {t("common.retry")}
         </button>
       </div>
     );

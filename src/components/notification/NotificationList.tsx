@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { Virtuoso } from "react-virtuoso";
 import { useNotifications, useMarkAsRead } from "../../hooks/useNotifications";
 import { NotificationItem } from "./NotificationItem";
@@ -6,6 +7,7 @@ import { LoadingSpinner } from "../common/LoadingSpinner";
 import type { Notification } from "@atproto/api/dist/client/types/app/bsky/notification/listNotifications";
 
 export function NotificationList() {
+  const { t } = useTranslation();
   const {
     data,
     fetchNextPage,
@@ -39,12 +41,12 @@ export function NotificationList() {
   if (isError) {
     return (
       <div className="flex flex-col items-center justify-center py-12 text-gray-500">
-        <p>通知の読み込みに失敗しました</p>
+        <p>{t("notification.loadFailed")}</p>
         <button
           onClick={() => refetch()}
           className="mt-2 px-4 py-1.5 bg-primary text-white text-sm rounded-btn hover:bg-blue-600"
         >
-          再試行
+          {t("common.retry")}
         </button>
       </div>
     );
@@ -53,7 +55,7 @@ export function NotificationList() {
   if (items.length === 0) {
     return (
       <div className="flex items-center justify-center py-12 text-gray-400">
-        <p>通知はありません</p>
+        <p>{t("notification.empty")}</p>
       </div>
     );
   }

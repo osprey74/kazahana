@@ -1,0 +1,62 @@
+{
+  "app": {
+    "title": "Kazahana"
+  },
+  "tabs": {
+    "home": "Home",
+    "search": "Search",
+    "notifications": "Notifications",
+    "profile": "Profile"
+  },
+  "auth": {
+    "tagline": "Bluesky Desktop Client",
+    "handle": "Handle",
+    "handlePlaceholder": "user.bsky.social",
+    "appPassword": "App Password",
+    "appPasswordPlaceholder": "xxxx-xxxx-xxxx-xxxx",
+    "login": "Login",
+    "loggingIn": "Logging in...",
+    "helpText": "You can generate an app password from your Bluesky settings",
+    "loginFailed": "Login failed"
+  },
+  "compose": {
+    "cancel": "Cancel",
+    "post": "Post",
+    "posting": "Posting...",
+    "placeholder": "What's on your mind?",
+    "replyPlaceholder": "Write a reply...",
+    "postFailed": "Failed to post",
+    "newPost": "Create new post"
+  },
+  "post": {
+    "reposted": "reposted",
+    "replyTo": "Replying to"
+  },
+  "notification": {
+    "liked": "liked your post",
+    "reposted": "reposted your post",
+    "followed": "followed you",
+    "mentioned": "mentioned you",
+    "replied": "replied to your post",
+    "quoted": "quoted your post",
+    "empty": "No notifications",
+    "loadFailed": "Failed to load notifications"
+  },
+  "timeline": {
+    "loadFailed": "Failed to load timeline"
+  },
+  "thread": {
+    "notFound": "Post not found",
+    "back": "Back"
+  },
+  "common": {
+    "retry": "Retry"
+  },
+  "image": {
+    "addImages": "Add images (max {{max}}, under 1MB)"
+  },
+  "placeholder": {
+    "search": "Search (coming soon)",
+    "profile": "Profile (coming soon)"
+  }
+}

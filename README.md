@@ -1,23 +1,76 @@
-# かざはな（Kazahana）
+[日本語](README.ja.md)
 
-A lightweight Bluesky desktop client built with Tauri v2 + React + TypeScript.
+# 🌸 Kazahana
 
-## Development
+**A lightweight Bluesky desktop client**
 
-```bash
-# Install dependencies
-npm install
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![GitHub Sponsors](https://img.shields.io/badge/Sponsor-GitHub-ea4aaa?logo=github)](https://github.com/sponsors/osprey74)
+[![Ko-fi](https://img.shields.io/badge/Ko--fi-Support-ff5e5b?logo=ko-fi)](https://ko-fi.com/osprey74)
 
-# Run in development mode
-npm run tauri dev
+---
 
-# Build for production
-npm run tauri build
-```
+## Overview
+
+Kazahana is a lightweight desktop client for [Bluesky](https://bsky.app/).
+Built with Tauri v2, it leverages the OS-native WebView for a low-memory, smooth experience.
+
+## Features
+
+- 🪶 **Lightweight** — Tauri v2 with no bundled Chromium, dramatically reducing memory usage
+- 🖥️ **Cross-platform** — Windows / macOS support
+- ⚡ **Fast** — Native app startup speed and responsiveness
+- 🔓 **Open Source** — Freely available under the MIT License
 
 ## Tech Stack
 
-- **Framework**: Tauri v2
-- **Frontend**: React 19 + TypeScript
-- **Build Tool**: Vite
-- **Styling**: TailwindCSS
+| Technology | Purpose |
+|------------|---------|
+| [Tauri v2](https://v2.tauri.app/) | Desktop app framework |
+| [React](https://react.dev/) | UI framework |
+| [TypeScript](https://www.typescriptlang.org/) | Type-safe development |
+| [Vite](https://vite.dev/) | Build tool |
+| [TailwindCSS](https://tailwindcss.com/) | Styling |
+| [@atproto/api](https://www.npmjs.com/package/@atproto/api) | Official Bluesky SDK |
+
+## Development
+
+### Prerequisites
+
+- [Rust](https://www.rust-lang.org/tools/install)
+- [Node.js](https://nodejs.org/) (LTS)
+- [Microsoft C++ Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/) (Windows)
+
+See [Tauri v2 Prerequisites](https://v2.tauri.app/start/prerequisites/) for details.
+
+### Setup
+
+```bash
+# Clone the repository
+git clone https://github.com/osprey74/kazahana.git
+cd kazahana
+
+# Install dependencies
+npm install
+
+# Start the dev server
+npm run tauri dev
+```
+
+### Build
+
+```bash
+# Production build
+npm run tauri build
+```
+
+## License
+
+[MIT License](LICENSE)
+
+## Support
+
+If you enjoy Kazahana, please consider supporting its development ☕
+
+[![GitHub Sponsors](https://img.shields.io/badge/Sponsor-GitHub-ea4aaa?logo=github)](https://github.com/sponsors/osprey74)
+[![Ko-fi](https://img.shields.io/badge/Ko--fi-Support-ff5e5b?logo=ko-fi)](https://ko-fi.com/osprey74)

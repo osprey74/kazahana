@@ -1,0 +1,76 @@
+[English](README.md)
+
+# 🌸 かざはな（Kazahana）
+
+**軽量な Bluesky デスクトップクライアント**
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![GitHub Sponsors](https://img.shields.io/badge/Sponsor-GitHub-ea4aaa?logo=github)](https://github.com/sponsors/osprey74)
+[![Ko-fi](https://img.shields.io/badge/Ko--fi-Support-ff5e5b?logo=ko-fi)](https://ko-fi.com/osprey74)
+
+---
+
+## 概要
+
+かざはな（Kazahana）は、[Bluesky](https://bsky.app/) 向けの軽量デスクトップクライアントです。  
+Tauri v2 を採用し、OS標準の WebView を利用することで、低メモリで快適に動作します。
+
+## 特徴
+
+- 🪶 **軽量** — Chromium を内蔵しない Tauri v2 で、メモリ使用量を大幅に削減
+- 🖥️ **クロスプラットフォーム** — Windows / macOS 対応
+- ⚡ **高速** — ネイティブアプリならではの起動速度とレスポンス
+- 🔓 **オープンソース** — MIT ライセンスで自由に利用可能
+
+## 技術スタック
+
+| 技術 | 用途 |
+|------|------|
+| [Tauri v2](https://v2.tauri.app/) | デスクトップアプリフレームワーク |
+| [React](https://react.dev/) | UI フレームワーク |
+| [TypeScript](https://www.typescriptlang.org/) | 型安全な開発 |
+| [Vite](https://vite.dev/) | ビルドツール |
+| [TailwindCSS](https://tailwindcss.com/) | スタイリング |
+| [@atproto/api](https://www.npmjs.com/package/@atproto/api) | Bluesky 公式 SDK |
+
+## 開発
+
+### 前提条件
+
+- [Rust](https://www.rust-lang.org/tools/install)
+- [Node.js](https://nodejs.org/) (LTS)
+- [Microsoft C++ Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/) (Windows)
+
+詳細は [Tauri v2 Prerequisites](https://v2.tauri.app/start/prerequisites/) を参照してください。
+
+### セットアップ
+
+```bash
+# リポジトリのクローン
+git clone https://github.com/osprey74/kazahana.git
+cd kazahana
+
+# 依存パッケージのインストール
+npm install
+
+# 開発サーバーの起動
+npm run tauri dev
+```
+
+### ビルド
+
+```bash
+# プロダクションビルド
+npm run tauri build
+```
+
+## ライセンス
+
+[MIT License](LICENSE)
+
+## Support / 開発を応援する
+
+かざはなを気に入っていただけたら、開発の継続を応援してください ☕
+
+[![GitHub Sponsors](https://img.shields.io/badge/Sponsor-GitHub-ea4aaa?logo=github)](https://github.com/sponsors/osprey74)
+[![Ko-fi](https://img.shields.io/badge/Ko--fi-Support-ff5e5b?logo=ko-fi)](https://ko-fi.com/osprey74)

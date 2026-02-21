@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { useComposeStore } from "../../stores/composeStore";
 import { useCreatePost } from "../../hooks/usePost";
 import { ImageUpload, type ImageFile } from "./ImageUpload";
@@ -15,6 +16,7 @@ function countGraphemes(text: string): number {
 }
 
 export function ComposeModal() {
+  const { t } = useTranslation();
   const { isOpen, replyTo, close } = useComposeStore();
   const createPost = useCreatePost();
   const [text, setText] = useState("");
@@ -85,14 +87,14 @@ export function ComposeModal() {
             onClick={close}
             className="text-sm text-gray-500 hover:text-gray-700"
           >
-            キャンセル
+            {t("compose.cancel")}
           </button>
           <button
             onClick={handleSubmit}
             disabled={!canPost}
             className="px-4 py-1.5 bg-primary text-white text-sm font-medium rounded-btn hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {createPost.isPending ? "投稿中..." : "投稿する"}
+            {createPost.isPending ? t("compose.posting") : t("compose.post")}
           </button>
         </div>
 
@@ -105,7 +107,7 @@ export function ComposeModal() {
                 <span className="font-medium text-text-light">
                   {replyTo.author.displayName || replyTo.author.handle}
                 </span>{" "}
-                に返信
+                {t("post.replyTo")}
               </p>
               <p className="text-xs text-gray-400 truncate">{replyTo.text}</p>
             </div>
@@ -117,7 +119,7 @@ export function ComposeModal() {
           <textarea
             value={text}
             onChange={(e) => setText(e.target.value)}
-            placeholder={replyTo ? "返信を入力..." : "いまどうしてる？"}
+            placeholder={replyTo ? t("compose.replyPlaceholder") : t("compose.placeholder")}
             className="w-full min-h-[120px] resize-none text-sm text-text-light placeholder-gray-400 focus:outline-none"
             autoFocus
           />
@@ -136,7 +138,7 @@ export function ComposeModal() {
         <div className="flex items-center justify-between px-4 py-2 border-t border-border-light">
           <div>
             {createPost.isError && (
-              <p className="text-xs text-red-500">投稿に失敗しました</p>
+              <p className="text-xs text-red-500">{t("compose.postFailed")}</p>
             )}
           </div>
           <span

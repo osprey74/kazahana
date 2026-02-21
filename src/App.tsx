@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 import { AppLayout } from "./components/layout";
 import { LoginForm } from "./components/auth/LoginForm";
 import { TimelineView } from "./components/timeline/TimelineView";
@@ -19,18 +20,20 @@ const queryClient = new QueryClient({
 });
 
 function SearchPage() {
+  const { t } = useTranslation();
   return (
     <div className="flex items-center justify-center h-64 text-gray-400">
-      <p>検索（未実装）</p>
+      <p>{t("placeholder.search")}</p>
     </div>
   );
 }
 
 
 function ProfilePage() {
+  const { t } = useTranslation();
   return (
     <div className="flex items-center justify-center h-64 text-gray-400">
-      <p>プロフィール（未実装）</p>
+      <p>{t("placeholder.profile")}</p>
     </div>
   );
 }
