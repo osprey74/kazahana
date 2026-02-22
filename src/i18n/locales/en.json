@@ -48,6 +48,11 @@
     "loadFailed": "Failed to load timeline",
     "readUpToHere": "↓ Read up to here ↓"
   },
+  "quote": {
+    "deleted": "This post has been deleted",
+    "blocked": "Post from a blocked user",
+    "unavailable": "This post is unavailable"
+  },
   "thread": {
     "notFound": "Post not found",
     "back": "Back"

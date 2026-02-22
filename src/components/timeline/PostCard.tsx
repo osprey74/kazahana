@@ -10,6 +10,7 @@ import { Avatar } from "../common/Avatar";
 import { Icon } from "../common/Icon";
 import { ImageGrid } from "../common/ImageGrid";
 import { LinkCard } from "../common/LinkCard";
+import { QuoteEmbed } from "../common/QuoteEmbed";
 import { ContentWarning } from "../common/ContentWarning";
 import { PostContent } from "./PostContent";
 import { PostActions } from "./PostActions";
@@ -44,6 +45,7 @@ export function PostCard({ feedItem, showParentContext }: PostCardProps) {
 
   const images = getImages(post);
   const externalEmbed = getExternalEmbed(post);
+  const quoteEmbed = getQuoteEmbed(post);
   const locale = i18n.language.startsWith("ja") ? ja : enUS;
   const timeAgo = record.createdAt
     ? formatDistanceToNowStrict(new Date(record.createdAt), { locale, addSuffix: false })
@@ -156,6 +158,7 @@ export function PostCard({ feedItem, showParentContext }: PostCardProps) {
               )}
               {images.length > 0 && <ImageGrid images={images} />}
               {externalEmbed && <LinkCard external={externalEmbed} />}
+              {quoteEmbed && <QuoteEmbed record={quoteEmbed} />}
             </ContentWarning>
           ) : (
             <>
@@ -178,6 +181,7 @@ export function PostCard({ feedItem, showParentContext }: PostCardProps) {
                 )
               )}
               {externalEmbed && <LinkCard external={externalEmbed} />}
+              {quoteEmbed && <QuoteEmbed record={quoteEmbed} />}
             </>
           )}
 
@@ -217,6 +221,20 @@ function getExternalEmbed(post: FeedViewPost["post"]): ExternalEmbed | null {
     if (media?.$type === "app.bsky.embed.external#view") {
       return media.external ?? null;
     }
+  }
+  return null;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function getQuoteEmbed(post: FeedViewPost["post"]): Record<string, any> | null {
+  const embed = post.embed;
+  if (!embed) return null;
+  if (embed.$type === "app.bsky.embed.record#view") {
+    return (embed as { record?: Record<string, unknown> }).record ?? null;
+  }
+  if (embed.$type === "app.bsky.embed.recordWithMedia#view") {
+    const rec = (embed as { record?: { record?: Record<string, unknown> } }).record;
+    return rec?.record ?? null;
   }
   return null;
 }

@@ -48,6 +48,11 @@
     "loadFailed": "Timeline konnte nicht geladen werden",
     "readUpToHere": "↓ Bis hier gelesen ↓"
   },
+  "quote": {
+    "deleted": "Dieser Beitrag wurde gelöscht",
+    "blocked": "Beitrag eines blockierten Nutzers",
+    "unavailable": "Dieser Beitrag ist nicht verfügbar"
+  },
   "thread": {
     "notFound": "Beitrag nicht gefunden",
     "back": "Zurück"

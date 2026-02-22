@@ -48,6 +48,11 @@
     "loadFailed": "Error al cargar la línea de tiempo",
     "readUpToHere": "↓ Leído hasta aquí ↓"
   },
+  "quote": {
+    "deleted": "Esta publicación ha sido eliminada",
+    "blocked": "Publicación de un usuario bloqueado",
+    "unavailable": "Esta publicación no está disponible"
+  },
   "thread": {
     "notFound": "Publicación no encontrada",
     "back": "Volver"

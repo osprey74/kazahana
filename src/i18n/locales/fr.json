@@ -48,6 +48,11 @@
     "loadFailed": "Échec du chargement du fil",
     "readUpToHere": "↓ Lu jusqu'ici ↓"
   },
+  "quote": {
+    "deleted": "Cette publication a été supprimée",
+    "blocked": "Publication d'un utilisateur bloqué",
+    "unavailable": "Cette publication n'est pas disponible"
+  },
   "thread": {
     "notFound": "Publication introuvable",
     "back": "Retour"

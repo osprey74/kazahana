@@ -48,6 +48,11 @@
     "loadFailed": "Gagal memuat linimasa",
     "readUpToHere": "↓ Sudah dibaca sampai sini ↓"
   },
+  "quote": {
+    "deleted": "Postingan ini telah dihapus",
+    "blocked": "Postingan dari pengguna yang diblokir",
+    "unavailable": "Postingan ini tidak tersedia"
+  },
   "thread": {
     "notFound": "Postingan tidak ditemukan",
     "back": "Kembali"

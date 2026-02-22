@@ -48,6 +48,11 @@
     "loadFailed": "时间线加载失败",
     "readUpToHere": "↓ 已读到此处 ↓"
   },
+  "quote": {
+    "deleted": "此帖子已被删除",
+    "blocked": "来自已屏蔽用户的帖子",
+    "unavailable": "此帖子不可用"
+  },
   "thread": {
     "notFound": "帖子未找到",
     "back": "返回"

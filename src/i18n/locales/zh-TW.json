@@ -48,6 +48,11 @@
     "loadFailed": "無法載入時間軸",
     "readUpToHere": "↓ 已讀到這裡 ↓"
   },
+  "quote": {
+    "deleted": "此貼文已被刪除",
+    "blocked": "來自已封鎖用戶的貼文",
+    "unavailable": "此貼文無法顯示"
+  },
   "thread": {
     "notFound": "找不到貼文",
     "back": "返回"

@@ -6,7 +6,7 @@
 - [ ] "N new posts" bar at top of timeline (※ 既読位置マーカーで同等機能実装済みのためペンディング)
 - [ ] Pull-to-refresh (→ Beyond Spec「手動リロード」に統合)
 - [x] Link card (OGP preview) for `app.bsky.embed.external`
-- [ ] Quote post embed display for `app.bsky.embed.record` (→ Bluesky API Features セクションに統合)
+- [x] Quote post embed display for `app.bsky.embed.record`
 
 ## Spec Phase 3 (Post/Notification)
 - [x] Image attachment in posts (with alt text)
@@ -31,7 +31,7 @@
 - [ ] Reposted-by users on a post (`getRepostedBy`)
 - [ ] Quotes list on a post (`getQuotes`)
 - [ ] Post deletion (`deleteRecord` for posts)
-- [ ] Quote post embed display (`app.bsky.embed.record`)
+- [x] Quote post embed display (`app.bsky.embed.record`)
 - [ ] Video posting (`uploadVideo` / `app.bsky.embed.video`)
 - [ ] Thread gate (reply restriction settings)
 - [ ] Post gate (quote restriction settings)

@@ -48,6 +48,11 @@
     "loadFailed": "Falha ao carregar a timeline",
     "readUpToHere": "↓ Lido até aqui ↓"
   },
+  "quote": {
+    "deleted": "Esta publicação foi excluída",
+    "blocked": "Publicação de um usuário bloqueado",
+    "unavailable": "Esta publicação não está disponível"
+  },
   "thread": {
     "notFound": "Publicação não encontrada",
     "back": "Voltar"

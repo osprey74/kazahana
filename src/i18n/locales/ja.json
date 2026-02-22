@@ -48,6 +48,11 @@
     "loadFailed": "タイムラインの読み込みに失敗しました",
     "readUpToHere": "↓ここまで読んだ↓"
   },
+  "quote": {
+    "deleted": "この投稿は削除されました",
+    "blocked": "ブロック中のユーザーの投稿です",
+    "unavailable": "この投稿は利用できません"
+  },
   "thread": {
     "notFound": "投稿が見つかりません",
     "back": "戻る"
