@@ -427,10 +427,20 @@ a:hover {
   transition: background 0.15s, transform 0.15s;
 }
 
+.btn-download .material-symbols-rounded {
+  color: #0070DD;
+  transition: color 0.15s;
+  line-height: 1;
+}
+
 .btn-download:hover {
   background: #0070DD;
   transform: translateY(-1px);
   text-decoration: none;
+  color: #FFFFFF;
+}
+
+.btn-download:hover .material-symbols-rounded {
   color: #FFFFFF;
 }
 
