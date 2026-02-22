@@ -19,7 +19,9 @@ export function TabBar() {
   const handleTabClick = useCallback(
     (e: React.MouseEvent, to: string) => {
       const isActive =
-        to === "/" ? location.pathname === "/" : location.pathname.startsWith(to);
+        to === "/" || to === "/profile"
+          ? location.pathname === to
+          : location.pathname.startsWith(to);
       if (isActive) {
         e.preventDefault();
         document.querySelector("main")?.scrollTo({ top: 0, behavior: "instant" });

@@ -2,9 +2,11 @@
 
 ## Spec Phase 2 (Core)
 - [x] Image lightbox (Phase 2 item 6)
-- [ ] Virtual scrolling with react-virtuoso for timeline (memory optimization)
-- [ ] "N new posts" bar at top of timeline (※ 既読位置マーカーで同等機能実装済みのためペンディング)
-- [ ] Pull-to-refresh (→ Beyond Spec「手動リロード」に統合)
+- [x] Virtual scrolling with react-virtuoso for timeline (memory optimization)
+  - 適用済み（8画面）: TimelineView, FeedView, NotificationList, ProfileView (Posts/Likes/Media), FollowersList, FollowingList, SearchView (PostResults/UserResults)
+  - 未適用（2画面、対応不要）: ThreadView（スレッドは通常数十件以下のツリー構造で仮想化の恩恵が少ない）、PostListModal（モーダル内 max-h-[70vh] 制約付きリストで「もっと読む」ボタン方式のため一度に表示される件数が少ない）
+- [x] "N new posts" bar at top of timeline (※ 既読位置マーカーで同等機能実装済みのため対応不要)
+- [x] Pull-to-refresh (→ Beyond Spec「手動リロード」に統合済み: タブクリック / F5 / ヘッダーリロードボタン)
 - [x] Link card (OGP preview) for `app.bsky.embed.external`
 - [x] Quote post embed display for `app.bsky.embed.record`
 
