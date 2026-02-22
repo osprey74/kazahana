@@ -12,7 +12,7 @@
 - [x] Image attachment in posts (with alt text)
 - [x] Rich text input: auto-detect mentions, URLs, hashtags and generate facets (実装済み: usePost.ts で detectFacets 実行)
 - [x] Mention click → navigate to profile, hashtag click → search
-- [ ] Mention auto-complete: `@` input triggers `searchActorsTypeahead` dropdown with keyboard navigation
+- [x] Mention auto-complete: `@` input triggers `searchActorsTypeahead` dropdown with keyboard navigation
 
 ## Spec Phase 4 (Profile/Search/Polish)
 - [ ] OS notifications via `tauri-plugin-notification` (background system notifications)
@@ -63,7 +63,7 @@
 - [x] Replace reply/RT/like text icons with icon font
 - [ ] Settings: add "timeline reload interval" and "reload post count" options
 - [x] Home/Notifications/Profile tabs: add manual reload/refresh (Pull-to-refresh統合。リロードボタン / タブクリック / キーボードショートカット等)
-- [ ] Home/Notifications/Profile tabs: infinite scroll to load older posts
+- [x] Home/Notifications/Profile tabs: infinite scroll to load older posts
 - [x] Profile: add "Likes" and "Media" tabs (liked posts list, media-only timeline)
 - [ ] Profile: add "Lists" tab (user-created lists)
 - [x] Fix dark mode text color (black text unreadable, change to white/light)

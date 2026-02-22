@@ -1,4 +1,5 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useState, useEffect } from "react";
 import { getAgent } from "../lib/agent";
 
 export function useSearchActors(query: string) {
@@ -36,5 +37,28 @@ export function useSearchPosts(query: string) {
     getNextPageParam: (lastPage) => lastPage.cursor,
     enabled: query.length > 0,
     staleTime: 60_000,
+  });
+}
+
+export function useSearchActorsTypeahead(query: string) {
+  const [debouncedQuery, setDebouncedQuery] = useState(query);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedQuery(query), 300);
+    return () => clearTimeout(timer);
+  }, [query]);
+
+  return useQuery({
+    queryKey: ["searchActorsTypeahead", debouncedQuery],
+    queryFn: async () => {
+      const agent = getAgent();
+      const res = await agent.searchActorsTypeahead({
+        q: debouncedQuery,
+        limit: 8,
+      });
+      return res.data.actors;
+    },
+    enabled: debouncedQuery.length > 0,
+    staleTime: 30_000,
   });
 }

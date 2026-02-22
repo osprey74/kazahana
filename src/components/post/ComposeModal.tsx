@@ -1,8 +1,9 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useComposeStore } from "../../stores/composeStore";
 import { useCreatePost } from "../../hooks/usePost";
 import { useOgp } from "../../hooks/useOgp";
+import { useSearchActorsTypeahead } from "../../hooks/useSearch";
 import { ImageUpload, type ImageFile } from "./ImageUpload";
 import { Avatar } from "../common/Avatar";
 import { Icon } from "../common/Icon";
@@ -17,17 +18,42 @@ function countGraphemes(text: string): number {
   return [...text].length;
 }
 
+/** Extract mention query from text at cursor position */
+function getMentionQuery(text: string, cursorPos: number): { query: string; atIndex: number } | null {
+  const before = text.substring(0, cursorPos);
+  const lastAt = before.lastIndexOf("@");
+  if (lastAt === -1) return null;
+
+  // @ must be at start or preceded by whitespace/newline
+  if (lastAt > 0 && !/\s/.test(before[lastAt - 1])) return null;
+
+  const query = before.substring(lastAt + 1);
+  // No spaces allowed in mention query
+  if (/\s/.test(query)) return null;
+
+  return { query, atIndex: lastAt };
+}
+
 export function ComposeModal() {
   const { t } = useTranslation();
   const { isOpen, replyTo, close } = useComposeStore();
   const createPost = useCreatePost();
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [text, setText] = useState("");
+  const [cursorPos, setCursorPos] = useState(0);
   const [images, setImages] = useState<ImageFile[]>([]);
   const [replyGate, setReplyGate] = useState<"everyone" | "mention" | "follower" | "following" | "nobody">("everyone");
   const [disableQuote, setDisableQuote] = useState(false);
+  const [mentionIndex, setMentionIndex] = useState(0);
 
   // OGP link card (manual trigger)
   const { detectedUrl, ogp, isLoading: ogpLoading, fetchCard, dismiss: dismissOgp, reset: resetOgp } = useOgp(text);
+
+  // Mention autocomplete
+  const mentionInfo = getMentionQuery(text, cursorPos);
+  const mentionQuery = mentionInfo?.query ?? "";
+  const { data: mentionResults } = useSearchActorsTypeahead(mentionQuery);
+  const showMention = !!(mentionInfo && mentionQuery.length > 0 && mentionResults && mentionResults.length > 0);
 
   const graphemeCount = countGraphemes(text);
   const isOverLimit = graphemeCount > MAX_GRAPHEMES;
@@ -37,13 +63,68 @@ export function ComposeModal() {
   useEffect(() => {
     if (isOpen) {
       setText("");
+      setCursorPos(0);
       setImages([]);
       setReplyGate("everyone");
       setDisableQuote(false);
+      setMentionIndex(0);
       createPost.reset();
       resetOgp();
     }
   }, [isOpen]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Reset mention index when results change
+  useEffect(() => {
+    setMentionIndex(0);
+  }, [mentionResults]);
+
+  const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setText(e.target.value);
+    setCursorPos(e.target.selectionStart);
+  };
+
+  const handleSelect = (e: React.SyntheticEvent<HTMLTextAreaElement>) => {
+    setCursorPos((e.target as HTMLTextAreaElement).selectionStart);
+  };
+
+  const insertMention = useCallback((handle: string) => {
+    const info = getMentionQuery(text, cursorPos);
+    if (!info) return;
+
+    const newText =
+      text.substring(0, info.atIndex) +
+      "@" + handle + " " +
+      text.substring(info.atIndex + 1 + info.query.length);
+
+    setText(newText);
+    const newCursorPos = info.atIndex + 1 + handle.length + 1;
+    setCursorPos(newCursorPos);
+
+    setTimeout(() => {
+      if (textareaRef.current) {
+        textareaRef.current.focus();
+        textareaRef.current.setSelectionRange(newCursorPos, newCursorPos);
+      }
+    }, 0);
+  }, [text, cursorPos]);
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (!showMention || !mentionResults) return;
+
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setMentionIndex((i) => (i + 1) % mentionResults.length);
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setMentionIndex((i) => (i - 1 + mentionResults.length) % mentionResults.length);
+    } else if (e.key === "Enter" || e.key === "Tab") {
+      e.preventDefault();
+      insertMention(mentionResults[mentionIndex].handle);
+    } else if (e.key === "Escape") {
+      e.preventDefault();
+      setCursorPos(0); // Force close dropdown
+    }
+  };
 
   const handleAddImages = useCallback((files: File[]) => {
     const newImages: ImageFile[] = files.map((file) => ({
@@ -136,15 +217,46 @@ export function ComposeModal() {
           </div>
         )}
 
-        {/* Text input */}
-        <div className="px-4 py-3">
+        {/* Text input + mention dropdown */}
+        <div className="px-4 py-3 relative">
           <textarea
+            ref={textareaRef}
             value={text}
-            onChange={(e) => setText(e.target.value)}
+            onChange={handleTextChange}
+            onSelect={handleSelect}
+            onKeyDown={handleKeyDown}
             placeholder={replyTo ? t("compose.replyPlaceholder") : t("compose.placeholder")}
             className="w-full min-h-[120px] resize-none text-sm text-text-light dark:text-text-dark bg-transparent placeholder-gray-400 focus:outline-none"
             autoFocus
           />
+
+          {/* Mention autocomplete dropdown */}
+          {showMention && mentionResults && (
+            <div className="absolute left-4 right-4 z-10 bg-white dark:bg-bg-dark border border-border-light dark:border-border-dark rounded-lg shadow-lg max-h-[240px] overflow-y-auto">
+              {mentionResults.map((actor, i) => (
+                <button
+                  key={actor.did}
+                  onMouseDown={(e) => {
+                    e.preventDefault(); // Prevent textarea blur
+                    insertMention(actor.handle);
+                  }}
+                  className={`w-full flex items-center gap-2 px-3 py-2 text-left transition-colors ${
+                    i === mentionIndex
+                      ? "bg-blue-50 dark:bg-blue-900/30"
+                      : "hover:bg-gray-50 dark:hover:bg-gray-800"
+                  }`}
+                >
+                  <Avatar src={actor.avatar} alt={actor.displayName} size="sm" />
+                  <div className="min-w-0 flex-1">
+                    <p className="text-sm font-medium text-text-light dark:text-text-dark truncate">
+                      {actor.displayName || actor.handle}
+                    </p>
+                    <p className="text-xs text-gray-500 truncate">@{actor.handle}</p>
+                  </div>
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Image upload */}
