@@ -26,12 +26,13 @@ export function FeedSelector() {
 
   // Check overflow on mount, resize, and data changes
   useEffect(() => {
-    updateScrollState();
+    // Defer to next frame so the browser has laid out new tabs
+    const raf = requestAnimationFrame(updateScrollState);
     const el = scrollRef.current;
-    if (!el) return;
+    if (!el) return () => cancelAnimationFrame(raf);
     const ro = new ResizeObserver(updateScrollState);
     ro.observe(el);
-    return () => ro.disconnect();
+    return () => { cancelAnimationFrame(raf); ro.disconnect(); };
   }, [updateScrollState, savedFeeds, myLists]);
 
   // Update on scroll
@@ -90,9 +91,10 @@ export function FeedSelector() {
         <button
           onClick={() => scroll("left")}
           disabled={!canScrollLeft}
-          className={`flex-shrink-0 w-7 h-full flex items-center justify-center transition-opacity ${
+          className={`flex-shrink-0 w-7 h-full flex items-center justify-center border-r transition-opacity ${
             canScrollLeft ? "text-gray-500 dark:text-gray-400 hover:text-text-light dark:hover:text-text-dark" : "opacity-0 pointer-events-none"
           }`}
+          style={{ borderColor: "#eee" }}
         >
           <Icon name="chevron_left" size={18} />
         </button>
@@ -130,9 +132,10 @@ export function FeedSelector() {
         <button
           onClick={() => scroll("right")}
           disabled={!canScrollRight}
-          className={`flex-shrink-0 w-7 h-full flex items-center justify-center transition-opacity ${
+          className={`flex-shrink-0 w-7 h-full flex items-center justify-center border-l transition-opacity ${
             canScrollRight ? "text-gray-500 dark:text-gray-400 hover:text-text-light dark:hover:text-text-dark" : "opacity-0 pointer-events-none"
           }`}
+          style={{ borderColor: "#eee" }}
         >
           <Icon name="chevron_right" size={18} />
         </button>
