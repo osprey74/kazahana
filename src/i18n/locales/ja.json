@@ -76,6 +76,8 @@
     "followers": "フォロワー",
     "posts": "投稿",
     "noPosts": "投稿はありません",
+    "noFollowers": "フォロワーはいません",
+    "noFollowing": "フォロー中のユーザーはいません",
     "loadFailed": "プロフィールの読み込みに失敗しました",
     "logout": "ログアウト"
   },

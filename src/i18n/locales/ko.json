@@ -76,6 +76,8 @@
     "followers": "팔로워",
     "posts": "게시물",
     "noPosts": "게시물이 없습니다",
+    "noFollowers": "팔로워가 없습니다",
+    "noFollowing": "팔로잉하는 사용자가 없습니다",
     "loadFailed": "프로필을 불러오지 못했습니다",
     "logout": "로그아웃"
   },

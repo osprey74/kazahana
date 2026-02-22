@@ -76,6 +76,8 @@
     "followers": "Seguidores",
     "posts": "Publicações",
     "noPosts": "Nenhuma publicação ainda",
+    "noFollowers": "Nenhum seguidor",
+    "noFollowing": "Não segue ninguém",
     "loadFailed": "Falha ao carregar perfil",
     "logout": "Sair"
   },

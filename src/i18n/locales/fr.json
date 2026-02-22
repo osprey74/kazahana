@@ -76,6 +76,8 @@
     "followers": "Abonnés",
     "posts": "Publications",
     "noPosts": "Aucune publication",
+    "noFollowers": "Aucun abonné",
+    "noFollowing": "Ne suit personne",
     "loadFailed": "Échec du chargement du profil",
     "logout": "Se déconnecter"
   },

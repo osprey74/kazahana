@@ -76,6 +76,8 @@
     "followers": "追蹤者",
     "posts": "貼文",
     "noPosts": "尚無貼文",
+    "noFollowers": "沒有追蹤者",
+    "noFollowing": "未追蹤任何人",
     "loadFailed": "無法載入個人檔案",
     "logout": "登出"
   },

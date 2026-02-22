@@ -8,13 +8,15 @@ import { useAuthStore } from "../../stores/authStore";
 import { useModerationOpts } from "../../contexts/ModerationContext";
 import { Avatar } from "../common/Avatar";
 import { ContentWarning } from "../common/ContentWarning";
+import type { ProfileTab } from "./ProfileView";
 
 interface ProfileHeaderProps {
   profile: ProfileViewDetailed;
   isOwnProfile: boolean;
+  onTabChange?: (tab: ProfileTab) => void;
 }
 
-export function ProfileHeader({ profile, isOwnProfile }: ProfileHeaderProps) {
+export function ProfileHeader({ profile, isOwnProfile, onTabChange }: ProfileHeaderProps) {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const logout = useAuthStore((s) => s.logout);
@@ -113,14 +115,20 @@ export function ProfileHeader({ profile, isOwnProfile }: ProfileHeaderProps) {
 
         {/* Stats */}
         <div className="flex gap-4 mt-3 text-sm">
-          <span>
+          <button
+            onClick={() => onTabChange?.("following")}
+            className="hover:underline"
+          >
             <strong className="text-text-light dark:text-text-dark">{profile.followsCount ?? 0}</strong>{" "}
             <span className="text-gray-500">{t("profile.following")}</span>
-          </span>
-          <span>
+          </button>
+          <button
+            onClick={() => onTabChange?.("followers")}
+            className="hover:underline"
+          >
             <strong className="text-text-light dark:text-text-dark">{profile.followersCount ?? 0}</strong>{" "}
             <span className="text-gray-500">{t("profile.followers")}</span>
-          </span>
+          </button>
           <span>
             <strong className="text-text-light dark:text-text-dark">{profile.postsCount ?? 0}</strong>{" "}
             <span className="text-gray-500">{t("profile.posts")}</span>

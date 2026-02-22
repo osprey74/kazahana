@@ -1,3 +1,4 @@
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { TabBar } from "./TabBar";
@@ -13,6 +14,20 @@ export function AppLayout() {
   const openCompose = useComposeStore((s) => s.open);
   const profile = useAuthStore((s) => s.profile);
   const isSettings = location.pathname.startsWith("/settings");
+  const mainRef = useRef<HTMLElement>(null);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  useEffect(() => {
+    const el = mainRef.current;
+    if (!el) return;
+    const onScroll = () => setShowScrollTop(el.scrollTop > 300);
+    el.addEventListener("scroll", onScroll, { passive: true });
+    return () => el.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const scrollToTop = useCallback(() => {
+    mainRef.current?.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
 
   return (
     <div className="flex flex-col h-screen bg-white dark:bg-bg-dark">
@@ -26,7 +41,7 @@ export function AppLayout() {
       <TabBar />
 
       {/* Main Content */}
-      <main className="flex-1 overflow-y-auto scrollbar-thin">
+      <main ref={mainRef} className="flex-1 overflow-y-auto scrollbar-thin">
         <div className="mx-auto max-w-content min-w-content">
           <Outlet />
         </div>
@@ -40,6 +55,17 @@ export function AppLayout() {
           title={t("compose.newPost")}
         >
           <Icon name="edit_square" size={22} />
+        </button>
+      )}
+
+      {/* Scroll to top */}
+      {showScrollTop && !isSettings && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-5 left-5 w-11 h-11 bg-gray-500/60 text-white rounded-full shadow-lg hover:bg-gray-500/80 transition-colors flex items-center justify-center z-40"
+          title="Scroll to top"
+        >
+          <Icon name="arrow_upward" size={22} />
         </button>
       )}
 

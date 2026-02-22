@@ -76,6 +76,8 @@
     "followers": "Pengikut",
     "posts": "Postingan",
     "noPosts": "Belum ada postingan",
+    "noFollowers": "Tidak ada pengikut",
+    "noFollowing": "Tidak mengikuti siapa pun",
     "loadFailed": "Gagal memuat profil",
     "logout": "Keluar"
   },

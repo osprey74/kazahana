@@ -76,6 +76,8 @@
     "followers": "粉丝",
     "posts": "帖子",
     "noPosts": "暂无帖子",
+    "noFollowers": "没有粉丝",
+    "noFollowing": "未关注任何人",
     "loadFailed": "个人资料加载失败",
     "logout": "退出登录"
   },
