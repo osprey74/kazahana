@@ -120,6 +120,8 @@ export function useFollow() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["profile"] });
+      queryClient.invalidateQueries({ queryKey: ["following"] });
+      queryClient.invalidateQueries({ queryKey: ["followers"] });
     },
   });
 }
@@ -130,11 +132,12 @@ export function useUnfollow() {
   return useMutation({
     mutationFn: async ({ followUri }: { followUri: string }) => {
       const agent = getAgent();
-      const rkey = followUri.split("/").pop()!;
-      return agent.deleteFollow(rkey);
+      return agent.deleteFollow(followUri);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["profile"] });
+      queryClient.invalidateQueries({ queryKey: ["following"] });
+      queryClient.invalidateQueries({ queryKey: ["followers"] });
     },
   });
 }

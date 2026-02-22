@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { moderateProfile } from "@atproto/api";
@@ -26,6 +26,12 @@ export function ProfileHeader({ profile, isOwnProfile, onTabChange }: ProfileHea
 
   const [isFollowing, setIsFollowing] = useState(!!profile.viewer?.following);
   const [followUri, setFollowUri] = useState(profile.viewer?.following ?? "");
+
+  // Sync local state when profile data is refetched
+  useEffect(() => {
+    setIsFollowing(!!profile.viewer?.following);
+    setFollowUri(profile.viewer?.following ?? "");
+  }, [profile.viewer?.following]);
 
   // Moderation for avatar & banner
   const modDecision = moderationOpts ? moderateProfile(profile, moderationOpts) : null;

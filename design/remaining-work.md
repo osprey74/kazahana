@@ -57,7 +57,7 @@
 ## Beyond Spec (Potential Improvements)
 - [x] Session auto-refresh robustness (401 error retry)
 - [x] Rate limit handling (429 response backoff with `ratelimit-reset` header)
-- [ ] Follow/unfollow functionality verification
+- [x] Follow/unfollow functionality verification
 - [ ] Image lightbox swipe gestures (touch/trackpad)
 - [ ] Settings: display current API rate limit consumption
 - [x] Notification tab: clickable user icon/name to navigate to profile
