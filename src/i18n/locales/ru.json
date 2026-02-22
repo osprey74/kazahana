@@ -72,6 +72,15 @@
     "loadFailed": "Не удалось загрузить ленту",
     "empty": "Нет публикаций"
   },
+  "gate": {
+    "replyAll": "Все могут ответить",
+    "replyMention": "Только упомянутые",
+    "replyFollower": "Только подписчики",
+    "replyFollowing": "Только подписки",
+    "replyNobody": "Никто не может ответить",
+    "disableQuote": "Запретить цитирование",
+    "replyRestricted": "Ответы ограничены"
+  },
   "common": {
     "retry": "Повторить"
   },

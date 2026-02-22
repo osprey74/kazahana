@@ -20,6 +20,7 @@ export function PostActions({ post }: PostActionsProps) {
 
   const replyCount = post.replyCount ?? 0;
   const quoteCount = post.quoteCount ?? 0;
+  const replyDisabled = !!post.viewer?.replyDisabled;
   const openCompose = useComposeStore((s) => s.open);
   const openPostList = usePostListStore((s) => s.open);
 
@@ -87,6 +88,7 @@ export function PostActions({ post }: PostActionsProps) {
         icon="chat_bubble_outline"
         count={replyCount}
         active={false}
+        disabled={replyDisabled}
         onClick={handleReply}
       />
       <ActionButton
@@ -120,6 +122,7 @@ function ActionButton({
   count,
   active,
   activeColor = "",
+  disabled = false,
   onClick,
   onCountClick,
 }: {
@@ -127,14 +130,19 @@ function ActionButton({
   count: number;
   active: boolean;
   activeColor?: string;
+  disabled?: boolean;
   onClick: () => void;
   onCountClick?: () => void;
 }) {
   return (
     <button
-      onClick={onClick}
-      className={`flex items-center gap-1 text-xs transition-colors hover:text-primary ${
-        active ? activeColor : "text-gray-500"
+      onClick={disabled ? undefined : onClick}
+      className={`flex items-center gap-1 text-xs transition-colors ${
+        disabled
+          ? "text-gray-300 dark:text-gray-600 cursor-not-allowed"
+          : active
+            ? activeColor
+            : "text-gray-500 hover:text-primary"
       }`}
     >
       <Icon name={icon} size={16} filled={active} />

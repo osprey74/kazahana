@@ -17,13 +17,15 @@ interface CreatePostParams {
     cid: string;
     root?: { uri: string; cid: string };
   };
+  threadgate?: "everyone" | "mention" | "follower" | "following" | "nobody";
+  postgate?: { disableQuote: boolean };
 }
 
 export function useCreatePost() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ text, images, external, replyTo }: CreatePostParams) => {
+    mutationFn: async ({ text, images, external, replyTo, threadgate, postgate }: CreatePostParams) => {
       const agent = getAgent();
 
       // Build rich text with facets
@@ -95,7 +97,38 @@ export function useCreatePost() {
         };
       }
 
-      return agent.post(record as Parameters<typeof agent.post>[0]);
+      const postResult = await agent.post(record as Parameters<typeof agent.post>[0]);
+
+      // Extract rkey from post URI for threadgate/postgate (must match post rkey)
+      const postRkey = postResult.uri.split("/").pop()!;
+      const did = agent.session?.did;
+
+      // Create threadgate if not "everyone"
+      if (did && threadgate && threadgate !== "everyone") {
+        const allowRules: Record<string, string>[] = [];
+        if (threadgate === "mention") {
+          allowRules.push({ $type: "app.bsky.feed.threadgate#mentionRule" });
+        } else if (threadgate === "follower") {
+          allowRules.push({ $type: "app.bsky.feed.threadgate#followerRule" });
+        } else if (threadgate === "following") {
+          allowRules.push({ $type: "app.bsky.feed.threadgate#followingRule" });
+        }
+        // "nobody" → empty allow array
+        await agent.app.bsky.feed.threadgate.create(
+          { repo: did, rkey: postRkey },
+          { post: postResult.uri, allow: allowRules, createdAt: new Date().toISOString() },
+        );
+      }
+
+      // Create postgate if quoting is disabled
+      if (did && postgate?.disableQuote) {
+        await agent.app.bsky.feed.postgate.create(
+          { repo: did, rkey: postRkey },
+          { post: postResult.uri, embeddingRules: [{ $type: "app.bsky.feed.postgate#disableRule" }], createdAt: new Date().toISOString() },
+        );
+      }
+
+      return postResult;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["timeline"] });

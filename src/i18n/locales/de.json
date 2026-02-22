@@ -72,6 +72,15 @@
     "loadFailed": "Feed konnte nicht geladen werden",
     "empty": "Keine Beiträge"
   },
+  "gate": {
+    "replyAll": "Jeder kann antworten",
+    "replyMention": "Nur erwähnte Personen",
+    "replyFollower": "Nur Follower",
+    "replyFollowing": "Nur Gefolgte",
+    "replyNobody": "Niemand kann antworten",
+    "disableQuote": "Zitieren deaktivieren",
+    "replyRestricted": "Antworten eingeschränkt"
+  },
   "common": {
     "retry": "Erneut versuchen"
   },

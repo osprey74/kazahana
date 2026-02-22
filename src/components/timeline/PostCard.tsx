@@ -185,6 +185,14 @@ export function PostCard({ feedItem, showParentContext }: PostCardProps) {
             </>
           )}
 
+          {/* Threadgate indicator */}
+          {post.threadgate && (
+            <div className="flex items-center gap-1 mt-1.5 text-gray-400">
+              <Icon name="lock" size={12} />
+              <span className="text-[11px]">{t("gate.replyRestricted")}</span>
+            </div>
+          )}
+
           {/* Actions + Moderation label */}
           <div className="flex items-center justify-between mt-2">
             <PostActions post={post} />

@@ -23,6 +23,8 @@ export function ComposeModal() {
   const createPost = useCreatePost();
   const [text, setText] = useState("");
   const [images, setImages] = useState<ImageFile[]>([]);
+  const [replyGate, setReplyGate] = useState<"everyone" | "mention" | "follower" | "following" | "nobody">("everyone");
+  const [disableQuote, setDisableQuote] = useState(false);
 
   // OGP link card (manual trigger)
   const { detectedUrl, ogp, isLoading: ogpLoading, fetchCard, dismiss: dismissOgp, reset: resetOgp } = useOgp(text);
@@ -36,6 +38,8 @@ export function ComposeModal() {
     if (isOpen) {
       setText("");
       setImages([]);
+      setReplyGate("everyone");
+      setDisableQuote(false);
       createPost.reset();
       resetOgp();
     }
@@ -81,6 +85,8 @@ export function ComposeModal() {
       replyTo: replyTo
         ? { uri: replyTo.uri, cid: replyTo.cid }
         : undefined,
+      threadgate: !replyTo ? replyGate : undefined,
+      postgate: !replyTo && disableQuote ? { disableQuote: true } : undefined,
     });
 
     // Cleanup previews
@@ -181,6 +187,35 @@ export function ComposeModal() {
                 <span>{t("compose.generateLinkCard")}</span>
               </button>
             ) : null}
+          </div>
+        )}
+
+        {/* Gate settings (new posts only, not replies) */}
+        {!replyTo && (
+          <div className="px-4 pb-2 flex flex-col gap-2">
+            <div className="flex items-center gap-2">
+              <Icon name="lock" size={14} className="text-gray-400 flex-shrink-0" />
+              <select
+                value={replyGate}
+                onChange={(e) => setReplyGate(e.target.value as typeof replyGate)}
+                className="flex-1 text-xs bg-transparent text-text-light dark:text-text-dark border border-border-light dark:border-border-dark rounded px-2 py-1 focus:outline-none focus:border-primary"
+              >
+                <option value="everyone">{t("gate.replyAll")}</option>
+                <option value="mention">{t("gate.replyMention")}</option>
+                <option value="follower">{t("gate.replyFollower")}</option>
+                <option value="following">{t("gate.replyFollowing")}</option>
+                <option value="nobody">{t("gate.replyNobody")}</option>
+              </select>
+            </div>
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={disableQuote}
+                onChange={(e) => setDisableQuote(e.target.checked)}
+                className="accent-primary"
+              />
+              <span className="text-xs text-gray-500 dark:text-gray-400">{t("gate.disableQuote")}</span>
+            </label>
           </div>
         )}
 

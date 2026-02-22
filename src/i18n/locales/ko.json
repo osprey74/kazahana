@@ -72,6 +72,15 @@
     "loadFailed": "피드를 불러오지 못했습니다",
     "empty": "게시물이 없습니다"
   },
+  "gate": {
+    "replyAll": "모든 사람이 답글 가능",
+    "replyMention": "멘션된 사용자만",
+    "replyFollower": "팔로워만",
+    "replyFollowing": "팔로잉만",
+    "replyNobody": "답글 불가",
+    "disableQuote": "인용 비활성화",
+    "replyRestricted": "답글이 제한되어 있습니다"
+  },
   "common": {
     "retry": "다시 시도"
   },

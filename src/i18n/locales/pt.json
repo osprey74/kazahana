@@ -72,6 +72,15 @@
     "loadFailed": "Falha ao carregar o feed",
     "empty": "Sem publicações"
   },
+  "gate": {
+    "replyAll": "Todos podem responder",
+    "replyMention": "Apenas mencionados",
+    "replyFollower": "Apenas seguidores",
+    "replyFollowing": "Apenas seguidos",
+    "replyNobody": "Ninguém pode responder",
+    "disableQuote": "Desativar citação",
+    "replyRestricted": "Respostas restritas"
+  },
   "common": {
     "retry": "Tentar novamente"
   },

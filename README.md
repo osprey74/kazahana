@@ -45,6 +45,7 @@ Kazahana is designed as a **lightweight, always-running companion app** — not 
 - [x] Dark / Light / System theme
 - [x] i18n (Japanese / English)
 - [x] Content moderation (label-based filtering, blur, settings)
+- [x] Custom feeds & list feeds (tab selector)
 - [ ] Quote post
 - [ ] Rich text input (mentions, links)
 - [ ] Desktop notifications

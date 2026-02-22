@@ -72,6 +72,15 @@
     "loadFailed": "無法載入動態消息",
     "empty": "沒有貼文"
   },
+  "gate": {
+    "replyAll": "所有人皆可回覆",
+    "replyMention": "僅被提及的人",
+    "replyFollower": "僅追蹤者",
+    "replyFollowing": "僅追蹤中",
+    "replyNobody": "不允許回覆",
+    "disableQuote": "禁止引用",
+    "replyRestricted": "回覆受到限制"
+  },
   "common": {
     "retry": "重試"
   },

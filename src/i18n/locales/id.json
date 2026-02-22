@@ -72,6 +72,15 @@
     "loadFailed": "Gagal memuat feed",
     "empty": "Tidak ada postingan"
   },
+  "gate": {
+    "replyAll": "Semua orang dapat membalas",
+    "replyMention": "Hanya yang disebut",
+    "replyFollower": "Hanya pengikut",
+    "replyFollowing": "Hanya yang diikuti",
+    "replyNobody": "Tidak ada yang dapat membalas",
+    "disableQuote": "Nonaktifkan kutipan",
+    "replyRestricted": "Balasan dibatasi"
+  },
   "common": {
     "retry": "Coba lagi"
   },

@@ -72,6 +72,15 @@
     "loadFailed": "无法加载动态",
     "empty": "没有帖子"
   },
+  "gate": {
+    "replyAll": "所有人均可回复",
+    "replyMention": "仅被提及的人",
+    "replyFollower": "仅关注者",
+    "replyFollowing": "仅关注中",
+    "replyNobody": "不允许回复",
+    "disableQuote": "禁止引用",
+    "replyRestricted": "回复受到限制"
+  },
   "common": {
     "retry": "重试"
   },

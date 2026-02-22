@@ -72,6 +72,15 @@
     "loadFailed": "Échec du chargement du flux",
     "empty": "Aucune publication"
   },
+  "gate": {
+    "replyAll": "Tout le monde peut répondre",
+    "replyMention": "Personnes mentionnées uniquement",
+    "replyFollower": "Abonnés uniquement",
+    "replyFollowing": "Abonnements uniquement",
+    "replyNobody": "Personne ne peut répondre",
+    "disableQuote": "Désactiver la citation",
+    "replyRestricted": "Réponses restreintes"
+  },
   "common": {
     "retry": "Réessayer"
   },

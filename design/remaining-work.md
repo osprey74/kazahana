@@ -23,9 +23,9 @@
 - [ ] CI/CD with GitHub Actions (Section 9.3, marked as future)
 
 ## Bluesky API Features (kazahana scope)
-- [ ] List feed viewing (`getListFeed`)
+- [x] List feed viewing (`getListFeed`)
 - [x] Follower / following lists (`getFollowers` / `getFollows`)
-- [ ] Custom feed viewing (`getFeed` / `getFeedGenerator` / `getSuggestedFeeds`)
+- [x] Custom feed viewing (`getFeed` / `getFeedGenerator` / `getSuggestedFeeds`)
 - [ ] Liked posts list (`getActorLikes`)
 - [x] Liked-by users on a post (`getLikes`)
 - [x] Reposted-by users on a post (`getRepostedBy`)

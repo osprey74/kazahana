@@ -72,6 +72,15 @@
     "loadFailed": "Failed to load feed",
     "empty": "No posts"
   },
+  "gate": {
+    "replyAll": "Everyone can reply",
+    "replyMention": "Mentioned users only",
+    "replyFollower": "Followers only",
+    "replyFollowing": "Following only",
+    "replyNobody": "No one can reply",
+    "disableQuote": "Disable quoting",
+    "replyRestricted": "Replies are restricted"
+  },
   "common": {
     "retry": "Retry"
   },
