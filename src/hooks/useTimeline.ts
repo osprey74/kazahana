@@ -2,9 +2,9 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import type { FeedViewPost } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
 import { getAgent } from "../lib/agent";
+import { useSettingsStore } from "../stores/settingsStore";
 
-const POLL_INTERVAL = 30_000; // TODO: make configurable via settings
-const MAX_POSTS = 1024; // TODO: make configurable via settings
+const MAX_POSTS = 1024;
 const PAGE_SIZE = 100;
 
 /** Unique key for a feed item (handles reposts of the same post) */
@@ -23,6 +23,8 @@ let _readingPos: string | null = null;
 let _wasAtTop = true;
 
 export function useTimeline() {
+  const pollInterval = useSettingsStore((s) => s.pollInterval);
+
   // Initialise from persisted values so tab-switch restores state
   const [prependedPosts, setPrependedPosts] = useState<FeedViewPost[]>(
     () => _prepended,
@@ -132,9 +134,9 @@ export function useTimeline() {
       }
     };
 
-    const id = setInterval(poll, POLL_INTERVAL);
+    const id = setInterval(poll, pollInterval * 1000);
     return () => clearInterval(id);
-  }, [query.isLoading, query.isError]);
+  }, [query.isLoading, query.isError, pollInterval]);
 
   // Refetch that also clears all state
   const refetch = useCallback(() => {

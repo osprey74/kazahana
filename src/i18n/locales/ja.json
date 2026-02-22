@@ -55,6 +55,15 @@
   "common": {
     "retry": "再試行"
   },
+  "moderation": {
+    "postHidden": "モデレーションにより非表示",
+    "show": "表示する",
+    "contentWarning": "コンテンツ警告",
+    "muted": "ミュートしたユーザー",
+    "muteWord": "ミュートワードを含む投稿",
+    "blocked": "ブロックしたユーザー",
+    "blockedBy": "このユーザーにブロックされています"
+  },
   "image": {
     "addImages": "画像を追加（最大{{max}}枚、1MB以下）",
     "altPlaceholder": "ALT テキスト",
@@ -89,7 +98,22 @@
     "license": "MIT License",
     "readme": "README (日本語)",
     "version": "v{{version}}",
+    "pollInterval": "取得タイミング",
+    "pollIntervalUnit": "{{seconds}}秒",
     "supportMessage": "アプリ作者にコーヒーをご馳走する",
-    "supportButton": "Ko-fi でサポート"
+    "supportButton": "Ko-fi でサポート",
+    "moderation": "コンテンツモデレーション",
+    "adultContent": "成人向けコンテンツを有効にする",
+    "label": {
+      "nudity": "ヌード",
+      "sexual": "性的示唆",
+      "porn": "ポルノ",
+      "graphic-media": "過激なメディア"
+    },
+    "pref": {
+      "hide": "非表示",
+      "warn": "警告",
+      "ignore": "表示"
+    }
   }
 }

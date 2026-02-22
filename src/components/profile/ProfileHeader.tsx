@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { moderateProfile } from "@atproto/api";
 import type { ProfileViewDetailed } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
 import { useFollow, useUnfollow } from "../../hooks/useProfile";
 import { useAuthStore } from "../../stores/authStore";
+import { useModerationOpts } from "../../contexts/ModerationContext";
 import { Avatar } from "../common/Avatar";
+import { ContentWarning } from "../common/ContentWarning";
 
 interface ProfileHeaderProps {
   profile: ProfileViewDetailed;
@@ -17,9 +20,15 @@ export function ProfileHeader({ profile, isOwnProfile }: ProfileHeaderProps) {
   const logout = useAuthStore((s) => s.logout);
   const follow = useFollow();
   const unfollow = useUnfollow();
+  const moderationOpts = useModerationOpts();
 
   const [isFollowing, setIsFollowing] = useState(!!profile.viewer?.following);
   const [followUri, setFollowUri] = useState(profile.viewer?.following ?? "");
+
+  // Moderation for avatar & banner
+  const modDecision = moderationOpts ? moderateProfile(profile, moderationOpts) : null;
+  const avatarUI = modDecision?.ui("avatar");
+  const bannerUI = modDecision?.ui("banner");
 
   const handleToggleFollow = async () => {
     if (isFollowing) {
@@ -40,12 +49,16 @@ export function ProfileHeader({ profile, isOwnProfile }: ProfileHeaderProps) {
   return (
     <div className="border-b border-border-light dark:border-border-dark">
       {/* Banner */}
-      {profile.banner ? (
-        <img
-          src={profile.banner}
-          alt=""
-          className="w-full h-28 object-cover"
-        />
+      {bannerUI?.blur ? (
+        <ContentWarning ui={bannerUI} isMedia>
+          {profile.banner ? (
+            <img src={profile.banner} alt="" className="w-full h-28 object-cover" />
+          ) : (
+            <div className="w-full h-28 bg-gradient-to-r from-blue-400 to-blue-600" />
+          )}
+        </ContentWarning>
+      ) : profile.banner ? (
+        <img src={profile.banner} alt="" className="w-full h-28 object-cover" />
       ) : (
         <div className="w-full h-28 bg-gradient-to-r from-blue-400 to-blue-600" />
       )}
@@ -53,7 +66,13 @@ export function ProfileHeader({ profile, isOwnProfile }: ProfileHeaderProps) {
       <div className="px-4 pb-4">
         {/* Avatar + Follow button row */}
         <div className="flex items-end justify-between -mt-10">
-          <Avatar src={profile.avatar} alt={profile.displayName} size="lg" />
+          {avatarUI?.blur ? (
+            <ContentWarning ui={avatarUI} isMedia>
+              <Avatar src={profile.avatar} alt={profile.displayName} size="lg" />
+            </ContentWarning>
+          ) : (
+            <Avatar src={profile.avatar} alt={profile.displayName} size="lg" />
+          )}
           {!isOwnProfile && (
             <button
               onClick={handleToggleFollow}

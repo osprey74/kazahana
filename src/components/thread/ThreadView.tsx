@@ -1,10 +1,13 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { moderatePost } from "@atproto/api";
 import type { PostView } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
 import { useThread } from "../../hooks/useThread";
+import { useModerationOpts } from "../../contexts/ModerationContext";
 import { LoadingSpinner } from "../common/LoadingSpinner";
 import { Avatar } from "../common/Avatar";
 import { Icon } from "../common/Icon";
+import { ContentWarning } from "../common/ContentWarning";
 import { PostContent } from "../timeline/PostContent";
 import { PostActions } from "../timeline/PostActions";
 import { ImageGrid } from "../common/ImageGrid";
@@ -97,7 +100,9 @@ function ThreadPostItem({
   post: PostView;
   isHighlighted: boolean;
 }) {
+  const { t } = useTranslation();
   const navigate = useNavigate();
+  const moderationOpts = useModerationOpts();
   const record = post.record as { text?: string; facets?: unknown[]; createdAt?: string };
   const images = getImages(post);
   const externalEmbed = getExternalEmbed(post);
@@ -105,6 +110,20 @@ function ThreadPostItem({
   const timeAgo = record.createdAt
     ? formatDistanceToNowStrict(new Date(record.createdAt), { locale, addSuffix: false })
     : "";
+
+  // Moderation
+  const modDecision = moderationOpts ? moderatePost(post, moderationOpts) : null;
+  const contentUI = modDecision?.ui("contentView");
+  const mediaUI = modDecision?.ui("contentMedia");
+
+  // In thread, show a collapsed placeholder instead of hiding entirely
+  if (contentUI?.filter) {
+    return (
+      <article className="px-4 py-3 border-b border-border-light dark:border-border-dark">
+        <p className="text-xs text-gray-400 text-center">{t("moderation.postHidden")}</p>
+      </article>
+    );
+  }
 
   return (
     <article
@@ -136,20 +155,55 @@ function ThreadPostItem({
             )}
           </div>
 
-          {record.text && (
-            <div className="mt-1">
-              <PostContent
-                text={record.text}
-                facets={record.facets as Parameters<typeof PostContent>[0]["facets"]}
-              />
-            </div>
+          {/* Post content (may be blurred by moderation) */}
+          {contentUI?.blur ? (
+            <ContentWarning ui={contentUI}>
+              {record.text && (
+                <div className="mt-1">
+                  <PostContent
+                    text={record.text}
+                    facets={record.facets as Parameters<typeof PostContent>[0]["facets"]}
+                  />
+                </div>
+              )}
+              {images.length > 0 && <ImageGrid images={images} />}
+              {externalEmbed && <LinkCard external={externalEmbed} />}
+            </ContentWarning>
+          ) : (
+            <>
+              {record.text && (
+                <div className="mt-1">
+                  <PostContent
+                    text={record.text}
+                    facets={record.facets as Parameters<typeof PostContent>[0]["facets"]}
+                  />
+                </div>
+              )}
+              {images.length > 0 && (
+                mediaUI?.blur ? (
+                  <ContentWarning ui={mediaUI} isMedia>
+                    <ImageGrid images={images} />
+                  </ContentWarning>
+                ) : (
+                  <ImageGrid images={images} />
+                )
+              )}
+              {externalEmbed && <LinkCard external={externalEmbed} />}
+            </>
           )}
 
-          {images.length > 0 && <ImageGrid images={images} />}
-
-          {externalEmbed && <LinkCard external={externalEmbed} />}
-
-          <PostActions post={post} />
+          {/* Actions + Moderation label */}
+          <div className="flex items-center justify-between mt-2">
+            <PostActions post={post} />
+            {post.labels && post.labels.length > 0 && (
+              <div className="flex items-center gap-1">
+                <Icon name="shield" size={12} className="text-gray-400" />
+                <span className="text-[11px] text-gray-400">
+                  {(post.labels as { val: string }[]).map((l) => l.val).join(", ")}
+                </span>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </article>

@@ -2,9 +2,11 @@ import { useState, useMemo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Virtuoso } from "react-virtuoso";
+import { moderatePost, moderateProfile } from "@atproto/api";
 import type { FeedViewPost } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
 import type { ProfileView } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
 import { useSearchActors, useSearchPosts } from "../../hooks/useSearch";
+import { useModerationOpts } from "../../contexts/ModerationContext";
 import { PostCard } from "../timeline/PostCard";
 import { Avatar } from "../common/Avatar";
 import { LoadingSpinner } from "../common/LoadingSpinner";
@@ -81,6 +83,7 @@ export function SearchView() {
 
 function PostResults({ query }: { query: string }) {
   const { t } = useTranslation();
+  const moderationOpts = useModerationOpts();
   const {
     data,
     fetchNextPage,
@@ -92,10 +95,12 @@ function PostResults({ query }: { query: string }) {
 
   const items = useMemo(() => {
     if (!data?.pages) return [];
-    return data.pages.flatMap((page) =>
+    const all = data.pages.flatMap((page) =>
       page.posts.map((post) => ({ post } as FeedViewPost))
     );
-  }, [data]);
+    if (!moderationOpts) return all;
+    return all.filter((item) => !moderatePost(item.post, moderationOpts).ui("contentList").filter);
+  }, [data, moderationOpts]);
 
   const loadMore = useCallback(() => {
     if (hasNextPage && !isFetchingNextPage) fetchNextPage();
@@ -122,6 +127,7 @@ function PostResults({ query }: { query: string }) {
 
 function UserResults({ query, onUserClick }: { query: string; onUserClick: (handle: string) => void }) {
   const { t } = useTranslation();
+  const moderationOpts = useModerationOpts();
   const {
     data,
     fetchNextPage,
@@ -133,8 +139,10 @@ function UserResults({ query, onUserClick }: { query: string; onUserClick: (hand
 
   const items = useMemo(() => {
     if (!data?.pages) return [];
-    return data.pages.flatMap((page) => page.actors);
-  }, [data]);
+    const all = data.pages.flatMap((page) => page.actors);
+    if (!moderationOpts) return all;
+    return all.filter((actor) => !moderateProfile(actor, moderationOpts).ui("profileList").filter);
+  }, [data, moderationOpts]);
 
   const loadMore = useCallback(() => {
     if (hasNextPage && !isFetchingNextPage) fetchNextPage();

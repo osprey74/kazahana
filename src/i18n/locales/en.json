@@ -55,6 +55,15 @@
   "common": {
     "retry": "Retry"
   },
+  "moderation": {
+    "postHidden": "Post hidden by moderation",
+    "show": "Show",
+    "contentWarning": "Content warning",
+    "muted": "Muted user",
+    "muteWord": "Contains muted word",
+    "blocked": "Blocked user",
+    "blockedBy": "This user has blocked you"
+  },
   "image": {
     "addImages": "Add images (max {{max}}, under 1MB)",
     "altPlaceholder": "ALT text",
@@ -89,7 +98,22 @@
     "license": "MIT License",
     "readme": "README",
     "version": "v{{version}}",
+    "pollInterval": "Refresh interval",
+    "pollIntervalUnit": "{{seconds}}s",
     "supportMessage": "Buy the developer a coffee",
-    "supportButton": "Support on Ko-fi"
+    "supportButton": "Support on Ko-fi",
+    "moderation": "Content Moderation",
+    "adultContent": "Enable adult content",
+    "label": {
+      "nudity": "Nudity",
+      "sexual": "Sexually Suggestive",
+      "porn": "Pornography",
+      "graphic-media": "Graphic Media"
+    },
+    "pref": {
+      "hide": "Hide",
+      "warn": "Warn",
+      "ignore": "Show"
+    }
   }
 }

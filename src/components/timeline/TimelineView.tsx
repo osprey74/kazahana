@@ -1,14 +1,17 @@
-import { useCallback, useLayoutEffect, useState } from "react";
+import { useCallback, useLayoutEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Virtuoso } from "react-virtuoso";
+import { moderatePost } from "@atproto/api";
 import type { FeedViewPost } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
 import { useTimeline } from "../../hooks/useTimeline";
+import { useModerationOpts } from "../../contexts/ModerationContext";
 import { PostCard } from "./PostCard";
 import { LoadingSpinner } from "../common/LoadingSpinner";
 
 export function TimelineView() {
   const { t } = useTranslation();
   const [scrollParent, setScrollParent] = useState<HTMLElement | null>(null);
+  const moderationOpts = useModerationOpts();
 
   const {
     items,
@@ -21,6 +24,15 @@ export function TimelineView() {
     dividerPostUri,
     reportViewportTop,
   } = useTimeline();
+
+  // Pre-filter items that should be completely hidden by moderation
+  const filteredItems = useMemo(() => {
+    if (!moderationOpts) return items;
+    return items.filter((item) => {
+      const decision = moderatePost(item.post, moderationOpts);
+      return !decision.ui("contentList").filter;
+    });
+  }, [items, moderationOpts]);
 
   // Resolve the actual scroll container (<main> in AppLayout)
   useLayoutEffect(() => {
@@ -54,7 +66,7 @@ export function TimelineView() {
       {scrollParent && (
         <Virtuoso
           customScrollParent={scrollParent}
-          data={items}
+          data={filteredItems}
           computeItemKey={(_index, item: FeedViewPost) => {
             const reason = item.reason as {
               by?: { did?: string };

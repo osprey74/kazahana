@@ -2,9 +2,11 @@ import { useMemo, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Virtuoso } from "react-virtuoso";
+import { moderatePost } from "@atproto/api";
 import type { FeedViewPost } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
 import { useProfile, useAuthorFeed } from "../../hooks/useProfile";
 import { useAuthStore } from "../../stores/authStore";
+import { useModerationOpts } from "../../contexts/ModerationContext";
 import { ProfileHeader } from "./ProfileHeader";
 import { PostCard } from "../timeline/PostCard";
 import { LoadingSpinner } from "../common/LoadingSpinner";
@@ -27,11 +29,14 @@ export function ProfileView() {
   } = useAuthorFeed(resolvedHandle);
 
   const isOwnProfile = !handle || handle === authProfile?.handle;
+  const moderationOpts = useModerationOpts();
 
   const items = useMemo(() => {
     if (!feedData?.pages) return [];
-    return feedData.pages.flatMap((page) => page.feed);
-  }, [feedData]);
+    const all = feedData.pages.flatMap((page) => page.feed);
+    if (!moderationOpts) return all;
+    return all.filter((item) => !moderatePost(item.post, moderationOpts).ui("contentList").filter);
+  }, [feedData, moderationOpts]);
 
   const loadMore = useCallback(() => {
     if (hasNextPage && !isFetchingNextPage) {

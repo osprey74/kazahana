@@ -79,7 +79,7 @@ export function PostActions({ post }: PostActionsProps) {
   };
 
   return (
-    <div className="flex items-center gap-6 mt-2 -ml-1">
+    <div className="flex items-center gap-6 -ml-1">
       <ActionButton
         icon="chat_bubble_outline"
         count={replyCount}

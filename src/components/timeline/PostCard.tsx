@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { moderatePost } from "@atproto/api";
 import type { FeedViewPost } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
 import type { ViewImage } from "@atproto/api/dist/client/types/app/bsky/embed/images";
 import { formatDistanceToNowStrict } from "date-fns";
@@ -9,8 +10,10 @@ import { Avatar } from "../common/Avatar";
 import { Icon } from "../common/Icon";
 import { ImageGrid } from "../common/ImageGrid";
 import { LinkCard } from "../common/LinkCard";
+import { ContentWarning } from "../common/ContentWarning";
 import { PostContent } from "./PostContent";
 import { PostActions } from "./PostActions";
+import { useModerationOpts } from "../../contexts/ModerationContext";
 
 interface PostCardProps {
   feedItem: FeedViewPost;
@@ -20,9 +23,18 @@ interface PostCardProps {
 export function PostCard({ feedItem, showParentContext }: PostCardProps) {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
+  const moderationOpts = useModerationOpts();
   const { post, reason } = feedItem;
   const author = post.author;
   const record = post.record as { text?: string; facets?: unknown[]; createdAt?: string; reply?: { parent?: { uri: string }; root?: { uri: string } } };
+
+  // Moderation
+  const modDecision = moderationOpts ? moderatePost(post, moderationOpts) : null;
+  const contentUI = modDecision?.ui("contentList");
+  const mediaUI = modDecision?.ui("contentMedia");
+
+  // Filter: completely hide from list
+  if (contentUI?.filter) return null;
 
   const isRepost =
     reason?.$type === "app.bsky.feed.defs#reasonRepost";
@@ -131,24 +143,56 @@ export function PostCard({ feedItem, showParentContext }: PostCardProps) {
             ) : null
           )}
 
-          {/* Post text */}
-          {record.text && (
-            <div className="mt-1">
-              <PostContent
-                text={record.text}
-                facets={record.facets as Parameters<typeof PostContent>[0]["facets"]}
-              />
-            </div>
+          {/* Post content (may be blurred by moderation) */}
+          {contentUI?.blur ? (
+            <ContentWarning ui={contentUI}>
+              {record.text && (
+                <div className="mt-1">
+                  <PostContent
+                    text={record.text}
+                    facets={record.facets as Parameters<typeof PostContent>[0]["facets"]}
+                  />
+                </div>
+              )}
+              {images.length > 0 && <ImageGrid images={images} />}
+              {externalEmbed && <LinkCard external={externalEmbed} />}
+            </ContentWarning>
+          ) : (
+            <>
+              {record.text && (
+                <div className="mt-1">
+                  <PostContent
+                    text={record.text}
+                    facets={record.facets as Parameters<typeof PostContent>[0]["facets"]}
+                  />
+                </div>
+              )}
+              {/* Images (may be blurred by media moderation) */}
+              {images.length > 0 && (
+                mediaUI?.blur ? (
+                  <ContentWarning ui={mediaUI} isMedia>
+                    <ImageGrid images={images} />
+                  </ContentWarning>
+                ) : (
+                  <ImageGrid images={images} />
+                )
+              )}
+              {externalEmbed && <LinkCard external={externalEmbed} />}
+            </>
           )}
 
-          {/* Images */}
-          {images.length > 0 && <ImageGrid images={images} />}
-
-          {/* Link card */}
-          {externalEmbed && <LinkCard external={externalEmbed} />}
-
-          {/* Actions */}
-          <PostActions post={post} />
+          {/* Actions + Moderation label */}
+          <div className="flex items-center justify-between mt-2">
+            <PostActions post={post} />
+            {post.labels && post.labels.length > 0 && (
+              <div className="flex items-center gap-1">
+                <Icon name="shield" size={12} className="text-gray-400" />
+                <span className="text-[11px] text-gray-400">
+                  {(post.labels as { val: string }[]).map((l) => l.val).join(", ")}
+                </span>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </article>

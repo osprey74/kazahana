@@ -14,6 +14,7 @@ import { ReadmeView } from "./components/settings/ReadmeView";
 import { LoadingSpinner } from "./components/common/LoadingSpinner";
 import { useAuthStore } from "./stores/authStore";
 import { applyTheme, useSettingsStore } from "./stores/settingsStore";
+import { ModerationProvider } from "./contexts/ModerationContext";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -59,19 +60,21 @@ function AuthGate() {
 
   return (
     <BrowserRouter>
-      <Routes>
-        <Route element={<AppLayout />}>
-          <Route path="/" element={<TimelineView />} />
-          <Route path="/search" element={<SearchView />} />
-          <Route path="/notifications" element={<NotificationList />} />
-          <Route path="/profile" element={<ProfileView />} />
-          <Route path="/profile/:handle" element={<ProfileView />} />
-          <Route path="/post/:uri" element={<ThreadView />} />
-          <Route path="/settings" element={<SettingsView />} />
-          <Route path="/settings/license" element={<LicenseView />} />
-          <Route path="/settings/readme" element={<ReadmeView />} />
-        </Route>
-      </Routes>
+      <ModerationProvider>
+        <Routes>
+          <Route element={<AppLayout />}>
+            <Route path="/" element={<TimelineView />} />
+            <Route path="/search" element={<SearchView />} />
+            <Route path="/notifications" element={<NotificationList />} />
+            <Route path="/profile" element={<ProfileView />} />
+            <Route path="/profile/:handle" element={<ProfileView />} />
+            <Route path="/post/:uri" element={<ThreadView />} />
+            <Route path="/settings" element={<SettingsView />} />
+            <Route path="/settings/license" element={<LicenseView />} />
+            <Route path="/settings/readme" element={<ReadmeView />} />
+          </Route>
+        </Routes>
+      </ModerationProvider>
     </BrowserRouter>
   );
 }

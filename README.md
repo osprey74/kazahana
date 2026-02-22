@@ -22,6 +22,26 @@ Built with Tauri v2, it leverages the OS-native WebView for a low-memory, smooth
 - ⚡ **Fast** — Native app startup speed and responsiveness
 - 🔓 **Open Source** — Freely available under the MIT License
 
+### Implemented
+
+- [x] Timeline with auto-refresh (configurable interval)
+- [x] Reading position marker
+- [x] Post / Reply
+- [x] Like / Repost
+- [x] Image attachments (up to 4, with ALT text)
+- [x] Image lightbox with keyboard navigation
+- [x] Link card (OGP preview)
+- [x] Thread view
+- [x] Notifications (like, repost, follow, mention, reply, quote)
+- [x] User profile / Follow / Unfollow
+- [x] Search (posts & users)
+- [x] Dark / Light / System theme
+- [x] i18n (Japanese / English)
+- [x] Content moderation (label-based filtering, blur, settings)
+- [ ] Quote post
+- [ ] Rich text input (mentions, links)
+- [ ] Desktop notifications
+
 ## Tech Stack
 
 | Technology | Purpose |

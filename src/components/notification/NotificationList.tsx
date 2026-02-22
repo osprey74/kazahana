@@ -1,13 +1,16 @@
 import { useEffect, useMemo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Virtuoso } from "react-virtuoso";
+import { moderateProfile } from "@atproto/api";
 import { useNotifications, useMarkAsRead, useSubjectPosts } from "../../hooks/useNotifications";
+import { useModerationOpts } from "../../contexts/ModerationContext";
 import { NotificationItem } from "./NotificationItem";
 import { LoadingSpinner } from "../common/LoadingSpinner";
 import type { Notification } from "@atproto/api/dist/client/types/app/bsky/notification/listNotifications";
 
 export function NotificationList() {
   const { t } = useTranslation();
+  const moderationOpts = useModerationOpts();
   const {
     data,
     fetchNextPage,
@@ -27,8 +30,13 @@ export function NotificationList() {
 
   const items = useMemo(() => {
     if (!data?.pages) return [];
-    return data.pages.flatMap((page) => page.notifications);
-  }, [data]);
+    const all = data.pages.flatMap((page) => page.notifications);
+    if (!moderationOpts) return all;
+    return all.filter((notification) => {
+      const decision = moderateProfile(notification.author, moderationOpts);
+      return !decision.ui("profileList").filter;
+    });
+  }, [data, moderationOpts]);
 
   const subjectPosts = useSubjectPosts(items);
 
