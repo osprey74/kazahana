@@ -186,6 +186,8 @@ kazahanaは全機能を網羅するスタンドアロンアプリではなく、
 |------|-----|------|
 | プロフィール表示 | `app.bsky.actor.getProfile` | ✅ |
 | ユーザー投稿一覧 | `app.bsky.feed.getAuthorFeed` | ✅ |
+| いいねした投稿一覧 | `app.bsky.feed.getActorLikes` | ✅ |
+| メディア投稿一覧 | `app.bsky.feed.getAuthorFeed` (filter: posts_with_media) | ✅ |
 | フォロー/フォロワー数表示 | `getProfile` レスポンス内 | ✅ |
 | フォロー/解除 | `com.atproto.repo.createRecord` / `deleteRecord` | ✅ |
 | リプライ先コンテキスト | 親ポストをインラインで表示 | ✅ |

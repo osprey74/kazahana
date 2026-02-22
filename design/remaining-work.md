@@ -26,7 +26,7 @@
 - [x] List feed viewing (`getListFeed`)
 - [x] Follower / following lists (`getFollowers` / `getFollows`)
 - [x] Custom feed viewing (`getFeed` / `getFeedGenerator` / `getSuggestedFeeds`)
-- [ ] Liked posts list (`getActorLikes`)
+- [x] Liked posts list (`getActorLikes`)
 - [x] Liked-by users on a post (`getLikes`)
 - [x] Reposted-by users on a post (`getRepostedBy`)
 - [x] Quotes list on a post (`getQuotes`)
@@ -64,7 +64,8 @@
 - [ ] Settings: add "timeline reload interval" and "reload post count" options
 - [x] Home/Notifications/Profile tabs: add manual reload/refresh (Pull-to-refresh統合。リロードボタン / タブクリック / キーボードショートカット等)
 - [ ] Home/Notifications/Profile tabs: infinite scroll to load older posts
-- [ ] Profile: add "Media" and "Lists" tabs (media-only timeline, user-created lists)
+- [x] Profile: add "Likes" and "Media" tabs (liked posts list, media-only timeline)
+- [ ] Profile: add "Lists" tab (user-created lists)
 - [x] Fix dark mode text color (black text unreadable, change to white/light)
 - [x] Notification tab: show source post for like/reply/repost notifications
 - [ ] Thread composition: draft-based thread creation UI (↓+ button to add drafts, navigable draft list with collapsed prev/next posts, click to edit any draft, submit all at once on "投稿" press, sequential API submission for reply chain)

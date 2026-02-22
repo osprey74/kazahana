@@ -33,6 +33,45 @@ export function useAuthorFeed(handle: string) {
   });
 }
 
+export function useActorLikes(handle: string) {
+  return useInfiniteQuery({
+    queryKey: ["actorLikes", handle],
+    queryFn: async ({ pageParam }) => {
+      const agent = getAgent();
+      const res = await agent.getActorLikes({
+        actor: handle,
+        limit: 50,
+        cursor: pageParam as string | undefined,
+      });
+      return res.data;
+    },
+    initialPageParam: undefined as string | undefined,
+    getNextPageParam: (lastPage) => lastPage.cursor,
+    enabled: !!handle,
+    staleTime: 30_000,
+  });
+}
+
+export function useAuthorMediaFeed(handle: string) {
+  return useInfiniteQuery({
+    queryKey: ["authorMediaFeed", handle],
+    queryFn: async ({ pageParam }) => {
+      const agent = getAgent();
+      const res = await agent.getAuthorFeed({
+        actor: handle,
+        limit: 50,
+        cursor: pageParam as string | undefined,
+        filter: "posts_with_media",
+      });
+      return res.data;
+    },
+    initialPageParam: undefined as string | undefined,
+    getNextPageParam: (lastPage) => lastPage.cursor,
+    enabled: !!handle,
+    staleTime: 30_000,
+  });
+}
+
 export function useFollowers(handle: string) {
   return useInfiniteQuery({
     queryKey: ["followers", handle],

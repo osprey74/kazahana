@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Virtuoso } from "react-virtuoso";
 import { moderatePost } from "@atproto/api";
 import type { FeedViewPost } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
-import { useProfile, useAuthorFeed } from "../../hooks/useProfile";
+import { useProfile, useAuthorFeed, useActorLikes, useAuthorMediaFeed } from "../../hooks/useProfile";
 import { useAuthStore } from "../../stores/authStore";
 import { useModerationOpts } from "../../contexts/ModerationContext";
 import { ProfileHeader } from "./ProfileHeader";
@@ -14,7 +14,7 @@ import { FollowingList } from "./FollowingList";
 import { LoadingSpinner } from "../common/LoadingSpinner";
 import { getAgent } from "../../lib/agent";
 
-export type ProfileTab = "posts" | "followers" | "following";
+export type ProfileTab = "posts" | "likes" | "media" | "followers" | "following";
 
 export function ProfileView() {
   const { t } = useTranslation();
@@ -40,15 +40,33 @@ export function ProfileView() {
     refetch: refetchFeed,
   } = useAuthorFeed(resolvedHandle);
 
+  const {
+    data: likesData,
+    fetchNextPage: fetchNextLikes,
+    hasNextPage: hasNextLikes,
+    isFetchingNextPage: isFetchingNextLikes,
+    refetch: refetchLikes,
+  } = useActorLikes(resolvedHandle);
+
+  const {
+    data: mediaData,
+    fetchNextPage: fetchNextMedia,
+    hasNextPage: hasNextMedia,
+    isFetchingNextPage: isFetchingNextMedia,
+    refetch: refetchMedia,
+  } = useAuthorMediaFeed(resolvedHandle);
+
   // Listen for refresh event (tab click / F5 / header button)
   useEffect(() => {
     const handler = () => {
       refetchProfile();
       refetchFeed();
+      refetchLikes();
+      refetchMedia();
     };
     window.addEventListener("kazahana:refresh", handler);
     return () => window.removeEventListener("kazahana:refresh", handler);
-  }, [refetchProfile, refetchFeed]);
+  }, [refetchProfile, refetchFeed, refetchLikes, refetchMedia]);
 
   const isOwnProfile = !handle || handle === authProfile?.handle;
   const moderationOpts = useModerationOpts();
@@ -60,11 +78,37 @@ export function ProfileView() {
     return all.filter((item) => !moderatePost(item.post, moderationOpts).ui("contentList").filter);
   }, [feedData, moderationOpts]);
 
+  const likeItems = useMemo(() => {
+    if (!likesData?.pages) return [];
+    const all = likesData.pages.flatMap((page) => page.feed);
+    if (!moderationOpts) return all;
+    return all.filter((item) => !moderatePost(item.post, moderationOpts).ui("contentList").filter);
+  }, [likesData, moderationOpts]);
+
+  const mediaItems = useMemo(() => {
+    if (!mediaData?.pages) return [];
+    const all = mediaData.pages.flatMap((page) => page.feed);
+    if (!moderationOpts) return all;
+    return all.filter((item) => !moderatePost(item.post, moderationOpts).ui("contentList").filter);
+  }, [mediaData, moderationOpts]);
+
   const loadMore = useCallback(() => {
     if (hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
     }
   }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+
+  const loadMoreLikes = useCallback(() => {
+    if (hasNextLikes && !isFetchingNextLikes) {
+      fetchNextLikes();
+    }
+  }, [hasNextLikes, isFetchingNextLikes, fetchNextLikes]);
+
+  const loadMoreMedia = useCallback(() => {
+    if (hasNextMedia && !isFetchingNextMedia) {
+      fetchNextMedia();
+    }
+  }, [hasNextMedia, isFetchingNextMedia, fetchNextMedia]);
 
   if (profileLoading) return <LoadingSpinner />;
 
@@ -82,7 +126,7 @@ export function ProfileView() {
 
       {/* Tabs */}
       <div className="flex border-b border-border-light dark:border-border-dark">
-        {(["posts", "following", "followers"] as const).map((tabKey) => (
+        {(["posts", "likes", "media", "following", "followers"] as const).map((tabKey) => (
           <button
             key={tabKey}
             onClick={() => setTab(tabKey)}
@@ -118,6 +162,52 @@ export function ProfileView() {
         ) : !items.length ? (
           <div className="flex items-center justify-center py-12 text-gray-400">
             <p>{t("profile.noPosts")}</p>
+          </div>
+        ) : null
+      )}
+      {tab === "likes" && (
+        likeItems.length > 0 && scrollParent ? (
+          <Virtuoso
+            customScrollParent={scrollParent}
+            data={likeItems}
+            endReached={loadMoreLikes}
+            overscan={200}
+            itemContent={(_index, item: FeedViewPost) => (
+              <PostCard feedItem={item} showParentContext />
+            )}
+            components={{
+              Footer: () =>
+                isFetchingNextLikes ? (
+                  <LoadingSpinner />
+                ) : null,
+            }}
+          />
+        ) : !likeItems.length ? (
+          <div className="flex items-center justify-center py-12 text-gray-400">
+            <p>{t("profile.noLikes")}</p>
+          </div>
+        ) : null
+      )}
+      {tab === "media" && (
+        mediaItems.length > 0 && scrollParent ? (
+          <Virtuoso
+            customScrollParent={scrollParent}
+            data={mediaItems}
+            endReached={loadMoreMedia}
+            overscan={200}
+            itemContent={(_index, item: FeedViewPost) => (
+              <PostCard feedItem={item} showParentContext />
+            )}
+            components={{
+              Footer: () =>
+                isFetchingNextMedia ? (
+                  <LoadingSpinner />
+                ) : null,
+            }}
+          />
+        ) : !mediaItems.length ? (
+          <div className="flex items-center justify-center py-12 text-gray-400">
+            <p>{t("profile.noMedia")}</p>
           </div>
         ) : null
       )}
