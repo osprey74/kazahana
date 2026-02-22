@@ -15,15 +15,25 @@ import { LoadingSpinner } from "./components/common/LoadingSpinner";
 import { useAuthStore } from "./stores/authStore";
 import { applyTheme, useSettingsStore } from "./stores/settingsStore";
 import { ModerationProvider } from "./contexts/ModerationContext";
+import { isRateLimitError, getRateLimitDelay } from "./lib/rateLimit";
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       retry: (failureCount, error) => {
-        // Don't retry on auth errors — session refresh is handled by AtpAgent
         const status = (error as { status?: number })?.status;
+        // Don't retry on auth errors — session refresh is handled by AtpAgent
         if (status === 401 || status === 403) return false;
+        // Rate limit: retry up to 3 times with backoff
+        if (isRateLimitError(error)) return failureCount < 3;
         return failureCount < 1;
+      },
+      retryDelay: (attemptIndex, error) => {
+        // Use server-provided delay from ratelimit-reset / retry-after headers
+        const headerDelay = getRateLimitDelay(error);
+        if (headerDelay) return headerDelay;
+        // Exponential backoff: 1s → 2s → 4s (capped at 30s)
+        return Math.min(1000 * 2 ** attemptIndex, 30_000);
       },
       refetchOnWindowFocus: false,
     },

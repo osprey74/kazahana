@@ -48,7 +48,6 @@ Kazahana is designed as a **lightweight, always-running companion app** — not 
 - [x] Custom feeds & list feeds (tab selector)
 - [x] Threadgate & postgate (reply / quote restrictions)
 - [ ] Quote post
-- [ ] Rich text input (mentions, links)
 - [ ] Desktop notifications
 
 ## Tech Stack

@@ -116,7 +116,7 @@ kazahanaは全機能を網羅するスタンドアロンアプリではなく、
 
 #### 対策
 - セッション永続化により createSession 呼び出しを最小化
-- HTTP 429 レスポンス時は `ratelimit-reset` ヘッダーに基づくバックオフ
+- HTTP 429 レスポンス時は `ratelimit-reset` / `retry-after` ヘッダーに基づくバックオフ（最大3回リトライ、指数バックオフ）✅ 実装済
 - React Query の staleTime / refetchInterval を適切に設定
 
 ### 3.3 コンテンツ仕様
@@ -387,6 +387,7 @@ kazahana/
 │   ├── lib/                     # ユーティリティ
 │   │   ├── agent.ts             # BskyAgent設定・管理
 │   │   ├── richtext.ts          # リッチテキストヘルパー
+│   │   ├── rateLimit.ts         # レート制限検出・リトライ遅延ユーティリティ
 │   │   ├── session.ts           # セッション永続化
 │   │   └── constants.ts         # 定数定義
 │   │
