@@ -1,0 +1,119 @@
+{
+  "app": {
+    "title": "kazahana"
+  },
+  "tabs": {
+    "home": "Главная",
+    "search": "Поиск",
+    "notifications": "Уведомления",
+    "profile": "Профиль"
+  },
+  "auth": {
+    "tagline": "Десктопный клиент Bluesky",
+    "handle": "Идентификатор",
+    "handlePlaceholder": "user.bsky.social",
+    "appPassword": "Пароль приложения",
+    "appPasswordPlaceholder": "xxxx-xxxx-xxxx-xxxx",
+    "login": "Войти",
+    "loggingIn": "Вход...",
+    "helpText": "Пароль приложения можно сгенерировать в настройках Bluesky",
+    "loginFailed": "Не удалось войти"
+  },
+  "compose": {
+    "cancel": "Отмена",
+    "post": "Опубликовать",
+    "posting": "Публикация...",
+    "placeholder": "О чём думаете?",
+    "replyPlaceholder": "Написать ответ...",
+    "postFailed": "Не удалось опубликовать",
+    "newPost": "Создать новый пост",
+    "fetchingLink": "Загрузка информации о ссылке...",
+    "generateLinkCard": "Создать карточку ссылки"
+  },
+  "post": {
+    "reposted": "сделал(а) репост",
+    "replyTo": "Ответ для"
+  },
+  "notification": {
+    "liked": "оценил(а) ваш пост",
+    "reposted": "сделал(а) репост вашего поста",
+    "followed": "подписался(-ась) на вас",
+    "mentioned": "упомянул(а) вас",
+    "replied": "ответил(а) на ваш пост",
+    "quoted": "процитировал(а) ваш пост",
+    "empty": "Нет уведомлений",
+    "loadFailed": "Не удалось загрузить уведомления"
+  },
+  "timeline": {
+    "loadFailed": "Не удалось загрузить ленту",
+    "readUpToHere": "↓ Прочитано до этого места ↓"
+  },
+  "thread": {
+    "notFound": "Пост не найден",
+    "back": "Назад"
+  },
+  "common": {
+    "retry": "Повторить"
+  },
+  "moderation": {
+    "postHidden": "Пост скрыт модерацией",
+    "show": "Показать",
+    "contentWarning": "Предупреждение о содержании",
+    "muted": "Заглушённый пользователь",
+    "muteWord": "Содержит заглушённое слово",
+    "blocked": "Заблокированный пользователь",
+    "blockedBy": "Этот пользователь заблокировал вас"
+  },
+  "image": {
+    "addImages": "Добавить изображения (макс. {{max}}, до 1 МБ)",
+    "altPlaceholder": "Текст ALT",
+    "imageLabel": "Изображение {{n}}",
+    "noAlt": "Текст ALT не задан"
+  },
+  "profile": {
+    "follow": "Подписаться",
+    "following": "Подписки",
+    "followers": "Подписчики",
+    "posts": "Посты",
+    "noPosts": "Пока нет постов",
+    "loadFailed": "Не удалось загрузить профиль",
+    "logout": "Выйти"
+  },
+  "search": {
+    "placeholder": "Поиск пользователей или постов...",
+    "posts": "Посты",
+    "users": "Пользователи",
+    "hint": "Введите ключевое слово для поиска",
+    "noResults": "Ничего не найдено",
+    "loadFailed": "Ошибка поиска"
+  },
+  "settings": {
+    "title": "Настройки",
+    "theme": "Тема",
+    "light": "Светлая",
+    "dark": "Тёмная",
+    "system": "Системная",
+    "language": "Язык",
+    "logout": "Выйти",
+    "license": "MIT License",
+    "readme": "README",
+    "version": "v{{version}}",
+    "pollInterval": "Интервал обновления",
+    "pollIntervalUnit": "{{seconds}}с",
+    "supportMessage": "Угостите разработчика кофе",
+    "supportButton": "Поддержать на Ko-fi",
+    "moderation": "Модерация контента",
+    "adultContent": "Показывать контент для взрослых",
+    "label": {
+      "nudity": "Нагота",
+      "sexual": "Сексуально откровенное",
+      "porn": "Порнография",
+      "graphic-media": "Шокирующий контент"
+    },
+    "pref": {
+      "hide": "Скрыть",
+      "warn": "Предупредить",
+      "ignore": "Показать"
+    }
+  }
+}

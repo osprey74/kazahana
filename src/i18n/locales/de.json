@@ -1,0 +1,119 @@
+{
+  "app": {
+    "title": "kazahana"
+  },
+  "tabs": {
+    "home": "Startseite",
+    "search": "Suche",
+    "notifications": "Benachrichtigungen",
+    "profile": "Profil"
+  },
+  "auth": {
+    "tagline": "Bluesky-Desktop-Client",
+    "handle": "Handle",
+    "handlePlaceholder": "benutzer.bsky.social",
+    "appPassword": "App-Passwort",
+    "appPasswordPlaceholder": "xxxx-xxxx-xxxx-xxxx",
+    "login": "Anmelden",
+    "loggingIn": "Anmeldung läuft...",
+    "helpText": "Du kannst ein App-Passwort in den Bluesky-Einstellungen erstellen",
+    "loginFailed": "Anmeldung fehlgeschlagen"
+  },
+  "compose": {
+    "cancel": "Abbrechen",
+    "post": "Posten",
+    "posting": "Wird gepostet...",
+    "placeholder": "Was beschäftigt dich gerade?",
+    "replyPlaceholder": "Antwort schreiben...",
+    "postFailed": "Posten fehlgeschlagen",
+    "newPost": "Neuen Beitrag erstellen",
+    "fetchingLink": "Link-Informationen werden abgerufen...",
+    "generateLinkCard": "Linkkarte erstellen"
+  },
+  "post": {
+    "reposted": "hat geteilt",
+    "replyTo": "Antwort an"
+  },
+  "notification": {
+    "liked": "gefällt dein Beitrag",
+    "reposted": "hat deinen Beitrag geteilt",
+    "followed": "folgt dir jetzt",
+    "mentioned": "hat dich erwähnt",
+    "replied": "hat auf deinen Beitrag geantwortet",
+    "quoted": "hat deinen Beitrag zitiert",
+    "empty": "Keine Benachrichtigungen",
+    "loadFailed": "Benachrichtigungen konnten nicht geladen werden"
+  },
+  "timeline": {
+    "loadFailed": "Timeline konnte nicht geladen werden",
+    "readUpToHere": "↓ Bis hier gelesen ↓"
+  },
+  "thread": {
+    "notFound": "Beitrag nicht gefunden",
+    "back": "Zurück"
+  },
+  "common": {
+    "retry": "Erneut versuchen"
+  },
+  "moderation": {
+    "postHidden": "Beitrag durch Moderation ausgeblendet",
+    "show": "Anzeigen",
+    "contentWarning": "Inhaltswarnung",
+    "muted": "Stummgeschalteter Nutzer",
+    "muteWord": "Enthält stummgeschaltetes Wort",
+    "blocked": "Blockierter Nutzer",
+    "blockedBy": "Dieser Nutzer hat dich blockiert"
+  },
+  "image": {
+    "addImages": "Bilder hinzufügen (max. {{max}}, unter 1 MB)",
+    "altPlaceholder": "ALT-Text",
+    "imageLabel": "Bild {{n}}",
+    "noAlt": "Kein ALT-Text vorhanden"
+  },
+  "profile": {
+    "follow": "Folgen",
+    "following": "Folge ich",
+    "followers": "Follower",
+    "posts": "Beiträge",
+    "noPosts": "Noch keine Beiträge",
+    "loadFailed": "Profil konnte nicht geladen werden",
+    "logout": "Abmelden"
+  },
+  "search": {
+    "placeholder": "Nutzer oder Beiträge suchen...",
+    "posts": "Beiträge",
+    "users": "Nutzer",
+    "hint": "Suchbegriff eingeben",
+    "noResults": "Keine Ergebnisse gefunden",
+    "loadFailed": "Suche fehlgeschlagen"
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "theme": "Design",
+    "light": "Hell",
+    "dark": "Dunkel",
+    "system": "System",
+    "language": "Sprache",
+    "logout": "Abmelden",
+    "license": "MIT License",
+    "readme": "README",
+    "version": "v{{version}}",
+    "pollInterval": "Aktualisierungsintervall",
+    "pollIntervalUnit": "{{seconds}}s",
+    "supportMessage": "Spendiere dem Entwickler einen Kaffee",
+    "supportButton": "Auf Ko-fi unterstützen",
+    "moderation": "Inhaltsmoderation",
+    "adultContent": "Inhalte für Erwachsene aktivieren",
+    "label": {
+      "nudity": "Nacktheit",
+      "sexual": "Sexuell anzüglich",
+      "porn": "Pornografie",
+      "graphic-media": "Drastische Medien"
+    },
+    "pref": {
+      "hide": "Ausblenden",
+      "warn": "Warnen",
+      "ignore": "Anzeigen"
+    }
+  }
+}

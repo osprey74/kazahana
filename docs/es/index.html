@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>kazahana - Cliente Bluesky Ligero para Escritorio</title>
+  <meta name="description" content="kazahana es un cliente de escritorio ligero para Bluesky. Construido con tecnolog&iacute;a nativa del sistema operativo para un uso m&iacute;nimo de memoria.">
+  <link rel="icon" href="../images/icon.png" type="image/png">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="../js/theme.js"></script>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <a href="#" class="header-logo">
+        <img src="../images/icon.png" alt="kazahana">
+        <span>kazahana</span>
+      </a>
+      <div class="header-controls">
+        <select class="lang-select" id="lang-select" aria-label="Language">
+          <option value="ja">日本語</option>
+          <option value="en">English</option>
+          <option value="pt-BR">Portugu&ecirc;s</option>
+          <option value="de">Deutsch</option>
+          <option value="zh-TW">繁體中文</option>
+          <option value="zh-CN">简体中文</option>
+          <option value="fr">Fran&ccedil;ais</option>
+          <option value="ko">한국어</option>
+          <option value="es" selected>Espa&ntilde;ol</option>
+          <option value="ru">Русский</option>
+          <option value="id">Bahasa Indonesia</option>
+        </select>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+          <span class="material-symbols-rounded">dark_mode</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-inner">
+      <img src="../images/icon.png" alt="kazahana" class="hero-icon">
+      <h1>Ligero. R&aacute;pido.<br>Una mejor forma de usar Bluesky.</h1>
+      <p>kazahana es un cliente de escritorio ligero para Bluesky.<br>Construido con tecnolog&iacute;a nativa del sistema operativo para un uso m&iacute;nimo de memoria.<br>Tu experiencia en Bluesky, simplificada.</p>
+      <div class="hero-buttons">
+        <a href="https://github.com/osprey74/kazahana/releases/latest" class="btn-hero btn-hero-primary">
+          <span class="material-symbols-rounded">desktop_windows</span>
+          Descargar para Windows
+        </a>
+        <a href="https://github.com/osprey74/kazahana/releases/latest" class="btn-hero btn-hero-primary">
+          <span class="material-symbols-rounded">laptop_mac</span>
+          Descargar para macOS
+        </a>
+      </div>
+      <p class="hero-note">Gratuito y de c&oacute;digo abierto (Licencia MIT)</p>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="section section-alt">
+    <div class="section-inner">
+      <h2 class="section-title">Caracter&iacute;sticas</h2>
+      <p class="section-desc">Cuatro razones por las que kazahana mejora tu experiencia diaria en Bluesky</p>
+      <div class="features-grid">
+        <div class="feature-card">
+          <span class="material-symbols-rounded feature-icon">memory</span>
+          <h3>Ligero</h3>
+          <p>Utiliza el WebView nativo de tu sistema operativo, reduciendo dr&aacute;sticamente el uso de memoria en comparaci&oacute;n con PWA. Tu PC sigue r&aacute;pido, incluso tras horas de uso.</p>
+        </div>
+        <div class="feature-card">
+          <span class="material-symbols-rounded feature-icon">bolt</span>
+          <h3>R&aacute;pido</h3>
+          <p>Velocidad de inicio de una aplicaci&oacute;n nativa. Carga fluida de la l&iacute;nea de tiempo sin esperas &mdash; navega por tu feed sin fricciones.</p>
+        </div>
+        <div class="feature-card">
+          <span class="material-symbols-rounded feature-icon">dashboard</span>
+          <h3>Simple</h3>
+          <p>Una interfaz limpia de una sola columna. L&iacute;nea de tiempo, publicaciones, notificaciones, b&uacute;squeda y perfil &mdash; todo lo que necesitas, sin nada de m&aacute;s.</p>
+        </div>
+        <div class="feature-card">
+          <span class="material-symbols-rounded feature-icon">translate</span>
+          <h3>Multiling&uuml;e</h3>
+          <p>Compatible con 11 idiomas, incluyendo espa&ntilde;ol y japon&eacute;s. Los usuarios de Bluesky de todo el mundo pueden usar kazahana en su idioma nativo.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Screenshots -->
+  <section class="section">
+    <div class="section-inner">
+      <h2 class="section-title">Capturas de pantalla</h2>
+      <p class="section-desc">Una interfaz limpia y legible. Modo oscuro incluido.</p>
+      <div class="screenshots-grid">
+        <div>
+          <div class="screenshot-placeholder">Coming soon</div>
+          <p class="screenshot-label">Modo claro</p>
+        </div>
+        <div>
+          <div class="screenshot-placeholder">Coming soon</div>
+          <p class="screenshot-label">Modo oscuro</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Download -->
+  <section class="section section-alt">
+    <div class="section-inner">
+      <h2 class="section-title">Descarga</h2>
+      <p class="section-desc">kazahana est&aacute; disponible para Windows y macOS.</p>
+      <div class="download-grid">
+        <div class="download-card">
+          <span class="material-symbols-rounded">desktop_windows</span>
+          <h3>Windows</h3>
+          <p class="download-info">Windows 10 / 11<br>Instalador .msi</p>
+          <a href="https://github.com/osprey74/kazahana/releases/latest" class="btn-download">
+            <span class="material-symbols-rounded">download</span>
+            Descargar
+          </a>
+        </div>
+        <div class="download-card">
+          <span class="material-symbols-rounded">laptop_mac</span>
+          <h3>macOS</h3>
+          <p class="download-info">macOS 12 Monterey o posterior<br>Imagen de disco .dmg</p>
+          <a href="https://github.com/osprey74/kazahana/releases/latest" class="btn-download">
+            <span class="material-symbols-rounded">download</span>
+            Descargar
+          </a>
+        </div>
+      </div>
+      <p class="download-note">Todas las versiones est&aacute;n disponibles en <a href="https://github.com/osprey74/kazahana/releases">GitHub Releases</a>.</p>
+    </div>
+  </section>
+
+  <!-- Support -->
+  <section class="section">
+    <div class="section-inner">
+      <h2 class="section-title">Apoyo</h2>
+      <p class="section-desc">kazahana es un proyecto de c&oacute;digo abierto. Si deseas apoyar el desarrollo continuo, as&iacute; puedes ayudar.</p>
+      <div class="support-grid">
+        <div class="support-card">
+          <span class="support-emoji">&#9749;</span>
+          <h3>Ko-fi</h3>
+          <p>Inv&iacute;tale un caf&eacute; al desarrollador</p>
+          <a href="https://ko-fi.com/osprey74" class="btn-support" target="_blank" rel="noopener noreferrer">Apoyar en Ko-fi</a>
+        </div>
+        <div class="support-card">
+          <span class="support-emoji">&#128150;</span>
+          <h3>GitHub Sponsors</h3>
+          <p>Apoya el desarrollo con un patrocinio mensual</p>
+          <a href="https://github.com/sponsors/osprey74" class="btn-support" target="_blank" rel="noopener noreferrer">GitHub Sponsors</a>
+        </div>
+      </div>
+      <div class="contact-box">
+        <span class="material-symbols-rounded">mail</span>
+        <div>
+          <h3>Contacto</h3>
+          <p>Para reportes de errores y solicitudes de funciones, utiliza <a href="https://github.com/osprey74/kazahana/issues" target="_blank" rel="noopener noreferrer">GitHub Issues</a>.<br>Para otras consultas, cont&aacute;ctanos en <a href="mailto:kazahana.app@gmail.com">kazahana.app@gmail.com</a>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <p class="footer-brand">kazahana &mdash; Cliente Bluesky Ligero para Escritorio</p>
+      <p class="footer-links">
+        <a href="https://github.com/osprey74/kazahana" target="_blank" rel="noopener noreferrer">GitHub</a> &middot;
+        Licencia: <a href="https://github.com/osprey74/kazahana/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">MIT</a> &middot;
+        &copy; 2025 osprey74
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("lang-select").addEventListener("change", function () {
+      window.location.href = "../" + this.value + "/";
+    });
+  </script>
+
+</body>
+</html>

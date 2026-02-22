@@ -1,0 +1,119 @@
+{
+  "app": {
+    "title": "kazahana"
+  },
+  "tabs": {
+    "home": "홈",
+    "search": "검색",
+    "notifications": "알림",
+    "profile": "프로필"
+  },
+  "auth": {
+    "tagline": "Bluesky 데스크톱 클라이언트",
+    "handle": "핸들",
+    "handlePlaceholder": "user.bsky.social",
+    "appPassword": "앱 비밀번호",
+    "appPasswordPlaceholder": "xxxx-xxxx-xxxx-xxxx",
+    "login": "로그인",
+    "loggingIn": "로그인 중…",
+    "helpText": "Bluesky 설정에서 앱 비밀번호를 생성할 수 있습니다",
+    "loginFailed": "로그인 실패"
+  },
+  "compose": {
+    "cancel": "취소",
+    "post": "게시",
+    "posting": "게시 중…",
+    "placeholder": "무슨 생각을 하고 계신가요?",
+    "replyPlaceholder": "답글을 작성하세요…",
+    "postFailed": "게시 실패",
+    "newPost": "새 게시물 작성",
+    "fetchingLink": "링크 정보를 가져오는 중…",
+    "generateLinkCard": "링크 카드 생성"
+  },
+  "post": {
+    "reposted": "님이 리포스트함",
+    "replyTo": "답글 대상"
+  },
+  "notification": {
+    "liked": "님이 게시물을 좋아합니다",
+    "reposted": "님이 게시물을 리포스트했습니다",
+    "followed": "님이 팔로우했습니다",
+    "mentioned": "님이 회원님을 언급했습니다",
+    "replied": "님이 게시물에 답글을 남겼습니다",
+    "quoted": "님이 게시물을 인용했습니다",
+    "empty": "알림이 없습니다",
+    "loadFailed": "알림을 불러오지 못했습니다"
+  },
+  "timeline": {
+    "loadFailed": "타임라인을 불러오지 못했습니다",
+    "readUpToHere": "↓ 여기까지 읽었습니다 ↓"
+  },
+  "thread": {
+    "notFound": "게시물을 찾을 수 없습니다",
+    "back": "뒤로"
+  },
+  "common": {
+    "retry": "다시 시도"
+  },
+  "moderation": {
+    "postHidden": "콘텐츠 관리에 의해 숨겨진 게시물",
+    "show": "보기",
+    "contentWarning": "콘텐츠 경고",
+    "muted": "뮤트된 사용자",
+    "muteWord": "뮤트된 단어 포함",
+    "blocked": "차단된 사용자",
+    "blockedBy": "이 사용자가 회원님을 차단했습니다"
+  },
+  "image": {
+    "addImages": "이미지 추가 (최대 {{max}}장, 1MB 이하)",
+    "altPlaceholder": "ALT 텍스트",
+    "imageLabel": "이미지 {{n}}",
+    "noAlt": "ALT 텍스트가 설정되지 않았습니다"
+  },
+  "profile": {
+    "follow": "팔로우",
+    "following": "팔로잉",
+    "followers": "팔로워",
+    "posts": "게시물",
+    "noPosts": "게시물이 없습니다",
+    "loadFailed": "프로필을 불러오지 못했습니다",
+    "logout": "로그아웃"
+  },
+  "search": {
+    "placeholder": "사용자 또는 게시물 검색…",
+    "posts": "게시물",
+    "users": "사용자",
+    "hint": "검색어를 입력하세요",
+    "noResults": "검색 결과가 없습니다",
+    "loadFailed": "검색에 실패했습니다"
+  },
+  "settings": {
+    "title": "설정",
+    "theme": "테마",
+    "light": "라이트",
+    "dark": "다크",
+    "system": "시스템",
+    "language": "언어",
+    "logout": "로그아웃",
+    "license": "MIT License",
+    "readme": "README",
+    "version": "v{{version}}",
+    "pollInterval": "새로고침 간격",
+    "pollIntervalUnit": "{{seconds}}초",
+    "supportMessage": "개발자에게 커피 한 잔 사주기",
+    "supportButton": "Ko-fi에서 후원하기",
+    "moderation": "콘텐츠 관리",
+    "adultContent": "성인 콘텐츠 허용",
+    "label": {
+      "nudity": "노출",
+      "sexual": "선정적 콘텐츠",
+      "porn": "포르노",
+      "graphic-media": "폭력적 미디어"
+    },
+    "pref": {
+      "hide": "숨기기",
+      "warn": "경고",
+      "ignore": "표시"
+    }
+  }
+}

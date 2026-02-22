@@ -1,0 +1,119 @@
+{
+  "app": {
+    "title": "kazahana"
+  },
+  "tabs": {
+    "home": "Beranda",
+    "search": "Cari",
+    "notifications": "Notifikasi",
+    "profile": "Profil"
+  },
+  "auth": {
+    "tagline": "Klien Desktop Bluesky",
+    "handle": "Handle",
+    "handlePlaceholder": "pengguna.bsky.social",
+    "appPassword": "Kata Sandi Aplikasi",
+    "appPasswordPlaceholder": "xxxx-xxxx-xxxx-xxxx",
+    "login": "Masuk",
+    "loggingIn": "Sedang masuk...",
+    "helpText": "Anda dapat membuat kata sandi aplikasi dari pengaturan Bluesky",
+    "loginFailed": "Gagal masuk"
+  },
+  "compose": {
+    "cancel": "Batal",
+    "post": "Posting",
+    "posting": "Memposting...",
+    "placeholder": "Apa yang sedang Anda pikirkan?",
+    "replyPlaceholder": "Tulis balasan...",
+    "postFailed": "Gagal memposting",
+    "newPost": "Buat postingan baru",
+    "fetchingLink": "Mengambil info tautan...",
+    "generateLinkCard": "Buat kartu tautan"
+  },
+  "post": {
+    "reposted": "memposting ulang",
+    "replyTo": "Membalas"
+  },
+  "notification": {
+    "liked": "menyukai postingan Anda",
+    "reposted": "memposting ulang postingan Anda",
+    "followed": "mengikuti Anda",
+    "mentioned": "menyebut Anda",
+    "replied": "membalas postingan Anda",
+    "quoted": "mengutip postingan Anda",
+    "empty": "Tidak ada notifikasi",
+    "loadFailed": "Gagal memuat notifikasi"
+  },
+  "timeline": {
+    "loadFailed": "Gagal memuat linimasa",
+    "readUpToHere": "↓ Sudah dibaca sampai sini ↓"
+  },
+  "thread": {
+    "notFound": "Postingan tidak ditemukan",
+    "back": "Kembali"
+  },
+  "common": {
+    "retry": "Coba lagi"
+  },
+  "moderation": {
+    "postHidden": "Postingan disembunyikan oleh moderasi",
+    "show": "Tampilkan",
+    "contentWarning": "Peringatan konten",
+    "muted": "Pengguna dibisukan",
+    "muteWord": "Mengandung kata yang dibisukan",
+    "blocked": "Pengguna diblokir",
+    "blockedBy": "Pengguna ini telah memblokir Anda"
+  },
+  "image": {
+    "addImages": "Tambah gambar (maks. {{max}}, di bawah 1 MB)",
+    "altPlaceholder": "Teks ALT",
+    "imageLabel": "Gambar {{n}}",
+    "noAlt": "Teks ALT belum diisi"
+  },
+  "profile": {
+    "follow": "Ikuti",
+    "following": "Mengikuti",
+    "followers": "Pengikut",
+    "posts": "Postingan",
+    "noPosts": "Belum ada postingan",
+    "loadFailed": "Gagal memuat profil",
+    "logout": "Keluar"
+  },
+  "search": {
+    "placeholder": "Cari pengguna atau postingan...",
+    "posts": "Postingan",
+    "users": "Pengguna",
+    "hint": "Masukkan kata kunci untuk mencari",
+    "noResults": "Tidak ada hasil",
+    "loadFailed": "Pencarian gagal"
+  },
+  "settings": {
+    "title": "Pengaturan",
+    "theme": "Tema",
+    "light": "Terang",
+    "dark": "Gelap",
+    "system": "Sistem",
+    "language": "Bahasa",
+    "logout": "Keluar",
+    "license": "MIT License",
+    "readme": "README",
+    "version": "v{{version}}",
+    "pollInterval": "Interval pembaruan",
+    "pollIntervalUnit": "{{seconds}}d",
+    "supportMessage": "Traktir developer secangkir kopi",
+    "supportButton": "Dukung di Ko-fi",
+    "moderation": "Moderasi Konten",
+    "adultContent": "Aktifkan konten dewasa",
+    "label": {
+      "nudity": "Ketelanjangan",
+      "sexual": "Konten Sugestif Seksual",
+      "porn": "Pornografi",
+      "graphic-media": "Media Grafis"
+    },
+    "pref": {
+      "hide": "Sembunyikan",
+      "warn": "Peringatkan",
+      "ignore": "Tampilkan"
+    }
+  }
+}

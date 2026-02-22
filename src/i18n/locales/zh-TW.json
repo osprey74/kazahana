@@ -1,0 +1,119 @@
+{
+  "app": {
+    "title": "kazahana"
+  },
+  "tabs": {
+    "home": "首頁",
+    "search": "搜尋",
+    "notifications": "通知",
+    "profile": "個人檔案"
+  },
+  "auth": {
+    "tagline": "Bluesky 桌面用戶端",
+    "handle": "帳號代碼",
+    "handlePlaceholder": "user.bsky.social",
+    "appPassword": "應用程式密碼",
+    "appPasswordPlaceholder": "xxxx-xxxx-xxxx-xxxx",
+    "login": "登入",
+    "loggingIn": "登入中...",
+    "helpText": "您可以在 Bluesky 設定中產生應用程式密碼",
+    "loginFailed": "登入失敗"
+  },
+  "compose": {
+    "cancel": "取消",
+    "post": "發佈",
+    "posting": "發佈中...",
+    "placeholder": "在想些什麼？",
+    "replyPlaceholder": "撰寫回覆...",
+    "postFailed": "發佈失敗",
+    "newPost": "建立新貼文",
+    "fetchingLink": "正在取得連結資訊...",
+    "generateLinkCard": "產生連結卡片"
+  },
+  "post": {
+    "reposted": "轉發了",
+    "replyTo": "回覆給"
+  },
+  "notification": {
+    "liked": "對你的貼文按讚",
+    "reposted": "轉發了你的貼文",
+    "followed": "追蹤了你",
+    "mentioned": "提及了你",
+    "replied": "回覆了你的貼文",
+    "quoted": "引用了你的貼文",
+    "empty": "沒有通知",
+    "loadFailed": "無法載入通知"
+  },
+  "timeline": {
+    "loadFailed": "無法載入時間軸",
+    "readUpToHere": "↓ 已讀到這裡 ↓"
+  },
+  "thread": {
+    "notFound": "找不到貼文",
+    "back": "返回"
+  },
+  "common": {
+    "retry": "重試"
+  },
+  "moderation": {
+    "postHidden": "此貼文已被內容審核隱藏",
+    "show": "顯示",
+    "contentWarning": "內容警告",
+    "muted": "已靜音的使用者",
+    "muteWord": "包含靜音詞彙",
+    "blocked": "已封鎖的使用者",
+    "blockedBy": "此使用者已將你封鎖"
+  },
+  "image": {
+    "addImages": "新增圖片（最多 {{max}} 張，1MB 以下）",
+    "altPlaceholder": "ALT 替代文字",
+    "imageLabel": "圖片 {{n}}",
+    "noAlt": "未設定 ALT 替代文字"
+  },
+  "profile": {
+    "follow": "追蹤",
+    "following": "正在追蹤",
+    "followers": "追蹤者",
+    "posts": "貼文",
+    "noPosts": "尚無貼文",
+    "loadFailed": "無法載入個人檔案",
+    "logout": "登出"
+  },
+  "search": {
+    "placeholder": "搜尋使用者或貼文...",
+    "posts": "貼文",
+    "users": "使用者",
+    "hint": "輸入關鍵字進行搜尋",
+    "noResults": "找不到結果",
+    "loadFailed": "搜尋失敗"
+  },
+  "settings": {
+    "title": "設定",
+    "theme": "佈景主題",
+    "light": "淺色",
+    "dark": "深色",
+    "system": "跟隨系統",
+    "language": "語言",
+    "logout": "登出",
+    "license": "MIT License",
+    "readme": "README",
+    "version": "v{{version}}",
+    "pollInterval": "自動更新間隔",
+    "pollIntervalUnit": "{{seconds}} 秒",
+    "supportMessage": "請開發者喝杯咖啡",
+    "supportButton": "在 Ko-fi 上贊助",
+    "moderation": "內容審核",
+    "adultContent": "啟用成人內容",
+    "label": {
+      "nudity": "裸露",
+      "sexual": "性暗示",
+      "porn": "色情內容",
+      "graphic-media": "血腥媒體"
+    },
+    "pref": {
+      "hide": "隱藏",
+      "warn": "警告",
+      "ignore": "顯示"
+    }
+  }
+}

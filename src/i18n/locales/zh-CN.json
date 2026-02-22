@@ -1,0 +1,119 @@
+{
+  "app": {
+    "title": "kazahana"
+  },
+  "tabs": {
+    "home": "首页",
+    "search": "搜索",
+    "notifications": "通知",
+    "profile": "个人资料"
+  },
+  "auth": {
+    "tagline": "Bluesky 桌面客户端",
+    "handle": "用户名",
+    "handlePlaceholder": "user.bsky.social",
+    "appPassword": "应用专用密码",
+    "appPasswordPlaceholder": "xxxx-xxxx-xxxx-xxxx",
+    "login": "登录",
+    "loggingIn": "正在登录…",
+    "helpText": "您可以在 Bluesky 设置中生成应用专用密码",
+    "loginFailed": "登录失败"
+  },
+  "compose": {
+    "cancel": "取消",
+    "post": "发布",
+    "posting": "正在发布…",
+    "placeholder": "有什么想说的？",
+    "replyPlaceholder": "写下你的回复…",
+    "postFailed": "发布失败",
+    "newPost": "发布新帖子",
+    "fetchingLink": "正在获取链接信息…",
+    "generateLinkCard": "生成链接卡片"
+  },
+  "post": {
+    "reposted": "转发了",
+    "replyTo": "回复"
+  },
+  "notification": {
+    "liked": "赞了你的帖子",
+    "reposted": "转发了你的帖子",
+    "followed": "关注了你",
+    "mentioned": "提到了你",
+    "replied": "回复了你的帖子",
+    "quoted": "引用了你的帖子",
+    "empty": "暂无通知",
+    "loadFailed": "通知加载失败"
+  },
+  "timeline": {
+    "loadFailed": "时间线加载失败",
+    "readUpToHere": "↓ 已读到此处 ↓"
+  },
+  "thread": {
+    "notFound": "帖子未找到",
+    "back": "返回"
+  },
+  "common": {
+    "retry": "重试"
+  },
+  "moderation": {
+    "postHidden": "此帖子已被内容审核隐藏",
+    "show": "显示",
+    "contentWarning": "内容警告",
+    "muted": "已静音的用户",
+    "muteWord": "包含已屏蔽的词语",
+    "blocked": "已屏蔽的用户",
+    "blockedBy": "该用户已屏蔽你"
+  },
+  "image": {
+    "addImages": "添加图片（最多 {{max}} 张，每张不超过 1MB）",
+    "altPlaceholder": "ALT 文字",
+    "imageLabel": "图片 {{n}}",
+    "noAlt": "未设置 ALT 文字"
+  },
+  "profile": {
+    "follow": "关注",
+    "following": "正在关注",
+    "followers": "粉丝",
+    "posts": "帖子",
+    "noPosts": "暂无帖子",
+    "loadFailed": "个人资料加载失败",
+    "logout": "退出登录"
+  },
+  "search": {
+    "placeholder": "搜索用户或帖子…",
+    "posts": "帖子",
+    "users": "用户",
+    "hint": "输入关键词进行搜索",
+    "noResults": "未找到相关结果",
+    "loadFailed": "搜索失败"
+  },
+  "settings": {
+    "title": "设置",
+    "theme": "主题",
+    "light": "浅色",
+    "dark": "深色",
+    "system": "跟随系统",
+    "language": "语言",
+    "logout": "退出登录",
+    "license": "MIT License",
+    "readme": "README",
+    "version": "v{{version}}",
+    "pollInterval": "刷新间隔",
+    "pollIntervalUnit": "{{seconds}}秒",
+    "supportMessage": "请开发者喝杯咖啡",
+    "supportButton": "在 Ko-fi 上支持",
+    "moderation": "内容审核",
+    "adultContent": "启用成人内容",
+    "label": {
+      "nudity": "裸露",
+      "sexual": "性暗示",
+      "porn": "色情内容",
+      "graphic-media": "血腥媒体"
+    },
+    "pref": {
+      "hide": "隐藏",
+      "warn": "警告",
+      "ignore": "显示"
+    }
+  }
+}

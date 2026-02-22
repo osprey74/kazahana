@@ -1,0 +1,119 @@
+{
+  "app": {
+    "title": "kazahana"
+  },
+  "tabs": {
+    "home": "Início",
+    "search": "Buscar",
+    "notifications": "Notificações",
+    "profile": "Perfil"
+  },
+  "auth": {
+    "tagline": "Cliente Desktop para Bluesky",
+    "handle": "Identificador",
+    "handlePlaceholder": "usuario.bsky.social",
+    "appPassword": "Senha de app",
+    "appPasswordPlaceholder": "xxxx-xxxx-xxxx-xxxx",
+    "login": "Entrar",
+    "loggingIn": "Entrando...",
+    "helpText": "Você pode gerar uma senha de app nas configurações do Bluesky",
+    "loginFailed": "Falha ao entrar"
+  },
+  "compose": {
+    "cancel": "Cancelar",
+    "post": "Publicar",
+    "posting": "Publicando...",
+    "placeholder": "No que você está pensando?",
+    "replyPlaceholder": "Escreva uma resposta...",
+    "postFailed": "Falha ao publicar",
+    "newPost": "Nova publicação",
+    "fetchingLink": "Obtendo informações do link...",
+    "generateLinkCard": "Gerar cartão de link"
+  },
+  "post": {
+    "reposted": "repostou",
+    "replyTo": "Respondendo a"
+  },
+  "notification": {
+    "liked": "curtiu sua publicação",
+    "reposted": "repostou sua publicação",
+    "followed": "seguiu você",
+    "mentioned": "mencionou você",
+    "replied": "respondeu à sua publicação",
+    "quoted": "citou sua publicação",
+    "empty": "Nenhuma notificação",
+    "loadFailed": "Falha ao carregar notificações"
+  },
+  "timeline": {
+    "loadFailed": "Falha ao carregar a timeline",
+    "readUpToHere": "↓ Lido até aqui ↓"
+  },
+  "thread": {
+    "notFound": "Publicação não encontrada",
+    "back": "Voltar"
+  },
+  "common": {
+    "retry": "Tentar novamente"
+  },
+  "moderation": {
+    "postHidden": "Publicação ocultada pela moderação",
+    "show": "Mostrar",
+    "contentWarning": "Aviso de conteúdo",
+    "muted": "Usuário silenciado",
+    "muteWord": "Contém palavra silenciada",
+    "blocked": "Usuário bloqueado",
+    "blockedBy": "Este usuário bloqueou você"
+  },
+  "image": {
+    "addImages": "Adicionar imagens (máx. {{max}}, até 1MB)",
+    "altPlaceholder": "Texto ALT",
+    "imageLabel": "Imagem {{n}}",
+    "noAlt": "Texto ALT não definido"
+  },
+  "profile": {
+    "follow": "Seguir",
+    "following": "Seguindo",
+    "followers": "Seguidores",
+    "posts": "Publicações",
+    "noPosts": "Nenhuma publicação ainda",
+    "loadFailed": "Falha ao carregar perfil",
+    "logout": "Sair"
+  },
+  "search": {
+    "placeholder": "Buscar usuários ou publicações...",
+    "posts": "Publicações",
+    "users": "Usuários",
+    "hint": "Digite uma palavra-chave para buscar",
+    "noResults": "Nenhum resultado encontrado",
+    "loadFailed": "Falha na busca"
+  },
+  "settings": {
+    "title": "Configurações",
+    "theme": "Tema",
+    "light": "Claro",
+    "dark": "Escuro",
+    "system": "Sistema",
+    "language": "Idioma",
+    "logout": "Sair",
+    "license": "MIT License",
+    "readme": "README",
+    "version": "v{{version}}",
+    "pollInterval": "Intervalo de atualização",
+    "pollIntervalUnit": "{{seconds}}s",
+    "supportMessage": "Pague um café para o desenvolvedor",
+    "supportButton": "Apoiar no Ko-fi",
+    "moderation": "Moderação de conteúdo",
+    "adultContent": "Ativar conteúdo adulto",
+    "label": {
+      "nudity": "Nudez",
+      "sexual": "Sexualmente sugestivo",
+      "porn": "Pornografia",
+      "graphic-media": "Mídia gráfica"
+    },
+    "pref": {
+      "hide": "Ocultar",
+      "warn": "Avisar",
+      "ignore": "Mostrar"
+    }
+  }
+}

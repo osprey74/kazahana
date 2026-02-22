@@ -176,24 +176,23 @@ export function SettingsView() {
       {/* Language */}
       <section className="mb-6">
         <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t("settings.language")}</h3>
-        <div className="flex gap-2">
-          {[
-            { code: "ja", label: "日本語" },
-            { code: "en", label: "English" },
-          ].map((lang) => (
-            <button
-              key={lang.code}
-              onClick={() => handleLanguageChange(lang.code)}
-              className={`px-4 py-2 text-sm rounded-btn transition-colors ${
-                i18n.language.startsWith(lang.code)
-                  ? "bg-primary text-white"
-                  : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
-              }`}
-            >
-              {lang.label}
-            </button>
-          ))}
-        </div>
+        <select
+          value={i18n.language}
+          onChange={(e) => handleLanguageChange(e.target.value)}
+          className="px-3 py-2 text-sm rounded-btn border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 cursor-pointer"
+        >
+          <option value="ja">日本語</option>
+          <option value="en">English</option>
+          <option value="pt">Português</option>
+          <option value="de">Deutsch</option>
+          <option value="zh-TW">繁體中文</option>
+          <option value="zh-CN">简体中文</option>
+          <option value="fr">Français</option>
+          <option value="ko">한국어</option>
+          <option value="es">Español</option>
+          <option value="ru">Русский</option>
+          <option value="id">Bahasa Indonesia</option>
+        </select>
       </section>
 
       {/* Logout */}

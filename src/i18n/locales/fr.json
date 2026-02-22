@@ -1,0 +1,119 @@
+{
+  "app": {
+    "title": "kazahana"
+  },
+  "tabs": {
+    "home": "Accueil",
+    "search": "Rechercher",
+    "notifications": "Notifications",
+    "profile": "Profil"
+  },
+  "auth": {
+    "tagline": "Client de bureau Bluesky",
+    "handle": "Identifiant",
+    "handlePlaceholder": "user.bsky.social",
+    "appPassword": "Mot de passe d'application",
+    "appPasswordPlaceholder": "xxxx-xxxx-xxxx-xxxx",
+    "login": "Se connecter",
+    "loggingIn": "Connexion en cours…",
+    "helpText": "Vous pouvez générer un mot de passe d'application depuis les paramètres de Bluesky",
+    "loginFailed": "Échec de la connexion"
+  },
+  "compose": {
+    "cancel": "Annuler",
+    "post": "Publier",
+    "posting": "Publication en cours…",
+    "placeholder": "Quoi de neuf ?",
+    "replyPlaceholder": "Écrivez une réponse…",
+    "postFailed": "Échec de la publication",
+    "newPost": "Créer une publication",
+    "fetchingLink": "Récupération des infos du lien…",
+    "generateLinkCard": "Générer un aperçu du lien"
+  },
+  "post": {
+    "reposted": "a republié",
+    "replyTo": "En réponse à"
+  },
+  "notification": {
+    "liked": "a aimé votre publication",
+    "reposted": "a republié votre publication",
+    "followed": "vous suit",
+    "mentioned": "vous a mentionné",
+    "replied": "a répondu à votre publication",
+    "quoted": "a cité votre publication",
+    "empty": "Aucune notification",
+    "loadFailed": "Échec du chargement des notifications"
+  },
+  "timeline": {
+    "loadFailed": "Échec du chargement du fil",
+    "readUpToHere": "↓ Lu jusqu'ici ↓"
+  },
+  "thread": {
+    "notFound": "Publication introuvable",
+    "back": "Retour"
+  },
+  "common": {
+    "retry": "Réessayer"
+  },
+  "moderation": {
+    "postHidden": "Publication masquée par la modération",
+    "show": "Afficher",
+    "contentWarning": "Avertissement de contenu",
+    "muted": "Utilisateur masqué",
+    "muteWord": "Contient un mot masqué",
+    "blocked": "Utilisateur bloqué",
+    "blockedBy": "Cet utilisateur vous a bloqué"
+  },
+  "image": {
+    "addImages": "Ajouter des images (max {{max}}, moins de 1 Mo)",
+    "altPlaceholder": "Texte ALT",
+    "imageLabel": "Image {{n}}",
+    "noAlt": "Aucun texte ALT défini"
+  },
+  "profile": {
+    "follow": "Suivre",
+    "following": "Abonnements",
+    "followers": "Abonnés",
+    "posts": "Publications",
+    "noPosts": "Aucune publication",
+    "loadFailed": "Échec du chargement du profil",
+    "logout": "Se déconnecter"
+  },
+  "search": {
+    "placeholder": "Rechercher des utilisateurs ou des publications…",
+    "posts": "Publications",
+    "users": "Utilisateurs",
+    "hint": "Saisissez un mot-clé pour rechercher",
+    "noResults": "Aucun résultat trouvé",
+    "loadFailed": "Échec de la recherche"
+  },
+  "settings": {
+    "title": "Paramètres",
+    "theme": "Thème",
+    "light": "Clair",
+    "dark": "Sombre",
+    "system": "Système",
+    "language": "Langue",
+    "logout": "Se déconnecter",
+    "license": "MIT License",
+    "readme": "README",
+    "version": "v{{version}}",
+    "pollInterval": "Intervalle de rafraîchissement",
+    "pollIntervalUnit": "{{seconds}} s",
+    "supportMessage": "Offrez un café au développeur",
+    "supportButton": "Soutenir sur Ko-fi",
+    "moderation": "Modération du contenu",
+    "adultContent": "Activer le contenu pour adultes",
+    "label": {
+      "nudity": "Nudité",
+      "sexual": "Contenu suggestif",
+      "porn": "Pornographie",
+      "graphic-media": "Contenu explicite"
+    },
+    "pref": {
+      "hide": "Masquer",
+      "warn": "Avertir",
+      "ignore": "Afficher"
+    }
+  }
+}
