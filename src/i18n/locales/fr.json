@@ -32,7 +32,11 @@
   },
   "post": {
     "reposted": "a republié",
-    "replyTo": "En réponse à"
+    "replyTo": "En réponse à",
+    "delete": "Supprimer",
+    "deleteConfirm": "Supprimer cette publication ?",
+    "deleteCancel": "Ne pas supprimer",
+    "deleteAction": "Supprimer"
   },
   "notification": {
     "liked": "a aimé votre publication",

@@ -32,7 +32,11 @@
   },
   "post": {
     "reposted": "轉發了",
-    "replyTo": "回覆給"
+    "replyTo": "回覆給",
+    "delete": "刪除",
+    "deleteConfirm": "刪除這則貼文？",
+    "deleteCancel": "不刪除",
+    "deleteAction": "刪除"
   },
   "notification": {
     "liked": "對你的貼文按讚",

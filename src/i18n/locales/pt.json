@@ -32,7 +32,11 @@
   },
   "post": {
     "reposted": "repostou",
-    "replyTo": "Respondendo a"
+    "replyTo": "Respondendo a",
+    "delete": "Excluir",
+    "deleteConfirm": "Excluir esta publicação?",
+    "deleteCancel": "Não excluir",
+    "deleteAction": "Excluir"
   },
   "notification": {
     "liked": "curtiu sua publicação",

@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import type { PostView } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
 import { getAgent } from "../../lib/agent";
 import { useComposeStore } from "../../stores/composeStore";
 import { usePostListStore } from "../../stores/postListStore";
+import { useDeletePost } from "../../hooks/usePost";
 import { Icon } from "../common/Icon";
 
 interface PostActionsProps {
@@ -10,6 +12,7 @@ interface PostActionsProps {
 }
 
 export function PostActions({ post }: PostActionsProps) {
+  const { t } = useTranslation();
   const [liked, setLiked] = useState(!!post.viewer?.like);
   const [likeCount, setLikeCount] = useState(post.likeCount ?? 0);
   const [likeUri, setLikeUri] = useState(post.viewer?.like ?? "");
@@ -23,6 +26,8 @@ export function PostActions({ post }: PostActionsProps) {
   const replyDisabled = !!post.viewer?.replyDisabled;
   const openCompose = useComposeStore((s) => s.open);
   const openPostList = usePostListStore((s) => s.open);
+
+  const isOwnPost = post.author.did === getAgent().session?.did;
 
   const handleReply = () => {
     const record = post.record as { text?: string };
@@ -113,7 +118,84 @@ export function PostActions({ post }: PostActionsProps) {
         active={false}
         onClick={() => openPostList("quotes", post.uri)}
       />
+      {isOwnPost && <PostMenu post={post} />}
     </div>
+  );
+}
+
+function PostMenu({ post }: { post: PostView }) {
+  const { t } = useTranslation();
+  const [open, setOpen] = useState(false);
+  const [confirming, setConfirming] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const deletePost = useDeletePost();
+
+  useEffect(() => {
+    if (!open) return;
+    const handler = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [open]);
+
+  const handleDelete = () => {
+    setOpen(false);
+    setConfirming(true);
+  };
+
+  const confirmDelete = () => {
+    setConfirming(false);
+    deletePost.mutate(post.uri);
+  };
+
+  return (
+    <>
+      <div className="relative ml-auto" ref={menuRef}>
+        <button
+          onClick={() => setOpen((v) => !v)}
+          className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 p-0.5 transition-colors"
+        >
+          <Icon name="more_vert" size={16} />
+        </button>
+        {open && (
+          <div className="absolute right-0 bottom-6 z-50 bg-white dark:bg-bg-dark border border-border-light dark:border-border-dark rounded-lg shadow-lg py-1 min-w-[120px]">
+            <button
+              onClick={handleDelete}
+              className="w-full flex items-center gap-2 px-3 py-2 text-sm text-red-500 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            >
+              <Icon name="delete" size={16} />
+              <span>{t("post.delete")}</span>
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Delete confirmation modal */}
+      {confirming && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" onClick={() => setConfirming(false)}>
+          <div className="bg-white dark:bg-bg-dark border border-border-light dark:border-border-dark rounded-xl shadow-xl p-5 mx-4 max-w-[280px] w-full" onClick={(e) => e.stopPropagation()}>
+            <p className="text-sm text-text-light dark:text-text-dark text-center mb-4">{t("post.deleteConfirm")}</p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setConfirming(false)}
+                className="flex-1 py-2 text-sm font-medium rounded-lg border border-border-light dark:border-border-dark text-text-light dark:text-text-dark hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              >
+                {t("post.deleteCancel")}
+              </button>
+              <button
+                onClick={confirmDelete}
+                className="flex-1 py-2 text-sm font-medium rounded-lg bg-red-500 text-white hover:bg-red-600 transition-colors"
+              >
+                {t("post.deleteAction")}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
 

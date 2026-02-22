@@ -32,7 +32,11 @@
   },
   "post": {
     "reposted": "がリポスト",
-    "replyTo": "に返信"
+    "replyTo": "に返信",
+    "delete": "削除",
+    "deleteConfirm": "この投稿を削除しますか？",
+    "deleteCancel": "削除しない",
+    "deleteAction": "削除する"
   },
   "notification": {
     "liked": "がいいねしました",

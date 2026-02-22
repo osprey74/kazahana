@@ -170,6 +170,7 @@ kazahanaは全機能を網羅するスタンドアロンアプリではなく、
 | いいね | `com.atproto.repo.createRecord` (app.bsky.feed.like) | ✅ |
 | いいね取消 | `com.atproto.repo.deleteRecord` | ✅ |
 | リポスト | `com.atproto.repo.createRecord` (app.bsky.feed.repost) | ✅ |
+| 投稿削除 | `agent.deletePost` (com.atproto.repo.deleteRecord) | ✅ |
 | 引用リポスト | 投稿作成 + `app.bsky.embed.record` | 🔲 |
 | スレッド表示 | `app.bsky.feed.getPostThread` | ✅ |
 

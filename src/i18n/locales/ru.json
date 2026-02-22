@@ -32,7 +32,11 @@
   },
   "post": {
     "reposted": "сделал(а) репост",
-    "replyTo": "Ответ для"
+    "replyTo": "Ответ для",
+    "delete": "Удалить",
+    "deleteConfirm": "Удалить эту публикацию?",
+    "deleteCancel": "Не удалять",
+    "deleteAction": "Удалить"
   },
   "notification": {
     "liked": "оценил(а) ваш пост",

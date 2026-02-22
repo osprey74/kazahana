@@ -32,7 +32,11 @@
   },
   "post": {
     "reposted": "reposted",
-    "replyTo": "Replying to"
+    "replyTo": "Replying to",
+    "delete": "Delete",
+    "deleteConfirm": "Delete this post?",
+    "deleteCancel": "Don't delete",
+    "deleteAction": "Delete"
   },
   "notification": {
     "liked": "liked your post",

@@ -30,7 +30,7 @@
 - [x] Liked-by users on a post (`getLikes`)
 - [x] Reposted-by users on a post (`getRepostedBy`)
 - [x] Quotes list on a post (`getQuotes`)
-- [ ] Post deletion (`deleteRecord` for posts)
+- [x] Post deletion (`deleteRecord` for posts)
 - [x] Quote post embed display (`app.bsky.embed.record`)
 - [ ] Video posting (`uploadVideo` / `app.bsky.embed.video`)
 - [x] Thread gate (reply restriction settings)

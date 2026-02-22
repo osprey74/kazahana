@@ -32,7 +32,11 @@
   },
   "post": {
     "reposted": "님이 리포스트함",
-    "replyTo": "답글 대상"
+    "replyTo": "답글 대상",
+    "delete": "삭제",
+    "deleteConfirm": "이 게시물을 삭제하시겠습니까?",
+    "deleteCancel": "삭제 안 함",
+    "deleteAction": "삭제"
   },
   "notification": {
     "liked": "님이 게시물을 좋아합니다",

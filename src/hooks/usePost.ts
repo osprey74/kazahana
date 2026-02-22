@@ -21,6 +21,23 @@ interface CreatePostParams {
   postgate?: { disableQuote: boolean };
 }
 
+export function useDeletePost() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (postUri: string) => {
+      const agent = getAgent();
+      await agent.deletePost(postUri);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["timeline"] });
+      queryClient.invalidateQueries({ queryKey: ["authorFeed"] });
+      queryClient.invalidateQueries({ queryKey: ["actorLikes"] });
+      queryClient.invalidateQueries({ queryKey: ["authorMediaFeed"] });
+    },
+  });
+}
+
 export function useCreatePost() {
   const queryClient = useQueryClient();
 

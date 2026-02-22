@@ -32,7 +32,11 @@
   },
   "post": {
     "reposted": "memposting ulang",
-    "replyTo": "Membalas"
+    "replyTo": "Membalas",
+    "delete": "Hapus",
+    "deleteConfirm": "Hapus postingan ini?",
+    "deleteCancel": "Jangan hapus",
+    "deleteAction": "Hapus"
   },
   "notification": {
     "liked": "menyukai postingan Anda",
