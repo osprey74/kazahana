@@ -62,7 +62,7 @@
 - [x] Thread detail view: show "liked by" and "reposted by" lists
 - [x] Replace reply/RT/like text icons with icon font
 - [ ] Settings: add "timeline reload interval" and "reload post count" options
-- [ ] Home/Notifications/Profile tabs: add manual reload/refresh (Pull-to-refresh統合。リロードボタン / タブクリック / キーボードショートカット等)
+- [x] Home/Notifications/Profile tabs: add manual reload/refresh (Pull-to-refresh統合。リロードボタン / タブクリック / キーボードショートカット等)
 - [ ] Home/Notifications/Profile tabs: infinite scroll to load older posts
 - [ ] Profile: add "Media" and "Lists" tabs (media-only timeline, user-created lists)
 - [x] Fix dark mode text color (black text unreadable, change to white/light)

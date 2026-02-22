@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useCallback } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Virtuoso } from "react-virtuoso";
 import { moderateProfile } from "@atproto/api";
@@ -27,6 +27,13 @@ export function NotificationList() {
   useEffect(() => {
     markAsRead();
   }, [markAsRead]);
+
+  // Listen for refresh event (tab click / F5 / header button)
+  useEffect(() => {
+    const handler = () => refetch();
+    window.addEventListener("kazahana:refresh", handler);
+    return () => window.removeEventListener("kazahana:refresh", handler);
+  }, [refetch]);
 
   const items = useMemo(() => {
     if (!data?.pages) return [];

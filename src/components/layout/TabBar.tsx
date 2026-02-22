@@ -1,10 +1,12 @@
-import { NavLink } from "react-router-dom";
+import { useCallback } from "react";
+import { NavLink, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useUnreadCount } from "../../hooks/useNotifications";
 import { Icon } from "../common/Icon";
 
 export function TabBar() {
   const { t } = useTranslation();
+  const location = useLocation();
   const { data: unreadCount } = useUnreadCount();
 
   const tabs = [
@@ -14,6 +16,19 @@ export function TabBar() {
     { to: "/profile", label: t("tabs.profile"), icon: "person" },
   ] as const;
 
+  const handleTabClick = useCallback(
+    (e: React.MouseEvent, to: string) => {
+      const isActive =
+        to === "/" ? location.pathname === "/" : location.pathname.startsWith(to);
+      if (isActive) {
+        e.preventDefault();
+        document.querySelector("main")?.scrollTo({ top: 0, behavior: "smooth" });
+        window.dispatchEvent(new CustomEvent("kazahana:refresh"));
+      }
+    },
+    [location.pathname],
+  );
+
   return (
     <nav className="flex border-b border-border-light dark:border-border-dark bg-white dark:bg-bg-dark">
       {tabs.map((tab) => (
@@ -22,6 +37,7 @@ export function TabBar() {
           to={tab.to}
           end={tab.to === "/"}
           title={tab.label}
+          onClick={(e) => handleTabClick(e, tab.to)}
           className={({ isActive }) =>
             `flex-1 flex items-center justify-center py-2.5 transition-colors relative ${
               isActive

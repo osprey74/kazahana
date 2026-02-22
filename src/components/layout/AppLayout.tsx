@@ -9,6 +9,8 @@ import { useComposeStore } from "../../stores/composeStore";
 import { useAuthStore } from "../../stores/authStore";
 import { Icon } from "../common/Icon";
 
+const REFRESHABLE_PATHS = ["/", "/notifications", "/profile"];
+
 export function AppLayout() {
   const { t } = useTranslation();
   const location = useLocation();
@@ -18,6 +20,15 @@ export function AppLayout() {
   const mainRef = useRef<HTMLElement>(null);
   const [showScrollTop, setShowScrollTop] = useState(false);
 
+  const canRefresh = REFRESHABLE_PATHS.some((p) =>
+    p === "/" ? location.pathname === "/" : location.pathname.startsWith(p),
+  );
+
+  const triggerRefresh = useCallback(() => {
+    mainRef.current?.scrollTo({ top: 0, behavior: "smooth" });
+    window.dispatchEvent(new CustomEvent("kazahana:refresh"));
+  }, []);
+
   useEffect(() => {
     const el = mainRef.current;
     if (!el) return;
@@ -25,6 +36,18 @@ export function AppLayout() {
     el.addEventListener("scroll", onScroll, { passive: true });
     return () => el.removeEventListener("scroll", onScroll);
   }, []);
+
+  // F5 keyboard shortcut for refresh
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "F5" && canRefresh) {
+        e.preventDefault();
+        triggerRefresh();
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [canRefresh, triggerRefresh]);
 
   const scrollToTop = useCallback(() => {
     mainRef.current?.scrollTo({ top: 0, behavior: "smooth" });
@@ -34,6 +57,13 @@ export function AppLayout() {
     <div className="flex flex-col h-screen bg-white dark:bg-bg-dark">
       {/* Header */}
       <header className="flex items-center justify-between py-2 px-4 border-b border-border-light dark:border-border-dark">
+        {canRefresh ? (
+          <button onClick={triggerRefresh} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" title="Refresh (F5)">
+            <Icon name="refresh" size={20} />
+          </button>
+        ) : (
+          <span className="w-5" />
+        )}
         <h1 className="text-sm font-medium text-gray-500 dark:text-gray-400 flex-1 text-center">@{profile?.handle ?? "..."}</h1>
         <a href="/settings" className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" title={t("settings.title")}><Icon name="settings" size={20} /></a>
       </header>

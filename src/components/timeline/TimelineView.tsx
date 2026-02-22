@@ -1,4 +1,4 @@
-import { useCallback, useLayoutEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Virtuoso } from "react-virtuoso";
 import { moderatePost } from "@atproto/api";
@@ -24,6 +24,13 @@ export function TimelineView() {
     dividerPostUri,
     reportViewportTop,
   } = useTimeline();
+
+  // Listen for refresh event (tab click / F5 / header button)
+  useEffect(() => {
+    const handler = () => refetch();
+    window.addEventListener("kazahana:refresh", handler);
+    return () => window.removeEventListener("kazahana:refresh", handler);
+  }, [refetch]);
 
   // Pre-filter items that should be completely hidden by moderation
   const filteredItems = useMemo(() => {

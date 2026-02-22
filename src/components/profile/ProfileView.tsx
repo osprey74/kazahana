@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect, useMemo, useCallback } from "react";
+import { useState, useCallback, useEffect, useLayoutEffect, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Virtuoso } from "react-virtuoso";
@@ -31,13 +31,24 @@ export function ProfileView() {
   // If no handle param, show own profile
   const resolvedHandle = handle || authProfile?.handle || getAgent().session?.handle || "";
 
-  const { data: profile, isLoading: profileLoading, isError: profileError } = useProfile(resolvedHandle);
+  const { data: profile, isLoading: profileLoading, isError: profileError, refetch: refetchProfile } = useProfile(resolvedHandle);
   const {
     data: feedData,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
+    refetch: refetchFeed,
   } = useAuthorFeed(resolvedHandle);
+
+  // Listen for refresh event (tab click / F5 / header button)
+  useEffect(() => {
+    const handler = () => {
+      refetchProfile();
+      refetchFeed();
+    };
+    window.addEventListener("kazahana:refresh", handler);
+    return () => window.removeEventListener("kazahana:refresh", handler);
+  }, [refetchProfile, refetchFeed]);
 
   const isOwnProfile = !handle || handle === authProfile?.handle;
   const moderationOpts = useModerationOpts();
