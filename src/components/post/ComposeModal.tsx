@@ -2,8 +2,10 @@ import { useState, useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useComposeStore } from "../../stores/composeStore";
 import { useCreatePost } from "../../hooks/usePost";
+import { useOgp } from "../../hooks/useOgp";
 import { ImageUpload, type ImageFile } from "./ImageUpload";
 import { Avatar } from "../common/Avatar";
+import { Icon } from "../common/Icon";
 
 const MAX_GRAPHEMES = 300;
 
@@ -22,6 +24,9 @@ export function ComposeModal() {
   const [text, setText] = useState("");
   const [images, setImages] = useState<ImageFile[]>([]);
 
+  // OGP link card (manual trigger)
+  const { detectedUrl, ogp, isLoading: ogpLoading, fetchCard, dismiss: dismissOgp, reset: resetOgp } = useOgp(text);
+
   const graphemeCount = countGraphemes(text);
   const isOverLimit = graphemeCount > MAX_GRAPHEMES;
   const canPost = text.trim().length > 0 && !isOverLimit && !createPost.isPending;
@@ -32,6 +37,7 @@ export function ComposeModal() {
       setText("");
       setImages([]);
       createPost.reset();
+      resetOgp();
     }
   }, [isOpen]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -71,6 +77,7 @@ export function ComposeModal() {
     await createPost.mutateAsync({
       text,
       images: imageData.length > 0 ? imageData : undefined,
+      external: ogp ? { uri: ogp.url, title: ogp.title, description: ogp.description, thumbUrl: ogp.imageUrl } : undefined,
       replyTo: replyTo
         ? { uri: replyTo.uri, cid: replyTo.cid }
         : undefined,
@@ -139,6 +146,43 @@ export function ComposeModal() {
             onUpdateAlt={handleUpdateAlt}
           />
         </div>
+
+        {/* Link card: manual trigger or preview */}
+        {images.length === 0 && (
+          <div className="px-4 pb-3">
+            {ogpLoading ? (
+              <div className="flex items-center gap-2 text-xs text-gray-400 py-2">
+                <Icon name="link" size={14} />
+                <span>{t("compose.fetchingLink")}</span>
+              </div>
+            ) : ogp ? (
+              <div className="relative border border-border-light dark:border-border-dark rounded-card overflow-hidden">
+                <button
+                  onClick={dismissOgp}
+                  className="absolute top-1 right-1 z-10 w-6 h-6 flex items-center justify-center bg-black/60 text-white rounded-full hover:bg-black/80"
+                >
+                  <Icon name="close" size={16} />
+                </button>
+                {ogp.imageUrl && (
+                  <img src={ogp.imageUrl} alt="" className="w-full h-28 object-cover" loading="lazy" />
+                )}
+                <div className="px-3 py-2">
+                  <p className="text-xs text-gray-500 truncate">{new URL(ogp.url).hostname}</p>
+                  {ogp.title && <p className="text-sm font-medium text-text-light dark:text-text-dark line-clamp-2 leading-snug">{ogp.title}</p>}
+                  {ogp.description && <p className="text-xs text-gray-500 line-clamp-2 mt-0.5 leading-snug">{ogp.description}</p>}
+                </div>
+              </div>
+            ) : detectedUrl ? (
+              <button
+                onClick={fetchCard}
+                className="flex items-center gap-1 text-xs text-primary hover:underline"
+              >
+                <Icon name="link" size={14} />
+                <span>{t("compose.generateLinkCard")}</span>
+              </button>
+            ) : null}
+          </div>
+        )}
 
         {/* Footer: character count + error */}
         <div className="flex items-center justify-between px-4 py-2 border-t border-border-light dark:border-border-dark">

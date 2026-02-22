@@ -8,6 +8,13 @@
   "permissions": [
     "core:default",
     "store:default",
-    "opener:default"
+    "opener:default",
+    {
+      "identifier": "http:default",
+      "allow": [
+        "https://*:*",
+        "http://*:*"
+      ]
+    }
   ]
 }

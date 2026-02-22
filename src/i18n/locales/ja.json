@@ -26,7 +26,9 @@
     "placeholder": "いまどうしてる？",
     "replyPlaceholder": "返信を入力...",
     "postFailed": "投稿に失敗しました",
-    "newPost": "新しい投稿を作成"
+    "newPost": "新しい投稿を作成",
+    "fetchingLink": "リンク情報を取得中...",
+    "generateLinkCard": "リンクカード生成"
   },
   "post": {
     "reposted": "がリポスト",
@@ -54,7 +56,9 @@
   },
   "image": {
     "addImages": "画像を追加（最大{{max}}枚、1MB以下）",
-    "altPlaceholder": "ALT テキスト"
+    "altPlaceholder": "ALT テキスト",
+    "imageLabel": "画像{{n}}",
+    "noAlt": "ALTテキスト設定なし"
   },
   "profile": {
     "follow": "フォロー",

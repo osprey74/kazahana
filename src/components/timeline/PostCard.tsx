@@ -8,6 +8,7 @@ import { enUS } from "date-fns/locale";
 import { Avatar } from "../common/Avatar";
 import { Icon } from "../common/Icon";
 import { ImageGrid } from "../common/ImageGrid";
+import { LinkCard } from "../common/LinkCard";
 import { PostContent } from "./PostContent";
 import { PostActions } from "./PostActions";
 
@@ -30,6 +31,7 @@ export function PostCard({ feedItem, showParentContext }: PostCardProps) {
     : null;
 
   const images = getImages(post);
+  const externalEmbed = getExternalEmbed(post);
   const locale = i18n.language.startsWith("ja") ? ja : enUS;
   const timeAgo = record.createdAt
     ? formatDistanceToNowStrict(new Date(record.createdAt), { locale, addSuffix: false })
@@ -142,12 +144,37 @@ export function PostCard({ feedItem, showParentContext }: PostCardProps) {
           {/* Images */}
           {images.length > 0 && <ImageGrid images={images} />}
 
+          {/* Link card */}
+          {externalEmbed && <LinkCard external={externalEmbed} />}
+
           {/* Actions */}
           <PostActions post={post} />
         </div>
       </div>
     </article>
   );
+}
+
+interface ExternalEmbed {
+  uri: string;
+  title: string;
+  description: string;
+  thumb?: string;
+}
+
+function getExternalEmbed(post: FeedViewPost["post"]): ExternalEmbed | null {
+  const embed = post.embed;
+  if (!embed) return null;
+  if (embed.$type === "app.bsky.embed.external#view") {
+    return (embed as { external?: ExternalEmbed }).external ?? null;
+  }
+  if (embed.$type === "app.bsky.embed.recordWithMedia#view") {
+    const media = (embed as { media?: { $type?: string; external?: ExternalEmbed } }).media;
+    if (media?.$type === "app.bsky.embed.external#view") {
+      return media.external ?? null;
+    }
+  }
+  return null;
 }
 
 function getImages(post: FeedViewPost["post"]): ViewImage[] {

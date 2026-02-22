@@ -1,10 +1,17 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { RichText } from "@atproto/api";
+import { fetch } from "@tauri-apps/plugin-http";
 import { getAgent } from "../lib/agent";
 
 interface CreatePostParams {
   text: string;
   images?: { data: Uint8Array; mimeType: string; alt: string }[];
+  external?: {
+    uri: string;
+    title: string;
+    description: string;
+    thumbUrl?: string;
+  };
   replyTo?: {
     uri: string;
     cid: string;
@@ -16,7 +23,7 @@ export function useCreatePost() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ text, images, replyTo }: CreatePostParams) => {
+    mutationFn: async ({ text, images, external, replyTo }: CreatePostParams) => {
       const agent = getAgent();
 
       // Build rich text with facets
@@ -49,6 +56,35 @@ export function useCreatePost() {
         record.embed = {
           $type: "app.bsky.embed.images",
           images: imageEmbeds,
+        };
+      } else if (external) {
+        // Download and upload thumbnail if available
+        let thumb: unknown = undefined;
+        if (external.thumbUrl) {
+          try {
+            const imgRes = await fetch(external.thumbUrl, {
+              method: "GET",
+              connectTimeout: 8000,
+            });
+            if (imgRes.ok) {
+              const blob = await imgRes.blob();
+              const buf = new Uint8Array(await blob.arrayBuffer());
+              const mimeType = imgRes.headers.get("content-type") || "image/jpeg";
+              const uploaded = await agent.uploadBlob(buf, { encoding: mimeType });
+              thumb = uploaded.data.blob;
+            }
+          } catch {
+            // Proceed without thumbnail
+          }
+        }
+        record.embed = {
+          $type: "app.bsky.embed.external",
+          external: {
+            uri: external.uri,
+            title: external.title,
+            description: external.description,
+            ...(thumb ? { thumb } : {}),
+          },
         };
       }
 

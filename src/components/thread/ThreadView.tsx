@@ -8,6 +8,7 @@ import { Icon } from "../common/Icon";
 import { PostContent } from "../timeline/PostContent";
 import { PostActions } from "../timeline/PostActions";
 import { ImageGrid } from "../common/ImageGrid";
+import { LinkCard } from "../common/LinkCard";
 import type { ViewImage } from "@atproto/api/dist/client/types/app/bsky/embed/images";
 import { formatDistanceToNowStrict } from "date-fns";
 import { ja } from "date-fns/locale";
@@ -99,6 +100,7 @@ function ThreadPostItem({
   const navigate = useNavigate();
   const record = post.record as { text?: string; facets?: unknown[]; createdAt?: string };
   const images = getImages(post);
+  const externalEmbed = getExternalEmbed(post);
   const locale = i18n.language.startsWith("ja") ? ja : enUS;
   const timeAgo = record.createdAt
     ? formatDistanceToNowStrict(new Date(record.createdAt), { locale, addSuffix: false })
@@ -145,11 +147,35 @@ function ThreadPostItem({
 
           {images.length > 0 && <ImageGrid images={images} />}
 
+          {externalEmbed && <LinkCard external={externalEmbed} />}
+
           <PostActions post={post} />
         </div>
       </div>
     </article>
   );
+}
+
+interface ExternalEmbed {
+  uri: string;
+  title: string;
+  description: string;
+  thumb?: string;
+}
+
+function getExternalEmbed(post: PostView): ExternalEmbed | null {
+  const embed = post.embed;
+  if (!embed) return null;
+  if (embed.$type === "app.bsky.embed.external#view") {
+    return (embed as { external?: ExternalEmbed }).external ?? null;
+  }
+  if (embed.$type === "app.bsky.embed.recordWithMedia#view") {
+    const media = (embed as { media?: { $type?: string; external?: ExternalEmbed } }).media;
+    if (media?.$type === "app.bsky.embed.external#view") {
+      return media.external ?? null;
+    }
+  }
+  return null;
 }
 
 function getImages(post: PostView): ViewImage[] {

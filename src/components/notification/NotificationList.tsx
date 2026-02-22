@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Virtuoso } from "react-virtuoso";
-import { useNotifications, useMarkAsRead } from "../../hooks/useNotifications";
+import { useNotifications, useMarkAsRead, useSubjectPosts } from "../../hooks/useNotifications";
 import { NotificationItem } from "./NotificationItem";
 import { LoadingSpinner } from "../common/LoadingSpinner";
 import type { Notification } from "@atproto/api/dist/client/types/app/bsky/notification/listNotifications";
@@ -29,6 +29,8 @@ export function NotificationList() {
     if (!data?.pages) return [];
     return data.pages.flatMap((page) => page.notifications);
   }, [data]);
+
+  const subjectPosts = useSubjectPosts(items);
 
   const loadMore = useCallback(() => {
     if (hasNextPage && !isFetchingNextPage) {
@@ -66,7 +68,7 @@ export function NotificationList() {
       data={items}
       endReached={loadMore}
       itemContent={(_index, item: Notification) => (
-        <NotificationItem notification={item} />
+        <NotificationItem notification={item} subjectPost={item.reasonSubject ? subjectPosts.get(item.reasonSubject) : undefined} />
       )}
       components={{
         Footer: () => (isFetchingNextPage ? <LoadingSpinner /> : null),

@@ -26,7 +26,9 @@
     "placeholder": "What's on your mind?",
     "replyPlaceholder": "Write a reply...",
     "postFailed": "Failed to post",
-    "newPost": "Create new post"
+    "newPost": "Create new post",
+    "fetchingLink": "Fetching link info...",
+    "generateLinkCard": "Generate link card"
   },
   "post": {
     "reposted": "reposted",
@@ -54,7 +56,9 @@
   },
   "image": {
     "addImages": "Add images (max {{max}}, under 1MB)",
-    "altPlaceholder": "ALT text"
+    "altPlaceholder": "ALT text",
+    "imageLabel": "Image {{n}}",
+    "noAlt": "No ALT text set"
   },
   "profile": {
     "follow": "Follow",
