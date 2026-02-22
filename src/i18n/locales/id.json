@@ -46,7 +46,17 @@
     "replied": "membalas postingan Anda",
     "quoted": "mengutip postingan Anda",
     "empty": "Tidak ada notifikasi",
-    "loadFailed": "Gagal memuat notifikasi"
+    "loadFailed": "Gagal memuat notifikasi",
+    "osBody": "Anda memiliki {{count}} notifikasi baru",
+    "separator": ", ",
+    "reason": {
+      "like": "{{count}} suka",
+      "repost": "{{count}} repost",
+      "follow": "{{count}} pengikut",
+      "mention": "{{count}} sebutan",
+      "reply": "{{count}} balasan",
+      "quote": "{{count}} kutipan"
+    }
   },
   "timeline": {
     "loadFailed": "Gagal memuat linimasa",
@@ -144,6 +154,10 @@
     "pollIntervalUnit": "{{seconds}}d",
     "supportMessage": "Traktir developer secangkir kopi",
     "supportButton": "Dukung di Ko-fi",
+    "notification": "Notifikasi desktop",
+    "enableNotification": "Aktifkan notifikasi desktop",
+    "autoStart": "Mulai otomatis",
+    "enableAutoStart": "Jalankan kazahana saat sistem dinyalakan",
     "moderation": "Moderasi Konten",
     "adultContent": "Aktifkan konten dewasa",
     "label": {

@@ -46,7 +46,17 @@
     "replied": "回复了你的帖子",
     "quoted": "引用了你的帖子",
     "empty": "暂无通知",
-    "loadFailed": "通知加载失败"
+    "loadFailed": "通知加载失败",
+    "osBody": "您有 {{count}} 条新通知",
+    "separator": "、",
+    "reason": {
+      "like": "{{count}} 个赞",
+      "repost": "{{count}} 条转发",
+      "follow": "{{count}} 个关注",
+      "mention": "{{count}} 条提及",
+      "reply": "{{count}} 条回复",
+      "quote": "{{count}} 条引用"
+    }
   },
   "timeline": {
     "loadFailed": "时间线加载失败",
@@ -144,6 +154,10 @@
     "pollIntervalUnit": "{{seconds}}秒",
     "supportMessage": "请开发者喝杯咖啡",
     "supportButton": "在 Ko-fi 上支持",
+    "notification": "桌面通知",
+    "enableNotification": "启用桌面通知",
+    "autoStart": "自动启动",
+    "enableAutoStart": "系统启动时自动启动 kazahana",
     "moderation": "内容审核",
     "adultContent": "启用成人内容",
     "label": {

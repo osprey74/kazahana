@@ -46,7 +46,17 @@
     "replied": "님이 게시물에 답글을 남겼습니다",
     "quoted": "님이 게시물을 인용했습니다",
     "empty": "알림이 없습니다",
-    "loadFailed": "알림을 불러오지 못했습니다"
+    "loadFailed": "알림을 불러오지 못했습니다",
+    "osBody": "새 알림이 {{count}}개 있습니다",
+    "separator": ", ",
+    "reason": {
+      "like": "좋아요 {{count}}개",
+      "repost": "리포스트 {{count}}개",
+      "follow": "팔로우 {{count}}개",
+      "mention": "멘션 {{count}}개",
+      "reply": "답글 {{count}}개",
+      "quote": "인용 {{count}}개"
+    }
   },
   "timeline": {
     "loadFailed": "타임라인을 불러오지 못했습니다",
@@ -144,6 +154,10 @@
     "pollIntervalUnit": "{{seconds}}초",
     "supportMessage": "개발자에게 커피 한 잔 사주기",
     "supportButton": "Ko-fi에서 후원하기",
+    "notification": "데스크톱 알림",
+    "enableNotification": "데스크톱 알림 활성화",
+    "autoStart": "자동 시작",
+    "enableAutoStart": "시스템 시작 시 kazahana 자동 실행",
     "moderation": "콘텐츠 관리",
     "adultContent": "성인 콘텐츠 허용",
     "label": {

@@ -46,7 +46,17 @@
     "replied": "hat auf deinen Beitrag geantwortet",
     "quoted": "hat deinen Beitrag zitiert",
     "empty": "Keine Benachrichtigungen",
-    "loadFailed": "Benachrichtigungen konnten nicht geladen werden"
+    "loadFailed": "Benachrichtigungen konnten nicht geladen werden",
+    "osBody": "Sie haben {{count}} neue Benachrichtigung(en)",
+    "separator": ", ",
+    "reason": {
+      "like": "{{count}} Gefällt mir",
+      "repost": "{{count}} Repost(s)",
+      "follow": "{{count}} Follower",
+      "mention": "{{count}} Erwähnung(en)",
+      "reply": "{{count}} Antwort(en)",
+      "quote": "{{count}} Zitat(e)"
+    }
   },
   "timeline": {
     "loadFailed": "Timeline konnte nicht geladen werden",
@@ -144,6 +154,10 @@
     "pollIntervalUnit": "{{seconds}}s",
     "supportMessage": "Spendiere dem Entwickler einen Kaffee",
     "supportButton": "Auf Ko-fi unterstützen",
+    "notification": "Desktop-Benachrichtigungen",
+    "enableNotification": "Desktop-Benachrichtigungen aktivieren",
+    "autoStart": "Autostart",
+    "enableAutoStart": "Kazahana beim Systemstart starten",
     "moderation": "Inhaltsmoderation",
     "adultContent": "Inhalte für Erwachsene aktivieren",
     "label": {

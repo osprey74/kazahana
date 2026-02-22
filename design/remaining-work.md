@@ -17,8 +17,8 @@
 - [x] Mention auto-complete: `@` input triggers `searchActorsTypeahead` dropdown with keyboard navigation
 
 ## Spec Phase 4 (Profile/Search/Polish)
-- [ ] OS notifications via `tauri-plugin-notification` (background system notifications)
-- [ ] Auto-start on OS boot via `tauri-plugin-autostart` (optional setting)
+- [x] OS notifications via `tauri-plugin-notification` (background system notifications)
+- [x] Auto-start on OS boot via `tauri-plugin-autostart` (optional setting)
 
 ## Spec Section 9 (Build/Distribution)
 - [ ] Production build (`npm run tauri build`)

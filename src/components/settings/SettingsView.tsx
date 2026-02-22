@@ -21,7 +21,7 @@ export function SettingsView() {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { theme, setTheme, pollInterval, setPollInterval } = useSettingsStore();
+  const { theme, setTheme, pollInterval, setPollInterval, desktopNotification, setDesktopNotification, autoStart, setAutoStart } = useSettingsStore();
   const logout = useAuthStore((s) => s.logout);
 
   // Fetch current moderation preferences
@@ -125,6 +125,34 @@ export function SettingsView() {
             </button>
           ))}
         </div>
+      </section>
+
+      {/* Desktop Notification */}
+      <section className="mb-6">
+        <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t("settings.notification")}</h3>
+        <label className="flex items-center gap-2 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={desktopNotification}
+            onChange={(e) => setDesktopNotification(e.target.checked)}
+            className="w-4 h-4 rounded accent-primary"
+          />
+          <span className="text-sm text-text-light dark:text-text-dark">{t("settings.enableNotification")}</span>
+        </label>
+      </section>
+
+      {/* Auto Start */}
+      <section className="mb-6">
+        <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t("settings.autoStart")}</h3>
+        <label className="flex items-center gap-2 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={autoStart}
+            onChange={(e) => setAutoStart(e.target.checked)}
+            className="w-4 h-4 rounded accent-primary"
+          />
+          <span className="text-sm text-text-light dark:text-text-dark">{t("settings.enableAutoStart")}</span>
+        </label>
       </section>
 
       {/* Content Moderation */}

@@ -16,6 +16,10 @@ export default defineConfig({
     // if the host Tauri is expecting is set, use it
     host: host || false,
     port: 5173,
+    watch: {
+      // Exclude Rust build artifacts from file watching (Windows deep path issue)
+      ignored: ["**/src-tauri/**"],
+    },
   },
 
   // Env variables starting with the item of `envPrefix` will be exposed in tauri's source code through `import.meta.env`.

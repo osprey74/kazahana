@@ -47,8 +47,9 @@ Kazahana is designed as a **lightweight, always-running companion app** — not 
 - [x] Content moderation (label-based filtering, blur, settings)
 - [x] Custom feeds & list feeds (tab selector)
 - [x] Threadgate & postgate (reply / quote restrictions)
+- [x] Desktop notifications (with reason breakdown: like/repost/reply/mention/follow/quote)
+- [x] Auto-start on OS boot (optional)
 - [ ] Quote post
-- [ ] Desktop notifications
 
 ## Tech Stack
 

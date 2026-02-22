@@ -46,7 +46,17 @@
     "replied": "respondió a tu publicación",
     "quoted": "citó tu publicación",
     "empty": "No hay notificaciones",
-    "loadFailed": "Error al cargar las notificaciones"
+    "loadFailed": "Error al cargar las notificaciones",
+    "osBody": "Tienes {{count}} notificación(es) nueva(s)",
+    "separator": ", ",
+    "reason": {
+      "like": "{{count}} me gusta",
+      "repost": "{{count}} republicación(es)",
+      "follow": "{{count}} seguidor(es)",
+      "mention": "{{count}} mención(es)",
+      "reply": "{{count}} respuesta(s)",
+      "quote": "{{count}} cita(s)"
+    }
   },
   "timeline": {
     "loadFailed": "Error al cargar la línea de tiempo",
@@ -144,6 +154,10 @@
     "pollIntervalUnit": "{{seconds}}s",
     "supportMessage": "Invítale un café al desarrollador",
     "supportButton": "Apoyar en Ko-fi",
+    "notification": "Notificaciones de escritorio",
+    "enableNotification": "Activar notificaciones de escritorio",
+    "autoStart": "Inicio automático",
+    "enableAutoStart": "Iniciar kazahana al arrancar el sistema",
     "moderation": "Moderación de contenido",
     "adultContent": "Habilitar contenido para adultos",
     "label": {

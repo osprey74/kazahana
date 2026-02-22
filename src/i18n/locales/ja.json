@@ -46,7 +46,17 @@
     "replied": "が返信しました",
     "quoted": "が引用しました",
     "empty": "通知はありません",
-    "loadFailed": "通知の読み込みに失敗しました"
+    "loadFailed": "通知の読み込みに失敗しました",
+    "osBody": "{{count}}件の新しい通知があります",
+    "separator": "、",
+    "reason": {
+      "like": "いいね {{count}}件",
+      "repost": "リポスト {{count}}件",
+      "follow": "フォロー {{count}}件",
+      "mention": "メンション {{count}}件",
+      "reply": "返信 {{count}}件",
+      "quote": "引用 {{count}}件"
+    }
   },
   "timeline": {
     "loadFailed": "タイムラインの読み込みに失敗しました",
@@ -144,6 +154,10 @@
     "pollIntervalUnit": "{{seconds}}秒",
     "supportMessage": "アプリ作者にコーヒーをご馳走する",
     "supportButton": "Ko-fi でサポート",
+    "notification": "デスクトップ通知",
+    "enableNotification": "デスクトップ通知を有効にする",
+    "autoStart": "自動起動",
+    "enableAutoStart": "OS起動時にkazahanaを自動起動する",
     "moderation": "コンテンツモデレーション",
     "adultContent": "成人向けコンテンツを有効にする",
     "label": {

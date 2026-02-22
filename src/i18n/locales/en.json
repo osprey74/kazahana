@@ -46,7 +46,17 @@
     "replied": "replied to your post",
     "quoted": "quoted your post",
     "empty": "No notifications",
-    "loadFailed": "Failed to load notifications"
+    "loadFailed": "Failed to load notifications",
+    "osBody": "You have {{count}} new notification(s)",
+    "separator": ", ",
+    "reason": {
+      "like": "{{count}} like(s)",
+      "repost": "{{count}} repost(s)",
+      "follow": "{{count}} follow(s)",
+      "mention": "{{count}} mention(s)",
+      "reply": "{{count}} reply/replies",
+      "quote": "{{count}} quote(s)"
+    }
   },
   "timeline": {
     "loadFailed": "Failed to load timeline",
@@ -144,6 +154,10 @@
     "pollIntervalUnit": "{{seconds}}s",
     "supportMessage": "Buy the developer a coffee",
     "supportButton": "Support on Ko-fi",
+    "notification": "Desktop Notifications",
+    "enableNotification": "Enable desktop notifications",
+    "autoStart": "Auto Start",
+    "enableAutoStart": "Launch Kazahana on system startup",
     "moderation": "Content Moderation",
     "adultContent": "Enable adult content",
     "label": {

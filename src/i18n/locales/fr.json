@@ -46,7 +46,17 @@
     "replied": "a répondu à votre publication",
     "quoted": "a cité votre publication",
     "empty": "Aucune notification",
-    "loadFailed": "Échec du chargement des notifications"
+    "loadFailed": "Échec du chargement des notifications",
+    "osBody": "Vous avez {{count}} nouvelle(s) notification(s)",
+    "separator": ", ",
+    "reason": {
+      "like": "{{count}} j'aime",
+      "repost": "{{count}} republication(s)",
+      "follow": "{{count}} abonné(s)",
+      "mention": "{{count}} mention(s)",
+      "reply": "{{count}} réponse(s)",
+      "quote": "{{count}} citation(s)"
+    }
   },
   "timeline": {
     "loadFailed": "Échec du chargement du fil",
@@ -144,6 +154,10 @@
     "pollIntervalUnit": "{{seconds}} s",
     "supportMessage": "Offrez un café au développeur",
     "supportButton": "Soutenir sur Ko-fi",
+    "notification": "Notifications bureau",
+    "enableNotification": "Activer les notifications bureau",
+    "autoStart": "Démarrage automatique",
+    "enableAutoStart": "Lancer kazahana au démarrage du système",
     "moderation": "Modération du contenu",
     "adultContent": "Activer le contenu pour adultes",
     "label": {

@@ -46,7 +46,17 @@
     "replied": "ответил(а) на ваш пост",
     "quoted": "процитировал(а) ваш пост",
     "empty": "Нет уведомлений",
-    "loadFailed": "Не удалось загрузить уведомления"
+    "loadFailed": "Не удалось загрузить уведомления",
+    "osBody": "У вас {{count}} новых уведомлений",
+    "separator": ", ",
+    "reason": {
+      "like": "{{count}} лайк(ов)",
+      "repost": "{{count}} репост(ов)",
+      "follow": "{{count}} подписчик(ов)",
+      "mention": "{{count}} упоминание(й)",
+      "reply": "{{count}} ответ(ов)",
+      "quote": "{{count}} цитат(а)"
+    }
   },
   "timeline": {
     "loadFailed": "Не удалось загрузить ленту",
@@ -144,6 +154,10 @@
     "pollIntervalUnit": "{{seconds}}с",
     "supportMessage": "Угостите разработчика кофе",
     "supportButton": "Поддержать на Ko-fi",
+    "notification": "Уведомления на рабочем столе",
+    "enableNotification": "Включить уведомления на рабочем столе",
+    "autoStart": "Автозапуск",
+    "enableAutoStart": "Запускать kazahana при старте системы",
     "moderation": "Модерация контента",
     "adultContent": "Показывать контент для взрослых",
     "label": {

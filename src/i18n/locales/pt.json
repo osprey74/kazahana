@@ -46,7 +46,17 @@
     "replied": "respondeu à sua publicação",
     "quoted": "citou sua publicação",
     "empty": "Nenhuma notificação",
-    "loadFailed": "Falha ao carregar notificações"
+    "loadFailed": "Falha ao carregar notificações",
+    "osBody": "Você tem {{count}} nova(s) notificação(ões)",
+    "separator": ", ",
+    "reason": {
+      "like": "{{count}} curtida(s)",
+      "repost": "{{count}} repostagem(ns)",
+      "follow": "{{count}} seguidor(es)",
+      "mention": "{{count}} menção(ões)",
+      "reply": "{{count}} resposta(s)",
+      "quote": "{{count}} citação(ões)"
+    }
   },
   "timeline": {
     "loadFailed": "Falha ao carregar a timeline",
@@ -144,6 +154,10 @@
     "pollIntervalUnit": "{{seconds}}s",
     "supportMessage": "Pague um café para o desenvolvedor",
     "supportButton": "Apoiar no Ko-fi",
+    "notification": "Notificações do sistema",
+    "enableNotification": "Ativar notificações do sistema",
+    "autoStart": "Inicialização automática",
+    "enableAutoStart": "Iniciar kazahana ao ligar o sistema",
     "moderation": "Moderação de conteúdo",
     "adultContent": "Ativar conteúdo adulto",
     "label": {

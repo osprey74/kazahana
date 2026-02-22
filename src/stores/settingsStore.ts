@@ -1,17 +1,25 @@
 import { create } from "zustand";
+import { enable, disable, isEnabled } from "@tauri-apps/plugin-autostart";
 
 type Theme = "light" | "dark" | "system";
 
 interface SettingsState {
   theme: Theme;
   pollInterval: number;
+  desktopNotification: boolean;
+  autoStart: boolean;
   setTheme: (theme: Theme) => void;
   setPollInterval: (seconds: number) => void;
+  setDesktopNotification: (enabled: boolean) => void;
+  setAutoStart: (enabled: boolean) => void;
+  initAutoStart: () => void;
 }
 
 export const useSettingsStore = create<SettingsState>((set) => ({
   theme: (localStorage.getItem("kazahana-theme") as Theme) || "system",
   pollInterval: Number(localStorage.getItem("kazahana-poll-interval")) || 30,
+  desktopNotification: localStorage.getItem("kazahana-desktop-notification") !== "false",
+  autoStart: false, // Will be synced from plugin on init
 
   setTheme: (theme: Theme) => {
     localStorage.setItem("kazahana-theme", theme);
@@ -22,6 +30,26 @@ export const useSettingsStore = create<SettingsState>((set) => ({
   setPollInterval: (seconds: number) => {
     localStorage.setItem("kazahana-poll-interval", String(seconds));
     set({ pollInterval: seconds });
+  },
+
+  setDesktopNotification: (enabled: boolean) => {
+    localStorage.setItem("kazahana-desktop-notification", String(enabled));
+    set({ desktopNotification: enabled });
+  },
+
+  setAutoStart: (enabled: boolean) => {
+    if (enabled) {
+      enable().catch(() => {});
+    } else {
+      disable().catch(() => {});
+    }
+    set({ autoStart: enabled });
+  },
+
+  initAutoStart: () => {
+    isEnabled()
+      .then((enabled) => set({ autoStart: enabled }))
+      .catch(() => {});
   },
 
 }));

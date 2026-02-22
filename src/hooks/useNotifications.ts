@@ -1,8 +1,9 @@
 import { useInfiniteQuery, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import type { PostView } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
 import type { Notification } from "@atproto/api/dist/client/types/app/bsky/notification/listNotifications";
 import { getAgent } from "../lib/agent";
+import { sendNotification, type NotificationReasonCounts } from "../lib/notifications";
 
 export function useNotifications() {
   return useInfiniteQuery({
@@ -23,7 +24,9 @@ export function useNotifications() {
 }
 
 export function useUnreadCount() {
-  return useQuery({
+  const prevCount = useRef<number | null>(null);
+
+  const query = useQuery({
     queryKey: ["unreadCount"],
     queryFn: async () => {
       const agent = getAgent();
@@ -33,6 +36,35 @@ export function useUnreadCount() {
     staleTime: 30_000,
     refetchInterval: 30_000,
   });
+
+  // Trigger OS notification when unread count increases
+  useEffect(() => {
+    const count = query.data;
+    if (count == null) return;
+
+    if (prevCount.current !== null && count > prevCount.current) {
+      const newCount = count - prevCount.current;
+      // Fetch recent notifications to get reason breakdown
+      (async () => {
+        try {
+          const agent = getAgent();
+          const res = await agent.listNotifications({ limit: Math.min(newCount, 30) });
+          const reasons: NotificationReasonCounts = {};
+          for (const n of res.data.notifications) {
+            const key = n.reason as keyof NotificationReasonCounts;
+            reasons[key] = (reasons[key] ?? 0) + 1;
+          }
+          sendNotification(reasons);
+        } catch {
+          // Fallback: send without reason breakdown
+          sendNotification({ like: newCount });
+        }
+      })();
+    }
+    prevCount.current = count;
+  }, [query.data]);
+
+  return query;
 }
 
 export function useSubjectPosts(notifications: Notification[]) {
