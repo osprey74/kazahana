@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react";
+import { useCallback, useLayoutEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Virtuoso } from "react-virtuoso";
 import type { FeedViewPost } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
@@ -8,20 +8,24 @@ import { LoadingSpinner } from "../common/LoadingSpinner";
 
 export function TimelineView() {
   const { t } = useTranslation();
+  const [scrollParent, setScrollParent] = useState<HTMLElement | null>(null);
+
   const {
-    data,
+    items,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
     isLoading,
     isError,
     refetch,
+    dividerPostUri,
+    reportViewportTop,
   } = useTimeline();
 
-  const items = useMemo(() => {
-    if (!data?.pages) return [];
-    return data.pages.flatMap((page) => page.feed);
-  }, [data]);
+  // Resolve the actual scroll container (<main> in AppLayout)
+  useLayoutEffect(() => {
+    setScrollParent(document.querySelector("main"));
+  }, []);
 
   const loadMore = useCallback(() => {
     if (hasNextPage && !isFetchingNextPage) {
@@ -46,17 +50,39 @@ export function TimelineView() {
   }
 
   return (
-    <Virtuoso
-      useWindowScroll
-      data={items}
-      endReached={loadMore}
-      itemContent={(_index, item: FeedViewPost) => (
-        <PostCard feedItem={item} />
+    <>
+      {scrollParent && (
+        <Virtuoso
+          customScrollParent={scrollParent}
+          data={items}
+          computeItemKey={(_index, item: FeedViewPost) => {
+            const reason = item.reason as {
+              by?: { did?: string };
+            } | undefined;
+            return reason?.by?.did
+              ? `${item.post.uri}:repost:${reason.by.did}`
+              : item.post.uri;
+          }}
+          rangeChanged={(range) => {
+            reportViewportTop(range.startIndex);
+          }}
+          endReached={loadMore}
+          itemContent={(_index, item: FeedViewPost) => (
+            <>
+              {item.post.uri === dividerPostUri && (
+                <div className="bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs text-center py-1 font-medium">
+                  {t("timeline.readUpToHere")}
+                </div>
+              )}
+              <PostCard feedItem={item} />
+            </>
+          )}
+          components={{
+            Footer: () =>
+              isFetchingNextPage ? <LoadingSpinner /> : null,
+          }}
+        />
       )}
-      components={{
-        Footer: () =>
-          isFetchingNextPage ? <LoadingSpinner /> : null,
-      }}
-    />
+    </>
   );
 }

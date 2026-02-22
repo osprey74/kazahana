@@ -45,7 +45,8 @@
     "loadFailed": "Failed to load notifications"
   },
   "timeline": {
-    "loadFailed": "Failed to load timeline"
+    "loadFailed": "Failed to load timeline",
+    "readUpToHere": "↓ Read up to here ↓"
   },
   "thread": {
     "notFound": "Post not found",

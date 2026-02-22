@@ -45,7 +45,8 @@
     "loadFailed": "通知の読み込みに失敗しました"
   },
   "timeline": {
-    "loadFailed": "タイムラインの読み込みに失敗しました"
+    "loadFailed": "タイムラインの読み込みに失敗しました",
+    "readUpToHere": "↓ここまで読んだ↓"
   },
   "thread": {
     "notFound": "投稿が見つかりません",
