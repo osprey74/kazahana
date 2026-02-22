@@ -111,7 +111,7 @@ export function SettingsView() {
       <section className="mb-6">
         <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t("settings.pollInterval")}</h3>
         <div className="flex flex-wrap gap-2">
-          {[20, 30, 40, 50, 60, 90, 120].map((sec) => (
+          {[30, 60, 90, 120].map((sec) => (
             <button
               key={sec}
               onClick={() => setPollInterval(sec)}

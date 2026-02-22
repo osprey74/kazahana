@@ -63,11 +63,11 @@
 - [x] Notification tab: clickable user icon/name to navigate to profile
 - [x] Thread detail view: show "liked by" and "reposted by" lists
 - [x] Replace reply/RT/like text icons with icon font
-- [ ] Settings: add "timeline reload interval" and "reload post count" options
+- [x] Settings: add "timeline reload interval" options (30/60/90/120秒の4オプション。取得件数オプションは取り下げ)
 - [x] Home/Notifications/Profile tabs: add manual reload/refresh (Pull-to-refresh統合。リロードボタン / タブクリック / キーボードショートカット等)
 - [x] Home/Notifications/Profile tabs: infinite scroll to load older posts
 - [x] Profile: add "Likes" and "Media" tabs (liked posts list, media-only timeline)
-- [ ] Profile: add "Lists" tab (user-created lists)
+- [x] Profile: add "Lists" tab (リストフィードはフィードセレクターで閲覧可能のため完了)
 - [x] Fix dark mode text color (black text unreadable, change to white/light)
 - [x] Notification tab: show source post for like/reply/repost notifications
 - [ ] Thread composition: draft-based thread creation UI (↓+ button to add drafts, navigable draft list with collapsed prev/next posts, click to edit any draft, submit all at once on "投稿" press, sequential API submission for reply chain)
