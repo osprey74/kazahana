@@ -60,7 +60,9 @@ export function LoginForm() {
           </div>
 
           {error && (
-            <p className="text-red-500 text-sm">{error}</p>
+            <p className={`text-sm ${error === "session_expired" ? "text-amber-600 dark:text-amber-400" : "text-red-500"}`}>
+              {error === "session_expired" ? t("session.expired") : error}
+            </p>
           )}
 
           <button

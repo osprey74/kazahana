@@ -85,6 +85,9 @@
     "disableQuote": "Zitieren deaktivieren",
     "replyRestricted": "Antworten eingeschränkt"
   },
+  "session": {
+    "expired": "Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an."
+  },
   "common": {
     "retry": "Erneut versuchen"
   },

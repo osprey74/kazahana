@@ -85,6 +85,9 @@
     "disableQuote": "Desativar citação",
     "replyRestricted": "Respostas restritas"
   },
+  "session": {
+    "expired": "Sua sessão expirou. Faça login novamente."
+  },
   "common": {
     "retry": "Tentar novamente"
   },

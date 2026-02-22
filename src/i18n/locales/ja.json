@@ -85,6 +85,9 @@
     "disableQuote": "引用を許可しない",
     "replyRestricted": "返信が制限されています"
   },
+  "session": {
+    "expired": "セッションの有効期限が切れました。再度ログインしてください。"
+  },
   "common": {
     "retry": "再試行"
   },

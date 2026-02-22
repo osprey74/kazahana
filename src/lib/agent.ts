@@ -1,24 +1,20 @@
 import { AtpAgent, type AtpSessionData, type AtpSessionEvent } from "@atproto/api";
 import { DEFAULT_PDS_HOST } from "./constants";
-import { saveSession, clearSession } from "./session";
 
 let agent: AtpAgent | null = null;
+let sessionHandler: ((evt: AtpSessionEvent, session?: AtpSessionData) => void) | null = null;
 
-function handleSessionChange(evt: AtpSessionEvent, session?: AtpSessionData) {
-  if (evt === "update" || evt === "create") {
-    if (session) {
-      saveSession(session);
-    }
-  } else if (evt === "expired") {
-    clearSession();
-  }
+export function setSessionHandler(handler: (evt: AtpSessionEvent, session?: AtpSessionData) => void): void {
+  sessionHandler = handler;
 }
 
 export function getAgent(): AtpAgent {
   if (!agent) {
     agent = new AtpAgent({
       service: DEFAULT_PDS_HOST,
-      persistSession: handleSessionChange,
+      persistSession: (evt, session) => {
+        sessionHandler?.(evt, session);
+      },
     });
   }
   return agent;

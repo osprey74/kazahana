@@ -85,6 +85,9 @@
     "disableQuote": "Nonaktifkan kutipan",
     "replyRestricted": "Balasan dibatasi"
   },
+  "session": {
+    "expired": "Sesi Anda telah berakhir. Silakan masuk kembali."
+  },
   "common": {
     "retry": "Coba lagi"
   },

@@ -85,6 +85,9 @@
     "disableQuote": "인용 비활성화",
     "replyRestricted": "답글이 제한되어 있습니다"
   },
+  "session": {
+    "expired": "세션이 만료되었습니다. 다시 로그인해 주세요."
+  },
   "common": {
     "retry": "다시 시도"
   },

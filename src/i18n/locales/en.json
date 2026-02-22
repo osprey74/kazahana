@@ -85,6 +85,9 @@
     "disableQuote": "Disable quoting",
     "replyRestricted": "Replies are restricted"
   },
+  "session": {
+    "expired": "Your session has expired. Please log in again."
+  },
   "common": {
     "retry": "Retry"
   },

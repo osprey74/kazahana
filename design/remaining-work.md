@@ -53,7 +53,7 @@
 - [x] Indonesian (id)
 
 ## Beyond Spec (Potential Improvements)
-- [ ] Session auto-refresh robustness (401 error retry)
+- [x] Session auto-refresh robustness (401 error retry)
 - [ ] Rate limit handling (429 response backoff with `ratelimit-reset` header)
 - [ ] Follow/unfollow functionality verification
 - [ ] Image lightbox swipe gestures (touch/trackpad)

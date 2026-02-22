@@ -85,6 +85,9 @@
     "disableQuote": "禁止引用",
     "replyRestricted": "回复受到限制"
   },
+  "session": {
+    "expired": "您的登录已过期，请重新登录。"
+  },
   "common": {
     "retry": "重试"
   },

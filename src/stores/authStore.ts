@@ -1,7 +1,8 @@
 import { create } from "zustand";
 import type { ProfileViewDetailed } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
-import { getAgent, resetAgent } from "../lib/agent";
-import { loadSession, clearSession } from "../lib/session";
+import type { AtpSessionData, AtpSessionEvent } from "@atproto/api";
+import { getAgent, resetAgent, setSessionHandler } from "../lib/agent";
+import { loadSession, clearSession, saveSession } from "../lib/session";
 
 interface AuthState {
   isLoggedIn: boolean;
@@ -70,3 +71,25 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     }
   },
 }));
+
+// Register session event handler — runs once at module load
+function handleSessionEvent(evt: AtpSessionEvent, session?: AtpSessionData) {
+  if (evt === "update" || evt === "create") {
+    if (session) {
+      saveSession(session);
+    }
+  } else if (evt === "expired") {
+    clearSession();
+    resetAgent();
+    useAuthStore.setState({
+      isLoggedIn: false,
+      profile: null,
+      error: "session_expired",
+    });
+  }
+  // "create-failed" and "network-error" are intentionally ignored:
+  // - create-failed: handled by login() catch block
+  // - network-error: transient, session data should be kept
+}
+
+setSessionHandler(handleSessionEvent);
