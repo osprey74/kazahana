@@ -11,7 +11,7 @@
 ## Spec Phase 3 (Post/Notification)
 - [x] Image attachment in posts (with alt text)
 - [x] Rich text input: auto-detect mentions, URLs, hashtags and generate facets (実装済み: usePost.ts で detectFacets 実行)
-- [ ] Mention click → navigate to profile, hashtag click → search
+- [x] Mention click → navigate to profile, hashtag click → search
 - [ ] Mention auto-complete: `@` input triggers `searchActorsTypeahead` dropdown with keyboard navigation
 
 ## Spec Phase 4 (Profile/Search/Polish)

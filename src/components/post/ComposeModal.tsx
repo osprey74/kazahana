@@ -78,20 +78,24 @@ export function ComposeModal() {
       }),
     );
 
-    await createPost.mutateAsync({
-      text,
-      images: imageData.length > 0 ? imageData : undefined,
-      external: ogp ? { uri: ogp.url, title: ogp.title, description: ogp.description, thumbUrl: ogp.imageUrl } : undefined,
-      replyTo: replyTo
-        ? { uri: replyTo.uri, cid: replyTo.cid }
-        : undefined,
-      threadgate: !replyTo ? replyGate : undefined,
-      postgate: !replyTo && disableQuote ? { disableQuote: true } : undefined,
-    });
-
-    // Cleanup previews
-    images.forEach((img) => URL.revokeObjectURL(img.preview));
-    close();
+    createPost.mutate(
+      {
+        text,
+        images: imageData.length > 0 ? imageData : undefined,
+        external: ogp ? { uri: ogp.url, title: ogp.title, description: ogp.description, thumbUrl: ogp.imageUrl } : undefined,
+        replyTo: replyTo
+          ? { uri: replyTo.uri, cid: replyTo.cid }
+          : undefined,
+        threadgate: !replyTo ? replyGate : undefined,
+        postgate: !replyTo && disableQuote ? { disableQuote: true } : undefined,
+      },
+      {
+        onSuccess: () => {
+          images.forEach((img) => URL.revokeObjectURL(img.preview));
+          close();
+        },
+      },
+    );
   };
 
   if (!isOpen) return null;

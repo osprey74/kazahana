@@ -1,5 +1,5 @@
-import { useState, useMemo, useCallback, useLayoutEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect, useMemo, useCallback, useLayoutEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Virtuoso } from "react-virtuoso";
 import { moderatePost, moderateProfile } from "@atproto/api";
@@ -16,8 +16,9 @@ type SearchTab = "posts" | "users";
 export function SearchView() {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [query, setQuery] = useState("");
-  const [activeQuery, setActiveQuery] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [query, setQuery] = useState(() => searchParams.get("q") ?? "");
+  const [activeQuery, setActiveQuery] = useState(() => searchParams.get("q") ?? "");
   const [tab, setTab] = useState<SearchTab>("posts");
   const [scrollParent, setScrollParent] = useState<HTMLElement | null>(null);
 
@@ -25,9 +26,24 @@ export function SearchView() {
     setScrollParent(document.querySelector("main"));
   }, []);
 
+  // Sync from URL search params (e.g. hashtag click from PostContent)
+  useEffect(() => {
+    const q = searchParams.get("q") ?? "";
+    if (q && q !== activeQuery) {
+      setQuery(q);
+      setActiveQuery(q);
+    }
+  }, [searchParams]); // eslint-disable-line react-hooks/exhaustive-deps
+
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    setActiveQuery(query.trim());
+    const q = query.trim();
+    setActiveQuery(q);
+    if (q) {
+      setSearchParams({ q }, { replace: true });
+    } else {
+      setSearchParams({}, { replace: true });
+    }
   };
 
   return (

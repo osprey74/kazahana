@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import type { RichText } from "@atproto/api";
 import { parseRichText } from "../../lib/richtext";
 
@@ -7,6 +8,7 @@ interface PostContentProps {
 }
 
 export function PostContent({ text, facets }: PostContentProps) {
+  const navigate = useNavigate();
   const segments = parseRichText(text, facets);
 
   return (
@@ -27,16 +29,30 @@ export function PostContent({ text, facets }: PostContentProps) {
         }
         if (seg.mention) {
           return (
-            <span key={i} className="text-primary hover:underline cursor-pointer">
+            <button
+              key={i}
+              onClick={(e) => {
+                e.stopPropagation();
+                navigate(`/profile/${seg.mention!.did}`);
+              }}
+              className="text-primary hover:underline"
+            >
               {seg.text}
-            </span>
+            </button>
           );
         }
         if (seg.tag) {
           return (
-            <span key={i} className="text-primary hover:underline cursor-pointer">
+            <button
+              key={i}
+              onClick={(e) => {
+                e.stopPropagation();
+                navigate(`/search?q=${encodeURIComponent(`#${seg.tag!.tag}`)}`);
+              }}
+              className="text-primary hover:underline"
+            >
               {seg.text}
-            </span>
+            </button>
           );
         }
         return <span key={i}>{seg.text}</span>;
