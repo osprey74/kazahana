@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useLayoutEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Virtuoso } from "react-virtuoso";
@@ -19,6 +19,11 @@ export function SearchView() {
   const [query, setQuery] = useState("");
   const [activeQuery, setActiveQuery] = useState("");
   const [tab, setTab] = useState<SearchTab>("posts");
+  const [scrollParent, setScrollParent] = useState<HTMLElement | null>(null);
+
+  useLayoutEffect(() => {
+    setScrollParent(document.querySelector("main"));
+  }, []);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -66,10 +71,10 @@ export function SearchView() {
 
       {/* Results */}
       {activeQuery && tab === "posts" && (
-        <PostResults query={activeQuery} />
+        <PostResults query={activeQuery} scrollParent={scrollParent} />
       )}
       {activeQuery && tab === "users" && (
-        <UserResults query={activeQuery} onUserClick={(handle) => navigate(`/profile/${handle}`)} />
+        <UserResults query={activeQuery} scrollParent={scrollParent} onUserClick={(handle) => navigate(`/profile/${handle}`)} />
       )}
 
       {!activeQuery && (
@@ -81,7 +86,7 @@ export function SearchView() {
   );
 }
 
-function PostResults({ query }: { query: string }) {
+function PostResults({ query, scrollParent }: { query: string; scrollParent: HTMLElement | null }) {
   const { t } = useTranslation();
   const moderationOpts = useModerationOpts();
   const {
@@ -109,12 +114,14 @@ function PostResults({ query }: { query: string }) {
   if (isLoading) return <LoadingSpinner />;
   if (isError) return <p className="text-center py-8 text-gray-500">{t("search.loadFailed")}</p>;
   if (items.length === 0) return <p className="text-center py-8 text-gray-400">{t("search.noResults")}</p>;
+  if (!scrollParent) return null;
 
   return (
     <Virtuoso
-      useWindowScroll
+      customScrollParent={scrollParent}
       data={items}
       endReached={loadMore}
+      overscan={200}
       itemContent={(_index, item: FeedViewPost) => (
         <PostCard feedItem={item} />
       )}
@@ -125,7 +132,7 @@ function PostResults({ query }: { query: string }) {
   );
 }
 
-function UserResults({ query, onUserClick }: { query: string; onUserClick: (handle: string) => void }) {
+function UserResults({ query, scrollParent, onUserClick }: { query: string; scrollParent: HTMLElement | null; onUserClick: (handle: string) => void }) {
   const { t } = useTranslation();
   const moderationOpts = useModerationOpts();
   const {
@@ -151,12 +158,14 @@ function UserResults({ query, onUserClick }: { query: string; onUserClick: (hand
   if (isLoading) return <LoadingSpinner />;
   if (isError) return <p className="text-center py-8 text-gray-500">{t("search.loadFailed")}</p>;
   if (items.length === 0) return <p className="text-center py-8 text-gray-400">{t("search.noResults")}</p>;
+  if (!scrollParent) return null;
 
   return (
     <Virtuoso
-      useWindowScroll
+      customScrollParent={scrollParent}
       data={items}
       endReached={loadMore}
+      overscan={200}
       itemContent={(_index, actor: ProfileView) => (
         <div
           onClick={() => onUserClick(actor.handle)}

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Virtuoso } from "react-virtuoso";
 import { moderateProfile } from "@atproto/api";
@@ -10,6 +10,10 @@ import type { Notification } from "@atproto/api/dist/client/types/app/bsky/notif
 
 export function NotificationList() {
   const { t } = useTranslation();
+  const [scrollParent, setScrollParent] = useState<HTMLElement | null>(null);
+  useLayoutEffect(() => {
+    setScrollParent(document.querySelector("main"));
+  }, []);
   const moderationOpts = useModerationOpts();
   const {
     data,
@@ -77,11 +81,14 @@ export function NotificationList() {
     );
   }
 
+  if (!scrollParent) return null;
+
   return (
     <Virtuoso
-      useWindowScroll
+      customScrollParent={scrollParent}
       data={items}
       endReached={loadMore}
+      overscan={200}
       itemContent={(_index, item: Notification) => (
         <NotificationItem notification={item} subjectPost={item.reasonSubject ? subjectPosts.get(item.reasonSubject) : undefined} />
       )}

@@ -25,7 +25,7 @@ export function AppLayout() {
   );
 
   const triggerRefresh = useCallback(() => {
-    mainRef.current?.scrollTo({ top: 0, behavior: "smooth" });
+    mainRef.current?.scrollTo({ top: 0, behavior: "instant" });
     window.dispatchEvent(new CustomEvent("kazahana:refresh"));
   }, []);
 
@@ -50,7 +50,7 @@ export function AppLayout() {
   }, [canRefresh, triggerRefresh]);
 
   const scrollToTop = useCallback(() => {
-    mainRef.current?.scrollTo({ top: 0, behavior: "smooth" });
+    mainRef.current?.scrollTo({ top: 0, behavior: "instant" });
   }, []);
 
   return (

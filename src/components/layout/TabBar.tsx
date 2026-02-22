@@ -22,7 +22,7 @@ export function TabBar() {
         to === "/" ? location.pathname === "/" : location.pathname.startsWith(to);
       if (isActive) {
         e.preventDefault();
-        document.querySelector("main")?.scrollTo({ top: 0, behavior: "smooth" });
+        document.querySelector("main")?.scrollTo({ top: 0, behavior: "instant" });
         window.dispatchEvent(new CustomEvent("kazahana:refresh"));
       }
     },
