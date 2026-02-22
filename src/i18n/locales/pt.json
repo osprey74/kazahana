@@ -65,6 +65,13 @@
     "loadFailed": "Falha ao carregar",
     "loadMore": "Carregar mais"
   },
+  "feed": {
+    "home": "Início",
+    "feeds": "Feeds",
+    "lists": "Listas",
+    "loadFailed": "Falha ao carregar o feed",
+    "empty": "Sem publicações"
+  },
   "common": {
     "retry": "Tentar novamente"
   },

@@ -65,6 +65,13 @@
     "loadFailed": "加载失败",
     "loadMore": "加载更多"
   },
+  "feed": {
+    "home": "首页",
+    "feeds": "动态",
+    "lists": "列表",
+    "loadFailed": "无法加载动态",
+    "empty": "没有帖子"
+  },
   "common": {
     "retry": "重试"
   },

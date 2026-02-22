@@ -65,6 +65,13 @@
     "loadFailed": "Gagal memuat",
     "loadMore": "Muat lebih banyak"
   },
+  "feed": {
+    "home": "Beranda",
+    "feeds": "Feed",
+    "lists": "Daftar",
+    "loadFailed": "Gagal memuat feed",
+    "empty": "Tidak ada postingan"
+  },
   "common": {
     "retry": "Coba lagi"
   },

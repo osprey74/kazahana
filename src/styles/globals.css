@@ -49,4 +49,12 @@
     background-color: rgba(0, 0, 0, 0.2);
     border-radius: 3px;
   }
+
+  .scrollbar-none {
+    scrollbar-width: none;
+  }
+
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
 }

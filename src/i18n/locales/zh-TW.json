@@ -65,6 +65,13 @@
     "loadFailed": "載入失敗",
     "loadMore": "載入更多"
   },
+  "feed": {
+    "home": "首頁",
+    "feeds": "動態消息",
+    "lists": "列表",
+    "loadFailed": "無法載入動態消息",
+    "empty": "沒有貼文"
+  },
   "common": {
     "retry": "重試"
   },

@@ -65,6 +65,13 @@
     "loadFailed": "Laden fehlgeschlagen",
     "loadMore": "Mehr laden"
   },
+  "feed": {
+    "home": "Startseite",
+    "feeds": "Feeds",
+    "lists": "Listen",
+    "loadFailed": "Feed konnte nicht geladen werden",
+    "empty": "Keine Beiträge"
+  },
   "common": {
     "retry": "Erneut versuchen"
   },

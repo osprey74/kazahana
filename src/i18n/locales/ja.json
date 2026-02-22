@@ -65,6 +65,13 @@
     "loadFailed": "読み込みに失敗しました",
     "loadMore": "もっと見る"
   },
+  "feed": {
+    "home": "ホーム",
+    "feeds": "フィード",
+    "lists": "リスト",
+    "loadFailed": "フィードの読み込みに失敗しました",
+    "empty": "投稿はありません"
+  },
   "common": {
     "retry": "再試行"
   },

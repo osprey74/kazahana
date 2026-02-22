@@ -65,6 +65,13 @@
     "loadFailed": "Failed to load",
     "loadMore": "Load more"
   },
+  "feed": {
+    "home": "Home",
+    "feeds": "Feeds",
+    "lists": "Lists",
+    "loadFailed": "Failed to load feed",
+    "empty": "No posts"
+  },
   "common": {
     "retry": "Retry"
   },

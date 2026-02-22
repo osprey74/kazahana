@@ -65,6 +65,13 @@
     "loadFailed": "Échec du chargement",
     "loadMore": "Charger plus"
   },
+  "feed": {
+    "home": "Accueil",
+    "feeds": "Flux",
+    "lists": "Listes",
+    "loadFailed": "Échec du chargement du flux",
+    "empty": "Aucune publication"
+  },
   "common": {
     "retry": "Réessayer"
   },

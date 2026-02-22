@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AppLayout } from "./components/layout";
 import { LoginForm } from "./components/auth/LoginForm";
-import { TimelineView } from "./components/timeline/TimelineView";
+import { HomeView } from "./components/timeline/HomeView";
 import { ThreadView } from "./components/thread/ThreadView";
 import { NotificationList } from "./components/notification/NotificationList";
 import { ProfileView } from "./components/profile/ProfileView";
@@ -63,7 +63,7 @@ function AuthGate() {
       <ModerationProvider>
         <Routes>
           <Route element={<AppLayout />}>
-            <Route path="/" element={<TimelineView />} />
+            <Route path="/" element={<HomeView />} />
             <Route path="/search" element={<SearchView />} />
             <Route path="/notifications" element={<NotificationList />} />
             <Route path="/profile" element={<ProfileView />} />
