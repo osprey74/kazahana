@@ -15,6 +15,13 @@
 Kazahana is a lightweight desktop client for [Bluesky](https://bsky.app/).
 Built with Tauri v2, it leverages the OS-native WebView for a low-memory, smooth experience.
 
+## Philosophy
+
+Kazahana is designed as a **lightweight, always-running companion app** — not a full-featured standalone replacement for the official Bluesky web client.
+
+- **Daily essentials in Kazahana** — Timeline browsing, posting, notifications, search, DMs, and other frequently used operations are optimized for a smooth desktop experience.
+- **Configuration via Bluesky web** — Account management, block/mute list management, list creation, feed generator setup, and other infrequent administrative tasks are left to [bsky.app](https://bsky.app/). Settings made on the web are automatically reflected in Kazahana through the AT Protocol's server-side sync.
+
 ## Features
 
 - 🪶 **Lightweight** — Tauri v2 with no bundled Chromium, dramatically reducing memory usage
