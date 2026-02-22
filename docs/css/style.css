@@ -300,6 +300,43 @@ a:hover {
   line-height: 1.7;
 }
 
+/* ===== Capabilities ===== */
+.capabilities-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.capability-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  transition: box-shadow 0.2s;
+}
+
+.section-alt .capability-item {
+  background: var(--bg);
+}
+
+.capability-item:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.capability-item .material-symbols-rounded {
+  font-size: 24px;
+  color: var(--primary);
+  flex-shrink: 0;
+}
+
+.capability-item span:last-child {
+  font-size: 14px;
+  line-height: 1.4;
+}
+
 /* ===== Screenshots ===== */
 .screenshots-grid {
   display: grid;
@@ -562,6 +599,10 @@ a:hover {
   .screenshots-grid,
   .download-grid,
   .support-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .capabilities-grid {
     grid-template-columns: 1fr;
   }
 
