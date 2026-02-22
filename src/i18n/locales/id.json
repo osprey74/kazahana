@@ -57,6 +57,14 @@
     "notFound": "Postingan tidak ditemukan",
     "back": "Kembali"
   },
+  "postList": {
+    "likedBy": "Disukai oleh",
+    "repostedBy": "Direpost oleh",
+    "quotedBy": "Kutipan",
+    "empty": "Belum ada",
+    "loadFailed": "Gagal memuat",
+    "loadMore": "Muat lebih banyak"
+  },
   "common": {
     "retry": "Coba lagi"
   },

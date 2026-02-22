@@ -57,6 +57,14 @@
     "notFound": "Post not found",
     "back": "Back"
   },
+  "postList": {
+    "likedBy": "Liked by",
+    "repostedBy": "Reposted by",
+    "quotedBy": "Quotes",
+    "empty": "None yet",
+    "loadFailed": "Failed to load",
+    "loadMore": "Load more"
+  },
   "common": {
     "retry": "Retry"
   },

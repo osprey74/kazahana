@@ -57,6 +57,14 @@
     "notFound": "找不到貼文",
     "back": "返回"
   },
+  "postList": {
+    "likedBy": "按讚的用戶",
+    "repostedBy": "轉發的用戶",
+    "quotedBy": "引用的貼文",
+    "empty": "尚無資料",
+    "loadFailed": "載入失敗",
+    "loadMore": "載入更多"
+  },
   "common": {
     "retry": "重試"
   },

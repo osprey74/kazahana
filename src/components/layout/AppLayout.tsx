@@ -3,6 +3,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { TabBar } from "./TabBar";
 import { ComposeModal } from "../post/ComposeModal";
+import { PostListModal } from "../post/PostListModal";
 import { ImageLightbox } from "../common/ImageLightbox";
 import { useComposeStore } from "../../stores/composeStore";
 import { useAuthStore } from "../../stores/authStore";
@@ -71,6 +72,9 @@ export function AppLayout() {
 
       {/* Compose Modal */}
       <ComposeModal />
+
+      {/* Post List Modal (likes, reposts, quotes) */}
+      <PostListModal />
 
       {/* Image Lightbox */}
       <ImageLightbox />

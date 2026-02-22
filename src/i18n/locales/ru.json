@@ -57,6 +57,14 @@
     "notFound": "Пост не найден",
     "back": "Назад"
   },
+  "postList": {
+    "likedBy": "Понравилось",
+    "repostedBy": "Репосты",
+    "quotedBy": "Цитаты",
+    "empty": "Пока нет",
+    "loadFailed": "Ошибка загрузки",
+    "loadMore": "Загрузить ещё"
+  },
   "common": {
     "retry": "Повторить"
   },

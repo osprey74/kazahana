@@ -57,6 +57,14 @@
     "notFound": "Beitrag nicht gefunden",
     "back": "Zurück"
   },
+  "postList": {
+    "likedBy": "Gefällt",
+    "repostedBy": "Repostet von",
+    "quotedBy": "Zitate",
+    "empty": "Noch keine",
+    "loadFailed": "Laden fehlgeschlagen",
+    "loadMore": "Mehr laden"
+  },
   "common": {
     "retry": "Erneut versuchen"
   },

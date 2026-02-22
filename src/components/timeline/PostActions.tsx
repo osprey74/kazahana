@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { PostView } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
 import { getAgent } from "../../lib/agent";
 import { useComposeStore } from "../../stores/composeStore";
+import { usePostListStore } from "../../stores/postListStore";
 import { Icon } from "../common/Icon";
 
 interface PostActionsProps {
@@ -18,7 +19,9 @@ export function PostActions({ post }: PostActionsProps) {
   const [repostUri, setRepostUri] = useState(post.viewer?.repost ?? "");
 
   const replyCount = post.replyCount ?? 0;
+  const quoteCount = post.quoteCount ?? 0;
   const openCompose = useComposeStore((s) => s.open);
+  const openPostList = usePostListStore((s) => s.open);
 
   const handleReply = () => {
     const record = post.record as { text?: string };
@@ -92,6 +95,7 @@ export function PostActions({ post }: PostActionsProps) {
         active={reposted}
         activeColor="text-green-600"
         onClick={handleRepost}
+        onCountClick={() => openPostList("reposts", post.uri)}
       />
       <ActionButton
         icon={liked ? "favorite" : "favorite_border"}
@@ -99,6 +103,13 @@ export function PostActions({ post }: PostActionsProps) {
         active={liked}
         activeColor="text-red-500"
         onClick={handleLike}
+        onCountClick={() => openPostList("likes", post.uri)}
+      />
+      <ActionButton
+        icon="format_quote"
+        count={quoteCount}
+        active={false}
+        onClick={() => openPostList("quotes", post.uri)}
       />
     </div>
   );
@@ -110,12 +121,14 @@ function ActionButton({
   active,
   activeColor = "",
   onClick,
+  onCountClick,
 }: {
   icon: string;
   count: number;
   active: boolean;
   activeColor?: string;
   onClick: () => void;
+  onCountClick?: () => void;
 }) {
   return (
     <button
@@ -125,7 +138,14 @@ function ActionButton({
       }`}
     >
       <Icon name={icon} size={16} filled={active} />
-      {count > 0 && <span>{count}</span>}
+      {count > 0 && (
+        <span
+          onClick={onCountClick ? (e) => { e.stopPropagation(); onCountClick(); } : undefined}
+          className={onCountClick ? "hover:underline" : ""}
+        >
+          {count}
+        </span>
+      )}
     </button>
   );
 }

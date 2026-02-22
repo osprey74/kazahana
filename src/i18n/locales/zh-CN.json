@@ -57,6 +57,14 @@
     "notFound": "帖子未找到",
     "back": "返回"
   },
+  "postList": {
+    "likedBy": "点赞的用户",
+    "repostedBy": "转发的用户",
+    "quotedBy": "引用的帖子",
+    "empty": "暂无数据",
+    "loadFailed": "加载失败",
+    "loadMore": "加载更多"
+  },
   "common": {
     "retry": "重试"
   },

@@ -57,6 +57,14 @@
     "notFound": "投稿が見つかりません",
     "back": "戻る"
   },
+  "postList": {
+    "likedBy": "いいねしたユーザー",
+    "repostedBy": "リポストしたユーザー",
+    "quotedBy": "引用した投稿",
+    "empty": "まだありません",
+    "loadFailed": "読み込みに失敗しました",
+    "loadMore": "もっと見る"
+  },
   "common": {
     "retry": "再試行"
   },

@@ -27,9 +27,9 @@
 - [x] Follower / following lists (`getFollowers` / `getFollows`)
 - [ ] Custom feed viewing (`getFeed` / `getFeedGenerator` / `getSuggestedFeeds`)
 - [ ] Liked posts list (`getActorLikes`)
-- [ ] Liked-by users on a post (`getLikes`)
-- [ ] Reposted-by users on a post (`getRepostedBy`)
-- [ ] Quotes list on a post (`getQuotes`)
+- [x] Liked-by users on a post (`getLikes`)
+- [x] Reposted-by users on a post (`getRepostedBy`)
+- [x] Quotes list on a post (`getQuotes`)
 - [ ] Post deletion (`deleteRecord` for posts)
 - [x] Quote post embed display (`app.bsky.embed.record`)
 - [ ] Video posting (`uploadVideo` / `app.bsky.embed.video`)
@@ -59,7 +59,7 @@
 - [ ] Image lightbox swipe gestures (touch/trackpad)
 - [ ] Settings: display current API rate limit consumption
 - [x] Notification tab: clickable user icon/name to navigate to profile
-- [ ] Thread detail view: show "liked by" and "reposted by" lists
+- [x] Thread detail view: show "liked by" and "reposted by" lists
 - [x] Replace reply/RT/like text icons with icon font
 - [ ] Settings: add "timeline reload interval" and "reload post count" options
 - [ ] Home/Notifications/Profile tabs: add manual reload/refresh (Pull-to-refresh統合。リロードボタン / タブクリック / キーボードショートカット等)

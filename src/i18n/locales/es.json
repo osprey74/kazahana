@@ -57,6 +57,14 @@
     "notFound": "Publicación no encontrada",
     "back": "Volver"
   },
+  "postList": {
+    "likedBy": "Les gustó a",
+    "repostedBy": "Reposteado por",
+    "quotedBy": "Citas",
+    "empty": "Ninguno aún",
+    "loadFailed": "Error al cargar",
+    "loadMore": "Cargar más"
+  },
   "common": {
     "retry": "Reintentar"
   },
