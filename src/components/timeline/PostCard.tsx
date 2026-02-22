@@ -6,6 +6,7 @@ import { formatDistanceToNowStrict } from "date-fns";
 import { ja } from "date-fns/locale";
 import { enUS } from "date-fns/locale";
 import { Avatar } from "../common/Avatar";
+import { Icon } from "../common/Icon";
 import { ImageGrid } from "../common/ImageGrid";
 import { PostContent } from "./PostContent";
 import { PostActions } from "./PostActions";
@@ -51,7 +52,7 @@ export function PostCard({ feedItem, showParentContext }: PostCardProps) {
     >
       {isRepost && repostBy && (
         <div className="flex items-center gap-1 text-xs text-gray-500 mb-1 ml-12">
-          <span>🔁</span>
+          <Icon name="repeat" size={14} />
           <span>{repostBy.displayName || repostBy.handle} {t("post.reposted")}</span>
         </div>
       )}
@@ -114,14 +115,16 @@ export function PostCard({ feedItem, showParentContext }: PostCardProps) {
           {/* Reply indicator (only when no parent context shown) */}
           {!hasParentContext && (
             feedItem.reply?.parent ? (
-              <div className="text-xs text-gray-500 mt-0.5">
+              <div className="flex items-center gap-0.5 text-xs text-gray-500 mt-0.5">
+                <Icon name="reply" size={14} />
                 <span>
-                  ↩ {(feedItem.reply.parent as { author?: { handle?: string } }).author?.handle ?? "..."} {t("post.replyTo")}
+                  {(feedItem.reply.parent as { author?: { handle?: string } }).author?.handle ?? "..."} {t("post.replyTo")}
                 </span>
               </div>
             ) : record.reply?.parent ? (
-              <div className="text-xs text-gray-500 mt-0.5">
-                <span>↩ {t("post.replyTo")}</span>
+              <div className="flex items-center gap-0.5 text-xs text-gray-500 mt-0.5">
+                <Icon name="reply" size={14} />
+                <span>{t("post.replyTo")}</span>
               </div>
             ) : null
           )}

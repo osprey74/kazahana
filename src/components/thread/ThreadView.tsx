@@ -4,6 +4,7 @@ import type { PostView } from "@atproto/api/dist/client/types/app/bsky/feed/defs
 import { useThread } from "../../hooks/useThread";
 import { LoadingSpinner } from "../common/LoadingSpinner";
 import { Avatar } from "../common/Avatar";
+import { Icon } from "../common/Icon";
 import { PostContent } from "../timeline/PostContent";
 import { PostActions } from "../timeline/PostActions";
 import { ImageGrid } from "../common/ImageGrid";
@@ -61,7 +62,7 @@ export function ThreadView() {
           onClick={() => navigate(-1)}
           className="text-sm text-primary hover:underline"
         >
-          ← {t("thread.back")}
+          <Icon name="arrow_back" size={16} className="inline-block align-text-bottom" /> {t("thread.back")}
         </button>
       </div>
 
@@ -116,7 +117,7 @@ function ThreadPostItem({
         <div className="flex-1 min-w-0">
           <div className="flex items-baseline gap-1">
             <button onClick={() => navigate(`/profile/${post.author.handle}`)} className="flex items-baseline gap-1 min-w-0 hover:underline">
-              <span className="font-bold text-sm text-text-light truncate">
+              <span className="font-bold text-sm text-text-light dark:text-text-dark truncate">
                 {post.author.displayName || post.author.handle}
               </span>
               <span className="text-xs text-gray-500 truncate">

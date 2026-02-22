@@ -1,3 +1,5 @@
+import { Icon } from "./Icon";
+
 interface AvatarProps {
   src?: string;
   alt?: string;
@@ -11,10 +13,16 @@ const sizeClasses = {
   lg: "w-14 h-14",
 };
 
+const badgeIconSize = {
+  sm: 10,
+  md: 12,
+  lg: 14,
+};
+
 const badgeSize = {
-  sm: "w-3.5 h-3.5 text-[8px]",
-  md: "w-4 h-4 text-[9px]",
-  lg: "w-5 h-5 text-[11px]",
+  sm: "w-3.5 h-3.5",
+  md: "w-4 h-4",
+  lg: "w-5 h-5",
 };
 
 export function Avatar({ src, alt = "", size = "md", badge }: AvatarProps) {
@@ -39,9 +47,9 @@ export function Avatar({ src, alt = "", size = "md", badge }: AvatarProps) {
       </div>
       {badge === "reply" && (
         <span
-          className={`absolute -bottom-0.5 -right-0.5 ${badgeSize[size]} flex items-center justify-center rounded-full bg-gray-500 text-white leading-none`}
+          className={`absolute -bottom-0.5 -right-0.5 ${badgeSize[size]} flex items-center justify-center rounded-full bg-gray-500 text-white`}
         >
-          ↩
+          <Icon name="reply" size={badgeIconSize[size]} />
         </span>
       )}
     </div>

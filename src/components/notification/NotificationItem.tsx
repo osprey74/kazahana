@@ -5,18 +5,19 @@ import { formatDistanceToNowStrict } from "date-fns";
 import { ja } from "date-fns/locale";
 import { enUS } from "date-fns/locale";
 import { Avatar } from "../common/Avatar";
+import { Icon } from "../common/Icon";
 
 interface NotificationItemProps {
   notification: Notification;
 }
 
 const REASON_ICONS: Record<string, string> = {
-  like: "❤️",
-  repost: "🔁",
-  follow: "👤",
-  mention: "💬",
-  reply: "💬",
-  quote: "🔁",
+  like: "favorite",
+  repost: "repeat",
+  follow: "person_add",
+  mention: "chat_bubble",
+  reply: "chat_bubble",
+  quote: "repeat",
 };
 
 const REASON_KEYS: Record<string, string> = {
@@ -32,7 +33,7 @@ export function NotificationItem({ notification }: NotificationItemProps) {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const { author, reason, indexedAt, isRead } = notification;
-  const icon = REASON_ICONS[reason] ?? "🔔";
+  const icon = REASON_ICONS[reason] ?? "notifications";
   const labelKey = REASON_KEYS[reason];
   const label = labelKey ? t(labelKey) : "";
 
@@ -62,9 +63,9 @@ export function NotificationItem({ notification }: NotificationItemProps) {
     >
       <Avatar src={author.avatar} size="sm" />
       <div className="flex-1 min-w-0">
-        <div className="flex items-baseline gap-1 text-sm">
-          <span className="mr-1">{icon}</span>
-          <span className="font-bold text-text-light truncate">
+        <div className="flex items-center gap-1 text-sm">
+          <Icon name={icon} size={16} className="text-gray-500" filled={reason === "like"} />
+          <span className="font-bold text-text-light dark:text-text-dark truncate">
             {author.displayName || author.handle}
           </span>
           <span className="text-gray-500 flex-shrink-0">{label}</span>

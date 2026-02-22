@@ -26,25 +26,25 @@ export function SearchView() {
   return (
     <div>
       {/* Search bar */}
-      <form onSubmit={handleSearch} className="px-4 py-3 border-b border-border-light">
+      <form onSubmit={handleSearch} className="px-4 py-3 border-b border-border-light dark:border-border-dark">
         <input
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder={t("search.placeholder")}
-          className="w-full px-3 py-2 border border-border-light rounded-btn text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+          className="w-full px-3 py-2 border border-border-light dark:border-border-dark rounded-btn text-sm bg-transparent text-text-light dark:text-text-dark placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
         />
       </form>
 
       {/* Tabs */}
       {activeQuery && (
-        <div className="flex border-b border-border-light">
+        <div className="flex border-b border-border-light dark:border-border-dark">
           <button
             onClick={() => setTab("posts")}
             className={`flex-1 py-2.5 text-sm font-medium transition-colors ${
               tab === "posts"
                 ? "text-primary border-b-2 border-primary"
-                : "text-gray-500 hover:text-gray-700"
+                : "text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
             }`}
           >
             {t("search.posts")}
@@ -54,7 +54,7 @@ export function SearchView() {
             className={`flex-1 py-2.5 text-sm font-medium transition-colors ${
               tab === "users"
                 ? "text-primary border-b-2 border-primary"
-                : "text-gray-500 hover:text-gray-700"
+                : "text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
             }`}
           >
             {t("search.users")}
@@ -152,11 +152,11 @@ function UserResults({ query, onUserClick }: { query: string; onUserClick: (hand
       itemContent={(_index, actor: ProfileView) => (
         <div
           onClick={() => onUserClick(actor.handle)}
-          className="flex gap-3 px-4 py-3 border-b border-border-light hover:bg-gray-50 cursor-pointer transition-colors"
+          className="flex gap-3 px-4 py-3 border-b border-border-light dark:border-border-dark hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer transition-colors"
         >
           <Avatar src={actor.avatar} alt={actor.displayName} />
           <div className="flex-1 min-w-0">
-            <p className="font-bold text-sm text-text-light truncate">
+            <p className="font-bold text-sm text-text-light dark:text-text-dark truncate">
               {actor.displayName || actor.handle}
             </p>
             <p className="text-xs text-gray-500 truncate">@{actor.handle}</p>

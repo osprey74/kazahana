@@ -38,7 +38,7 @@ export function ProfileHeader({ profile, isOwnProfile }: ProfileHeaderProps) {
   const isPending = follow.isPending || unfollow.isPending;
 
   return (
-    <div className="border-b border-border-light">
+    <div className="border-b border-border-light dark:border-border-dark">
       {/* Banner */}
       {profile.banner ? (
         <img
@@ -60,7 +60,7 @@ export function ProfileHeader({ profile, isOwnProfile }: ProfileHeaderProps) {
               disabled={isPending}
               className={`px-4 py-1.5 text-sm font-medium rounded-btn transition-colors disabled:opacity-50 ${
                 isFollowing
-                  ? "bg-gray-200 text-gray-700 hover:bg-red-100 hover:text-red-600"
+                  ? "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-red-100 hover:text-red-600"
                   : "bg-primary text-white hover:bg-blue-600"
               }`}
             >
@@ -70,7 +70,7 @@ export function ProfileHeader({ profile, isOwnProfile }: ProfileHeaderProps) {
           {isOwnProfile && (
             <button
               onClick={() => { logout(); navigate("/"); }}
-              className="px-4 py-1.5 text-sm font-medium rounded-btn bg-gray-200 text-gray-900 hover:bg-gray-300 transition-colors"
+              className="px-4 py-1.5 text-sm font-medium rounded-btn bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
             >
               {t("profile.logout")}
             </button>
@@ -79,7 +79,7 @@ export function ProfileHeader({ profile, isOwnProfile }: ProfileHeaderProps) {
 
         {/* Name & handle */}
         <div className="mt-3">
-          <h2 className="text-lg font-bold text-text-light">
+          <h2 className="text-lg font-bold text-text-light dark:text-text-dark">
             {profile.displayName || profile.handle}
           </h2>
           <p className="text-sm text-gray-500">@{profile.handle}</p>
@@ -87,7 +87,7 @@ export function ProfileHeader({ profile, isOwnProfile }: ProfileHeaderProps) {
 
         {/* Bio */}
         {profile.description && (
-          <p className="text-sm text-text-light mt-2 whitespace-pre-wrap">
+          <p className="text-sm text-text-light dark:text-text-dark mt-2 whitespace-pre-wrap">
             {profile.description}
           </p>
         )}
@@ -95,15 +95,15 @@ export function ProfileHeader({ profile, isOwnProfile }: ProfileHeaderProps) {
         {/* Stats */}
         <div className="flex gap-4 mt-3 text-sm">
           <span>
-            <strong className="text-text-light">{profile.followsCount ?? 0}</strong>{" "}
+            <strong className="text-text-light dark:text-text-dark">{profile.followsCount ?? 0}</strong>{" "}
             <span className="text-gray-500">{t("profile.following")}</span>
           </span>
           <span>
-            <strong className="text-text-light">{profile.followersCount ?? 0}</strong>{" "}
+            <strong className="text-text-light dark:text-text-dark">{profile.followersCount ?? 0}</strong>{" "}
             <span className="text-gray-500">{t("profile.followers")}</span>
           </span>
           <span>
-            <strong className="text-text-light">{profile.postsCount ?? 0}</strong>{" "}
+            <strong className="text-text-light dark:text-text-dark">{profile.postsCount ?? 0}</strong>{" "}
             <span className="text-gray-500">{t("profile.posts")}</span>
           </span>
         </div>

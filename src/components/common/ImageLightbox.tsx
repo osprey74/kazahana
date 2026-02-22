@@ -1,5 +1,6 @@
 import { useEffect, useCallback } from "react";
 import { useLightboxStore } from "../../stores/lightboxStore";
+import { Icon } from "./Icon";
 
 export function ImageLightbox() {
   const { isOpen, images, currentIndex, close, next, prev, goTo } =
@@ -53,9 +54,9 @@ export function ImageLightbox() {
       {/* Close button */}
       <button
         onClick={close}
-        className="absolute top-3 right-3 z-10 w-9 h-9 flex items-center justify-center rounded-full bg-black/50 text-white/80 hover:text-white hover:bg-black/70 transition-colors text-xl leading-none"
+        className="absolute top-3 right-3 z-10 w-9 h-9 flex items-center justify-center rounded-full bg-black/50 text-white/80 hover:text-white hover:bg-black/70 transition-colors"
       >
-        ×
+        <Icon name="close" size={22} />
       </button>
 
       {/* Previous button */}
@@ -65,9 +66,9 @@ export function ImageLightbox() {
             e.stopPropagation();
             prev();
           }}
-          className="absolute left-3 z-10 w-9 h-9 flex items-center justify-center rounded-full bg-black/50 text-white/80 hover:text-white hover:bg-black/70 transition-colors text-lg leading-none"
+          className="absolute left-3 z-10 w-9 h-9 flex items-center justify-center rounded-full bg-black/50 text-white/80 hover:text-white hover:bg-black/70 transition-colors"
         >
-          ‹
+          <Icon name="chevron_left" size={24} />
         </button>
       )}
 
@@ -96,9 +97,9 @@ export function ImageLightbox() {
             e.stopPropagation();
             next();
           }}
-          className="absolute right-3 z-10 w-9 h-9 flex items-center justify-center rounded-full bg-black/50 text-white/80 hover:text-white hover:bg-black/70 transition-colors text-lg leading-none"
+          className="absolute right-3 z-10 w-9 h-9 flex items-center justify-center rounded-full bg-black/50 text-white/80 hover:text-white hover:bg-black/70 transition-colors"
         >
-          ›
+          <Icon name="chevron_right" size={24} />
         </button>
       )}
 

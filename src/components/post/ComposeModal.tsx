@@ -90,7 +90,7 @@ export function ComposeModal() {
         <div className="flex items-center justify-between px-4 py-3 border-b border-border-light dark:border-border-dark">
           <button
             onClick={close}
-            className="text-sm text-gray-500 hover:text-gray-700"
+            className="text-sm text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
           >
             {t("compose.cancel")}
           </button>
@@ -109,7 +109,7 @@ export function ComposeModal() {
             <Avatar src={replyTo.author.avatar} size="sm" />
             <div className="min-w-0">
               <p className="text-xs text-gray-500">
-                <span className="font-medium text-text-light">
+                <span className="font-medium text-text-light dark:text-text-dark">
                   {replyTo.author.displayName || replyTo.author.handle}
                 </span>{" "}
                 {t("post.replyTo")}

@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { PostView } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
 import { getAgent } from "../../lib/agent";
 import { useComposeStore } from "../../stores/composeStore";
+import { Icon } from "../common/Icon";
 
 interface PostActionsProps {
   post: PostView;
@@ -80,20 +81,20 @@ export function PostActions({ post }: PostActionsProps) {
   return (
     <div className="flex items-center gap-6 mt-2 -ml-1">
       <ActionButton
-        icon="💬"
+        icon="chat_bubble_outline"
         count={replyCount}
         active={false}
         onClick={handleReply}
       />
       <ActionButton
-        icon="🔁"
+        icon="repeat"
         count={repostCount}
         active={reposted}
         activeColor="text-green-600"
         onClick={handleRepost}
       />
       <ActionButton
-        icon={liked ? "❤️" : "♡"}
+        icon={liked ? "favorite" : "favorite_border"}
         count={likeCount}
         active={liked}
         activeColor="text-red-500"
@@ -123,7 +124,7 @@ function ActionButton({
         active ? activeColor : "text-gray-500"
       }`}
     >
-      <span>{icon}</span>
+      <Icon name={icon} size={16} filled={active} />
       {count > 0 && <span>{count}</span>}
     </button>
   );

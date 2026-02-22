@@ -10,7 +10,7 @@ export function PostContent({ text, facets }: PostContentProps) {
   const segments = parseRichText(text, facets);
 
   return (
-    <p className="text-sm text-text-light whitespace-pre-wrap break-words leading-relaxed">
+    <p className="text-sm text-text-light dark:text-text-dark whitespace-pre-wrap break-words leading-relaxed">
       {segments.map((seg, i) => {
         if (seg.link) {
           return (

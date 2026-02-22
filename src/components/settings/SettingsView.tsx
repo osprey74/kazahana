@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { openUrl } from "@tauri-apps/plugin-opener";
 import { useSettingsStore } from "../../stores/settingsStore";
 import { useAuthStore } from "../../stores/authStore";
+import { Icon } from "../common/Icon";
 
 export function SettingsView() {
   const { t, i18n } = useTranslation();
@@ -26,7 +27,7 @@ export function SettingsView() {
           onClick={() => navigate(-1)}
           className="text-sm text-primary hover:underline"
         >
-          ← {t("thread.back")}
+          <Icon name="arrow_back" size={16} className="inline-block align-text-bottom" /> {t("thread.back")}
         </button>
         <h2 className="text-lg font-bold text-text-light dark:text-text-dark">{t("settings.title")}</h2>
       </div>

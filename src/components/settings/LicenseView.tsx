@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { Icon } from "../common/Icon";
 
 const LICENSE_TEXT = `MIT License
 
@@ -34,7 +35,7 @@ export function LicenseView() {
           onClick={() => navigate("/settings")}
           className="text-sm text-primary hover:underline"
         >
-          ← {t("thread.back")}
+          <Icon name="arrow_back" size={16} className="inline-block align-text-bottom" /> {t("thread.back")}
         </button>
         <h2 className="text-lg font-bold text-text-light dark:text-text-dark">{t("settings.license")}</h2>
       </div>
