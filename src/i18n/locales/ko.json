@@ -150,7 +150,9 @@
     "users": "사용자",
     "hint": "검색어를 입력하세요",
     "noResults": "검색 결과가 없습니다",
-    "loadFailed": "검색에 실패했습니다"
+    "loadFailed": "검색에 실패했습니다",
+    "history": "최근 검색",
+    "clearHistory": "모두 삭제"
   },
   "settings": {
     "title": "설정",

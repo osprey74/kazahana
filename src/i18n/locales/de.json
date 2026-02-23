@@ -150,7 +150,9 @@
     "users": "Nutzer",
     "hint": "Suchbegriff eingeben",
     "noResults": "Keine Ergebnisse gefunden",
-    "loadFailed": "Suche fehlgeschlagen"
+    "loadFailed": "Suche fehlgeschlagen",
+    "history": "Suchverlauf",
+    "clearHistory": "Alle löschen"
   },
   "settings": {
     "title": "Einstellungen",

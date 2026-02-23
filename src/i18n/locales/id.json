@@ -150,7 +150,9 @@
     "users": "Pengguna",
     "hint": "Masukkan kata kunci untuk mencari",
     "noResults": "Tidak ada hasil",
-    "loadFailed": "Pencarian gagal"
+    "loadFailed": "Pencarian gagal",
+    "history": "Riwayat pencarian",
+    "clearHistory": "Hapus semua"
   },
   "settings": {
     "title": "Pengaturan",

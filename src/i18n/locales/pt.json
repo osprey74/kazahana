@@ -150,7 +150,9 @@
     "users": "Usuários",
     "hint": "Digite uma palavra-chave para buscar",
     "noResults": "Nenhum resultado encontrado",
-    "loadFailed": "Falha na busca"
+    "loadFailed": "Falha na busca",
+    "history": "Pesquisas recentes",
+    "clearHistory": "Limpar tudo"
   },
   "settings": {
     "title": "Configurações",

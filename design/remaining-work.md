@@ -72,5 +72,5 @@
 - [x] Notification tab: show source post for like/reply/repost notifications
 - [ ] Thread composition: draft-based thread creation UI (↓+ button to add drafts, navigable draft list with collapsed prev/next posts, click to edit any draft, submit all at once on "投稿" press, sequential API submission for reply chain)
 - [x] Compose: link card generation from URL in post text (manual trigger via "リンクカード生成" button, OGP fetch via tauri-plugin-http)
-- [ ] Search history: persist up to 200 entries across app restarts (localStorage/Zustand persist), individual delete and clear all buttons
+- [x] Search history: persist up to 200 entries across app restarts (localStorage/Zustand persist), individual delete and clear all buttons
 - [x] Official website via GitHub Pages

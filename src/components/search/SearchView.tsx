@@ -6,9 +6,11 @@ import { moderatePost, moderateProfile } from "@atproto/api";
 import type { FeedViewPost } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
 import type { ProfileView } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
 import { useSearchActors, useSearchPosts } from "../../hooks/useSearch";
+import { useSearchHistoryStore } from "../../stores/searchHistoryStore";
 import { useModerationOpts } from "../../contexts/ModerationContext";
 import { PostCard } from "../timeline/PostCard";
 import { Avatar } from "../common/Avatar";
+import { Icon } from "../common/Icon";
 import { LoadingSpinner } from "../common/LoadingSpinner";
 
 type SearchTab = "posts" | "users";
@@ -35,15 +37,24 @@ export function SearchView() {
     }
   }, [searchParams]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  const addHistory = useSearchHistoryStore((s) => s.addQuery);
+
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     const q = query.trim();
     setActiveQuery(q);
     if (q) {
+      addHistory(q);
       setSearchParams({ q }, { replace: true });
     } else {
       setSearchParams({}, { replace: true });
     }
+  };
+
+  const handleHistoryClick = (q: string) => {
+    setQuery(q);
+    setActiveQuery(q);
+    setSearchParams({ q }, { replace: true });
   };
 
   return (
@@ -94,9 +105,7 @@ export function SearchView() {
       )}
 
       {!activeQuery && (
-        <div className="flex items-center justify-center py-12 text-gray-400">
-          <p>{t("search.hint")}</p>
-        </div>
+        <SearchHistory onSelect={handleHistoryClick} />
       )}
     </div>
   );
@@ -203,5 +212,54 @@ function UserResults({ query, scrollParent, onUserClick }: { query: string; scro
         Footer: () => (isFetchingNextPage ? <LoadingSpinner /> : null),
       }}
     />
+  );
+}
+
+function SearchHistory({ onSelect }: { onSelect: (query: string) => void }) {
+  const { t } = useTranslation();
+  const history = useSearchHistoryStore((s) => s.history);
+  const removeQuery = useSearchHistoryStore((s) => s.removeQuery);
+  const clearAll = useSearchHistoryStore((s) => s.clearAll);
+
+  if (history.length === 0) {
+    return (
+      <div className="flex items-center justify-center py-12 text-gray-400">
+        <p>{t("search.hint")}</p>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <div className="flex items-center justify-between px-4 py-2 border-b border-border-light dark:border-border-dark">
+        <span className="text-xs font-medium text-gray-500 dark:text-gray-400">{t("search.history")}</span>
+        <button
+          onClick={clearAll}
+          className="text-xs text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-300"
+        >
+          {t("search.clearHistory")}
+        </button>
+      </div>
+      {history.map((q) => (
+        <div
+          key={q}
+          className="flex items-center gap-2 px-4 py-2.5 border-b border-border-light dark:border-border-dark hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+        >
+          <Icon name="history" size={16} className="text-gray-400 flex-shrink-0" />
+          <button
+            onClick={() => onSelect(q)}
+            className="flex-1 text-left text-sm text-text-light dark:text-text-dark truncate"
+          >
+            {q}
+          </button>
+          <button
+            onClick={(e) => { e.stopPropagation(); removeQuery(q); }}
+            className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 flex-shrink-0"
+          >
+            <Icon name="close" size={16} />
+          </button>
+        </div>
+      ))}
+    </div>
   );
 }

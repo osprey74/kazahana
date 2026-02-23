@@ -150,7 +150,9 @@
     "users": "使用者",
     "hint": "輸入關鍵字進行搜尋",
     "noResults": "找不到結果",
-    "loadFailed": "搜尋失敗"
+    "loadFailed": "搜尋失敗",
+    "history": "搜尋紀錄",
+    "clearHistory": "全部刪除"
   },
   "settings": {
     "title": "設定",

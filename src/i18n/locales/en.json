@@ -151,7 +151,9 @@
     "users": "Users",
     "hint": "Enter a keyword to search",
     "noResults": "No results found",
-    "loadFailed": "Search failed"
+    "loadFailed": "Search failed",
+    "history": "Recent searches",
+    "clearHistory": "Clear all"
   },
   "settings": {
     "title": "Settings",

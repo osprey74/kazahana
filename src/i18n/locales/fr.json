@@ -150,7 +150,9 @@
     "users": "Utilisateurs",
     "hint": "Saisissez un mot-clé pour rechercher",
     "noResults": "Aucun résultat trouvé",
-    "loadFailed": "Échec de la recherche"
+    "loadFailed": "Échec de la recherche",
+    "history": "Recherches récentes",
+    "clearHistory": "Tout effacer"
   },
   "settings": {
     "title": "Paramètres",

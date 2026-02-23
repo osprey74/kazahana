@@ -150,7 +150,9 @@
     "users": "用户",
     "hint": "输入关键词进行搜索",
     "noResults": "未找到相关结果",
-    "loadFailed": "搜索失败"
+    "loadFailed": "搜索失败",
+    "history": "搜索历史",
+    "clearHistory": "全部删除"
   },
   "settings": {
     "title": "设置",
