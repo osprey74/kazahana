@@ -173,7 +173,14 @@ function ThreadPostItem({
                 </div>
               )}
               {images.length > 0 && <ImageGrid images={images} />}
-              {videoEmbed && <VideoPlayer {...videoEmbed} />}
+              {videoEmbed && (
+                <>
+                  <VideoPlayer {...videoEmbed} />
+                  {videoEmbed.alt && (
+                    <p className="text-[11px] text-gray-500 dark:text-gray-400 leading-snug mt-1">{videoEmbed.alt}</p>
+                  )}
+                </>
+              )}
               {externalEmbed && <LinkCard external={externalEmbed} />}
               {quoteEmbed && <QuoteEmbed record={quoteEmbed} />}
             </ContentWarning>
@@ -200,9 +207,17 @@ function ThreadPostItem({
                 mediaUI?.blur ? (
                   <ContentWarning ui={mediaUI} isMedia>
                     <VideoPlayer {...videoEmbed} />
+                    {videoEmbed.alt && (
+                      <p className="text-[11px] text-gray-500 dark:text-gray-400 leading-snug mt-1">{videoEmbed.alt}</p>
+                    )}
                   </ContentWarning>
                 ) : (
-                  <VideoPlayer {...videoEmbed} />
+                  <>
+                    <VideoPlayer {...videoEmbed} />
+                    {videoEmbed.alt && (
+                      <p className="text-[11px] text-gray-500 dark:text-gray-400 leading-snug mt-1">{videoEmbed.alt}</p>
+                    )}
+                  </>
                 )
               )}
               {externalEmbed && <LinkCard external={externalEmbed} />}
