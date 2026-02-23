@@ -236,6 +236,11 @@ a:hover {
   opacity: 0.75;
 }
 
+.hero-note a {
+  color: #FFFFFF;
+  text-decoration: underline;
+}
+
 /* ===== Section (generic) ===== */
 .section {
   padding: 80px 24px;
