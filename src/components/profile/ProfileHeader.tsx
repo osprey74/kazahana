@@ -7,6 +7,7 @@ import { useFollow, useUnfollow } from "../../hooks/useProfile";
 import { useAuthStore } from "../../stores/authStore";
 import { useReportStore } from "../../stores/reportStore";
 import { Icon } from "../common/Icon";
+import { ConfirmDialog } from "../common/ConfirmDialog";
 import { useModerationOpts } from "../../contexts/ModerationContext";
 import { Avatar } from "../common/Avatar";
 import { ContentWarning } from "../common/ContentWarning";
@@ -28,6 +29,7 @@ export function ProfileHeader({ profile, isOwnProfile, onTabChange }: ProfileHea
 
   const [isFollowing, setIsFollowing] = useState(!!profile.viewer?.following);
   const [followUri, setFollowUri] = useState(profile.viewer?.following ?? "");
+  const [showConfirm, setShowConfirm] = useState(false);
 
   // Sync local state when profile data is refetched
   useEffect(() => {
@@ -40,7 +42,12 @@ export function ProfileHeader({ profile, isOwnProfile, onTabChange }: ProfileHea
   const avatarUI = modDecision?.ui("avatar");
   const bannerUI = modDecision?.ui("banner");
 
-  const handleToggleFollow = async () => {
+  const handleFollowClick = () => {
+    setShowConfirm(true);
+  };
+
+  const handleConfirmFollow = async () => {
+    setShowConfirm(false);
     if (isFollowing) {
       if (followUri) {
         await unfollow.mutateAsync({ followUri });
@@ -86,7 +93,7 @@ export function ProfileHeader({ profile, isOwnProfile, onTabChange }: ProfileHea
           {!isOwnProfile && (
             <div className="flex items-center gap-2">
               <button
-                onClick={handleToggleFollow}
+                onClick={handleFollowClick}
                 disabled={isPending}
                 className={`px-4 py-1.5 text-sm font-medium rounded-btn transition-colors disabled:opacity-50 ${
                   isFollowing
@@ -152,6 +159,20 @@ export function ProfileHeader({ profile, isOwnProfile, onTabChange }: ProfileHea
           </span>
         </div>
       </div>
+
+      {showConfirm && (
+        <ConfirmDialog
+          message={
+            isFollowing
+              ? t("confirm.unfollow", { name: profile.displayName || profile.handle })
+              : t("confirm.follow", { name: profile.displayName || profile.handle })
+          }
+          confirmLabel={isFollowing ? t("confirm.unfollow_btn") : t("confirm.follow_btn")}
+          danger={isFollowing}
+          onConfirm={handleConfirmFollow}
+          onCancel={() => setShowConfirm(false)}
+        />
+      )}
     </div>
   );
 }

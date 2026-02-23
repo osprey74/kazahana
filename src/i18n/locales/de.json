@@ -201,6 +201,13 @@
       "ignore": "Anzeigen"
     }
   },
+  "confirm": {
+    "ok": "OK",
+    "follow": "{{name}} folgen?",
+    "follow_btn": "Folgen",
+    "unfollow": "{{name}} entfolgen?",
+    "unfollow_btn": "Entfolgen"
+  },
   "report": {
     "reportPost": "Diesen Beitrag melden",
     "reportUser": "Diesen Benutzer melden",

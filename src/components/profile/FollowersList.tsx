@@ -7,6 +7,7 @@ import { useFollowers, useFollow, useUnfollow } from "../../hooks/useProfile";
 import { useModerationOpts } from "../../contexts/ModerationContext";
 import { UserListItem } from "./UserListItem";
 import { LoadingSpinner } from "../common/LoadingSpinner";
+import { ConfirmDialog } from "../common/ConfirmDialog";
 
 interface FollowersListProps {
   handle: string;
@@ -63,6 +64,7 @@ function FollowButton({ actor }: { actor: ProfileView }) {
   const unfollow = useUnfollow();
   const [isFollowing, setIsFollowing] = useState(!!actor.viewer?.following);
   const [followUri, setFollowUri] = useState(actor.viewer?.following ?? "");
+  const [showConfirm, setShowConfirm] = useState(false);
 
   useEffect(() => {
     setIsFollowing(!!actor.viewer?.following);
@@ -71,7 +73,8 @@ function FollowButton({ actor }: { actor: ProfileView }) {
 
   const isPending = follow.isPending || unfollow.isPending;
 
-  const handleToggle = async () => {
+  const handleConfirm = async () => {
+    setShowConfirm(false);
     if (isFollowing) {
       if (followUri) {
         await unfollow.mutateAsync({ followUri });
@@ -86,16 +89,31 @@ function FollowButton({ actor }: { actor: ProfileView }) {
   };
 
   return (
-    <button
-      onClick={(e) => { e.stopPropagation(); handleToggle(); }}
-      disabled={isPending}
-      className={`px-3 py-1 text-xs font-medium rounded-btn transition-colors disabled:opacity-50 ${
-        isFollowing
-          ? "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-red-100 hover:text-red-600"
-          : "bg-primary text-white hover:bg-blue-600"
-      }`}
-    >
-      {isFollowing ? t("profile.following") : t("profile.follow")}
-    </button>
+    <>
+      <button
+        onClick={(e) => { e.stopPropagation(); setShowConfirm(true); }}
+        disabled={isPending}
+        className={`px-3 py-1 text-xs font-medium rounded-btn transition-colors disabled:opacity-50 ${
+          isFollowing
+            ? "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-red-100 hover:text-red-600"
+            : "bg-primary text-white hover:bg-blue-600"
+        }`}
+      >
+        {isFollowing ? t("profile.following") : t("profile.follow")}
+      </button>
+      {showConfirm && (
+        <ConfirmDialog
+          message={
+            isFollowing
+              ? t("confirm.unfollow", { name: actor.displayName || actor.handle })
+              : t("confirm.follow", { name: actor.displayName || actor.handle })
+          }
+          confirmLabel={isFollowing ? t("confirm.unfollow_btn") : t("confirm.follow_btn")}
+          danger={isFollowing}
+          onConfirm={handleConfirm}
+          onCancel={() => setShowConfirm(false)}
+        />
+      )}
+    </>
   );
 }

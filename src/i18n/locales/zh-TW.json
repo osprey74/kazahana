@@ -201,6 +201,13 @@
       "ignore": "顯示"
     }
   },
+  "confirm": {
+    "ok": "確定",
+    "follow": "追蹤 {{name}}？",
+    "follow_btn": "追蹤",
+    "unfollow": "取消追蹤 {{name}}？",
+    "unfollow_btn": "取消追蹤"
+  },
   "report": {
     "reportPost": "檢舉此貼文",
     "reportUser": "檢舉此使用者",

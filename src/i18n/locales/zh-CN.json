@@ -201,6 +201,13 @@
       "ignore": "显示"
     }
   },
+  "confirm": {
+    "ok": "确定",
+    "follow": "关注 {{name}}？",
+    "follow_btn": "关注",
+    "unfollow": "取消关注 {{name}}？",
+    "unfollow_btn": "取消关注"
+  },
   "report": {
     "reportPost": "举报此帖子",
     "reportUser": "举报此用户",

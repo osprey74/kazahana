@@ -201,6 +201,13 @@
       "ignore": "표시"
     }
   },
+  "confirm": {
+    "ok": "확인",
+    "follow": "{{name}}님을 팔로우하시겠습니까?",
+    "follow_btn": "팔로우",
+    "unfollow": "{{name}}님의 팔로우를 해제하시겠습니까?",
+    "unfollow_btn": "팔로우 해제"
+  },
   "report": {
     "reportPost": "이 게시물 신고",
     "reportUser": "이 사용자 신고",

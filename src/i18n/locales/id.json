@@ -201,6 +201,13 @@
       "ignore": "Tampilkan"
     }
   },
+  "confirm": {
+    "ok": "OK",
+    "follow": "Ikuti {{name}}?",
+    "follow_btn": "Ikuti",
+    "unfollow": "Berhenti mengikuti {{name}}?",
+    "unfollow_btn": "Berhenti mengikuti"
+  },
   "report": {
     "reportPost": "Laporkan postingan ini",
     "reportUser": "Laporkan pengguna ini",

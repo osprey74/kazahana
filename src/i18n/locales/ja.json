@@ -203,6 +203,13 @@
       "ignore": "表示"
     }
   },
+  "confirm": {
+    "ok": "OK",
+    "follow": "{{name}} をフォローしますか？",
+    "follow_btn": "フォローする",
+    "unfollow": "{{name}} のフォローを解除しますか？",
+    "unfollow_btn": "フォロー解除"
+  },
   "report": {
     "reportPost": "この投稿を通報",
     "reportUser": "このユーザーを通報",
