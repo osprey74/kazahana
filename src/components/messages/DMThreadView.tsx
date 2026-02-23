@@ -15,7 +15,7 @@ export function DMThreadView() {
   const { convoId } = useParams<{ convoId: string }>();
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const myDid = useAuthStore((s) => s.session?.did);
+  const myDid = useAuthStore((s) => s.profile?.did);
   const queryClient = useQueryClient();
   const [text, setText] = useState("");
   const [showMenu, setShowMenu] = useState(false);
@@ -61,7 +61,14 @@ export function DMThreadView() {
   const messages = useMemo(() => {
     if (!data?.pages) return [];
     // Messages come newest-first from API, reverse for display
-    return data.pages.flatMap((page) => page.messages).reverse();
+    // Filter to known message types (exclude unknown { $type: string } variants)
+    return data.pages
+      .flatMap((page) => page.messages)
+      .filter(
+        (msg): msg is ChatBskyConvoDefs.MessageView | ChatBskyConvoDefs.DeletedMessageView =>
+          ChatBskyConvoDefs.isMessageView(msg) || ChatBskyConvoDefs.isDeletedMessageView(msg),
+      )
+      .reverse();
   }, [data]);
 
   // Scroll to bottom on new messages

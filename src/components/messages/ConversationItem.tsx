@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { formatDistanceToNowStrict } from "date-fns";
+import { formatDistanceToNowStrict, type Locale } from "date-fns";
 import { ja, enUS, de, es, fr, ko, pt, ru, id, zhTW, zhCN } from "date-fns/locale";
 import type { ChatBskyConvoDefs } from "@atproto/api";
 import { Avatar } from "../common/Avatar";
@@ -17,7 +17,7 @@ interface ConversationItemProps {
 export function ConversationItem({ conversation }: ConversationItemProps) {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
-  const myDid = useAuthStore((s) => s.session?.did);
+  const myDid = useAuthStore((s) => s.profile?.did);
 
   const other = conversation.members.find((m) => m.did !== myDid) ?? conversation.members[0];
   const displayName = other?.displayName || other?.handle || t("messages.unknown");

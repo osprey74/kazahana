@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { formatDistanceToNowStrict } from "date-fns";
+import { formatDistanceToNowStrict, type Locale } from "date-fns";
 import { ja, enUS, de, es, fr, ko, pt, ru, id, zhTW, zhCN } from "date-fns/locale";
 import { ChatBskyConvoDefs } from "@atproto/api";
 import { useDeleteMessage } from "../../hooks/useMessages";
