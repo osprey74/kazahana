@@ -17,10 +17,13 @@ function feedItemKey(item: FeedViewPost): string {
 }
 
 // ── Module-level persistence (survives tab-switch unmount/remount) ──
+const FIRST_ITEM_INDEX_BASE = 100_000;
+
 let _prepended: FeedViewPost[] = [];
 let _dividerUri: string | null = null;
 let _readingPos: string | null = null;
 let _wasAtTop = true;
+let _prependCount = 0;
 
 export function useTimeline() {
   const pollInterval = useSettingsStore((s) => s.pollInterval);
@@ -32,6 +35,7 @@ export function useTimeline() {
   const [dividerPostUri, setDividerPostUri] = useState<string | null>(
     () => _dividerUri,
   );
+  const [prependCount, setPrependCount] = useState(() => _prependCount);
 
   const readingPositionRef = useRef<string | null>(_readingPos);
   const wasAtTopRef = useRef(_wasAtTop);
@@ -43,6 +47,9 @@ export function useTimeline() {
   useEffect(() => {
     _dividerUri = dividerPostUri;
   }, [dividerPostUri]);
+  useEffect(() => {
+    _prependCount = prependCount;
+  }, [prependCount]);
 
   const query = useInfiniteQuery({
     queryKey: ["timeline"],
@@ -128,6 +135,7 @@ export function useTimeline() {
           const readPos = readingPositionRef.current;
           setDividerPostUri(readPos ?? current[0]?.post.uri ?? null);
           setPrependedPosts((prev) => [...newPosts, ...prev]);
+          setPrependCount((c) => c + newPosts.length);
         }
       } catch {
         // Silently ignore poll errors
@@ -142,17 +150,22 @@ export function useTimeline() {
   const refetch = useCallback(() => {
     setPrependedPosts([]);
     setDividerPostUri(null);
+    setPrependCount(0);
     readingPositionRef.current = null;
     wasAtTopRef.current = true;
     _prepended = [];
     _dividerUri = null;
     _readingPos = null;
     _wasAtTop = true;
+    _prependCount = 0;
     return query.refetch();
   }, [query.refetch]);
 
+  const firstItemIndex = FIRST_ITEM_INDEX_BASE - prependCount;
+
   return {
     items,
+    firstItemIndex,
     fetchNextPage: query.fetchNextPage,
     hasNextPage: query.hasNextPage,
     isFetchingNextPage: query.isFetchingNextPage,

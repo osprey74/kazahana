@@ -15,6 +15,7 @@ export function TimelineView() {
 
   const {
     items,
+    firstItemIndex,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
@@ -74,6 +75,7 @@ export function TimelineView() {
         <Virtuoso
           customScrollParent={scrollParent}
           data={filteredItems}
+          firstItemIndex={firstItemIndex}
           computeItemKey={(_index, item: FeedViewPost) => {
             const reason = item.reason as {
               by?: { did?: string };
@@ -83,7 +85,7 @@ export function TimelineView() {
               : item.post.uri;
           }}
           rangeChanged={(range) => {
-            reportViewportTop(range.startIndex);
+            reportViewportTop(range.startIndex - firstItemIndex);
           }}
           endReached={loadMore}
           itemContent={(_index, item: FeedViewPost) => (
