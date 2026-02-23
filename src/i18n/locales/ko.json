@@ -168,6 +168,8 @@
     "supportButton": "Ko-fi에서 후원하기",
     "notification": "데스크톱 알림",
     "enableNotification": "데스크톱 알림 활성화",
+    "showVia": "클라이언트 이름",
+    "enableShowVia": "게시물에 클라이언트 이름을 표시하고 kazahana에서 게시할 때 $via를 추가",
     "autoStart": "자동 시작",
     "enableAutoStart": "시스템 시작 시 kazahana 자동 실행",
     "moderation": "콘텐츠 관리",

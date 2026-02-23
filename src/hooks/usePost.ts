@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { RichText } from "@atproto/api";
 import { fetch } from "@tauri-apps/plugin-http";
 import { getAgent } from "../lib/agent";
+import { useSettingsStore } from "../stores/settingsStore";
 
 interface CreatePostParams {
   text: string;
@@ -261,6 +262,7 @@ export function useCreatePost() {
         text: rt.text,
         facets: rt.facets,
         createdAt: new Date().toISOString(),
+        ...(useSettingsStore.getState().showVia ? { $via: "kazahana" } : {}),
       };
 
       if (imageEmbeds.length > 0) {

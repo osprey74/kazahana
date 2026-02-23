@@ -168,6 +168,8 @@
     "supportButton": "Dukung di Ko-fi",
     "notification": "Notifikasi desktop",
     "enableNotification": "Aktifkan notifikasi desktop",
+    "showVia": "Nama Klien",
+    "enableShowVia": "Tampilkan nama klien pada postingan dan tambahkan $via saat memposting dari kazahana",
     "autoStart": "Mulai otomatis",
     "enableAutoStart": "Jalankan kazahana saat sistem dinyalakan",
     "moderation": "Moderasi Konten",

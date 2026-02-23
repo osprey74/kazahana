@@ -168,6 +168,8 @@
     "supportButton": "在 Ko-fi 上支持",
     "notification": "桌面通知",
     "enableNotification": "启用桌面通知",
+    "showVia": "客户端名称",
+    "enableShowVia": "在帖子上显示客户端名称，并在使用 kazahana 发帖时添加 $via",
     "autoStart": "自动启动",
     "enableAutoStart": "系统启动时自动启动 kazahana",
     "moderation": "内容审核",

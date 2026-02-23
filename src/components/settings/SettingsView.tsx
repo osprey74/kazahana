@@ -21,7 +21,7 @@ export function SettingsView() {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { theme, setTheme, pollInterval, setPollInterval, desktopNotification, setDesktopNotification, autoStart, setAutoStart, videoVolume, setVideoVolume } = useSettingsStore();
+  const { theme, setTheme, pollInterval, setPollInterval, desktopNotification, setDesktopNotification, autoStart, setAutoStart, videoVolume, setVideoVolume, showVia, setShowVia } = useSettingsStore();
   const logout = useAuthStore((s) => s.logout);
 
   // Fetch current moderation preferences
@@ -158,6 +158,20 @@ export function SettingsView() {
           <Icon name="volume_up" size={18} className="text-gray-500" />
           <span className="text-sm text-gray-600 dark:text-gray-400 w-10 text-right">{videoVolume}%</span>
         </div>
+      </section>
+
+      {/* Show Via (client name) */}
+      <section className="mb-6">
+        <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t("settings.showVia")}</h3>
+        <label className="flex items-center gap-2 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={showVia}
+            onChange={(e) => setShowVia(e.target.checked)}
+            className="w-4 h-4 rounded accent-primary"
+          />
+          <span className="text-sm text-text-light dark:text-text-dark">{t("settings.enableShowVia")}</span>
+        </label>
       </section>
 
       {/* Auto Start */}

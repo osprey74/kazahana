@@ -170,6 +170,8 @@
     "videoVolume": "Video Volume",
     "notification": "Desktop Notifications",
     "enableNotification": "Enable desktop notifications",
+    "showVia": "Client Name",
+    "enableShowVia": "Show client name on posts and add $via when posting from kazahana",
     "autoStart": "Auto Start",
     "enableAutoStart": "Launch Kazahana on system startup",
     "moderation": "Content Moderation",

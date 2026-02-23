@@ -168,6 +168,8 @@
     "supportButton": "Apoyar en Ko-fi",
     "notification": "Notificaciones de escritorio",
     "enableNotification": "Activar notificaciones de escritorio",
+    "showVia": "Nombre del cliente",
+    "enableShowVia": "Mostrar nombre del cliente en publicaciones y agregar $via al publicar desde kazahana",
     "autoStart": "Inicio automático",
     "enableAutoStart": "Iniciar kazahana al arrancar el sistema",
     "moderation": "Moderación de contenido",

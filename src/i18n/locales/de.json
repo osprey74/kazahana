@@ -168,6 +168,8 @@
     "supportButton": "Auf Ko-fi unterstützen",
     "notification": "Desktop-Benachrichtigungen",
     "enableNotification": "Desktop-Benachrichtigungen aktivieren",
+    "showVia": "Client-Name",
+    "enableShowVia": "Client-Name in Beiträgen anzeigen und $via beim Posten über kazahana hinzufügen",
     "autoStart": "Autostart",
     "enableAutoStart": "Kazahana beim Systemstart starten",
     "moderation": "Inhaltsmoderation",

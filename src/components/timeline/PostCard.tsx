@@ -16,6 +16,7 @@ import { ContentWarning } from "../common/ContentWarning";
 import { PostContent } from "./PostContent";
 import { PostActions } from "./PostActions";
 import { useModerationOpts } from "../../contexts/ModerationContext";
+import { useSettingsStore } from "../../stores/settingsStore";
 
 interface PostCardProps {
   feedItem: FeedViewPost;
@@ -26,9 +27,10 @@ export function PostCard({ feedItem, showParentContext }: PostCardProps) {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const moderationOpts = useModerationOpts();
+  const showVia = useSettingsStore((s) => s.showVia);
   const { post, reason } = feedItem;
   const author = post.author;
-  const record = post.record as { text?: string; facets?: unknown[]; createdAt?: string; reply?: { parent?: { uri: string }; root?: { uri: string } } };
+  const record = post.record as { text?: string; facets?: unknown[]; createdAt?: string; reply?: { parent?: { uri: string }; root?: { uri: string } }; $via?: string };
 
   // Moderation
   const modDecision = moderationOpts ? moderatePost(post, moderationOpts) : null;
@@ -209,14 +211,19 @@ export function PostCard({ feedItem, showParentContext }: PostCardProps) {
           {/* Actions + Moderation label */}
           <div className="flex items-center justify-between mt-2">
             <PostActions post={post} />
-            {post.labels && post.labels.length > 0 && (
-              <div className="flex items-center gap-1">
-                <Icon name="shield" size={12} className="text-gray-400" />
-                <span className="text-[11px] text-gray-400">
-                  {(post.labels as { val: string }[]).map((l) => l.val).join(", ")}
-                </span>
-              </div>
-            )}
+            <div className="flex items-center gap-2">
+              {showVia && record.$via && (
+                <span className="text-[10px] text-gray-400">via {record.$via}</span>
+              )}
+              {post.labels && post.labels.length > 0 && (
+                <div className="flex items-center gap-1">
+                  <Icon name="shield" size={12} className="text-gray-400" />
+                  <span className="text-[11px] text-gray-400">
+                    {(post.labels as { val: string }[]).map((l) => l.val).join(", ")}
+                  </span>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
