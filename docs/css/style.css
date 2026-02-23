@@ -220,6 +220,13 @@ a:hover {
   color: var(--primary);
 }
 
+.btn-hero-disabled {
+  background: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.7);
+  cursor: default;
+  pointer-events: none;
+}
+
 .btn-hero .material-symbols-rounded {
   font-size: 20px;
 }
@@ -442,6 +449,20 @@ a:hover {
 
 .btn-download:hover .material-symbols-rounded {
   color: #FFFFFF;
+}
+
+.btn-download-disabled {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  background: var(--border);
+  color: var(--text-secondary);
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: default;
+  pointer-events: none;
 }
 
 .download-note {
