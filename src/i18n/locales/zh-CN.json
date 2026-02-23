@@ -144,6 +144,8 @@
     "noFollowers": "没有粉丝",
     "noFollowing": "未关注任何人",
     "loadFailed": "个人资料加载失败",
+    "followsYou": "关注了你",
+    "notFollowsYou": "未关注你",
     "logout": "退出登录"
   },
   "search": {

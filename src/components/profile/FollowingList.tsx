@@ -48,7 +48,14 @@ export function FollowingList({ handle, scrollParent }: FollowingListProps) {
       endReached={loadMore}
       overscan={200}
       itemContent={(_index, actor: ProfileView) => (
-        <UserListItem actor={actor} />
+        <UserListItem
+          actor={actor}
+          action={
+            <span className={`text-[11px] whitespace-nowrap ${actor.viewer?.followedBy ? "text-primary" : "text-gray-400"}`}>
+              {actor.viewer?.followedBy ? t("profile.followsYou") : t("profile.notFollowsYou")}
+            </span>
+          }
+        />
       )}
       components={{
         Footer: () => (isFetchingNextPage ? <LoadingSpinner /> : null),

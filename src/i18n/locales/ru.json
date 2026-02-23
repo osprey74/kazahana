@@ -144,6 +144,8 @@
     "noFollowers": "Нет подписчиков",
     "noFollowing": "Нет подписок",
     "loadFailed": "Не удалось загрузить профиль",
+    "followsYou": "Подписан на вас",
+    "notFollowsYou": "Не подписан на вас",
     "logout": "Выйти"
   },
   "search": {

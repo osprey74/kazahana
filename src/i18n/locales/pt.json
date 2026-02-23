@@ -144,6 +144,8 @@
     "noFollowers": "Nenhum seguidor",
     "noFollowing": "Não segue ninguém",
     "loadFailed": "Falha ao carregar perfil",
+    "followsYou": "Segue você",
+    "notFollowsYou": "Não segue você",
     "logout": "Sair"
   },
   "search": {

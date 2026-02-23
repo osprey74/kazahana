@@ -144,6 +144,8 @@
     "noFollowers": "팔로워가 없습니다",
     "noFollowing": "팔로잉하는 사용자가 없습니다",
     "loadFailed": "프로필을 불러오지 못했습니다",
+    "followsYou": "나를 팔로우 중",
+    "notFollowsYou": "나를 팔로우하지 않음",
     "logout": "로그아웃"
   },
   "search": {

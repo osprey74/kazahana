@@ -145,6 +145,8 @@
     "noFollowers": "No followers",
     "noFollowing": "Not following anyone",
     "loadFailed": "Failed to load profile",
+    "followsYou": "Follows you",
+    "notFollowsYou": "Not following you",
     "logout": "Logout"
   },
   "search": {

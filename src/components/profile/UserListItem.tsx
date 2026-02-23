@@ -1,12 +1,14 @@
+import type { ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import type { ProfileView } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
 import { Avatar } from "../common/Avatar";
 
 interface UserListItemProps {
   actor: ProfileView;
+  action?: ReactNode;
 }
 
-export function UserListItem({ actor }: UserListItemProps) {
+export function UserListItem({ actor, action }: UserListItemProps) {
   const navigate = useNavigate();
 
   return (
@@ -24,6 +26,11 @@ export function UserListItem({ actor }: UserListItemProps) {
           <p className="text-xs text-gray-500 mt-0.5 line-clamp-2">{actor.description}</p>
         )}
       </div>
+      {action && (
+        <div className="flex items-center flex-shrink-0">
+          {action}
+        </div>
+      )}
     </div>
   );
 }

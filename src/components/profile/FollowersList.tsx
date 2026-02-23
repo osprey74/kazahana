@@ -1,9 +1,9 @@
-import { useMemo, useCallback } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Virtuoso } from "react-virtuoso";
 import { moderateProfile } from "@atproto/api";
 import type { ProfileView } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
-import { useFollowers } from "../../hooks/useProfile";
+import { useFollowers, useFollow, useUnfollow } from "../../hooks/useProfile";
 import { useModerationOpts } from "../../contexts/ModerationContext";
 import { UserListItem } from "./UserListItem";
 import { LoadingSpinner } from "../common/LoadingSpinner";
@@ -48,11 +48,54 @@ export function FollowersList({ handle, scrollParent }: FollowersListProps) {
       endReached={loadMore}
       overscan={200}
       itemContent={(_index, actor: ProfileView) => (
-        <UserListItem actor={actor} />
+        <UserListItem actor={actor} action={<FollowButton actor={actor} />} />
       )}
       components={{
         Footer: () => (isFetchingNextPage ? <LoadingSpinner /> : null),
       }}
     />
+  );
+}
+
+function FollowButton({ actor }: { actor: ProfileView }) {
+  const { t } = useTranslation();
+  const follow = useFollow();
+  const unfollow = useUnfollow();
+  const [isFollowing, setIsFollowing] = useState(!!actor.viewer?.following);
+  const [followUri, setFollowUri] = useState(actor.viewer?.following ?? "");
+
+  useEffect(() => {
+    setIsFollowing(!!actor.viewer?.following);
+    setFollowUri(actor.viewer?.following ?? "");
+  }, [actor.did, actor.viewer?.following]);
+
+  const isPending = follow.isPending || unfollow.isPending;
+
+  const handleToggle = async () => {
+    if (isFollowing) {
+      if (followUri) {
+        await unfollow.mutateAsync({ followUri });
+      }
+      setIsFollowing(false);
+      setFollowUri("");
+    } else {
+      const res = await follow.mutateAsync({ did: actor.did });
+      setIsFollowing(true);
+      setFollowUri(res.uri);
+    }
+  };
+
+  return (
+    <button
+      onClick={(e) => { e.stopPropagation(); handleToggle(); }}
+      disabled={isPending}
+      className={`px-3 py-1 text-xs font-medium rounded-btn transition-colors disabled:opacity-50 ${
+        isFollowing
+          ? "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-red-100 hover:text-red-600"
+          : "bg-primary text-white hover:bg-blue-600"
+      }`}
+    >
+      {isFollowing ? t("profile.following") : t("profile.follow")}
+    </button>
   );
 }

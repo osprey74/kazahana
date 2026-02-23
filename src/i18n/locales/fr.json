@@ -144,6 +144,8 @@
     "noFollowers": "Aucun abonné",
     "noFollowing": "Ne suit personne",
     "loadFailed": "Échec du chargement du profil",
+    "followsYou": "Vous suit",
+    "notFollowsYou": "Ne vous suit pas",
     "logout": "Se déconnecter"
   },
   "search": {

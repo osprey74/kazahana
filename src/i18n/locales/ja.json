@@ -131,7 +131,7 @@
     }
   },
   "profile": {
-    "follow": "フォロー",
+    "follow": "フォローする",
     "following": "フォロー中",
     "followers": "フォロワー",
     "posts": "投稿",
@@ -145,6 +145,8 @@
     "noFollowers": "フォロワーはいません",
     "noFollowing": "フォロー中のユーザーはいません",
     "loadFailed": "プロフィールの読み込みに失敗しました",
+    "followsYou": "あなたをフォローしています",
+    "notFollowsYou": "あなたをフォローしていません",
     "logout": "ログアウト"
   },
   "search": {

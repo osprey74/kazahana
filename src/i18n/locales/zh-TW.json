@@ -144,6 +144,8 @@
     "noFollowers": "沒有追蹤者",
     "noFollowing": "未追蹤任何人",
     "loadFailed": "無法載入個人檔案",
+    "followsYou": "追蹤了你",
+    "notFollowsYou": "未追蹤你",
     "logout": "登出"
   },
   "search": {
