@@ -17,6 +17,8 @@
       ]
     },
     "notification:default",
-    "autostart:default"
+    "autostart:default",
+    "dialog:default",
+    "fs:default"
   ]
 }

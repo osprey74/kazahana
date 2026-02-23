@@ -185,5 +185,16 @@
       "warn": "Warnen",
       "ignore": "Anzeigen"
     }
+  },
+  "contextMenu": {
+    "reload": "Neu laden",
+    "copy": "Kopieren",
+    "cut": "Ausschneiden",
+    "paste": "Einfügen",
+    "selectAll": "Alles auswählen",
+    "undo": "Rückgängig",
+    "copyLink": "Link kopieren",
+    "copyImage": "Bild kopieren",
+    "saveImage": "Bild speichern"
   }
 }

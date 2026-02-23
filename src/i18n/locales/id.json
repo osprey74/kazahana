@@ -185,5 +185,16 @@
       "warn": "Peringatkan",
       "ignore": "Tampilkan"
     }
+  },
+  "contextMenu": {
+    "reload": "Muat ulang",
+    "copy": "Salin",
+    "cut": "Potong",
+    "paste": "Tempel",
+    "selectAll": "Pilih semua",
+    "undo": "Urungkan",
+    "copyLink": "Salin tautan",
+    "copyImage": "Salin gambar",
+    "saveImage": "Simpan gambar"
   }
 }

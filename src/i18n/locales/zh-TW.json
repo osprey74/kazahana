@@ -185,5 +185,16 @@
       "warn": "警告",
       "ignore": "顯示"
     }
+  },
+  "contextMenu": {
+    "reload": "重新載入",
+    "copy": "複製",
+    "cut": "剪下",
+    "paste": "貼上",
+    "selectAll": "全選",
+    "undo": "復原",
+    "copyLink": "複製連結",
+    "copyImage": "複製圖片",
+    "saveImage": "儲存圖片"
   }
 }

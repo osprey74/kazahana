@@ -5,6 +5,7 @@ import { TabBar } from "./TabBar";
 import { ComposeModal } from "../post/ComposeModal";
 import { PostListModal } from "../post/PostListModal";
 import { ImageLightbox } from "../common/ImageLightbox";
+import { ContextMenu } from "../common/ContextMenu";
 import { useComposeStore } from "../../stores/composeStore";
 import { useAuthStore } from "../../stores/authStore";
 import { Icon } from "../common/Icon";
@@ -108,6 +109,9 @@ export function AppLayout() {
 
       {/* Image Lightbox */}
       <ImageLightbox />
+
+      {/* Context Menu */}
+      <ContextMenu />
     </div>
   );
 }

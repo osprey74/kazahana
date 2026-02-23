@@ -185,5 +185,16 @@
       "warn": "警告",
       "ignore": "显示"
     }
+  },
+  "contextMenu": {
+    "reload": "重新加载",
+    "copy": "复制",
+    "cut": "剪切",
+    "paste": "粘贴",
+    "selectAll": "全选",
+    "undo": "撤销",
+    "copyLink": "复制链接",
+    "copyImage": "复制图片",
+    "saveImage": "保存图片"
   }
 }

@@ -187,5 +187,16 @@
       "warn": "警告",
       "ignore": "表示"
     }
+  },
+  "contextMenu": {
+    "reload": "再読み込み",
+    "copy": "コピー",
+    "cut": "切り取り",
+    "paste": "貼り付け",
+    "selectAll": "すべて選択",
+    "undo": "元に戻す",
+    "copyLink": "リンクをコピー",
+    "copyImage": "画像をコピー",
+    "saveImage": "画像を保存"
   }
 }
