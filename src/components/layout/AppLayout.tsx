@@ -8,18 +8,22 @@ import { ImageLightbox } from "../common/ImageLightbox";
 import { ContextMenu } from "../common/ContextMenu";
 import { ReportModal } from "../moderation/ReportModal";
 import { ListMembershipModal } from "../profile/ListMembershipModal";
+import { DMComposeModal } from "../messages/DMComposeModal";
 import { useComposeStore } from "../../stores/composeStore";
+import { useDMComposeStore } from "../../stores/dmComposeStore";
 import { useAuthStore } from "../../stores/authStore";
 import { Icon } from "../common/Icon";
 
-const REFRESHABLE_PATHS = ["/", "/notifications", "/profile"];
+const REFRESHABLE_PATHS = ["/", "/notifications", "/messages", "/profile"];
 
 export function AppLayout() {
   const { t } = useTranslation();
   const location = useLocation();
   const openCompose = useComposeStore((s) => s.open);
+  const openDMCompose = useDMComposeStore((s) => s.open);
   const profile = useAuthStore((s) => s.profile);
   const isSettings = location.pathname.startsWith("/settings");
+  const isMessages = location.pathname.startsWith("/messages");
   const mainRef = useRef<HTMLElement>(null);
   const [showScrollTop, setShowScrollTop] = useState(false);
 
@@ -81,15 +85,25 @@ export function AppLayout() {
         </div>
       </main>
 
-      {/* FAB - New Post */}
+      {/* FAB - New Post / New DM */}
       {!isSettings && (
-        <button
-          onClick={() => openCompose()}
-          className="fixed bottom-5 right-5 w-11 h-11 bg-primary/60 text-white rounded-full shadow-lg hover:bg-primary/80 transition-colors flex items-center justify-center text-xl leading-none z-40"
-          title={t("compose.newPost")}
-        >
-          <Icon name="edit_square" size={22} />
-        </button>
+        isMessages ? (
+          <button
+            onClick={() => openDMCompose()}
+            className="fixed bottom-5 right-5 w-11 h-11 bg-primary/60 text-white rounded-full shadow-lg hover:bg-primary/80 transition-colors flex items-center justify-center text-xl leading-none z-40"
+            title={t("messages.newMessage")}
+          >
+            <Icon name="mail" size={22} />
+          </button>
+        ) : (
+          <button
+            onClick={() => openCompose()}
+            className="fixed bottom-5 right-5 w-11 h-11 bg-primary/60 text-white rounded-full shadow-lg hover:bg-primary/80 transition-colors flex items-center justify-center text-xl leading-none z-40"
+            title={t("compose.newPost")}
+          >
+            <Icon name="edit_square" size={22} />
+          </button>
+        )
       )}
 
       {/* Scroll to top */}
@@ -117,6 +131,9 @@ export function AppLayout() {
 
       {/* List Membership Modal */}
       <ListMembershipModal />
+
+      {/* DM Compose Modal */}
+      <DMComposeModal />
 
       {/* Context Menu */}
       <ContextMenu />

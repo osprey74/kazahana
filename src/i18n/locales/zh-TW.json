@@ -6,6 +6,7 @@
     "home": "首頁",
     "search": "搜尋",
     "notifications": "通知",
+    "messages": "訊息",
     "profile": "個人檔案"
   },
   "auth": {
@@ -272,5 +273,24 @@
   "listManagement": {
     "title": "新增/移除列表",
     "noLists": "沒有策展列表"
+  },
+  "messages": {
+    "empty": "沒有對話",
+    "loadFailed": "訊息載入失敗",
+    "placeholder": "傳送訊息...",
+    "newMessage": "新訊息",
+    "searchUser": "搜尋使用者...",
+    "noMessages": "尚無訊息",
+    "deleted": "訊息已刪除",
+    "deleteForMe": "為我刪除",
+    "loadOlder": "載入較舊的訊息",
+    "unknown": "未知使用者",
+    "dmPermissionError": "需要私訊權限。請重新產生啟用私訊存取權的應用程式密碼。",
+    "mute": "靜音對話",
+    "unmute": "取消靜音對話",
+    "leave": "離開對話",
+    "leaveConfirm": "離開此對話？",
+    "accept": "接受",
+    "requests": "訊息請求"
   }
 }

@@ -6,6 +6,7 @@
     "home": "Beranda",
     "search": "Cari",
     "notifications": "Notifikasi",
+    "messages": "Pesan",
     "profile": "Profil"
   },
   "auth": {
@@ -272,5 +273,24 @@
   "listManagement": {
     "title": "Tambah/Hapus dari daftar",
     "noLists": "Tidak ada daftar kurasi"
+  },
+  "messages": {
+    "empty": "Tidak ada percakapan",
+    "loadFailed": "Gagal memuat pesan",
+    "placeholder": "Kirim pesan...",
+    "newMessage": "Pesan baru",
+    "searchUser": "Cari pengguna...",
+    "noMessages": "Belum ada pesan",
+    "deleted": "Pesan dihapus",
+    "deleteForMe": "Hapus untuk saya",
+    "loadOlder": "Muat pesan lama",
+    "unknown": "Pengguna tidak dikenal",
+    "dmPermissionError": "Izin DM diperlukan. Silakan buat ulang kata sandi aplikasi dengan akses DM diaktifkan.",
+    "mute": "Bisukan percakapan",
+    "unmute": "Bunyikan percakapan",
+    "leave": "Tinggalkan percakapan",
+    "leaveConfirm": "Tinggalkan percakapan ini?",
+    "accept": "Terima",
+    "requests": "Permintaan pesan"
   }
 }

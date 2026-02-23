@@ -6,6 +6,7 @@
     "home": "首页",
     "search": "搜索",
     "notifications": "通知",
+    "messages": "消息",
     "profile": "个人资料"
   },
   "auth": {
@@ -272,5 +273,24 @@
   "listManagement": {
     "title": "添加/移除列表",
     "noLists": "没有策展列表"
+  },
+  "messages": {
+    "empty": "没有对话",
+    "loadFailed": "消息加载失败",
+    "placeholder": "发送消息...",
+    "newMessage": "新消息",
+    "searchUser": "搜索用户...",
+    "noMessages": "暂无消息",
+    "deleted": "消息已删除",
+    "deleteForMe": "为我删除",
+    "loadOlder": "加载更早的消息",
+    "unknown": "未知用户",
+    "dmPermissionError": "需要私信权限。请重新生成启用私信访问权限的应用密码。",
+    "mute": "静音对话",
+    "unmute": "取消静音对话",
+    "leave": "离开对话",
+    "leaveConfirm": "离开此对话？",
+    "accept": "接受",
+    "requests": "消息请求"
   }
 }

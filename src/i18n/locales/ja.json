@@ -6,6 +6,7 @@
     "home": "ホーム",
     "search": "検索",
     "notifications": "通知",
+    "messages": "メッセージ",
     "profile": "プロフィール"
   },
   "auth": {
@@ -277,5 +278,24 @@
   "listManagement": {
     "title": "リストに追加/削除",
     "noLists": "キュレーションリストがありません"
+  },
+  "messages": {
+    "empty": "会話はありません",
+    "loadFailed": "メッセージの読み込みに失敗しました",
+    "placeholder": "メッセージを送信...",
+    "newMessage": "新しいメッセージ",
+    "searchUser": "ユーザーを検索...",
+    "noMessages": "メッセージはまだありません",
+    "deleted": "メッセージが削除されました",
+    "deleteForMe": "自分側で削除",
+    "loadOlder": "過去のメッセージを読み込む",
+    "unknown": "不明なユーザー",
+    "dmPermissionError": "DM権限が必要です。DM権限を有効にしてアプリパスワードを再生成してください。",
+    "mute": "会話をミュート",
+    "unmute": "会話のミュートを解除",
+    "leave": "会話から退出",
+    "leaveConfirm": "この会話から退出しますか？",
+    "accept": "承認",
+    "requests": "メッセージリクエスト"
   }
 }

@@ -6,6 +6,7 @@
     "home": "Startseite",
     "search": "Suche",
     "notifications": "Benachrichtigungen",
+    "messages": "Nachrichten",
     "profile": "Profil"
   },
   "auth": {
@@ -272,5 +273,24 @@
   "listManagement": {
     "title": "Zu Listen hinzufügen/entfernen",
     "noLists": "Keine Kurationslisten"
+  },
+  "messages": {
+    "empty": "Keine Unterhaltungen",
+    "loadFailed": "Nachrichten konnten nicht geladen werden",
+    "placeholder": "Nachricht senden...",
+    "newMessage": "Neue Nachricht",
+    "searchUser": "Benutzer suchen...",
+    "noMessages": "Noch keine Nachrichten",
+    "deleted": "Nachricht gelöscht",
+    "deleteForMe": "Für mich löschen",
+    "loadOlder": "Ältere Nachrichten laden",
+    "unknown": "Unbekannter Benutzer",
+    "dmPermissionError": "DM-Berechtigung erforderlich. Bitte generieren Sie Ihr App-Passwort mit DM-Zugang neu.",
+    "mute": "Unterhaltung stummschalten",
+    "unmute": "Stummschaltung aufheben",
+    "leave": "Unterhaltung verlassen",
+    "leaveConfirm": "Diese Unterhaltung verlassen?",
+    "accept": "Akzeptieren",
+    "requests": "Nachrichtenanfragen"
   }
 }

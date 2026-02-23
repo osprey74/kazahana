@@ -2,17 +2,20 @@ import { useCallback } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useUnreadCount } from "../../hooks/useNotifications";
+import { useUnreadDMs } from "../../hooks/useUnreadDMs";
 import { Icon } from "../common/Icon";
 
 export function TabBar() {
   const { t } = useTranslation();
   const location = useLocation();
   const { data: unreadCount } = useUnreadCount();
+  const { data: unreadDMs } = useUnreadDMs();
 
   const tabs = [
     { to: "/", label: t("tabs.home"), icon: "home" },
     { to: "/search", label: t("tabs.search"), icon: "search" },
     { to: "/notifications", label: t("tabs.notifications"), icon: "notifications" },
+    { to: "/messages", label: t("tabs.messages"), icon: "mail" },
     { to: "/profile", label: t("tabs.profile"), icon: "person" },
   ] as const;
 
@@ -53,6 +56,11 @@ export function TabBar() {
             {tab.to === "/notifications" && !!unreadCount && unreadCount > 0 && (
               <span className="absolute -top-1.5 -right-2.5 min-w-[16px] h-4 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center px-0.5">
                 {unreadCount > 99 ? "99+" : unreadCount}
+              </span>
+            )}
+            {tab.to === "/messages" && !!unreadDMs && unreadDMs > 0 && (
+              <span className="absolute -top-1.5 -right-2.5 min-w-[16px] h-4 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center px-0.5">
+                {unreadDMs > 99 ? "99+" : unreadDMs}
               </span>
             )}
           </span>

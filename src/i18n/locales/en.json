@@ -6,6 +6,7 @@
     "home": "Home",
     "search": "Search",
     "notifications": "Notifications",
+    "messages": "Messages",
     "profile": "Profile"
   },
   "auth": {
@@ -277,5 +278,24 @@
   "listManagement": {
     "title": "Add/Remove from lists",
     "noLists": "No curation lists"
+  },
+  "messages": {
+    "empty": "No conversations",
+    "loadFailed": "Failed to load messages",
+    "placeholder": "Send a message...",
+    "newMessage": "New message",
+    "searchUser": "Search user...",
+    "noMessages": "No messages yet",
+    "deleted": "Message deleted",
+    "deleteForMe": "Delete for me",
+    "loadOlder": "Load older messages",
+    "unknown": "Unknown user",
+    "dmPermissionError": "DM permission required. Please regenerate your app password with DM access enabled.",
+    "mute": "Mute conversation",
+    "unmute": "Unmute conversation",
+    "leave": "Leave conversation",
+    "leaveConfirm": "Leave this conversation?",
+    "accept": "Accept",
+    "requests": "Message requests"
   }
 }

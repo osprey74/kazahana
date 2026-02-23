@@ -52,7 +52,7 @@ Kazahana is designed as a **lightweight, always-running companion app** — not 
 - [x] Auto-start on OS boot (optional)
 - [x] Bookmarks
 - [x] Quote post
-- [ ] Direct messages
+- [x] Direct messages
 
 ## Tech Stack
 

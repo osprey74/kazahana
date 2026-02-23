@@ -6,6 +6,7 @@
     "home": "홈",
     "search": "검색",
     "notifications": "알림",
+    "messages": "메시지",
     "profile": "프로필"
   },
   "auth": {
@@ -272,5 +273,24 @@
   "listManagement": {
     "title": "리스트에 추가/삭제",
     "noLists": "큐레이션 리스트가 없습니다"
+  },
+  "messages": {
+    "empty": "대화가 없습니다",
+    "loadFailed": "메시지를 불러올 수 없습니다",
+    "placeholder": "메시지 보내기...",
+    "newMessage": "새 메시지",
+    "searchUser": "사용자 검색...",
+    "noMessages": "메시지가 없습니다",
+    "deleted": "삭제된 메시지",
+    "deleteForMe": "내 쪽에서 삭제",
+    "loadOlder": "이전 메시지 불러오기",
+    "unknown": "알 수 없는 사용자",
+    "dmPermissionError": "DM 권한이 필요합니다. DM 접근 권한을 활성화하여 앱 비밀번호를 다시 생성하세요.",
+    "mute": "대화 음소거",
+    "unmute": "대화 음소거 해제",
+    "leave": "대화 나가기",
+    "leaveConfirm": "이 대화에서 나가시겠습니까?",
+    "accept": "수락",
+    "requests": "메시지 요청"
   }
 }

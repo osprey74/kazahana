@@ -6,6 +6,7 @@
     "home": "Início",
     "search": "Buscar",
     "notifications": "Notificações",
+    "messages": "Mensagens",
     "profile": "Perfil"
   },
   "auth": {
@@ -272,5 +273,24 @@
   "listManagement": {
     "title": "Adicionar/Remover de listas",
     "noLists": "Nenhuma lista de curadoria"
+  },
+  "messages": {
+    "empty": "Sem conversas",
+    "loadFailed": "Falha ao carregar mensagens",
+    "placeholder": "Enviar uma mensagem...",
+    "newMessage": "Nova mensagem",
+    "searchUser": "Pesquisar usuário...",
+    "noMessages": "Nenhuma mensagem ainda",
+    "deleted": "Mensagem excluída",
+    "deleteForMe": "Excluir para mim",
+    "loadOlder": "Carregar mensagens anteriores",
+    "unknown": "Usuário desconhecido",
+    "dmPermissionError": "Permissão de DM necessária. Regenere sua senha de app com acesso a DM habilitado.",
+    "mute": "Silenciar conversa",
+    "unmute": "Reativar conversa",
+    "leave": "Sair da conversa",
+    "leaveConfirm": "Sair desta conversa?",
+    "accept": "Aceitar",
+    "requests": "Solicitações de mensagens"
   }
 }

@@ -14,6 +14,8 @@ import { ReadmeView } from "./components/settings/ReadmeView";
 import { HiddenPostsView } from "./components/settings/HiddenPostsView";
 import { FeedVisibilityView } from "./components/settings/FeedVisibilityView";
 import { StarterPackDetailView } from "./components/profile/StarterPackDetailView";
+import { DMListView } from "./components/messages/DMListView";
+import { DMThreadView } from "./components/messages/DMThreadView";
 import { FollowersPage } from "./components/profile/FollowersPage";
 import { FollowingPage } from "./components/profile/FollowingPage";
 import { LoadingSpinner } from "./components/common/LoadingSpinner";
@@ -89,6 +91,8 @@ function AuthGate() {
             <Route path="/" element={<HomeView />} />
             <Route path="/search" element={<SearchView />} />
             <Route path="/notifications" element={<NotificationList />} />
+            <Route path="/messages" element={<DMListView />} />
+            <Route path="/messages/:convoId" element={<DMThreadView />} />
             <Route path="/profile" element={<ProfileView />} />
             <Route path="/profile/:handle" element={<ProfileView />} />
             <Route path="/profile/:handle/followers" element={<FollowersPage />} />

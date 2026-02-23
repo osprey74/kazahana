@@ -6,6 +6,7 @@
     "home": "Accueil",
     "search": "Rechercher",
     "notifications": "Notifications",
+    "messages": "Messages",
     "profile": "Profil"
   },
   "auth": {
@@ -272,5 +273,24 @@
   "listManagement": {
     "title": "Ajouter/Retirer des listes",
     "noLists": "Aucune liste de curation"
+  },
+  "messages": {
+    "empty": "Aucune conversation",
+    "loadFailed": "Échec du chargement des messages",
+    "placeholder": "Envoyer un message...",
+    "newMessage": "Nouveau message",
+    "searchUser": "Rechercher un utilisateur...",
+    "noMessages": "Pas encore de messages",
+    "deleted": "Message supprimé",
+    "deleteForMe": "Supprimer pour moi",
+    "loadOlder": "Charger les messages plus anciens",
+    "unknown": "Utilisateur inconnu",
+    "dmPermissionError": "Autorisation DM requise. Veuillez régénérer votre mot de passe d'application avec l'accès DM activé.",
+    "mute": "Couper la conversation",
+    "unmute": "Réactiver la conversation",
+    "leave": "Quitter la conversation",
+    "leaveConfirm": "Quitter cette conversation ?",
+    "accept": "Accepter",
+    "requests": "Demandes de messages"
   }
 }
