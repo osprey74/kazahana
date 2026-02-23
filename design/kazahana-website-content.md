@@ -425,7 +425,7 @@ Email: kazahana.app@gmail.com
 ```
 kazahana — 軽量 Bluesky デスクトップクライアント
 
-GitHub | ライセンス: MIT | © 2025 osprey74
+GitHub | ライセンス: MIT | © 2026 osprey74
 ```
 
 リンク:
@@ -439,7 +439,7 @@ GitHub | ライセンス: MIT | © 2025 osprey74
 ```
 kazahana — Lightweight Bluesky Desktop Client
 
-GitHub | License: MIT | © 2025 osprey74
+GitHub | License: MIT | © 2026 osprey74
 ```
 
 Links:

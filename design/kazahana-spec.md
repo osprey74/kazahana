@@ -1,7 +1,7 @@
 # Kazahana— Bluesky Desktop Client 仕様書
 
 **バージョン**: 1.3
-**作成日**: 2025-02-21
+**作成日**: 2026-02-21
 **最終更新**: 2026-02-22
 **プラットフォーム**: Windows 11 / macOS
 **フレームワーク**: Tauri v2 + React 19 + TypeScript 5.9
