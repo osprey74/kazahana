@@ -1,8 +1,8 @@
 # Kazahana— Bluesky Desktop Client 仕様書
 
-**バージョン**: 1.3
+**バージョン**: 1.4
 **作成日**: 2026-02-21
-**最終更新**: 2026-02-22
+**最終更新**: 2026-02-23
 **プラットフォーム**: Windows 11 / macOS
 **フレームワーク**: Tauri v2 + React 19 + TypeScript 5.9
 
@@ -214,7 +214,23 @@ kazahanaは全機能を網羅するスタンドアロンアプリではなく、
 | 設定: ラベル別設定 | nudity / sexual / porn / graphic-media に対し hide/warn/ignore | ✅ |
 | 個別ポスト非表示 | 三点メニューから `agent.hidePost` で非表示、スレッド詳細では「非表示を解除」ボタン付き | ✅ |
 
-### 4.9 システム機能
+### 4.9 ダイレクトメッセージ
+| 機能 | API | 状態 |
+|------|-----|------|
+| 会話一覧 | `chat.bsky.convo.listConvos` | ✅ |
+| メッセージ表示 | `chat.bsky.convo.getMessages` | ✅ |
+| メッセージ送信 | `chat.bsky.convo.sendMessage` (リッチテキストファセット対応) | ✅ |
+| メッセージ削除 | `chat.bsky.convo.deleteMessageForSelf` | ✅ |
+| 新規会話作成 | `chat.bsky.convo.getConvoForMembers` | ✅ |
+| 既読処理 | `chat.bsky.convo.updateRead` | ✅ |
+| 未読バッジ | `listConvos` の `unreadCount` 集計 + タブバッジ | ✅ |
+| 会話ミュート/解除 | `chat.bsky.convo.muteConvo` / `unmuteConvo` | ✅ |
+| 会話退出 | `chat.bsky.convo.leaveConvo` | ✅ |
+| メッセージリクエスト承認 | `chat.bsky.convo.acceptConvo` | ✅ |
+| ユーザー検索 (新規DM) | `searchActorsTypeahead` (デバウンス付き) | ✅ |
+| 自動更新 | メッセージ: 5秒ポーリング、未読: 30秒ポーリング | ✅ |
+
+### 4.10 システム機能
 | 機能 | 詳細 | 状態 |
 |------|------|------|
 | システムトレイ | 最小化時にトレイに常駐、未読バッジ | ✅ |
@@ -237,8 +253,8 @@ kazahanaは全機能を網羅するスタンドアロンアプリではなく、
 ┌──────────────────────────────────────────────────┐
 │  kazahana                            ⚙  ─ □ ✕  │
 ├──────────────────────────────────────────────────┤
-│  [ home ] [ search ] [ notifications ] [ person ]│
-│           (Material Symbols Rounded icons)        │
+│  [ home ] [ search ] [ notifications ] [ mail ] [ person ]│
+│           (Material Symbols Rounded icons)                 │
 ├──────────────────────────────────────────────────┤
 │                                                  │
 │  ┌──────────────────────────────────────────┐    │
@@ -268,6 +284,7 @@ kazahanaは全機能を網羅するスタンドアロンアプリではなく、
 | タブ: ホーム | `home` | — |
 | タブ: 検索 | `search` | — |
 | タブ: 通知 | `notifications` | — |
+| タブ: メッセージ | `mail` | — |
 | タブ: プロフィール | `person` | — |
 | いいね（未） | `favorite_border` | — |
 | いいね（済） | `favorite` | ✅ |
@@ -292,6 +309,9 @@ kazahanaは全機能を網羅するスタンドアロンアプリではなく、
 | プロフィール | `/profile/:handle` | ユーザープロフィール |
 | スレッド | `/thread/:uri` | スレッド/投稿詳細 |
 | 投稿作成 | モーダル | 新規投稿/リプライ |
+| DM一覧 | `/messages` | 会話一覧 |
+| DMスレッド | `/messages/:convoId` | メッセージ送受信 |
+| 新規DM | モーダル | ユーザー検索→会話開始 |
 | 設定 | `/settings` | テーマ、言語、サポート等 |
 | 非表示の投稿 | `/settings/hidden-posts` | 非表示にした投稿一覧・解除 |
 | フィード表示設定 | `/settings/feed-visibility` | 表示するフィード・リストの選択 |
@@ -357,6 +377,12 @@ kazahana/
 │   │   │   └── SearchView.tsx   # 検索画面
 │   │   ├── auth/
 │   │   │   └── LoginForm.tsx    # ログインフォーム
+│   │   ├── messages/
+│   │   │   ├── DMListView.tsx   # DM会話一覧
+│   │   │   ├── DMThreadView.tsx # DMスレッド（メッセージ表示・送信）
+│   │   │   ├── DMComposeModal.tsx # 新規DM作成モーダル
+│   │   │   ├── ConversationItem.tsx # 会話リストアイテム
+│   │   │   └── MessageBubble.tsx # メッセージバブル
 │   │   ├── settings/
 │   │   │   ├── SettingsView.tsx # 設定画面
 │   │   │   ├── ReadmeView.tsx   # Readme表示
@@ -376,7 +402,10 @@ kazahana/
 │   │   ├── usePost.ts           # 投稿作成/いいね/リポスト
 │   │   ├── useThread.ts         # スレッド取得
 │   │   ├── useSearch.ts         # 検索
-│   │   └── useModeration.ts     # モデレーション設定取得
+│   │   ├── useModeration.ts     # モデレーション設定取得
+│   │   ├── useConversations.ts  # DM会話一覧取得
+│   │   ├── useMessages.ts       # DMメッセージ取得・送信・削除
+│   │   └── useUnreadDMs.ts      # DM未読数ポーリング
 │   │
 │   │
 │   ├── contexts/                # React Context
@@ -386,10 +415,12 @@ kazahana/
 │   │   ├── authStore.ts         # 認証状態
 │   │   ├── composeStore.ts      # 投稿作成状態
 │   │   ├── settingsStore.ts     # アプリ設定（テーマ、取得タイミング、言語等）
-│   │   └── lightboxStore.ts     # 画像ライトボックス状態
+│   │   ├── lightboxStore.ts     # 画像ライトボックス状態
+│   │   └── dmComposeStore.ts    # 新規DM作成モーダル状態
 │   │
 │   ├── lib/                     # ユーティリティ
 │   │   ├── agent.ts             # BskyAgent設定・管理
+│   │   ├── chatAgent.ts         # Chat API用プロキシエージェント
 │   │   ├── richtext.ts          # リッチテキストヘルパー
 │   │   ├── notifications.ts     # OS デスクトップ通知送信（種別対応）
 │   │   ├── rateLimit.ts         # レート制限検出・リトライ遅延ユーティリティ
@@ -401,6 +432,8 @@ kazahana/
 │   │   └── locales/
 │   │       ├── ja.json          # 日本語翻訳
 │   │       └── en.json          # 英語翻訳
+│   │
+│   ├── vite-env.d.ts             # __APP_VERSION__ 型定義
 │   │
 │   └── styles/
 │       └── globals.css          # TailwindCSS base + Material Symbols import
