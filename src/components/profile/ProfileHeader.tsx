@@ -5,6 +5,8 @@ import { moderateProfile } from "@atproto/api";
 import type { ProfileViewDetailed } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
 import { useFollow, useUnfollow } from "../../hooks/useProfile";
 import { useAuthStore } from "../../stores/authStore";
+import { useReportStore } from "../../stores/reportStore";
+import { Icon } from "../common/Icon";
 import { useModerationOpts } from "../../contexts/ModerationContext";
 import { Avatar } from "../common/Avatar";
 import { ContentWarning } from "../common/ContentWarning";
@@ -82,17 +84,26 @@ export function ProfileHeader({ profile, isOwnProfile, onTabChange }: ProfileHea
             <Avatar src={profile.avatar} alt={profile.displayName} size="lg" />
           )}
           {!isOwnProfile && (
-            <button
-              onClick={handleToggleFollow}
-              disabled={isPending}
-              className={`px-4 py-1.5 text-sm font-medium rounded-btn transition-colors disabled:opacity-50 ${
-                isFollowing
-                  ? "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-red-100 hover:text-red-600"
-                  : "bg-primary text-white hover:bg-blue-600"
-              }`}
-            >
-              {isFollowing ? t("profile.following") : t("profile.follow")}
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={handleToggleFollow}
+                disabled={isPending}
+                className={`px-4 py-1.5 text-sm font-medium rounded-btn transition-colors disabled:opacity-50 ${
+                  isFollowing
+                    ? "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-red-100 hover:text-red-600"
+                    : "bg-primary text-white hover:bg-blue-600"
+                }`}
+              >
+                {isFollowing ? t("profile.following") : t("profile.follow")}
+              </button>
+              <button
+                onClick={() => useReportStore.getState().open({ type: "user", did: profile.did })}
+                className="w-8 h-8 flex items-center justify-center rounded-full bg-red-500/60 text-white hover:bg-red-500/80 transition-colors"
+                title={t("report.reportUser")}
+              >
+                <Icon name="flag" size={16} />
+              </button>
+            </div>
           )}
           {isOwnProfile && (
             <button

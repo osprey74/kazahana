@@ -203,6 +203,25 @@
       "ignore": "表示"
     }
   },
+  "report": {
+    "reportPost": "この投稿を通報",
+    "reportUser": "このユーザーを通報",
+    "reason": "通報理由",
+    "reasons": {
+      "spam": "スパム",
+      "violation": "規約違反",
+      "misleading": "誤解を招くコンテンツ",
+      "sexual": "不適切な性的コンテンツ",
+      "rude": "嫌がらせ・攻撃的言動",
+      "other": "その他"
+    },
+    "detailsPlaceholder": "詳細を入力（任意）...",
+    "submit": "通報する",
+    "submitting": "送信中...",
+    "success": "通報を送信しました",
+    "error": "通報の送信に失敗しました",
+    "close": "閉じる"
+  },
   "contextMenu": {
     "reload": "再読み込み",
     "copy": "コピー",

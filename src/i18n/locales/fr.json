@@ -201,6 +201,25 @@
       "ignore": "Afficher"
     }
   },
+  "report": {
+    "reportPost": "Signaler cette publication",
+    "reportUser": "Signaler cet utilisateur",
+    "reason": "Motif",
+    "reasons": {
+      "spam": "Spam",
+      "violation": "Violation des règles",
+      "misleading": "Contenu trompeur",
+      "sexual": "Contenu sexuel non désiré",
+      "rude": "Harcèlement ou abus",
+      "other": "Autre"
+    },
+    "detailsPlaceholder": "Fournir des détails supplémentaires (facultatif)...",
+    "submit": "Signaler",
+    "submitting": "Envoi en cours...",
+    "success": "Signalement envoyé",
+    "error": "Échec de l'envoi du signalement",
+    "close": "Fermer"
+  },
   "contextMenu": {
     "reload": "Recharger",
     "copy": "Copier",

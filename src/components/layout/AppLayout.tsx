@@ -6,6 +6,7 @@ import { ComposeModal } from "../post/ComposeModal";
 import { PostListModal } from "../post/PostListModal";
 import { ImageLightbox } from "../common/ImageLightbox";
 import { ContextMenu } from "../common/ContextMenu";
+import { ReportModal } from "../moderation/ReportModal";
 import { useComposeStore } from "../../stores/composeStore";
 import { useAuthStore } from "../../stores/authStore";
 import { Icon } from "../common/Icon";
@@ -109,6 +110,9 @@ export function AppLayout() {
 
       {/* Image Lightbox */}
       <ImageLightbox />
+
+      {/* Report Modal */}
+      <ReportModal />
 
       {/* Context Menu */}
       <ContextMenu />

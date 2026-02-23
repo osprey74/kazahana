@@ -5,6 +5,7 @@ import type { PostView } from "@atproto/api/dist/client/types/app/bsky/feed/defs
 import { getAgent } from "../../lib/agent";
 import { useComposeStore } from "../../stores/composeStore";
 import { usePostListStore } from "../../stores/postListStore";
+import { useReportStore } from "../../stores/reportStore";
 import { useDeletePost } from "../../hooks/usePost";
 import { Icon } from "../common/Icon";
 
@@ -198,7 +199,7 @@ function PostMenu({ post, isOwnPost }: { post: PostView; isOwnPost: boolean }) {
         {open && (
           <>
             <div className="fixed inset-0 z-40" onClick={(e) => { e.stopPropagation(); setOpen(false); }} />
-            <div className="absolute right-0 bottom-6 z-50 bg-white dark:bg-bg-dark border border-border-light dark:border-border-dark rounded-lg shadow-lg py-1 min-w-[120px]">
+            <div className="absolute right-0 bottom-6 z-50 bg-white dark:bg-bg-dark border border-border-light dark:border-border-dark rounded-lg shadow-lg py-1 min-w-[160px] whitespace-nowrap">
               {isOwnPost ? (
                 <button
                   onClick={handleDelete}
@@ -208,13 +209,22 @@ function PostMenu({ post, isOwnPost }: { post: PostView; isOwnPost: boolean }) {
                   <span>{t("post.delete")}</span>
                 </button>
               ) : (
-                <button
-                  onClick={handleHidePost}
-                  className="w-full flex items-center gap-2 px-3 py-2 text-sm text-text-light dark:text-text-dark hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-                >
-                  <Icon name="visibility_off" size={16} />
-                  <span>{t("post.hidePost")}</span>
-                </button>
+                <>
+                  <button
+                    onClick={handleHidePost}
+                    className="w-full flex items-center gap-2 px-3 py-2 text-sm text-text-light dark:text-text-dark hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                  >
+                    <Icon name="visibility_off" size={16} />
+                    <span>{t("post.hidePost")}</span>
+                  </button>
+                  <button
+                    onClick={() => { setOpen(false); useReportStore.getState().open({ type: "post", uri: post.uri, cid: post.cid }); }}
+                    className="w-full flex items-center gap-2 px-3 py-2 text-sm text-text-light dark:text-text-dark hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                  >
+                    <Icon name="flag" size={16} />
+                    <span>{t("report.reportPost")}</span>
+                  </button>
+                </>
               )}
             </div>
           </>

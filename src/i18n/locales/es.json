@@ -201,6 +201,25 @@
       "ignore": "Mostrar"
     }
   },
+  "report": {
+    "reportPost": "Reportar esta publicación",
+    "reportUser": "Reportar este usuario",
+    "reason": "Motivo",
+    "reasons": {
+      "spam": "Spam",
+      "violation": "Violación de reglas",
+      "misleading": "Contenido engañoso",
+      "sexual": "Contenido sexual no deseado",
+      "rude": "Acoso o abuso",
+      "other": "Otro"
+    },
+    "detailsPlaceholder": "Proporcionar detalles adicionales (opcional)...",
+    "submit": "Reportar",
+    "submitting": "Reportando...",
+    "success": "Reporte enviado",
+    "error": "Error al enviar el reporte",
+    "close": "Cerrar"
+  },
   "contextMenu": {
     "reload": "Recargar",
     "copy": "Copiar",

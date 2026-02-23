@@ -41,7 +41,7 @@
 - [ ] Mute thread notifications (`muteThread` / `unmuteThread`)
 - [x] Bookmarks (`createBookmark` / `deleteBookmark` / `getBookmarks`)
 - [ ] Direct messages (`chat.bsky.convo.*`)
-- [ ] Report posts/users (`com.atproto.moderation.createReport`)
+- [x] Report posts/users (`com.atproto.moderation.createReport`)
 
 ## i18n (Additional Languages)
 - [x] Portuguese (pt)

@@ -201,6 +201,25 @@
       "ignore": "Tampilkan"
     }
   },
+  "report": {
+    "reportPost": "Laporkan postingan ini",
+    "reportUser": "Laporkan pengguna ini",
+    "reason": "Alasan",
+    "reasons": {
+      "spam": "Spam",
+      "violation": "Pelanggaran aturan",
+      "misleading": "Konten menyesatkan",
+      "sexual": "Konten seksual yang tidak diinginkan",
+      "rude": "Pelecehan atau penyalahgunaan",
+      "other": "Lainnya"
+    },
+    "detailsPlaceholder": "Berikan detail tambahan (opsional)...",
+    "submit": "Laporkan",
+    "submitting": "Mengirim...",
+    "success": "Laporan terkirim",
+    "error": "Gagal mengirim laporan",
+    "close": "Tutup"
+  },
   "contextMenu": {
     "reload": "Muat ulang",
     "copy": "Salin",

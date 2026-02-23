@@ -201,6 +201,25 @@
       "ignore": "Anzeigen"
     }
   },
+  "report": {
+    "reportPost": "Diesen Beitrag melden",
+    "reportUser": "Diesen Benutzer melden",
+    "reason": "Grund",
+    "reasons": {
+      "spam": "Spam",
+      "violation": "Regelverstoß",
+      "misleading": "Irreführender Inhalt",
+      "sexual": "Unerwünschter sexueller Inhalt",
+      "rude": "Belästigung oder Missbrauch",
+      "other": "Sonstiges"
+    },
+    "detailsPlaceholder": "Weitere Details angeben (optional)...",
+    "submit": "Melden",
+    "submitting": "Wird gemeldet...",
+    "success": "Meldung gesendet",
+    "error": "Meldung konnte nicht gesendet werden",
+    "close": "Schließen"
+  },
   "contextMenu": {
     "reload": "Neu laden",
     "copy": "Kopieren",

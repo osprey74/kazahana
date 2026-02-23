@@ -201,6 +201,25 @@
       "ignore": "顯示"
     }
   },
+  "report": {
+    "reportPost": "檢舉此貼文",
+    "reportUser": "檢舉此使用者",
+    "reason": "檢舉原因",
+    "reasons": {
+      "spam": "垃圾訊息",
+      "violation": "違反規則",
+      "misleading": "誤導性內容",
+      "sexual": "不當性內容",
+      "rude": "騷擾或辱罵",
+      "other": "其他"
+    },
+    "detailsPlaceholder": "提供補充說明（選填）...",
+    "submit": "檢舉",
+    "submitting": "提交中...",
+    "success": "檢舉已提交",
+    "error": "檢舉提交失敗",
+    "close": "關閉"
+  },
   "contextMenu": {
     "reload": "重新載入",
     "copy": "複製",

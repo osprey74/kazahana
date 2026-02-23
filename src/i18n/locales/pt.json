@@ -201,6 +201,25 @@
       "ignore": "Mostrar"
     }
   },
+  "report": {
+    "reportPost": "Denunciar esta publicação",
+    "reportUser": "Denunciar este utilizador",
+    "reason": "Motivo",
+    "reasons": {
+      "spam": "Spam",
+      "violation": "Violação de regras",
+      "misleading": "Conteúdo enganoso",
+      "sexual": "Conteúdo sexual indesejado",
+      "rude": "Assédio ou abuso",
+      "other": "Outro"
+    },
+    "detailsPlaceholder": "Fornecer detalhes adicionais (opcional)...",
+    "submit": "Denunciar",
+    "submitting": "A enviar...",
+    "success": "Denúncia enviada",
+    "error": "Falha ao enviar denúncia",
+    "close": "Fechar"
+  },
   "contextMenu": {
     "reload": "Recarregar",
     "copy": "Copiar",

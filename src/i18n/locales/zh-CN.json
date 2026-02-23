@@ -201,6 +201,25 @@
       "ignore": "显示"
     }
   },
+  "report": {
+    "reportPost": "举报此帖子",
+    "reportUser": "举报此用户",
+    "reason": "举报原因",
+    "reasons": {
+      "spam": "垃圾信息",
+      "violation": "违反规则",
+      "misleading": "误导性内容",
+      "sexual": "不当性内容",
+      "rude": "骚扰或辱骂",
+      "other": "其他"
+    },
+    "detailsPlaceholder": "提供补充说明（可选）...",
+    "submit": "举报",
+    "submitting": "提交中...",
+    "success": "举报已提交",
+    "error": "举报提交失败",
+    "close": "关闭"
+  },
   "contextMenu": {
     "reload": "重新加载",
     "copy": "复制",

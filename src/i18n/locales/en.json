@@ -203,6 +203,25 @@
       "ignore": "Show"
     }
   },
+  "report": {
+    "reportPost": "Report this post",
+    "reportUser": "Report this user",
+    "reason": "Reason",
+    "reasons": {
+      "spam": "Spam",
+      "violation": "Rule violation",
+      "misleading": "Misleading content",
+      "sexual": "Unwanted sexual content",
+      "rude": "Harassment or abuse",
+      "other": "Other"
+    },
+    "detailsPlaceholder": "Provide additional details (optional)...",
+    "submit": "Report",
+    "submitting": "Reporting...",
+    "success": "Report submitted",
+    "error": "Failed to submit report",
+    "close": "Close"
+  },
   "contextMenu": {
     "reload": "Reload",
     "copy": "Copy",

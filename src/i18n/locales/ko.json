@@ -201,6 +201,25 @@
       "ignore": "표시"
     }
   },
+  "report": {
+    "reportPost": "이 게시물 신고",
+    "reportUser": "이 사용자 신고",
+    "reason": "신고 사유",
+    "reasons": {
+      "spam": "스팸",
+      "violation": "규칙 위반",
+      "misleading": "오해를 유발하는 콘텐츠",
+      "sexual": "원치 않는 성적 콘텐츠",
+      "rude": "괴롭힘 또는 학대",
+      "other": "기타"
+    },
+    "detailsPlaceholder": "추가 세부 정보 입력 (선택 사항)...",
+    "submit": "신고",
+    "submitting": "신고 중...",
+    "success": "신고가 접수되었습니다",
+    "error": "신고 접수에 실패했습니다",
+    "close": "닫기"
+  },
   "contextMenu": {
     "reload": "새로고침",
     "copy": "복사",
