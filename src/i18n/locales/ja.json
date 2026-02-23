@@ -40,6 +40,7 @@
     "hidePost": "この投稿を非表示",
     "unhidePost": "非表示を解除",
     "muteThread": "スレッド通知をミュート",
+    "copyLink": "リンクをコピー",
     "unmuteThread": "スレッド通知のミュートを解除"
   },
   "notification": {

@@ -40,6 +40,7 @@
     "hidePost": "Diesen Beitrag verbergen",
     "unhidePost": "Einblenden",
     "muteThread": "Thread-Benachrichtigungen stummschalten",
+    "copyLink": "Link kopieren",
     "unmuteThread": "Thread-Benachrichtigungen aktivieren"
   },
   "notification": {

@@ -40,6 +40,7 @@
     "hidePost": "Hide this post",
     "unhidePost": "Unhide",
     "muteThread": "Mute thread notifications",
+    "copyLink": "Copy link",
     "unmuteThread": "Unmute thread notifications"
   },
   "notification": {

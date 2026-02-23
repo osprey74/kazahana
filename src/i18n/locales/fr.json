@@ -40,6 +40,7 @@
     "hidePost": "Masquer cette publication",
     "unhidePost": "Démasquer",
     "muteThread": "Couper les notifications du fil",
+    "copyLink": "Copier le lien",
     "unmuteThread": "Réactiver les notifications du fil"
   },
   "notification": {

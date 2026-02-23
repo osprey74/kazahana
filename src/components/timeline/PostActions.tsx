@@ -188,6 +188,13 @@ function PostMenu({ post, isOwnPost }: { post: PostView; isOwnPost: boolean }) {
     }
   };
 
+  const handleCopyLink = () => {
+    setOpen(false);
+    const rkey = post.uri.split("/").pop();
+    const url = `https://bsky.app/profile/${post.author.handle}/post/${rkey}`;
+    navigator.clipboard.writeText(url);
+  };
+
   const handleToggleMuteThread = async () => {
     setOpen(false);
     try {
@@ -244,6 +251,13 @@ function PostMenu({ post, isOwnPost }: { post: PostView; isOwnPost: boolean }) {
                   </button>
                 </>
               )}
+              <button
+                onClick={handleCopyLink}
+                className="w-full flex items-center gap-2 px-3 py-2 text-sm text-text-light dark:text-text-dark hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              >
+                <Icon name="link" size={16} />
+                <span>{t("post.copyLink")}</span>
+              </button>
               <button
                 onClick={handleToggleMuteThread}
                 className="w-full flex items-center gap-2 px-3 py-2 text-sm text-text-light dark:text-text-dark hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"

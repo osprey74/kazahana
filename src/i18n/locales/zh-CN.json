@@ -40,6 +40,7 @@
     "hidePost": "隐藏此帖子",
     "unhidePost": "取消隐藏",
     "muteThread": "静音此话题通知",
+    "copyLink": "复制链接",
     "unmuteThread": "取消静音此话题通知"
   },
   "notification": {

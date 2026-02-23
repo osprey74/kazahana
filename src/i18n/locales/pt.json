@@ -40,6 +40,7 @@
     "hidePost": "Ocultar esta publicação",
     "unhidePost": "Mostrar",
     "muteThread": "Silenciar notificações da conversa",
+    "copyLink": "Copiar link",
     "unmuteThread": "Ativar notificações da conversa"
   },
   "notification": {
