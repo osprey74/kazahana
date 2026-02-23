@@ -116,6 +116,19 @@
     "imageLabel": "Image {{n}}",
     "noAlt": "No ALT text set"
   },
+  "video": {
+    "addVideo": "Add video (max 100MB)",
+    "altPlaceholder": "Video description (ALT)",
+    "uploading": "Uploading video...",
+    "processing": "Processing video...",
+    "error": {
+      "notAuthenticated": "Login required",
+      "limitReached": "Daily video upload limit reached",
+      "uploadFailed": "Failed to upload video",
+      "processingFailed": "Video processing failed",
+      "authFailed": "Video upload authentication failed"
+    }
+  },
   "profile": {
     "follow": "Follow",
     "following": "Following",
@@ -154,6 +167,7 @@
     "pollIntervalUnit": "{{seconds}}s",
     "supportMessage": "Buy the developer a coffee",
     "supportButton": "Support on Ko-fi",
+    "videoVolume": "Video Volume",
     "notification": "Desktop Notifications",
     "enableNotification": "Enable desktop notifications",
     "autoStart": "Auto Start",

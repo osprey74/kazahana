@@ -116,6 +116,18 @@
     "imageLabel": "圖片 {{n}}",
     "noAlt": "未設定 ALT 替代文字"
   },
+  "video": {
+    "addVideo": "新增影片（最大 100MB）",
+    "altPlaceholder": "影片描述（ALT）",
+    "uploading": "影片上傳中...",
+    "error": {
+      "notAuthenticated": "需要登入",
+      "limitReached": "已達每日影片上傳上限",
+      "uploadFailed": "影片上傳失敗",
+      "processingFailed": "影片處理失敗",
+      "authFailed": "影片上傳驗證失敗"
+    }
+  },
   "profile": {
     "follow": "追蹤",
     "following": "正在追蹤",

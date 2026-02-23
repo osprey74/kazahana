@@ -1,10 +1,11 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useComposeStore } from "../../stores/composeStore";
-import { useCreatePost } from "../../hooks/usePost";
+import { useCreatePost, VideoUploadError } from "../../hooks/usePost";
 import { useOgp } from "../../hooks/useOgp";
 import { useSearchActorsTypeahead } from "../../hooks/useSearch";
 import { ImageUpload, type ImageFile } from "./ImageUpload";
+import { VideoUpload, type VideoFile } from "./VideoUpload";
 import { Avatar } from "../common/Avatar";
 import { Icon } from "../common/Icon";
 
@@ -34,6 +35,28 @@ function getMentionQuery(text: string, cursorPos: number): { query: string; atIn
   return { query, atIndex: lastAt };
 }
 
+/** Get video aspect ratio from a File */
+function getVideoAspectRatio(file: File): Promise<{ width: number; height: number } | undefined> {
+  return new Promise((resolve) => {
+    const video = document.createElement("video");
+    video.preload = "metadata";
+    video.onloadedmetadata = () => {
+      const { videoWidth, videoHeight } = video;
+      URL.revokeObjectURL(video.src);
+      if (videoWidth && videoHeight) {
+        resolve({ width: videoWidth, height: videoHeight });
+      } else {
+        resolve(undefined);
+      }
+    };
+    video.onerror = () => {
+      URL.revokeObjectURL(video.src);
+      resolve(undefined);
+    };
+    video.src = URL.createObjectURL(file);
+  });
+}
+
 export function ComposeModal() {
   const { t } = useTranslation();
   const { isOpen, replyTo, close } = useComposeStore();
@@ -42,6 +65,9 @@ export function ComposeModal() {
   const [text, setText] = useState("");
   const [cursorPos, setCursorPos] = useState(0);
   const [images, setImages] = useState<ImageFile[]>([]);
+  const [video, setVideo] = useState<VideoFile | null>(null);
+  const [videoAspectRatio, setVideoAspectRatio] = useState<{ width: number; height: number } | undefined>();
+  const [videoProgress, setVideoProgress] = useState<{ progress: number; state: string } | null>(null);
   const [replyGate, setReplyGate] = useState<"everyone" | "mention" | "follower" | "following" | "nobody">("everyone");
   const [disableQuote, setDisableQuote] = useState(false);
   const [mentionIndex, setMentionIndex] = useState(0);
@@ -65,6 +91,9 @@ export function ComposeModal() {
       setText("");
       setCursorPos(0);
       setImages([]);
+      setVideo(null);
+      setVideoAspectRatio(undefined);
+      setVideoProgress(null);
       setReplyGate("everyone");
       setDisableQuote(false);
       setMentionIndex(0);
@@ -144,8 +173,26 @@ export function ComposeModal() {
     });
   }, []);
 
-  const handleUpdateAlt = useCallback((id: string, alt: string) => {
+  const handleUpdateImageAlt = useCallback((id: string, alt: string) => {
     setImages((prev) => prev.map((img) => (img.id === id ? { ...img, alt } : img)));
+  }, []);
+
+  const handleSelectVideo = useCallback(async (file: File) => {
+    const preview = URL.createObjectURL(file);
+    setVideo({ file, preview, alt: "" });
+    const ratio = await getVideoAspectRatio(file);
+    setVideoAspectRatio(ratio);
+  }, []);
+
+  const handleRemoveVideo = useCallback(() => {
+    if (video) URL.revokeObjectURL(video.preview);
+    setVideo(null);
+    setVideoAspectRatio(undefined);
+    setVideoProgress(null);
+  }, [video]);
+
+  const handleUpdateVideoAlt = useCallback((alt: string) => {
+    setVideo((prev) => prev ? { ...prev, alt } : null);
   }, []);
 
   const handleSubmit = async () => {
@@ -163,16 +210,19 @@ export function ComposeModal() {
       {
         text,
         images: imageData.length > 0 ? imageData : undefined,
+        video: video ? { file: video.file, alt: video.alt, aspectRatio: videoAspectRatio } : undefined,
         external: ogp ? { uri: ogp.url, title: ogp.title, description: ogp.description, thumbUrl: ogp.imageUrl } : undefined,
         replyTo: replyTo
           ? { uri: replyTo.uri, cid: replyTo.cid }
           : undefined,
         threadgate: !replyTo ? replyGate : undefined,
         postgate: !replyTo && disableQuote ? { disableQuote: true } : undefined,
+        onVideoProgress: (progress, state) => setVideoProgress({ progress, state }),
       },
       {
         onSuccess: () => {
           images.forEach((img) => URL.revokeObjectURL(img.preview));
+          if (video) URL.revokeObjectURL(video.preview);
           close();
         },
       },
@@ -181,6 +231,9 @@ export function ComposeModal() {
 
   if (!isOpen) return null;
 
+  const hasVideo = video !== null;
+  const hasImages = images.length > 0;
+
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center pt-16 bg-black/40">
       <div className="bg-white dark:bg-bg-dark rounded-card w-full max-w-md mx-4 shadow-xl">
@@ -188,7 +241,8 @@ export function ComposeModal() {
         <div className="flex items-center justify-between px-4 py-3 border-b border-border-light dark:border-border-dark">
           <button
             onClick={close}
-            className="text-sm text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+            disabled={createPost.isPending}
+            className="text-sm text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 disabled:opacity-50"
           >
             {t("compose.cancel")}
           </button>
@@ -259,18 +313,62 @@ export function ComposeModal() {
           )}
         </div>
 
-        {/* Image upload */}
-        <div className="px-4 pb-3">
-          <ImageUpload
-            images={images}
-            onAdd={handleAddImages}
-            onRemove={handleRemoveImage}
-            onUpdateAlt={handleUpdateAlt}
-          />
-        </div>
+        {/* Image upload (hidden when video is attached) */}
+        {!hasVideo && (
+          <div className="px-4 pb-3">
+            <ImageUpload
+              images={images}
+              onAdd={handleAddImages}
+              onRemove={handleRemoveImage}
+              onUpdateAlt={handleUpdateImageAlt}
+            />
+          </div>
+        )}
+
+        {/* Video upload (hidden when images are attached) */}
+        {!hasImages && (
+          <div className="px-4 pb-3">
+            <VideoUpload
+              video={video}
+              onSelect={handleSelectVideo}
+              onRemove={handleRemoveVideo}
+              onUpdateAlt={handleUpdateVideoAlt}
+              disabled={createPost.isPending}
+            />
+          </div>
+        )}
+
+        {/* Video upload / processing progress */}
+        {createPost.isPending && videoProgress && (
+          <div className="px-4 pb-2">
+            {videoProgress.state === "uploading" ? (
+              <>
+                <div className="flex items-center gap-2 text-xs text-gray-500">
+                  <Icon name="videocam" size={14} />
+                  <span>{t("video.uploading")}</span>
+                  <span>{videoProgress.progress}%</span>
+                </div>
+                <div className="w-full h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full mt-1 overflow-hidden">
+                  <div
+                    className="h-full bg-primary rounded-full transition-all duration-300"
+                    style={{ width: `${videoProgress.progress}%` }}
+                  />
+                </div>
+              </>
+            ) : videoProgress.state === "processing" ? (
+              <div className="flex items-center gap-2 text-xs text-gray-500">
+                <svg className="animate-spin h-3.5 w-3.5 text-primary" viewBox="0 0 24 24" fill="none">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                </svg>
+                <span>{t("video.processing")}</span>
+              </div>
+            ) : null}
+          </div>
+        )}
 
         {/* Link card: manual trigger or preview */}
-        {images.length === 0 && (
+        {!hasImages && !hasVideo && (
           <div className="px-4 pb-3">
             {ogpLoading ? (
               <div className="flex items-center gap-2 text-xs text-gray-400 py-2">
@@ -339,7 +437,18 @@ export function ComposeModal() {
         <div className="flex items-center justify-between px-4 py-2 border-t border-border-light dark:border-border-dark">
           <div>
             {createPost.isError && (
-              <p className="text-xs text-red-500">{t("compose.postFailed")}</p>
+              <p className="text-xs text-red-500">
+                {createPost.error instanceof VideoUploadError
+                  ? t(`video.error.${createPost.error.i18nKey}`)
+                  : t("compose.postFailed")}
+                {createPost.error && (
+                  <span className="block text-[10px] text-red-400 mt-0.5 break-all">
+                    {createPost.error instanceof VideoUploadError
+                      ? createPost.error.detail
+                      : (createPost.error as Error).message}
+                  </span>
+                )}
+              </p>
             )}
           </div>
           <span

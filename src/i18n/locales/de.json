@@ -116,6 +116,18 @@
     "imageLabel": "Bild {{n}}",
     "noAlt": "Kein ALT-Text vorhanden"
   },
+  "video": {
+    "addVideo": "Video hinzufügen (max. 100MB)",
+    "altPlaceholder": "Videobeschreibung (ALT)",
+    "uploading": "Video wird hochgeladen...",
+    "error": {
+      "notAuthenticated": "Anmeldung erforderlich",
+      "limitReached": "Tägliches Video-Upload-Limit erreicht",
+      "uploadFailed": "Video-Upload fehlgeschlagen",
+      "processingFailed": "Videoverarbeitung fehlgeschlagen",
+      "authFailed": "Video-Upload-Authentifizierung fehlgeschlagen"
+    }
+  },
   "profile": {
     "follow": "Folgen",
     "following": "Folge ich",

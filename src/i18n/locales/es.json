@@ -116,6 +116,18 @@
     "imageLabel": "Imagen {{n}}",
     "noAlt": "Sin texto ALT"
   },
+  "video": {
+    "addVideo": "Añadir vídeo (máx. 100MB)",
+    "altPlaceholder": "Descripción del vídeo (ALT)",
+    "uploading": "Subiendo vídeo...",
+    "error": {
+      "notAuthenticated": "Inicio de sesión requerido",
+      "limitReached": "Límite diario de subida de vídeos alcanzado",
+      "uploadFailed": "Error al subir el vídeo",
+      "processingFailed": "Error al procesar el vídeo",
+      "authFailed": "Error de autenticación al subir el vídeo"
+    }
+  },
   "profile": {
     "follow": "Seguir",
     "following": "Siguiendo",

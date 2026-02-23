@@ -116,6 +116,18 @@
     "imageLabel": "Изображение {{n}}",
     "noAlt": "Текст ALT не задан"
   },
+  "video": {
+    "addVideo": "Добавить видео (макс. 100МБ)",
+    "altPlaceholder": "Описание видео (ALT)",
+    "uploading": "Загрузка видео...",
+    "error": {
+      "notAuthenticated": "Требуется авторизация",
+      "limitReached": "Достигнут дневной лимит загрузки видео",
+      "uploadFailed": "Не удалось загрузить видео",
+      "processingFailed": "Ошибка обработки видео",
+      "authFailed": "Ошибка аутентификации загрузки видео"
+    }
+  },
   "profile": {
     "follow": "Подписаться",
     "following": "Подписки",

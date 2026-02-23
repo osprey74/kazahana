@@ -116,6 +116,18 @@
     "imageLabel": "Gambar {{n}}",
     "noAlt": "Teks ALT belum diisi"
   },
+  "video": {
+    "addVideo": "Tambahkan video (maks. 100MB)",
+    "altPlaceholder": "Deskripsi video (ALT)",
+    "uploading": "Mengunggah video...",
+    "error": {
+      "notAuthenticated": "Perlu masuk",
+      "limitReached": "Batas unggah video harian tercapai",
+      "uploadFailed": "Gagal mengunggah video",
+      "processingFailed": "Pemrosesan video gagal",
+      "authFailed": "Autentikasi unggah video gagal"
+    }
+  },
   "profile": {
     "follow": "Ikuti",
     "following": "Mengikuti",

@@ -21,7 +21,7 @@ export function SettingsView() {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { theme, setTheme, pollInterval, setPollInterval, desktopNotification, setDesktopNotification, autoStart, setAutoStart } = useSettingsStore();
+  const { theme, setTheme, pollInterval, setPollInterval, desktopNotification, setDesktopNotification, autoStart, setAutoStart, videoVolume, setVideoVolume } = useSettingsStore();
   const logout = useAuthStore((s) => s.logout);
 
   // Fetch current moderation preferences
@@ -139,6 +139,25 @@ export function SettingsView() {
           />
           <span className="text-sm text-text-light dark:text-text-dark">{t("settings.enableNotification")}</span>
         </label>
+      </section>
+
+      {/* Video Volume */}
+      <section className="mb-6">
+        <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t("settings.videoVolume")}</h3>
+        <div className="flex items-center gap-3">
+          <Icon name="volume_down" size={18} className="text-gray-500" />
+          <input
+            type="range"
+            min={0}
+            max={100}
+            step={5}
+            value={videoVolume}
+            onChange={(e) => setVideoVolume(Number(e.target.value))}
+            className="flex-1 h-1.5 accent-primary cursor-pointer"
+          />
+          <Icon name="volume_up" size={18} className="text-gray-500" />
+          <span className="text-sm text-gray-600 dark:text-gray-400 w-10 text-right">{videoVolume}%</span>
+        </div>
       </section>
 
       {/* Auto Start */}

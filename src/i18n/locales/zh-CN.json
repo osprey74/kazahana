@@ -116,6 +116,18 @@
     "imageLabel": "图片 {{n}}",
     "noAlt": "未设置 ALT 文字"
   },
+  "video": {
+    "addVideo": "添加视频（最大 100MB）",
+    "altPlaceholder": "视频描述（ALT）",
+    "uploading": "视频上传中...",
+    "error": {
+      "notAuthenticated": "需要登录",
+      "limitReached": "已达每日视频上传上限",
+      "uploadFailed": "视频上传失败",
+      "processingFailed": "视频处理失败",
+      "authFailed": "视频上传认证失败"
+    }
+  },
   "profile": {
     "follow": "关注",
     "following": "正在关注",

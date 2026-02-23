@@ -34,7 +34,7 @@
 - [x] Quotes list on a post (`getQuotes`)
 - [x] Post deletion (`deleteRecord` for posts)
 - [x] Quote post embed display (`app.bsky.embed.record`)
-- [ ] Video posting (`uploadVideo` / `app.bsky.embed.video`)
+- [x] Video posting (`uploadVideo` / `app.bsky.embed.video`)
 - [x] Thread gate (reply restriction settings)
 - [x] Post gate (quote restriction settings)
 - [ ] Hide individual posts (Preferences hidden posts)

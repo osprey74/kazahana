@@ -116,6 +116,18 @@
     "imageLabel": "이미지 {{n}}",
     "noAlt": "ALT 텍스트가 설정되지 않았습니다"
   },
+  "video": {
+    "addVideo": "동영상 추가 (최대 100MB)",
+    "altPlaceholder": "동영상 설명 (ALT)",
+    "uploading": "동영상 업로드 중...",
+    "error": {
+      "notAuthenticated": "로그인이 필요합니다",
+      "limitReached": "일일 동영상 업로드 한도에 도달했습니다",
+      "uploadFailed": "동영상 업로드에 실패했습니다",
+      "processingFailed": "동영상 처리에 실패했습니다",
+      "authFailed": "동영상 업로드 인증에 실패했습니다"
+    }
+  },
   "profile": {
     "follow": "팔로우",
     "following": "팔로잉",

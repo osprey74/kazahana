@@ -13,6 +13,7 @@ import { PostActions } from "../timeline/PostActions";
 import { ImageGrid } from "../common/ImageGrid";
 import { LinkCard } from "../common/LinkCard";
 import { QuoteEmbed } from "../common/QuoteEmbed";
+import { VideoPlayer } from "../common/VideoPlayer";
 import type { ViewImage } from "@atproto/api/dist/client/types/app/bsky/embed/images";
 import { formatDistanceToNowStrict } from "date-fns";
 import { ja } from "date-fns/locale";
@@ -106,6 +107,7 @@ function ThreadPostItem({
   const moderationOpts = useModerationOpts();
   const record = post.record as { text?: string; facets?: unknown[]; createdAt?: string };
   const images = getImages(post);
+  const videoEmbed = getVideoEmbed(post);
   const externalEmbed = getExternalEmbed(post);
   const quoteEmbed = getQuoteEmbed(post);
   const locale = i18n.language.startsWith("ja") ? ja : enUS;
@@ -169,6 +171,7 @@ function ThreadPostItem({
                 </div>
               )}
               {images.length > 0 && <ImageGrid images={images} />}
+              {videoEmbed && <VideoPlayer {...videoEmbed} />}
               {externalEmbed && <LinkCard external={externalEmbed} />}
               {quoteEmbed && <QuoteEmbed record={quoteEmbed} />}
             </ContentWarning>
@@ -189,6 +192,15 @@ function ThreadPostItem({
                   </ContentWarning>
                 ) : (
                   <ImageGrid images={images} />
+                )
+              )}
+              {videoEmbed && (
+                mediaUI?.blur ? (
+                  <ContentWarning ui={mediaUI} isMedia>
+                    <VideoPlayer {...videoEmbed} />
+                  </ContentWarning>
+                ) : (
+                  <VideoPlayer {...videoEmbed} />
                 )
               )}
               {externalEmbed && <LinkCard external={externalEmbed} />}
@@ -254,6 +266,29 @@ function getQuoteEmbed(post: PostView): Record<string, any> | null {
   if (embed.$type === "app.bsky.embed.recordWithMedia#view") {
     const rec = (embed as { record?: { record?: Record<string, unknown> } }).record;
     return rec?.record ?? null;
+  }
+  return null;
+}
+
+interface VideoEmbed {
+  playlist: string;
+  thumbnail?: string;
+  alt?: string;
+  aspectRatio?: { width: number; height: number };
+  presentation?: string;
+}
+
+function getVideoEmbed(post: PostView): VideoEmbed | null {
+  const embed = post.embed;
+  if (!embed) return null;
+  if (embed.$type === "app.bsky.embed.video#view") {
+    return embed as unknown as VideoEmbed;
+  }
+  if (embed.$type === "app.bsky.embed.recordWithMedia#view") {
+    const media = (embed as { media?: { $type?: string } }).media;
+    if (media?.$type === "app.bsky.embed.video#view") {
+      return media as unknown as VideoEmbed;
+    }
   }
   return null;
 }

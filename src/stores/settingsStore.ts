@@ -8,10 +8,12 @@ interface SettingsState {
   pollInterval: number;
   desktopNotification: boolean;
   autoStart: boolean;
+  videoVolume: number;
   setTheme: (theme: Theme) => void;
   setPollInterval: (seconds: number) => void;
   setDesktopNotification: (enabled: boolean) => void;
   setAutoStart: (enabled: boolean) => void;
+  setVideoVolume: (volume: number) => void;
   initAutoStart: () => void;
 }
 
@@ -20,6 +22,7 @@ export const useSettingsStore = create<SettingsState>((set) => ({
   pollInterval: Number(localStorage.getItem("kazahana-poll-interval")) || 30,
   desktopNotification: localStorage.getItem("kazahana-desktop-notification") !== "false",
   autoStart: false, // Will be synced from plugin on init
+  videoVolume: Number(localStorage.getItem("kazahana-video-volume")) || 50,
 
   setTheme: (theme: Theme) => {
     localStorage.setItem("kazahana-theme", theme);
@@ -35,6 +38,11 @@ export const useSettingsStore = create<SettingsState>((set) => ({
   setDesktopNotification: (enabled: boolean) => {
     localStorage.setItem("kazahana-desktop-notification", String(enabled));
     set({ desktopNotification: enabled });
+  },
+
+  setVideoVolume: (volume: number) => {
+    localStorage.setItem("kazahana-video-volume", String(volume));
+    set({ videoVolume: volume });
   },
 
   setAutoStart: (enabled: boolean) => {
