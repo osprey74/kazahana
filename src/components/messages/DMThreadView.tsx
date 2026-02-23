@@ -65,10 +65,9 @@ export function DMThreadView() {
     return data.pages
       .flatMap((page) => page.messages)
       .filter(
-        (msg): msg is ChatBskyConvoDefs.MessageView | ChatBskyConvoDefs.DeletedMessageView =>
+        (msg) =>
           ChatBskyConvoDefs.isMessageView(msg) || ChatBskyConvoDefs.isDeletedMessageView(msg),
-      )
-      .reverse();
+      ) as (ChatBskyConvoDefs.MessageView | ChatBskyConvoDefs.DeletedMessageView)[];
   }, [data]);
 
   // Scroll to bottom on new messages
@@ -235,7 +234,7 @@ export function DMThreadView() {
           <MessageBubble
             key={msg.id}
             message={msg}
-            isMine={msg.sender.did === myDid}
+            isMine={ChatBskyConvoDefs.isMessageView(msg) && msg.sender.did === myDid}
             convoId={convoId!}
           />
         ))}
