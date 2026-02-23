@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { moderateProfile } from "@atproto/api";
 import type { ProfileViewDetailed } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
 import { useFollow, useUnfollow, useMuteActor, useUnmuteActor, useBlockActor, useUnblockActor } from "../../hooks/useProfile";
-import { useAuthStore } from "../../stores/authStore";
 import { useReportStore } from "../../stores/reportStore";
 import { useListManagementStore } from "../../stores/listManagementStore";
 import { Icon } from "../common/Icon";
@@ -21,7 +20,6 @@ interface ProfileHeaderProps {
 export function ProfileHeader({ profile, isOwnProfile }: ProfileHeaderProps) {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const logout = useAuthStore((s) => s.logout);
   const follow = useFollow();
   const unfollow = useUnfollow();
   const muteActor = useMuteActor();
@@ -201,14 +199,6 @@ export function ProfileHeader({ profile, isOwnProfile }: ProfileHeaderProps) {
                 )}
               </div>
             </div>
-          )}
-          {isOwnProfile && (
-            <button
-              onClick={() => { logout(); navigate("/"); }}
-              className="px-4 py-1.5 text-sm font-medium rounded-btn bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-            >
-              {t("profile.logout")}
-            </button>
           )}
         </div>
 
