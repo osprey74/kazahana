@@ -20,6 +20,10 @@ interface CreatePostParams {
     cid: string;
     root?: { uri: string; cid: string };
   };
+  quoteTo?: {
+    uri: string;
+    cid: string;
+  };
   threadgate?: "everyone" | "mention" | "follower" | "following" | "nobody";
   postgate?: { disableQuote: boolean };
   onVideoProgress?: (progress: number, state: string) => void;
@@ -234,7 +238,7 @@ export function useCreatePost() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ text, images, video, external, replyTo, threadgate, postgate, onVideoProgress }: CreatePostParams) => {
+    mutationFn: async ({ text, images, video, external, replyTo, quoteTo, threadgate, postgate, onVideoProgress }: CreatePostParams) => {
       const agent = getAgent();
 
       // Build rich text with facets
@@ -271,13 +275,16 @@ export function useCreatePost() {
         ...(useSettingsStore.getState().showVia ? { $via: "kazahana" } : {}),
       };
 
+      // Build media embed (images / video / external link card)
+      let mediaEmbed: Record<string, unknown> | undefined;
+
       if (imageEmbeds.length > 0) {
-        record.embed = {
+        mediaEmbed = {
           $type: "app.bsky.embed.images",
           images: imageEmbeds,
         };
       } else if (videoBlob) {
-        record.embed = {
+        mediaEmbed = {
           $type: "app.bsky.embed.video",
           video: videoBlob,
           alt: video!.alt || undefined,
@@ -303,7 +310,7 @@ export function useCreatePost() {
             // Proceed without thumbnail
           }
         }
-        record.embed = {
+        mediaEmbed = {
           $type: "app.bsky.embed.external",
           external: {
             uri: external.uri,
@@ -312,6 +319,23 @@ export function useCreatePost() {
             ...(thumb ? { thumb } : {}),
           },
         };
+      }
+
+      // Compose the final embed: quote, quote+media, or media-only
+      if (quoteTo) {
+        const quoteRecord = { $type: "app.bsky.embed.record", record: { uri: quoteTo.uri, cid: quoteTo.cid } };
+        if (mediaEmbed) {
+          // Quote with media → recordWithMedia
+          record.embed = {
+            $type: "app.bsky.embed.recordWithMedia",
+            record: quoteRecord,
+            media: mediaEmbed,
+          };
+        } else {
+          record.embed = quoteRecord;
+        }
+      } else if (mediaEmbed) {
+        record.embed = mediaEmbed;
       }
 
       if (replyTo) {

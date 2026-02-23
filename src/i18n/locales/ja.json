@@ -25,6 +25,7 @@
     "posting": "投稿中...",
     "placeholder": "いまどうしてる？",
     "replyPlaceholder": "返信を入力...",
+    "quotePlaceholder": "引用にコメントを追加...",
     "postFailed": "投稿に失敗しました",
     "newPost": "新しい投稿を作成",
     "fetchingLink": "リンク情報を取得中...",
@@ -43,7 +44,9 @@
     "copyLink": "リンクをコピー",
     "unmuteThread": "スレッド通知のミュートを解除",
     "muteUser": "このユーザーをミュート",
-    "unmuteUser": "このユーザーのミュートを解除"
+    "unmuteUser": "このユーザーのミュートを解除",
+    "quotePost": "引用して投稿",
+    "viewQuotes": "引用一覧を見る"
   },
   "notification": {
     "liked": "がいいねしました",

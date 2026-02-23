@@ -25,6 +25,7 @@
     "posting": "Posting...",
     "placeholder": "What's on your mind?",
     "replyPlaceholder": "Write a reply...",
+    "quotePlaceholder": "Add a comment...",
     "postFailed": "Failed to post",
     "newPost": "Create new post",
     "fetchingLink": "Fetching link info...",
@@ -43,7 +44,9 @@
     "copyLink": "Copy link",
     "unmuteThread": "Unmute thread notifications",
     "muteUser": "Mute this user",
-    "unmuteUser": "Unmute this user"
+    "unmuteUser": "Unmute this user",
+    "quotePost": "Quote post",
+    "viewQuotes": "View quotes"
   },
   "notification": {
     "liked": "liked your post",

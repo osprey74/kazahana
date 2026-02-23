@@ -59,7 +59,7 @@ function getVideoAspectRatio(file: File): Promise<{ width: number; height: numbe
 
 export function ComposeModal() {
   const { t } = useTranslation();
-  const { isOpen, replyTo, close } = useComposeStore();
+  const { isOpen, replyTo, quoteTo, close } = useComposeStore();
   const createPost = useCreatePost();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [text, setText] = useState("");
@@ -211,12 +211,15 @@ export function ComposeModal() {
         text,
         images: imageData.length > 0 ? imageData : undefined,
         video: video ? { file: video.file, alt: video.alt, aspectRatio: videoAspectRatio } : undefined,
-        external: ogp ? { uri: ogp.url, title: ogp.title, description: ogp.description, thumbUrl: ogp.imageUrl } : undefined,
+        external: !quoteTo && ogp ? { uri: ogp.url, title: ogp.title, description: ogp.description, thumbUrl: ogp.imageUrl } : undefined,
         replyTo: replyTo
           ? { uri: replyTo.uri, cid: replyTo.cid }
           : undefined,
-        threadgate: !replyTo ? replyGate : undefined,
-        postgate: !replyTo && disableQuote ? { disableQuote: true } : undefined,
+        quoteTo: quoteTo
+          ? { uri: quoteTo.uri, cid: quoteTo.cid }
+          : undefined,
+        threadgate: !replyTo && !quoteTo ? replyGate : undefined,
+        postgate: !replyTo && !quoteTo && disableQuote ? { disableQuote: true } : undefined,
         onVideoProgress: (progress, state) => setVideoProgress({ progress, state }),
       },
       {
@@ -279,7 +282,7 @@ export function ComposeModal() {
             onChange={handleTextChange}
             onSelect={handleSelect}
             onKeyDown={handleKeyDown}
-            placeholder={replyTo ? t("compose.replyPlaceholder") : t("compose.placeholder")}
+            placeholder={replyTo ? t("compose.replyPlaceholder") : quoteTo ? t("compose.quotePlaceholder") : t("compose.placeholder")}
             className="w-full min-h-[120px] resize-none text-sm text-text-light dark:text-text-dark bg-transparent placeholder-gray-400 focus:outline-none"
             autoFocus
           />
@@ -312,6 +315,26 @@ export function ComposeModal() {
             </div>
           )}
         </div>
+
+        {/* Quote preview */}
+        {quoteTo && (
+          <div className="px-4 pb-3">
+            <div className="border border-border-light dark:border-border-dark rounded-lg p-3">
+              <div className="flex items-center gap-1.5">
+                <Avatar src={quoteTo.author.avatar} alt={quoteTo.author.displayName} size="sm" />
+                <span className="font-bold text-xs text-text-light dark:text-text-dark truncate">
+                  {quoteTo.author.displayName || quoteTo.author.handle}
+                </span>
+                <span className="text-xs text-gray-500 truncate">
+                  @{quoteTo.author.handle}
+                </span>
+              </div>
+              {quoteTo.text && (
+                <p className="mt-1 text-xs text-gray-500 line-clamp-3">{quoteTo.text}</p>
+              )}
+            </div>
+          </div>
+        )}
 
         {/* Image upload (hidden when video is attached) */}
         {!hasVideo && (
@@ -367,8 +390,8 @@ export function ComposeModal() {
           </div>
         )}
 
-        {/* Link card: manual trigger or preview */}
-        {!hasImages && !hasVideo && (
+        {/* Link card: manual trigger or preview (hidden when quoting) */}
+        {!hasImages && !hasVideo && !quoteTo && (
           <div className="px-4 pb-3">
             {ogpLoading ? (
               <div className="flex items-center gap-2 text-xs text-gray-400 py-2">
@@ -404,8 +427,8 @@ export function ComposeModal() {
           </div>
         )}
 
-        {/* Gate settings (new posts only, not replies) */}
-        {!replyTo && (
+        {/* Gate settings (new posts only, not replies or quotes) */}
+        {!replyTo && !quoteTo && (
           <div className="px-4 pb-2 flex flex-col gap-2">
             <div className="flex items-center gap-2">
               <Icon name="lock" size={14} className="text-gray-400 flex-shrink-0" />

@@ -15,6 +15,7 @@ interface PostActionsProps {
 }
 
 export function PostActions({ post }: PostActionsProps) {
+  const { t } = useTranslation();
   const [liked, setLiked] = useState(!!post.viewer?.like);
   const [likeCount, setLikeCount] = useState(post.likeCount ?? 0);
   const [likeUri, setLikeUri] = useState(post.viewer?.like ?? "");
@@ -24,6 +25,7 @@ export function PostActions({ post }: PostActionsProps) {
   const [repostUri, setRepostUri] = useState(post.viewer?.repost ?? "");
 
   const [bookmarked, setBookmarked] = useState(!!post.viewer?.bookmarked);
+  const [quoteMenuOpen, setQuoteMenuOpen] = useState(false);
   const queryClient = useQueryClient();
 
   // Sync state when Virtuoso recycles this component for a different post
@@ -45,9 +47,12 @@ export function PostActions({ post }: PostActionsProps) {
 
   const isOwnPost = post.author.did === getAgent().session?.did;
 
+  // Check if quoting is disabled on this post
+  const quoteDisabled = !!(post.viewer as { embeddingDisabled?: boolean } | undefined)?.embeddingDisabled;
+
   const handleReply = () => {
     const record = post.record as { text?: string };
-    openCompose({
+    openCompose({ replyTo: {
       uri: post.uri,
       cid: post.cid,
       author: {
@@ -56,7 +61,22 @@ export function PostActions({ post }: PostActionsProps) {
         avatar: post.author.avatar,
       },
       text: record.text ?? "",
-    });
+    }});
+  };
+
+  const handleQuotePost = () => {
+    setQuoteMenuOpen(false);
+    const record = post.record as { text?: string };
+    openCompose({ quoteTo: {
+      uri: post.uri,
+      cid: post.cid,
+      author: {
+        handle: post.author.handle,
+        displayName: post.author.displayName,
+        avatar: post.author.avatar,
+      },
+      text: record.text ?? "",
+    }});
   };
 
   const handleLike = async () => {
@@ -142,12 +162,38 @@ export function PostActions({ post }: PostActionsProps) {
         onClick={handleLike}
         onCountClick={() => openPostList("likes", post.uri)}
       />
-      <ActionButton
-        icon="format_quote"
-        count={quoteCount}
-        active={false}
-        onClick={() => openPostList("quotes", post.uri)}
-      />
+      <div className="relative">
+        <ActionButton
+          icon="format_quote"
+          count={quoteCount}
+          active={false}
+          onClick={() => setQuoteMenuOpen((v) => !v)}
+          onCountClick={() => openPostList("quotes", post.uri)}
+        />
+        {quoteMenuOpen && (
+          <>
+            <div className="fixed inset-0 z-40" onClick={(e) => { e.stopPropagation(); setQuoteMenuOpen(false); }} />
+            <div className="absolute left-0 bottom-6 z-50 bg-white dark:bg-bg-dark border border-border-light dark:border-border-dark rounded-lg shadow-lg py-1 min-w-[160px] whitespace-nowrap">
+              {!quoteDisabled && (
+                <button
+                  onClick={(e) => { e.stopPropagation(); handleQuotePost(); }}
+                  className="w-full flex items-center gap-2 px-3 py-2 text-sm text-text-light dark:text-text-dark hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                >
+                  <Icon name="edit" size={16} />
+                  <span>{t("post.quotePost")}</span>
+                </button>
+              )}
+              <button
+                onClick={(e) => { e.stopPropagation(); setQuoteMenuOpen(false); openPostList("quotes", post.uri); }}
+                className="w-full flex items-center gap-2 px-3 py-2 text-sm text-text-light dark:text-text-dark hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              >
+                <Icon name="format_quote" size={16} />
+                <span>{t("post.viewQuotes")}</span>
+              </button>
+            </div>
+          </>
+        )}
+      </div>
       <ActionButton
         icon="bookmark"
         count={0}
