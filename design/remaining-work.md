@@ -23,6 +23,7 @@
 ## Spec Section 9 (Build/Distribution)
 - [x] Production build (`npm run tauri build`) — v1.0.0 Windows x64 (NSIS / MSI)
 - [ ] CI/CD with GitHub Actions (Section 9.3, marked as future)
+- [ ] Auto-update via `tauri-plugin-updater` — コード署名導入後に実装
 
 ## Bluesky API Features (kazahana scope)
 - [x] List feed viewing (`getListFeed`)
@@ -34,6 +35,7 @@
 - [x] Quotes list on a post (`getQuotes`)
 - [x] Post deletion (`deleteRecord` for posts)
 - [x] Quote post embed display (`app.bsky.embed.record`)
+- [ ] Quote post creation (compose with `app.bsky.embed.record`)
 - [x] Video posting (`uploadVideo` / `app.bsky.embed.video`)
 - [x] Thread gate (reply restriction settings)
 - [x] Post gate (quote restriction settings)
