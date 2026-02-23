@@ -51,7 +51,8 @@ Kazahana is designed as a **lightweight, always-running companion app** — not 
 - [x] Desktop notifications (with reason breakdown: like/repost/reply/mention/follow/quote)
 - [x] Auto-start on OS boot (optional)
 - [x] Bookmarks
-- [ ] Quote post
+- [x] Quote post
+- [ ] Direct messages
 
 ## Tech Stack
 

@@ -171,7 +171,7 @@ kazahanaは全機能を網羅するスタンドアロンアプリではなく、
 | いいね取消 | `com.atproto.repo.deleteRecord` | ✅ |
 | リポスト | `com.atproto.repo.createRecord` (app.bsky.feed.repost) | ✅ |
 | 投稿削除 | `agent.deletePost` (com.atproto.repo.deleteRecord) | ✅ |
-| 引用リポスト | 投稿作成 + `app.bsky.embed.record` | 🔲 |
+| 引用リポスト | 投稿作成 + `app.bsky.embed.record` | ✅ |
 | スレッド表示 | `app.bsky.feed.getPostThread` | ✅ |
 
 ### 4.5 通知
@@ -520,8 +520,12 @@ npm run tauri build
 - `kazahana_1.0.0_x64-setup.exe` (NSIS インストーラー, ~9.4 MB)
 - `kazahana_1.0.0_x64_en-US.msi` (MSI インストーラー, ~12 MB)
 
-### 9.3 CI/CD（将来）
-- GitHub Actions で Windows / macOS 両ビルドを自動化
+### 9.3 CI/CD ✅
+
+- GitHub Actions で Windows / macOS 両ビルドを自動化（`.github/workflows/release.yml`）
+- `tauri-apps/tauri-action@v0` によるクロスプラットフォームビルド
+- バージョンタグ push（`v*`）でドラフトリリース自動作成
+- ビルドマトリクス: Windows x64 / macOS Intel / macOS Apple Silicon
 - GitHub Releases で配布
 
 ---

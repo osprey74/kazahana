@@ -22,7 +22,7 @@
 
 ## Spec Section 9 (Build/Distribution)
 - [x] Production build (`npm run tauri build`) — v1.0.0 Windows x64 (NSIS / MSI)
-- [ ] CI/CD with GitHub Actions (Section 9.3, marked as future)
+- [x] CI/CD with GitHub Actions (Section 9.3) — `.github/workflows/release.yml`
 - [ ] Auto-update via `tauri-plugin-updater` — コード署名導入後に実装
 
 ## Bluesky API Features (kazahana scope)
@@ -35,7 +35,7 @@
 - [x] Quotes list on a post (`getQuotes`)
 - [x] Post deletion (`deleteRecord` for posts)
 - [x] Quote post embed display (`app.bsky.embed.record`)
-- [ ] Quote post creation (compose with `app.bsky.embed.record`)
+- [x] Quote post creation (compose with `app.bsky.embed.record`)
 - [x] Video posting (`uploadVideo` / `app.bsky.embed.video`)
 - [x] Thread gate (reply restriction settings)
 - [x] Post gate (quote restriction settings)
@@ -61,7 +61,19 @@
 - [x] Russian (ru)
 - [x] Indonesian (id)
 
+## Multi-Account Support
+- [ ] Session store refactor: single session → multi-account array (`accounts[]` + `currentDid`)
+- [ ] Agent management: singleton → account-aware Map (`Map<did, AtpAgent>`)
+- [ ] authStore redesign: `accounts[]`, `switchAccount(did)`, `addAccount()`, `removeAccount(did)`
+- [ ] Account switcher UI in AppLayout header
+- [ ] Settings: account management section (add/remove/switch)
+- [ ] Login form: "Add Account" flow after initial login
+- [ ] Query cache isolation per account (invalidate on switch)
+- [ ] i18n strings for account management (ja/en)
+- Note: OAuth対応は後日。現段階ではアプリパスワード方式でのマルチアカウント
+
 ## Beyond Spec (Potential Improvements)
+
 - [x] Session auto-refresh robustness (401 error retry)
 - [x] Rate limit handling (429 response backoff with `ratelimit-reset` header)
 - [x] Follow/unfollow functionality verification
