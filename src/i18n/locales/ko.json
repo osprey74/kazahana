@@ -104,6 +104,7 @@
   "moderation": {
     "postHidden": "콘텐츠 관리에 의해 숨겨진 게시물",
     "show": "보기",
+    "hide": "숨기기",
     "contentWarning": "콘텐츠 경고",
     "muted": "뮤트된 사용자",
     "muteWord": "뮤트된 단어 포함",

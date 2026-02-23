@@ -104,6 +104,7 @@
   "moderation": {
     "postHidden": "Beitrag durch Moderation ausgeblendet",
     "show": "Anzeigen",
+    "hide": "Ausblenden",
     "contentWarning": "Inhaltswarnung",
     "muted": "Stummgeschalteter Nutzer",
     "muteWord": "Enthält stummgeschaltetes Wort",

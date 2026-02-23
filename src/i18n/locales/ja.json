@@ -104,6 +104,7 @@
   "moderation": {
     "postHidden": "モデレーションにより非表示",
     "show": "表示する",
+    "hide": "戻る",
     "contentWarning": "コンテンツ警告",
     "muted": "ミュートしたユーザー",
     "muteWord": "ミュートワードを含む投稿",

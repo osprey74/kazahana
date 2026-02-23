@@ -104,6 +104,7 @@
   "moderation": {
     "postHidden": "此帖子已被内容审核隐藏",
     "show": "显示",
+    "hide": "隐藏",
     "contentWarning": "内容警告",
     "muted": "已静音的用户",
     "muteWord": "包含已屏蔽的词语",

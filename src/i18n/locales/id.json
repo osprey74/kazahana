@@ -104,6 +104,7 @@
   "moderation": {
     "postHidden": "Postingan disembunyikan oleh moderasi",
     "show": "Tampilkan",
+    "hide": "Sembunyikan",
     "contentWarning": "Peringatan konten",
     "muted": "Pengguna dibisukan",
     "muteWord": "Mengandung kata yang dibisukan",

@@ -104,6 +104,7 @@
   "moderation": {
     "postHidden": "Post hidden by moderation",
     "show": "Show",
+    "hide": "Hide",
     "contentWarning": "Content warning",
     "muted": "Muted user",
     "muteWord": "Contains muted word",

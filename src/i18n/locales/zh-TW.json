@@ -104,6 +104,7 @@
   "moderation": {
     "postHidden": "此貼文已被內容審核隱藏",
     "show": "顯示",
+    "hide": "隱藏",
     "contentWarning": "內容警告",
     "muted": "已靜音的使用者",
     "muteWord": "包含靜音詞彙",

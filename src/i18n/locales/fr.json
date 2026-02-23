@@ -104,6 +104,7 @@
   "moderation": {
     "postHidden": "Publication masquée par la modération",
     "show": "Afficher",
+    "hide": "Masquer",
     "contentWarning": "Avertissement de contenu",
     "muted": "Utilisateur masqué",
     "muteWord": "Contient un mot masqué",

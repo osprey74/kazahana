@@ -24,8 +24,22 @@ export function ContentWarning({ ui, isMedia = false, children }: ContentWarning
   const { t } = useTranslation();
   const [revealed, setRevealed] = useState(false);
 
-  if (!ui.blur || revealed) {
+  if (!ui.blur) {
     return <>{children}</>;
+  }
+
+  if (revealed) {
+    return (
+      <div className="relative">
+        {children}
+        <button
+          onClick={(e) => { e.stopPropagation(); setRevealed(false); }}
+          className="absolute top-2 right-2 px-2 py-0.5 text-[11px] font-medium bg-black/50 text-white rounded-btn hover:bg-black/70 transition-colors"
+        >
+          {t("moderation.hide")}
+        </button>
+      </div>
+    );
   }
 
   const cause = ui.blurs[0];

@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { save } from "@tauri-apps/plugin-dialog";
 import { writeFile } from "@tauri-apps/plugin-fs";
+import { fetch as tauriFetch } from "@tauri-apps/plugin-http";
 
 interface TargetInfo {
   hasSelection: boolean;
@@ -177,7 +178,7 @@ export function ContextMenu() {
     close();
     if (!target.imageSrc) return;
     try {
-      const res = await fetch(target.imageSrc);
+      const res = await tauriFetch(target.imageSrc);
       const blob = await res.blob();
       // Convert to PNG for clipboard compatibility
       const pngBlob = blob.type === "image/png" ? blob : await convertToPng(blob);
@@ -193,7 +194,7 @@ export function ContextMenu() {
     close();
     if (!target.imageSrc) return;
     try {
-      const res = await fetch(target.imageSrc);
+      const res = await tauriFetch(target.imageSrc);
       const blob = await res.blob();
       const ext = getImageExtension(blob.type);
       const filePath = await save({
