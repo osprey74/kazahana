@@ -98,6 +98,10 @@ export function DMThreadView() {
     el.style.height = `${Math.min(el.scrollHeight, 120)}px`;
   }, [text]);
 
+  const convo = convoQuery.data;
+  const other = convo?.members.find((m) => m.did !== myDid) ?? convo?.members[0];
+  const isRequest = convo?.status === "request";
+
   const handleMuteToggle = useCallback(async () => {
     if (!convoId || !convo) return;
     const agent = getChatAgent();
@@ -125,10 +129,6 @@ export function DMThreadView() {
     await agent.chat.bsky.convo.acceptConvo({ convoId });
     convoQuery.refetch();
   }, [convoId, convoQuery]);
-
-  const convo = convoQuery.data;
-  const other = convo?.members.find((m) => m.did !== myDid) ?? convo?.members[0];
-  const isRequest = convo?.status === "request";
 
   return (
     <div className="flex flex-col h-full">
