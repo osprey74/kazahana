@@ -182,6 +182,8 @@
     "enableShowVia": "Client-Name in Beiträgen anzeigen und $via beim Posten über kazahana hinzufügen",
     "autoStart": "Autostart",
     "enableAutoStart": "Kazahana beim Systemstart starten",
+    "feedVisibility": "Sichtbare Feeds konfigurieren",
+    "noFeeds": "Keine Feeds oder Listen",
     "hiddenPosts": "Verborgene Beiträge",
     "noHiddenPosts": "Keine verborgenen Beiträge",
     "viewPost": "Beitrag ansehen",

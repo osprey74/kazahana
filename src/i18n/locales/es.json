@@ -182,6 +182,8 @@
     "enableShowVia": "Mostrar nombre del cliente en publicaciones y agregar $via al publicar desde kazahana",
     "autoStart": "Inicio automático",
     "enableAutoStart": "Iniciar kazahana al arrancar el sistema",
+    "feedVisibility": "Configurar feeds visibles",
+    "noFeeds": "No hay feeds ni listas",
     "hiddenPosts": "Publicaciones ocultas",
     "noHiddenPosts": "No hay publicaciones ocultas",
     "viewPost": "Ver publicación",

@@ -182,6 +182,8 @@
     "enableShowVia": "Tampilkan nama klien pada postingan dan tambahkan $via saat memposting dari kazahana",
     "autoStart": "Mulai otomatis",
     "enableAutoStart": "Jalankan kazahana saat sistem dinyalakan",
+    "feedVisibility": "Atur feed yang ditampilkan",
+    "noFeeds": "Tidak ada feed atau daftar",
     "hiddenPosts": "Postingan tersembunyi",
     "noHiddenPosts": "Tidak ada postingan tersembunyi",
     "viewPost": "Lihat postingan",

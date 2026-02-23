@@ -107,6 +107,19 @@ export function SettingsView() {
         </div>
       </section>
 
+      {/* Feed visibility */}
+      <section className="mb-6">
+        <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t("feed.home")}</h3>
+        <button
+          onClick={() => navigate("/settings/feed-visibility")}
+          className="flex items-center gap-2 text-sm text-primary hover:underline"
+        >
+          <Icon name="tune" size={16} />
+          {t("settings.feedVisibility")}
+          <Icon name="chevron_right" size={16} />
+        </button>
+      </section>
+
       {/* Poll interval */}
       <section className="mb-6">
         <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t("settings.pollInterval")}</h3>

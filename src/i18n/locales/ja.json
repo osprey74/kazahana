@@ -184,6 +184,8 @@
     "enableShowVia": "投稿のクライアント名を表示する",
     "autoStart": "自動起動",
     "enableAutoStart": "OS起動時にkazahanaを自動起動する",
+    "feedVisibility": "表示するフィードを設定",
+    "noFeeds": "フィード・リストがありません",
     "hiddenPosts": "非表示にした投稿",
     "noHiddenPosts": "非表示にした投稿はありません",
     "viewPost": "投稿を見る",

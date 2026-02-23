@@ -14,6 +14,7 @@ export function FeedSelector() {
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
 
+  const hiddenFeeds = useFeedStore((s) => s.hiddenFeeds);
   const { data: savedFeeds } = useSavedFeeds();
   const { data: myLists } = useMyLists();
 
@@ -70,12 +71,16 @@ export function FeedSelector() {
 
   if (savedFeeds) {
     for (const f of savedFeeds) {
-      tabs.push({ feed: { type: "custom", uri: f.uri, name: f.name }, label: f.name });
+      if (!hiddenFeeds.includes(f.uri)) {
+        tabs.push({ feed: { type: "custom", uri: f.uri, name: f.name }, label: f.name });
+      }
     }
   }
   if (myLists) {
     for (const l of myLists) {
-      tabs.push({ feed: { type: "list", uri: l.uri, name: l.name }, label: l.name });
+      if (!hiddenFeeds.includes(l.uri)) {
+        tabs.push({ feed: { type: "list", uri: l.uri, name: l.name }, label: l.name });
+      }
     }
   }
 

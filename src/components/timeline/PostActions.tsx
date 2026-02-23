@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useQueryClient } from "@tanstack/react-query";
 import type { PostView } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
@@ -63,8 +63,7 @@ export function PostActions({ post }: PostActionsProps) {
     try {
       if (liked) {
         if (likeUri) {
-          const { rkey } = parseUri(likeUri);
-          await agent.deleteLike(rkey);
+          await agent.deleteLike(likeUri);
         }
         setLiked(false);
         setLikeCount((c) => Math.max(0, c - 1));
@@ -101,8 +100,7 @@ export function PostActions({ post }: PostActionsProps) {
     try {
       if (reposted) {
         if (repostUri) {
-          const { rkey } = parseUri(repostUri);
-          await agent.deleteRepost(rkey);
+          await agent.deleteRepost(repostUri);
         }
         setReposted(false);
         setRepostCount((c) => Math.max(0, c - 1));
@@ -166,19 +164,7 @@ function PostMenu({ post, isOwnPost }: { post: PostView; isOwnPost: boolean }) {
   const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
   const [confirming, setConfirming] = useState(false);
-  const menuRef = useRef<HTMLDivElement>(null);
   const deletePost = useDeletePost();
-
-  useEffect(() => {
-    if (!open) return;
-    const handler = (e: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
-        setOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
-  }, [open]);
 
   const handleDelete = () => {
     setOpen(false);
@@ -202,7 +188,7 @@ function PostMenu({ post, isOwnPost }: { post: PostView; isOwnPost: boolean }) {
 
   return (
     <>
-      <div className="relative ml-auto" ref={menuRef}>
+      <div className="relative ml-auto">
         <button
           onClick={() => setOpen((v) => !v)}
           className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 p-0.5 transition-colors"
@@ -210,31 +196,34 @@ function PostMenu({ post, isOwnPost }: { post: PostView; isOwnPost: boolean }) {
           <Icon name="more_vert" size={16} />
         </button>
         {open && (
-          <div className="absolute right-0 bottom-6 z-50 bg-white dark:bg-bg-dark border border-border-light dark:border-border-dark rounded-lg shadow-lg py-1 min-w-[120px]">
-            {isOwnPost ? (
-              <button
-                onClick={handleDelete}
-                className="w-full flex items-center gap-2 px-3 py-2 text-sm text-red-500 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-              >
-                <Icon name="delete" size={16} />
-                <span>{t("post.delete")}</span>
-              </button>
-            ) : (
-              <button
-                onClick={handleHidePost}
-                className="w-full flex items-center gap-2 px-3 py-2 text-sm text-text-light dark:text-text-dark hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-              >
-                <Icon name="visibility_off" size={16} />
-                <span>{t("post.hidePost")}</span>
-              </button>
-            )}
-          </div>
+          <>
+            <div className="fixed inset-0 z-40" onClick={(e) => { e.stopPropagation(); setOpen(false); }} />
+            <div className="absolute right-0 bottom-6 z-50 bg-white dark:bg-bg-dark border border-border-light dark:border-border-dark rounded-lg shadow-lg py-1 min-w-[120px]">
+              {isOwnPost ? (
+                <button
+                  onClick={handleDelete}
+                  className="w-full flex items-center gap-2 px-3 py-2 text-sm text-red-500 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                >
+                  <Icon name="delete" size={16} />
+                  <span>{t("post.delete")}</span>
+                </button>
+              ) : (
+                <button
+                  onClick={handleHidePost}
+                  className="w-full flex items-center gap-2 px-3 py-2 text-sm text-text-light dark:text-text-dark hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                >
+                  <Icon name="visibility_off" size={16} />
+                  <span>{t("post.hidePost")}</span>
+                </button>
+              )}
+            </div>
+          </>
         )}
       </div>
 
       {/* Delete confirmation modal */}
       {confirming && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" onClick={() => setConfirming(false)}>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" onClick={(e) => { e.stopPropagation(); setConfirming(false); }}>
           <div className="bg-white dark:bg-bg-dark border border-border-light dark:border-border-dark rounded-xl shadow-xl p-5 mx-4 max-w-[280px] w-full" onClick={(e) => e.stopPropagation()}>
             <p className="text-sm text-text-light dark:text-text-dark text-center mb-4">{t("post.deleteConfirm")}</p>
             <div className="flex gap-3">
@@ -297,11 +286,4 @@ function ActionButton({
       )}
     </button>
   );
-}
-
-function parseUri(uri: string) {
-  const parts = uri.split("/");
-  return {
-    rkey: parts[parts.length - 1],
-  };
 }

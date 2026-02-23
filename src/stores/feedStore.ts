@@ -8,6 +8,8 @@ export type FeedSource =
 interface FeedState {
   currentFeed: FeedSource;
   setCurrentFeed: (feed: FeedSource) => void;
+  hiddenFeeds: string[];
+  toggleFeedVisibility: (uri: string) => void;
 }
 
 function loadFeed(): FeedSource {
@@ -20,11 +22,32 @@ function loadFeed(): FeedSource {
   return { type: "home" };
 }
 
-export const useFeedStore = create<FeedState>((set) => ({
+function loadHiddenFeeds(): string[] {
+  try {
+    const raw = localStorage.getItem("kazahana-hidden-feeds");
+    if (raw) return JSON.parse(raw) as string[];
+  } catch {
+    // ignore
+  }
+  return [];
+}
+
+export const useFeedStore = create<FeedState>((set, get) => ({
   currentFeed: loadFeed(),
 
   setCurrentFeed: (feed) => {
     localStorage.setItem("kazahana-feed", JSON.stringify(feed));
     set({ currentFeed: feed });
+  },
+
+  hiddenFeeds: loadHiddenFeeds(),
+
+  toggleFeedVisibility: (uri) => {
+    const current = get().hiddenFeeds;
+    const next = current.includes(uri)
+      ? current.filter((u) => u !== uri)
+      : [...current, uri];
+    localStorage.setItem("kazahana-hidden-feeds", JSON.stringify(next));
+    set({ hiddenFeeds: next });
   },
 }));

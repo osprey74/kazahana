@@ -184,6 +184,8 @@
     "enableShowVia": "Show client name on posts and add $via when posting from kazahana",
     "autoStart": "Auto Start",
     "enableAutoStart": "Launch Kazahana on system startup",
+    "feedVisibility": "Configure visible feeds",
+    "noFeeds": "No feeds or lists",
     "hiddenPosts": "Hidden posts",
     "noHiddenPosts": "No hidden posts",
     "viewPost": "View post",
