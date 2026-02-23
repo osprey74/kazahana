@@ -65,8 +65,8 @@ export function PostCard({ feedItem, showParentContext }: PostCardProps) {
     <article
       className="px-4 py-3 border-b border-border-light dark:border-border-dark hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors cursor-pointer"
       onClick={(e) => {
-        // Don't navigate if clicking on a button or link
-        if ((e.target as HTMLElement).closest("button, a")) return;
+        // Don't navigate if clicking on interactive elements
+        if ((e.target as HTMLElement).closest("button, a, video")) return;
         navigate(`/post/${encodeURIComponent(post.uri)}`);
       }}
     >
