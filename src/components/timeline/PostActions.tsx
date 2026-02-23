@@ -165,6 +165,7 @@ function PostMenu({ post, isOwnPost }: { post: PostView; isOwnPost: boolean }) {
   const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
   const [confirming, setConfirming] = useState(false);
+  const [threadMuted, setThreadMuted] = useState(!!post.viewer?.threadMuted);
   const deletePost = useDeletePost();
 
   const handleDelete = () => {
@@ -187,6 +188,22 @@ function PostMenu({ post, isOwnPost }: { post: PostView; isOwnPost: boolean }) {
     }
   };
 
+  const handleToggleMuteThread = async () => {
+    setOpen(false);
+    try {
+      const agent = getAgent();
+      if (threadMuted) {
+        await agent.app.bsky.graph.unmuteThread({ root: post.uri });
+        setThreadMuted(false);
+      } else {
+        await agent.app.bsky.graph.muteThread({ root: post.uri });
+        setThreadMuted(true);
+      }
+    } catch {
+      // silently fail
+    }
+  };
+
   return (
     <>
       <div className="relative ml-auto">
@@ -200,7 +217,7 @@ function PostMenu({ post, isOwnPost }: { post: PostView; isOwnPost: boolean }) {
           <>
             <div className="fixed inset-0 z-40" onClick={(e) => { e.stopPropagation(); setOpen(false); }} />
             <div className="absolute right-0 bottom-6 z-50 bg-white dark:bg-bg-dark border border-border-light dark:border-border-dark rounded-lg shadow-lg py-1 min-w-[160px] whitespace-nowrap">
-              {isOwnPost ? (
+              {isOwnPost && (
                 <button
                   onClick={handleDelete}
                   className="w-full flex items-center gap-2 px-3 py-2 text-sm text-red-500 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
@@ -208,7 +225,8 @@ function PostMenu({ post, isOwnPost }: { post: PostView; isOwnPost: boolean }) {
                   <Icon name="delete" size={16} />
                   <span>{t("post.delete")}</span>
                 </button>
-              ) : (
+              )}
+              {!isOwnPost && (
                 <>
                   <button
                     onClick={handleHidePost}
@@ -226,6 +244,13 @@ function PostMenu({ post, isOwnPost }: { post: PostView; isOwnPost: boolean }) {
                   </button>
                 </>
               )}
+              <button
+                onClick={handleToggleMuteThread}
+                className="w-full flex items-center gap-2 px-3 py-2 text-sm text-text-light dark:text-text-dark hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              >
+                <Icon name={threadMuted ? "notifications_active" : "notifications_off"} size={16} />
+                <span>{threadMuted ? t("post.unmuteThread") : t("post.muteThread")}</span>
+              </button>
             </div>
           </>
         )}

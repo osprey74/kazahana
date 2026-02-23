@@ -38,7 +38,9 @@
     "deleteCancel": "Ne pas supprimer",
     "deleteAction": "Supprimer",
     "hidePost": "Masquer cette publication",
-    "unhidePost": "Démasquer"
+    "unhidePost": "Démasquer",
+    "muteThread": "Couper les notifications du fil",
+    "unmuteThread": "Réactiver les notifications du fil"
   },
   "notification": {
     "liked": "a aimé votre publication",

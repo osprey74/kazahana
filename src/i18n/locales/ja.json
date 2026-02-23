@@ -38,7 +38,9 @@
     "deleteCancel": "削除しない",
     "deleteAction": "削除する",
     "hidePost": "この投稿を非表示",
-    "unhidePost": "非表示を解除"
+    "unhidePost": "非表示を解除",
+    "muteThread": "スレッド通知をミュート",
+    "unmuteThread": "スレッド通知のミュートを解除"
   },
   "notification": {
     "liked": "がいいねしました",

@@ -38,7 +38,9 @@
     "deleteCancel": "삭제 안 함",
     "deleteAction": "삭제",
     "hidePost": "이 게시물 숨기기",
-    "unhidePost": "숨기기 해제"
+    "unhidePost": "숨기기 해제",
+    "muteThread": "스레드 알림 음소거",
+    "unmuteThread": "스레드 알림 음소거 해제"
   },
   "notification": {
     "liked": "님이 게시물을 좋아합니다",

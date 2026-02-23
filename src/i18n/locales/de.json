@@ -38,7 +38,9 @@
     "deleteCancel": "Nicht löschen",
     "deleteAction": "Löschen",
     "hidePost": "Diesen Beitrag verbergen",
-    "unhidePost": "Einblenden"
+    "unhidePost": "Einblenden",
+    "muteThread": "Thread-Benachrichtigungen stummschalten",
+    "unmuteThread": "Thread-Benachrichtigungen aktivieren"
   },
   "notification": {
     "liked": "gefällt dein Beitrag",

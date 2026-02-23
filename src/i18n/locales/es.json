@@ -38,7 +38,9 @@
     "deleteCancel": "No eliminar",
     "deleteAction": "Eliminar",
     "hidePost": "Ocultar esta publicación",
-    "unhidePost": "Mostrar"
+    "unhidePost": "Mostrar",
+    "muteThread": "Silenciar notificaciones del hilo",
+    "unmuteThread": "Activar notificaciones del hilo"
   },
   "notification": {
     "liked": "le dio me gusta a tu publicación",

@@ -38,7 +38,9 @@
     "deleteCancel": "Не удалять",
     "deleteAction": "Удалить",
     "hidePost": "Скрыть эту публикацию",
-    "unhidePost": "Показать"
+    "unhidePost": "Показать",
+    "muteThread": "Отключить уведомления ветки",
+    "unmuteThread": "Включить уведомления ветки"
   },
   "notification": {
     "liked": "оценил(а) ваш пост",

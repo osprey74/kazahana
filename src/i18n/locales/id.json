@@ -38,7 +38,9 @@
     "deleteCancel": "Jangan hapus",
     "deleteAction": "Hapus",
     "hidePost": "Sembunyikan postingan ini",
-    "unhidePost": "Tampilkan"
+    "unhidePost": "Tampilkan",
+    "muteThread": "Bisukan notifikasi utas",
+    "unmuteThread": "Bunyikan notifikasi utas"
   },
   "notification": {
     "liked": "menyukai postingan Anda",

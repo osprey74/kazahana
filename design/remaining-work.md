@@ -38,7 +38,7 @@
 - [x] Thread gate (reply restriction settings)
 - [x] Post gate (quote restriction settings)
 - [x] Hide individual posts (Preferences hidden posts)
-- [ ] Mute thread notifications (`muteThread` / `unmuteThread`)
+- [x] Mute thread notifications (`muteThread` / `unmuteThread`)
 - [x] Bookmarks (`createBookmark` / `deleteBookmark` / `getBookmarks`)
 - [ ] Direct messages (`chat.bsky.convo.*`)
 - [x] Report posts/users (`com.atproto.moderation.createReport`)

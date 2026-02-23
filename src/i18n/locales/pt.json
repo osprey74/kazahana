@@ -38,7 +38,9 @@
     "deleteCancel": "Não excluir",
     "deleteAction": "Excluir",
     "hidePost": "Ocultar esta publicação",
-    "unhidePost": "Mostrar"
+    "unhidePost": "Mostrar",
+    "muteThread": "Silenciar notificações da conversa",
+    "unmuteThread": "Ativar notificações da conversa"
   },
   "notification": {
     "liked": "curtiu sua publicação",

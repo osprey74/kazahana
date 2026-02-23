@@ -38,7 +38,9 @@
     "deleteCancel": "Don't delete",
     "deleteAction": "Delete",
     "hidePost": "Hide this post",
-    "unhidePost": "Unhide"
+    "unhidePost": "Unhide",
+    "muteThread": "Mute thread notifications",
+    "unmuteThread": "Unmute thread notifications"
   },
   "notification": {
     "liked": "liked your post",

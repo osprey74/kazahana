@@ -38,7 +38,9 @@
     "deleteCancel": "不刪除",
     "deleteAction": "刪除",
     "hidePost": "隱藏此貼文",
-    "unhidePost": "取消隱藏"
+    "unhidePost": "取消隱藏",
+    "muteThread": "靜音此話題通知",
+    "unmuteThread": "取消靜音此話題通知"
   },
   "notification": {
     "liked": "對你的貼文按讚",
