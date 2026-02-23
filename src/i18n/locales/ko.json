@@ -36,7 +36,9 @@
     "delete": "삭제",
     "deleteConfirm": "이 게시물을 삭제하시겠습니까?",
     "deleteCancel": "삭제 안 함",
-    "deleteAction": "삭제"
+    "deleteAction": "삭제",
+    "hidePost": "이 게시물 숨기기",
+    "unhidePost": "숨기기 해제"
   },
   "notification": {
     "liked": "님이 게시물을 좋아합니다",
@@ -109,7 +111,8 @@
     "muted": "뮤트된 사용자",
     "muteWord": "뮤트된 단어 포함",
     "blocked": "차단된 사용자",
-    "blockedBy": "이 사용자가 회원님을 차단했습니다"
+    "blockedBy": "이 사용자가 회원님을 차단했습니다",
+    "hiddenByYou": "내가 숨긴 게시물"
   },
   "image": {
     "addImages": "이미지 추가 (최대 {{max}}장, 1MB 이하)",
@@ -179,6 +182,9 @@
     "enableShowVia": "게시물에 클라이언트 이름을 표시하고 kazahana에서 게시할 때 $via를 추가",
     "autoStart": "자동 시작",
     "enableAutoStart": "시스템 시작 시 kazahana 자동 실행",
+    "hiddenPosts": "숨긴 게시물",
+    "noHiddenPosts": "숨긴 게시물이 없습니다",
+    "viewPost": "게시물 보기",
     "moderation": "콘텐츠 관리",
     "adultContent": "성인 콘텐츠 허용",
     "label": {

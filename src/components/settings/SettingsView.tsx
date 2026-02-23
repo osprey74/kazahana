@@ -232,6 +232,16 @@ export function SettingsView() {
             );
           })}
         </div>
+
+        {/* Hidden posts link */}
+        <button
+          onClick={() => navigate("/settings/hidden-posts")}
+          className="flex items-center gap-2 mt-3 text-sm text-primary hover:underline"
+        >
+          <Icon name="visibility_off" size={16} />
+          {t("settings.hiddenPosts")}
+          <Icon name="chevron_right" size={16} />
+        </button>
       </section>
 
       {/* Language */}

@@ -36,7 +36,9 @@
     "delete": "Löschen",
     "deleteConfirm": "Diesen Beitrag löschen?",
     "deleteCancel": "Nicht löschen",
-    "deleteAction": "Löschen"
+    "deleteAction": "Löschen",
+    "hidePost": "Diesen Beitrag verbergen",
+    "unhidePost": "Einblenden"
   },
   "notification": {
     "liked": "gefällt dein Beitrag",
@@ -109,7 +111,8 @@
     "muted": "Stummgeschalteter Nutzer",
     "muteWord": "Enthält stummgeschaltetes Wort",
     "blocked": "Blockierter Nutzer",
-    "blockedBy": "Dieser Nutzer hat dich blockiert"
+    "blockedBy": "Dieser Nutzer hat dich blockiert",
+    "hiddenByYou": "Von dir verborgener Beitrag"
   },
   "image": {
     "addImages": "Bilder hinzufügen (max. {{max}}, unter 1 MB)",
@@ -179,6 +182,9 @@
     "enableShowVia": "Client-Name in Beiträgen anzeigen und $via beim Posten über kazahana hinzufügen",
     "autoStart": "Autostart",
     "enableAutoStart": "Kazahana beim Systemstart starten",
+    "hiddenPosts": "Verborgene Beiträge",
+    "noHiddenPosts": "Keine verborgenen Beiträge",
+    "viewPost": "Beitrag ansehen",
     "moderation": "Inhaltsmoderation",
     "adultContent": "Inhalte für Erwachsene aktivieren",
     "label": {

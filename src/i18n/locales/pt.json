@@ -36,7 +36,9 @@
     "delete": "Excluir",
     "deleteConfirm": "Excluir esta publicação?",
     "deleteCancel": "Não excluir",
-    "deleteAction": "Excluir"
+    "deleteAction": "Excluir",
+    "hidePost": "Ocultar esta publicação",
+    "unhidePost": "Mostrar"
   },
   "notification": {
     "liked": "curtiu sua publicação",
@@ -109,7 +111,8 @@
     "muted": "Usuário silenciado",
     "muteWord": "Contém palavra silenciada",
     "blocked": "Usuário bloqueado",
-    "blockedBy": "Este usuário bloqueou você"
+    "blockedBy": "Este usuário bloqueou você",
+    "hiddenByYou": "Publicação ocultada por você"
   },
   "image": {
     "addImages": "Adicionar imagens (máx. {{max}}, até 1MB)",
@@ -179,6 +182,9 @@
     "enableShowVia": "Exibir nome do cliente nas postagens e adicionar $via ao postar pelo kazahana",
     "autoStart": "Inicialização automática",
     "enableAutoStart": "Iniciar kazahana ao ligar o sistema",
+    "hiddenPosts": "Publicações ocultas",
+    "noHiddenPosts": "Nenhuma publicação oculta",
+    "viewPost": "Ver publicação",
     "moderation": "Moderação de conteúdo",
     "adultContent": "Ativar conteúdo adulto",
     "label": {

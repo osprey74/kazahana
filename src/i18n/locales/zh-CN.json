@@ -36,7 +36,9 @@
     "delete": "删除",
     "deleteConfirm": "删除这条帖子？",
     "deleteCancel": "不删除",
-    "deleteAction": "删除"
+    "deleteAction": "删除",
+    "hidePost": "隐藏此帖子",
+    "unhidePost": "取消隐藏"
   },
   "notification": {
     "liked": "赞了你的帖子",
@@ -109,7 +111,8 @@
     "muted": "已静音的用户",
     "muteWord": "包含已屏蔽的词语",
     "blocked": "已屏蔽的用户",
-    "blockedBy": "该用户已屏蔽你"
+    "blockedBy": "该用户已屏蔽你",
+    "hiddenByYou": "你隐藏的帖子"
   },
   "image": {
     "addImages": "添加图片（最多 {{max}} 张，每张不超过 1MB）",
@@ -179,6 +182,9 @@
     "enableShowVia": "在帖子上显示客户端名称，并在使用 kazahana 发帖时添加 $via",
     "autoStart": "自动启动",
     "enableAutoStart": "系统启动时自动启动 kazahana",
+    "hiddenPosts": "已隐藏的帖子",
+    "noHiddenPosts": "没有已隐藏的帖子",
+    "viewPost": "查看帖子",
     "moderation": "内容审核",
     "adultContent": "启用成人内容",
     "label": {

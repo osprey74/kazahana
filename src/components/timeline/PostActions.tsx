@@ -156,13 +156,14 @@ export function PostActions({ post }: PostActionsProps) {
         activeColor="text-amber-500"
         onClick={handleBookmark}
       />
-      {isOwnPost && <PostMenu post={post} />}
+      <PostMenu post={post} isOwnPost={isOwnPost} />
     </div>
   );
 }
 
-function PostMenu({ post }: { post: PostView }) {
+function PostMenu({ post, isOwnPost }: { post: PostView; isOwnPost: boolean }) {
   const { t } = useTranslation();
+  const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
   const [confirming, setConfirming] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -189,6 +190,16 @@ function PostMenu({ post }: { post: PostView }) {
     deletePost.mutate(post.uri);
   };
 
+  const handleHidePost = async () => {
+    setOpen(false);
+    try {
+      await getAgent().hidePost(post.uri);
+      queryClient.invalidateQueries({ queryKey: ["moderationOpts"] });
+    } catch {
+      // silently fail
+    }
+  };
+
   return (
     <>
       <div className="relative ml-auto" ref={menuRef}>
@@ -200,13 +211,23 @@ function PostMenu({ post }: { post: PostView }) {
         </button>
         {open && (
           <div className="absolute right-0 bottom-6 z-50 bg-white dark:bg-bg-dark border border-border-light dark:border-border-dark rounded-lg shadow-lg py-1 min-w-[120px]">
-            <button
-              onClick={handleDelete}
-              className="w-full flex items-center gap-2 px-3 py-2 text-sm text-red-500 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-            >
-              <Icon name="delete" size={16} />
-              <span>{t("post.delete")}</span>
-            </button>
+            {isOwnPost ? (
+              <button
+                onClick={handleDelete}
+                className="w-full flex items-center gap-2 px-3 py-2 text-sm text-red-500 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              >
+                <Icon name="delete" size={16} />
+                <span>{t("post.delete")}</span>
+              </button>
+            ) : (
+              <button
+                onClick={handleHidePost}
+                className="w-full flex items-center gap-2 px-3 py-2 text-sm text-text-light dark:text-text-dark hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              >
+                <Icon name="visibility_off" size={16} />
+                <span>{t("post.hidePost")}</span>
+              </button>
+            )}
           </div>
         )}
       </div>

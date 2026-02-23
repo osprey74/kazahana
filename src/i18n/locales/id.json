@@ -36,7 +36,9 @@
     "delete": "Hapus",
     "deleteConfirm": "Hapus postingan ini?",
     "deleteCancel": "Jangan hapus",
-    "deleteAction": "Hapus"
+    "deleteAction": "Hapus",
+    "hidePost": "Sembunyikan postingan ini",
+    "unhidePost": "Tampilkan"
   },
   "notification": {
     "liked": "menyukai postingan Anda",
@@ -109,7 +111,8 @@
     "muted": "Pengguna dibisukan",
     "muteWord": "Mengandung kata yang dibisukan",
     "blocked": "Pengguna diblokir",
-    "blockedBy": "Pengguna ini telah memblokir Anda"
+    "blockedBy": "Pengguna ini telah memblokir Anda",
+    "hiddenByYou": "Postingan disembunyikan oleh Anda"
   },
   "image": {
     "addImages": "Tambah gambar (maks. {{max}}, di bawah 1 MB)",
@@ -179,6 +182,9 @@
     "enableShowVia": "Tampilkan nama klien pada postingan dan tambahkan $via saat memposting dari kazahana",
     "autoStart": "Mulai otomatis",
     "enableAutoStart": "Jalankan kazahana saat sistem dinyalakan",
+    "hiddenPosts": "Postingan tersembunyi",
+    "noHiddenPosts": "Tidak ada postingan tersembunyi",
+    "viewPost": "Lihat postingan",
     "moderation": "Moderasi Konten",
     "adultContent": "Aktifkan konten dewasa",
     "label": {

@@ -36,7 +36,9 @@
     "delete": "刪除",
     "deleteConfirm": "刪除這則貼文？",
     "deleteCancel": "不刪除",
-    "deleteAction": "刪除"
+    "deleteAction": "刪除",
+    "hidePost": "隱藏此貼文",
+    "unhidePost": "取消隱藏"
   },
   "notification": {
     "liked": "對你的貼文按讚",
@@ -109,7 +111,8 @@
     "muted": "已靜音的使用者",
     "muteWord": "包含靜音詞彙",
     "blocked": "已封鎖的使用者",
-    "blockedBy": "此使用者已將你封鎖"
+    "blockedBy": "此使用者已將你封鎖",
+    "hiddenByYou": "你隱藏的貼文"
   },
   "image": {
     "addImages": "新增圖片（最多 {{max}} 張，1MB 以下）",
@@ -179,6 +182,9 @@
     "enableShowVia": "在貼文上顯示客戶端名稱，並在使用 kazahana 發文時附加 $via",
     "autoStart": "自動啟動",
     "enableAutoStart": "系統啟動時自動啟動 kazahana",
+    "hiddenPosts": "已隱藏的貼文",
+    "noHiddenPosts": "沒有已隱藏的貼文",
+    "viewPost": "查看貼文",
     "moderation": "內容審核",
     "adultContent": "啟用成人內容",
     "label": {

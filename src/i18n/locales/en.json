@@ -36,7 +36,9 @@
     "delete": "Delete",
     "deleteConfirm": "Delete this post?",
     "deleteCancel": "Don't delete",
-    "deleteAction": "Delete"
+    "deleteAction": "Delete",
+    "hidePost": "Hide this post",
+    "unhidePost": "Unhide"
   },
   "notification": {
     "liked": "liked your post",
@@ -109,7 +111,8 @@
     "muted": "Muted user",
     "muteWord": "Contains muted word",
     "blocked": "Blocked user",
-    "blockedBy": "This user has blocked you"
+    "blockedBy": "This user has blocked you",
+    "hiddenByYou": "Post hidden by you"
   },
   "image": {
     "addImages": "Add images (max {{max}}, under 1MB)",
@@ -181,6 +184,9 @@
     "enableShowVia": "Show client name on posts and add $via when posting from kazahana",
     "autoStart": "Auto Start",
     "enableAutoStart": "Launch Kazahana on system startup",
+    "hiddenPosts": "Hidden posts",
+    "noHiddenPosts": "No hidden posts",
+    "viewPost": "View post",
     "moderation": "Content Moderation",
     "adultContent": "Enable adult content",
     "label": {

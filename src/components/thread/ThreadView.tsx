@@ -163,7 +163,7 @@ function ThreadPostItem({
 
           {/* Post content (may be blurred by moderation) */}
           {contentUI?.blur ? (
-            <ContentWarning ui={contentUI}>
+            <ContentWarning ui={contentUI} postUri={post.uri}>
               {record.text && (
                 <div className="mt-1">
                   <PostContent

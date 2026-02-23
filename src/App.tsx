@@ -11,6 +11,7 @@ import { SearchView } from "./components/search/SearchView";
 import { SettingsView } from "./components/settings/SettingsView";
 import { LicenseView } from "./components/settings/LicenseView";
 import { ReadmeView } from "./components/settings/ReadmeView";
+import { HiddenPostsView } from "./components/settings/HiddenPostsView";
 import { LoadingSpinner } from "./components/common/LoadingSpinner";
 import { useAuthStore } from "./stores/authStore";
 import { applyTheme, useSettingsStore } from "./stores/settingsStore";
@@ -90,6 +91,7 @@ function AuthGate() {
             <Route path="/settings" element={<SettingsView />} />
             <Route path="/settings/license" element={<LicenseView />} />
             <Route path="/settings/readme" element={<ReadmeView />} />
+            <Route path="/settings/hidden-posts" element={<HiddenPostsView />} />
           </Route>
         </Routes>
       </ModerationProvider>

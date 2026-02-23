@@ -37,7 +37,7 @@
 - [x] Video posting (`uploadVideo` / `app.bsky.embed.video`)
 - [x] Thread gate (reply restriction settings)
 - [x] Post gate (quote restriction settings)
-- [ ] Hide individual posts (Preferences hidden posts)
+- [x] Hide individual posts (Preferences hidden posts)
 - [ ] Mute thread notifications (`muteThread` / `unmuteThread`)
 - [ ] Bookmarks (`createBookmark` / `deleteBookmark` / `getBookmarks`)
 - [ ] Direct messages (`chat.bsky.convo.*`)

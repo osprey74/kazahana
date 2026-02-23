@@ -36,7 +36,9 @@
     "delete": "削除",
     "deleteConfirm": "この投稿を削除しますか？",
     "deleteCancel": "削除しない",
-    "deleteAction": "削除する"
+    "deleteAction": "削除する",
+    "hidePost": "この投稿を非表示",
+    "unhidePost": "非表示を解除"
   },
   "notification": {
     "liked": "がいいねしました",
@@ -109,7 +111,8 @@
     "muted": "ミュートしたユーザー",
     "muteWord": "ミュートワードを含む投稿",
     "blocked": "ブロックしたユーザー",
-    "blockedBy": "このユーザーにブロックされています"
+    "blockedBy": "このユーザーにブロックされています",
+    "hiddenByYou": "自分が非表示にした投稿"
   },
   "image": {
     "addImages": "画像を追加（最大{{max}}枚、1MB以下）",
@@ -181,6 +184,9 @@
     "enableShowVia": "投稿のクライアント名を表示する",
     "autoStart": "自動起動",
     "enableAutoStart": "OS起動時にkazahanaを自動起動する",
+    "hiddenPosts": "非表示にした投稿",
+    "noHiddenPosts": "非表示にした投稿はありません",
+    "viewPost": "投稿を見る",
     "moderation": "コンテンツモデレーション",
     "adultContent": "成人向けコンテンツを有効にする",
     "label": {
