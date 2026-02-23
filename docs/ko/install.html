@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>kazahana - 설치 가이드</title>
+  <meta name="description" content="가벼운 Bluesky 데스크톱 클라이언트 kazahana를 Windows 및 macOS에 설치하는 방법입니다.">
+  <link rel="icon" href="../images/icon.png" type="image/png">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/install.css">
+  <script src="../js/theme.js"></script>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <a href="./" class="header-logo">
+        <img src="../images/icon.png" alt="kazahana">
+        <span>kazahana</span>
+      </a>
+      <div class="header-controls">
+        <select class="lang-select" id="lang-select" aria-label="Language">
+          <option value="ja">日本語</option>
+          <option value="en">English</option>
+          <option value="pt-BR">Portugu&ecirc;s</option>
+          <option value="de">Deutsch</option>
+          <option value="zh-TW">繁體中文</option>
+          <option value="zh-CN">简体中文</option>
+          <option value="fr">Fran&ccedil;ais</option>
+          <option value="ko" selected>한국어</option>
+          <option value="es">Espa&ntilde;ol</option>
+          <option value="ru">Русский</option>
+          <option value="id">Bahasa Indonesia</option>
+        </select>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+          <span class="material-symbols-rounded">dark_mode</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page Title -->
+  <section class="section">
+    <div class="section-inner">
+      <p class="install-back"><a href="./">&larr; 홈으로 돌아가기</a></p>
+      <h1 class="section-title">설치 가이드</h1>
+      <p class="section-desc">kazahana는 현재 코드 서명이 되어 있지 않으므로 OS에서 보안 경고가 표시될 수 있습니다.<br>아래 단계에 따라 설치하세요.</p>
+    </div>
+  </section>
+
+  <!-- Windows -->
+  <section class="section section-alt">
+    <div class="section-inner">
+      <h2 class="install-heading"><span class="material-symbols-rounded">desktop_windows</span> Windows</h2>
+
+      <div class="install-step">
+        <h3>1. 설치 프로그램 다운로드</h3>
+        <p><a href="https://github.com/osprey74/kazahana/releases" target="_blank" rel="noopener noreferrer">GitHub Releases</a> 페이지에서 최신 설치 프로그램을 다운로드합니다.</p>
+        <table class="install-table">
+          <thead><tr><th>파일명</th><th>형식</th><th>대상</th></tr></thead>
+          <tbody>
+            <tr><td><code>kazahana_x.x.x_x64-setup.exe</code></td><td>NSIS 설치 프로그램</td><td>Windows 10 / 11 (64비트)</td></tr>
+            <tr><td><code>kazahana_x.x.x_x64_en-US.msi</code></td><td>MSI 설치 프로그램</td><td>Windows 10 / 11 (64비트)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="install-step">
+        <h3>2. SmartScreen 경고 처리</h3>
+        <p>설치 프로그램을 실행하면 Microsoft Defender SmartScreen에서 경고를 표시할 수 있습니다:</p>
+        <div class="install-callout">
+          <strong>Windows가 PC를 보호했습니다</strong><br>
+          Microsoft Defender SmartScreen이 인식할 수 없는 앱의 시작을 차단했습니다. 이 앱을 실행하면 PC가 위험에 처할 수 있습니다.
+        </div>
+        <p>이것은 코드 서명이 되어 있지 않은 앱에 대한 일반적인 경고입니다. kazahana는 GitHub에서 소스 코드가 공개되어 있는 오픈소스 소프트웨어입니다.</p>
+        <ol>
+          <li>경고 대화 상자에서 <strong>&ldquo;추가 정보&rdquo;</strong>를 클릭합니다</li>
+          <li>앱 이름과 게시자 정보가 표시됩니다</li>
+          <li><strong>&ldquo;실행&rdquo;</strong> 버튼을 클릭합니다</li>
+        </ol>
+      </div>
+
+      <div class="install-step">
+        <h3>3. 설치</h3>
+        <p>SmartScreen을 통과하면 일반 설치 마법사가 시작됩니다.</p>
+        <ol>
+          <li>설치 폴더를 확인합니다 (기본값 그대로 사용해도 됩니다)</li>
+          <li><strong>&ldquo;설치&rdquo;</strong>를 클릭합니다</li>
+          <li>설치가 완료되면 <strong>&ldquo;마침&rdquo;</strong>을 클릭합니다</li>
+        </ol>
+      </div>
+
+      <div class="install-step">
+        <h3>4. 실행</h3>
+        <p>시작 메뉴 또는 바탕 화면 바로 가기에서 kazahana를 실행합니다. 처음 실행 이후에는 SmartScreen 경고가 나타나지 않습니다.</p>
+      </div>
+
+      <div class="install-step">
+        <h3>참고: 브라우저 다운로드 경고</h3>
+        <ul>
+          <li><strong>Microsoft Edge</strong>: &ldquo;일반적으로 다운로드되지 않는 파일입니다.&rdquo;라고 표시될 수 있습니다. <code>&hellip;</code> 메뉴를 클릭하고 <strong>&ldquo;유지&rdquo;</strong>를 선택하세요.</li>
+          <li><strong>Google Chrome</strong>: &ldquo;이 파일은 위험할 수 있습니다.&rdquo;라고 표시될 수 있습니다. <code>&and;</code> 아이콘을 클릭하고 <strong>&ldquo;유지&rdquo;</strong>를 선택하세요.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- macOS -->
+  <section class="section">
+    <div class="section-inner">
+      <h2 class="install-heading"><span class="material-symbols-rounded">laptop_mac</span> macOS</h2>
+
+      <div class="install-step">
+        <h3>1. 설치 프로그램 다운로드</h3>
+        <p><a href="https://github.com/osprey74/kazahana/releases" target="_blank" rel="noopener noreferrer">GitHub Releases</a> 페이지에서 최신 설치 프로그램을 다운로드합니다.</p>
+        <table class="install-table">
+          <thead><tr><th>파일명</th><th>대상</th></tr></thead>
+          <tbody>
+            <tr><td><code>kazahana_x.x.x_x64.dmg</code></td><td>macOS (Intel)</td></tr>
+            <tr><td><code>kazahana_x.x.x_aarch64.dmg</code></td><td>macOS (Apple Silicon: M1 / M2 / M3 / M4)</td></tr>
+          </tbody>
+        </table>
+        <p class="install-tip">Mac의 칩을 확인하려면: 왼쪽 상단의 Apple 메뉴를 클릭하고 <strong>&ldquo;이 Mac에 관하여&rdquo;</strong>를 선택하세요.</p>
+      </div>
+
+      <div class="install-step">
+        <h3>2. 앱 설치</h3>
+        <ol>
+          <li>다운로드한 <code>.dmg</code> 파일을 엽니다</li>
+          <li>kazahana 아이콘을 <strong>응용 프로그램</strong> 폴더로 드래그합니다</li>
+          <li><code>.dmg</code> 창을 닫고 디스크 이미지를 추출합니다</li>
+        </ol>
+      </div>
+
+      <div class="install-step">
+        <h3>3. Gatekeeper 경고 처리</h3>
+        <p>처음 실행 시 macOS Gatekeeper가 경고를 표시합니다:</p>
+        <div class="install-callout">
+          <strong>&ldquo;kazahana&rdquo;은(는) 개발자를 확인할 수 없기 때문에 열 수 없습니다.</strong>
+        </div>
+        <p>이것은 코드 서명이나 공증이 되어 있지 않은 앱에 대한 일반적인 경고입니다.</p>
+
+        <h4>방법 A: 시스템 설정에서 허용 (권장)</h4>
+        <ol>
+          <li>경고가 나타나면 <strong>&ldquo;확인&rdquo;</strong>을 클릭하여 대화 상자를 닫습니다</li>
+          <li><strong>시스템 설정</strong> &gt; <strong>&ldquo;개인정보 보호 및 보안&rdquo;</strong>을 엽니다</li>
+          <li>하단에 다음과 같이 표시됩니다: &ldquo;확인된 개발자가 아니므로 kazahana 사용이 차단되었습니다&rdquo;</li>
+          <li><strong>&ldquo;그래도 열기&rdquo;</strong>를 클릭합니다</li>
+          <li>관리자 암호 또는 Touch ID로 인증합니다</li>
+          <li>확인 대화 상자가 나타나면 <strong>&ldquo;열기&rdquo;</strong>를 클릭합니다</li>
+        </ol>
+
+        <h4>방법 B: 우클릭으로 열기</h4>
+        <ol>
+          <li>Finder에서 <strong>응용 프로그램</strong> 폴더를 엽니다</li>
+          <li>kazahana를 <strong>우클릭</strong> (또는 Control + 클릭)합니다</li>
+          <li>컨텍스트 메뉴에서 <strong>&ldquo;열기&rdquo;</strong>를 선택합니다</li>
+          <li>확인 메시지가 나타나면 <strong>&ldquo;열기&rdquo;</strong>를 클릭합니다</li>
+        </ol>
+        <p class="install-tip">일부 macOS 버전에서는 방법 B가 작동하지 않을 수 있습니다. 그런 경우 방법 A를 시도하세요.</p>
+
+        <h4>방법 C: 터미널에서 격리 속성 제거 (고급)</h4>
+        <p>터미널을 열고 다음 명령을 실행합니다:</p>
+        <pre class="install-code">xattr -cr /Applications/kazahana.app</pre>
+        <p>이 명령은 다운로드된 파일에 적용된 격리 속성(<code>com.apple.quarantine</code>)을 제거하여 Gatekeeper 검증을 우회할 수 있게 합니다.</p>
+      </div>
+
+      <div class="install-step">
+        <h3>4. 실행</h3>
+        <p>Launchpad 또는 응용 프로그램 폴더에서 kazahana를 실행합니다. 처음 권한 설정 후에는 정상적으로 실행됩니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Uninstall -->
+  <section class="section section-alt">
+    <div class="section-inner">
+      <h2 class="install-heading"><span class="material-symbols-rounded">delete</span> 제거</h2>
+      <div class="install-step">
+        <h3>Windows</h3>
+        <p><strong>설정</strong> &gt; <strong>앱</strong> &gt; <strong>설치된 앱</strong>으로 이동하여 kazahana를 찾고 <strong>&ldquo;제거&rdquo;</strong>를 클릭합니다.</p>
+      </div>
+      <div class="install-step">
+        <h3>macOS</h3>
+        <p><strong>응용 프로그램</strong> 폴더에서 kazahana를 휴지통으로 드래그합니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Troubleshooting -->
+  <section class="section">
+    <div class="section-inner">
+      <h2 class="install-heading"><span class="material-symbols-rounded">build</span> 문제 해결</h2>
+      <div class="install-step">
+        <h3>앱이 실행되지 않습니다</h3>
+        <ul>
+          <li>OS가 최신 버전으로 업데이트되어 있는지 확인하세요</li>
+          <li>Windows: Windows 10 이상이 필요합니다</li>
+          <li>macOS: macOS 12 (Monterey) 이상이 필요합니다</li>
+        </ul>
+      </div>
+      <div class="install-step">
+        <h3>&ldquo;kazahana이(가) 손상되었기 때문에 열 수 없습니다&rdquo; (macOS)</h3>
+        <p>터미널에서 다음 명령을 실행하세요:</p>
+        <pre class="install-code">xattr -cr /Applications/kazahana.app</pre>
+      </div>
+      <div class="install-step">
+        <h3>기타 문제</h3>
+        <p>문제가 지속되면 아래로 문의하세요:</p>
+        <ul>
+          <li>GitHub Issues: <a href="https://github.com/osprey74/kazahana/issues" target="_blank" rel="noopener noreferrer">https://github.com/osprey74/kazahana/issues</a></li>
+          <li>이메일: <a href="mailto:kazahana.app@gmail.com">kazahana.app@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Security -->
+  <section class="section section-alt">
+    <div class="section-inner">
+      <h2 class="install-heading"><span class="material-symbols-rounded">shield</span> 보안에 대하여</h2>
+      <div class="install-step">
+        <p>kazahana는 오픈소스 소프트웨어(MIT 라이선스)입니다. 소스 코드는 <a href="https://github.com/osprey74/kazahana" target="_blank" rel="noopener noreferrer">GitHub</a>에 공개되어 있으며 누구나 검토할 수 있습니다.</p>
+        <p>이 앱은 현재 코드 서명이 되어 있지 않아 OS에서 보안 경고가 표시됩니다. 이는 앱이 위험하다는 의미가 아니며 &mdash; 단지 게시자를 전자적으로 확인할 수 없다는 것을 의미합니다. 코드 서명은 향후 적용할 예정입니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <p class="footer-brand">kazahana &mdash; 가벼운 Bluesky 데스크톱 클라이언트</p>
+      <p class="footer-links">
+        <a href="https://github.com/osprey74/kazahana" target="_blank" rel="noopener noreferrer">GitHub</a> &middot;
+        License: <a href="https://github.com/osprey74/kazahana/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">MIT</a> &middot;
+        &copy; 2025 osprey74
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("lang-select").addEventListener("change", function () {
+      window.location.href = "../" + this.value + "/install.html";
+    });
+  </script>
+
+</body>
+</html>

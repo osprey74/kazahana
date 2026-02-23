@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>kazahana - Panduan Instalasi</title>
+  <meta name="description" content="Cara menginstal kazahana, klien desktop Bluesky yang ringan, di Windows dan macOS.">
+  <link rel="icon" href="../images/icon.png" type="image/png">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/install.css">
+  <script src="../js/theme.js"></script>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <a href="./" class="header-logo">
+        <img src="../images/icon.png" alt="kazahana">
+        <span>kazahana</span>
+      </a>
+      <div class="header-controls">
+        <select class="lang-select" id="lang-select" aria-label="Language">
+          <option value="ja">日本語</option>
+          <option value="en">English</option>
+          <option value="pt-BR">Portugu&ecirc;s</option>
+          <option value="de">Deutsch</option>
+          <option value="zh-TW">繁體中文</option>
+          <option value="zh-CN">简体中文</option>
+          <option value="fr">Fran&ccedil;ais</option>
+          <option value="ko">한국어</option>
+          <option value="es">Espa&ntilde;ol</option>
+          <option value="ru">Русский</option>
+          <option value="id" selected>Bahasa Indonesia</option>
+        </select>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+          <span class="material-symbols-rounded">dark_mode</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page Title -->
+  <section class="section">
+    <div class="section-inner">
+      <p class="install-back"><a href="./">&larr; Kembali ke Beranda</a></p>
+      <h1 class="section-title">Panduan Instalasi</h1>
+      <p class="section-desc">kazahana saat ini belum memiliki tanda tangan kode (code-signed), sehingga sistem operasi Anda mungkin menampilkan peringatan keamanan.<br>Ikuti langkah-langkah di bawah ini untuk menginstal.</p>
+    </div>
+  </section>
+
+  <!-- Windows -->
+  <section class="section section-alt">
+    <div class="section-inner">
+      <h2 class="install-heading"><span class="material-symbols-rounded">desktop_windows</span> Windows</h2>
+
+      <div class="install-step">
+        <h3>1. Unduh Installer</h3>
+        <p>Unduh installer terbaru dari halaman <a href="https://github.com/osprey74/kazahana/releases" target="_blank" rel="noopener noreferrer">GitHub Releases</a>.</p>
+        <table class="install-table">
+          <thead><tr><th>Nama File</th><th>Format</th><th>Target</th></tr></thead>
+          <tbody>
+            <tr><td><code>kazahana_x.x.x_x64-setup.exe</code></td><td>Installer NSIS</td><td>Windows 10 / 11 (64-bit)</td></tr>
+            <tr><td><code>kazahana_x.x.x_x64_en-US.msi</code></td><td>Installer MSI</td><td>Windows 10 / 11 (64-bit)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="install-step">
+        <h3>2. Menangani Peringatan SmartScreen</h3>
+        <p>Saat Anda menjalankan installer, Microsoft Defender SmartScreen mungkin menampilkan peringatan:</p>
+        <div class="install-callout">
+          <strong>Windows melindungi PC Anda</strong><br>
+          Microsoft Defender SmartScreen mencegah aplikasi yang tidak dikenal untuk berjalan. Menjalankan aplikasi ini mungkin membahayakan PC Anda.
+        </div>
+        <p>Ini adalah peringatan standar untuk aplikasi yang belum memiliki tanda tangan kode. kazahana adalah perangkat lunak sumber terbuka dengan kode sumber yang tersedia secara publik di GitHub.</p>
+        <ol>
+          <li>Klik <strong>&ldquo;Info selengkapnya&rdquo;</strong> pada dialog peringatan</li>
+          <li>Nama aplikasi dan informasi penerbit akan ditampilkan</li>
+          <li>Klik tombol <strong>&ldquo;Tetap jalankan&rdquo;</strong></li>
+        </ol>
+      </div>
+
+      <div class="install-step">
+        <h3>3. Instalasi</h3>
+        <p>Setelah melewati SmartScreen, wizard instalasi standar akan dimulai.</p>
+        <ol>
+          <li>Konfirmasi folder instalasi (default sudah cukup)</li>
+          <li>Klik <strong>&ldquo;Install&rdquo;</strong></li>
+          <li>Setelah instalasi selesai, klik <strong>&ldquo;Finish&rdquo;</strong></li>
+        </ol>
+      </div>
+
+      <div class="install-step">
+        <h3>4. Jalankan</h3>
+        <p>Jalankan kazahana dari Start Menu atau pintasan desktop. Peringatan SmartScreen tidak akan muncul lagi setelah peluncuran pertama.</p>
+      </div>
+
+      <div class="install-step">
+        <h3>Catatan: Peringatan Unduhan Browser</h3>
+        <ul>
+          <li><strong>Microsoft Edge</strong>: Mungkin menampilkan &ldquo;File ini tidak umum diunduh.&rdquo; Klik menu <code>&hellip;</code> dan pilih <strong>&ldquo;Simpan&rdquo;</strong>.</li>
+          <li><strong>Google Chrome</strong>: Mungkin menampilkan &ldquo;File ini mungkin berbahaya.&rdquo; Klik ikon <code>&and;</code> dan pilih <strong>&ldquo;Simpan&rdquo;</strong>.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- macOS -->
+  <section class="section">
+    <div class="section-inner">
+      <h2 class="install-heading"><span class="material-symbols-rounded">laptop_mac</span> macOS</h2>
+
+      <div class="install-step">
+        <h3>1. Unduh Installer</h3>
+        <p>Unduh installer terbaru dari halaman <a href="https://github.com/osprey74/kazahana/releases" target="_blank" rel="noopener noreferrer">GitHub Releases</a>.</p>
+        <table class="install-table">
+          <thead><tr><th>Nama File</th><th>Target</th></tr></thead>
+          <tbody>
+            <tr><td><code>kazahana_x.x.x_x64.dmg</code></td><td>macOS (Intel)</td></tr>
+            <tr><td><code>kazahana_x.x.x_aarch64.dmg</code></td><td>macOS (Apple Silicon: M1 / M2 / M3 / M4)</td></tr>
+          </tbody>
+        </table>
+        <p class="install-tip">Untuk memeriksa chip Mac Anda: Klik menu Apple di pojok kiri atas dan pilih <strong>&ldquo;Mengenai Mac Ini&rdquo;</strong>.</p>
+      </div>
+
+      <div class="install-step">
+        <h3>2. Instal Aplikasi</h3>
+        <ol>
+          <li>Buka file <code>.dmg</code> yang telah diunduh</li>
+          <li>Seret ikon kazahana ke folder <strong>Applications</strong></li>
+          <li>Tutup jendela <code>.dmg</code> dan keluarkan disk image</li>
+        </ol>
+      </div>
+
+      <div class="install-step">
+        <h3>3. Menangani Peringatan Gatekeeper</h3>
+        <p>Pada peluncuran pertama, macOS Gatekeeper akan menampilkan peringatan:</p>
+        <div class="install-callout">
+          <strong>&ldquo;kazahana&rdquo; tidak dapat dibuka karena pengembang tidak dapat diverifikasi.</strong>
+        </div>
+        <p>Ini adalah peringatan standar untuk aplikasi yang belum memiliki tanda tangan kode atau notarisasi.</p>
+
+        <h4>Metode A: Izinkan melalui Pengaturan Sistem (Disarankan)</h4>
+        <ol>
+          <li>Saat peringatan muncul, klik <strong>&ldquo;OK&rdquo;</strong> untuk menutup dialog</li>
+          <li>Buka <strong>Pengaturan Sistem</strong> &gt; <strong>&ldquo;Privasi &amp; Keamanan&rdquo;</strong></li>
+          <li>Di bagian bawah, Anda akan melihat: &ldquo;kazahana diblokir karena bukan dari pengembang yang teridentifikasi&rdquo;</li>
+          <li>Klik <strong>&ldquo;Buka Tetap&rdquo;</strong></li>
+          <li>Autentikasi dengan kata sandi admin atau Touch ID</li>
+          <li>Saat dialog konfirmasi muncul, klik <strong>&ldquo;Buka&rdquo;</strong></li>
+        </ol>
+
+        <h4>Metode B: Buka melalui Klik Kanan</h4>
+        <ol>
+          <li>Buka folder <strong>Applications</strong> di Finder</li>
+          <li><strong>Klik kanan</strong> (atau Control + klik) pada kazahana</li>
+          <li>Pilih <strong>&ldquo;Buka&rdquo;</strong> dari menu konteks</li>
+          <li>Saat diminta, klik <strong>&ldquo;Buka&rdquo;</strong></li>
+        </ol>
+        <p class="install-tip">Pada beberapa versi macOS, Metode B mungkin tidak berfungsi. Jika demikian, coba Metode A.</p>
+
+        <h4>Metode C: Hapus Atribut Karantina melalui Terminal (Lanjutan)</h4>
+        <p>Buka Terminal dan jalankan:</p>
+        <pre class="install-code">xattr -cr /Applications/kazahana.app</pre>
+        <p>Perintah ini menghapus atribut karantina (<code>com.apple.quarantine</code>) yang diterapkan pada file yang diunduh, sehingga Anda dapat melewati verifikasi Gatekeeper.</p>
+      </div>
+
+      <div class="install-step">
+        <h3>4. Jalankan</h3>
+        <p>Jalankan kazahana dari Launchpad atau folder Applications. Setelah langkah perizinan awal, aplikasi akan berjalan secara normal.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Uninstall -->
+  <section class="section section-alt">
+    <div class="section-inner">
+      <h2 class="install-heading"><span class="material-symbols-rounded">delete</span> Hapus Instalasi</h2>
+      <div class="install-step">
+        <h3>Windows</h3>
+        <p>Buka <strong>Pengaturan</strong> &gt; <strong>Aplikasi</strong> &gt; <strong>Aplikasi terinstal</strong>, temukan kazahana, dan klik <strong>&ldquo;Hapus instalasi&rdquo;</strong>.</p>
+      </div>
+      <div class="install-step">
+        <h3>macOS</h3>
+        <p>Seret kazahana dari folder <strong>Applications</strong> ke Trash.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Troubleshooting -->
+  <section class="section">
+    <div class="section-inner">
+      <h2 class="install-heading"><span class="material-symbols-rounded">build</span> Pemecahan Masalah</h2>
+      <div class="install-step">
+        <h3>Aplikasi tidak dapat dijalankan</h3>
+        <ul>
+          <li>Pastikan sistem operasi Anda diperbarui ke versi terbaru</li>
+          <li>Windows: Diperlukan Windows 10 atau yang lebih baru</li>
+          <li>macOS: Diperlukan macOS 12 (Monterey) atau yang lebih baru</li>
+        </ul>
+      </div>
+      <div class="install-step">
+        <h3>&ldquo;kazahana rusak dan tidak dapat dibuka&rdquo; (macOS)</h3>
+        <p>Jalankan perintah berikut di Terminal:</p>
+        <pre class="install-code">xattr -cr /Applications/kazahana.app</pre>
+      </div>
+      <div class="install-step">
+        <h3>Masalah Lainnya</h3>
+        <p>Jika masalah berlanjut, silakan hubungi kami:</p>
+        <ul>
+          <li>GitHub Issues: <a href="https://github.com/osprey74/kazahana/issues" target="_blank" rel="noopener noreferrer">https://github.com/osprey74/kazahana/issues</a></li>
+          <li>Email: <a href="mailto:kazahana.app@gmail.com">kazahana.app@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Security -->
+  <section class="section section-alt">
+    <div class="section-inner">
+      <h2 class="install-heading"><span class="material-symbols-rounded">shield</span> Tentang Keamanan</h2>
+      <div class="install-step">
+        <p>kazahana adalah perangkat lunak sumber terbuka (Lisensi MIT). Kode sumber tersedia secara publik di <a href="https://github.com/osprey74/kazahana" target="_blank" rel="noopener noreferrer">GitHub</a> dan dapat ditinjau oleh siapa saja.</p>
+        <p>Aplikasi ini saat ini belum memiliki tanda tangan kode, itulah sebabnya sistem operasi Anda menampilkan peringatan keamanan. Ini bukan berarti aplikasi ini berbahaya &mdash; ini hanya berarti penerbit tidak dapat diverifikasi secara elektronik. Tanda tangan kode direncanakan untuk masa mendatang.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <p class="footer-brand">kazahana &mdash; Klien Desktop Bluesky yang Ringan</p>
+      <p class="footer-links">
+        <a href="https://github.com/osprey74/kazahana" target="_blank" rel="noopener noreferrer">GitHub</a> &middot;
+        License: <a href="https://github.com/osprey74/kazahana/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">MIT</a> &middot;
+        &copy; 2025 osprey74
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("lang-select").addEventListener("change", function () {
+      window.location.href = "../" + this.value + "/install.html";
+    });
+  </script>
+
+</body>
+</html>

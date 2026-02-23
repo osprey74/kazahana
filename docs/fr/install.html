@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>kazahana - Guide d'installation</title>
+  <meta name="description" content="Comment installer kazahana, un client Bluesky l&eacute;ger pour bureau, sur Windows et macOS.">
+  <link rel="icon" href="../images/icon.png" type="image/png">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/install.css">
+  <script src="../js/theme.js"></script>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <a href="./" class="header-logo">
+        <img src="../images/icon.png" alt="kazahana">
+        <span>kazahana</span>
+      </a>
+      <div class="header-controls">
+        <select class="lang-select" id="lang-select" aria-label="Langue">
+          <option value="ja">日本語</option>
+          <option value="en">English</option>
+          <option value="pt-BR">Portugu&ecirc;s</option>
+          <option value="de">Deutsch</option>
+          <option value="zh-TW">繁體中文</option>
+          <option value="zh-CN">简体中文</option>
+          <option value="fr" selected>Fran&ccedil;ais</option>
+          <option value="ko">한국어</option>
+          <option value="es">Espa&ntilde;ol</option>
+          <option value="ru">Русский</option>
+          <option value="id">Bahasa Indonesia</option>
+        </select>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Changer de th&egrave;me">
+          <span class="material-symbols-rounded">dark_mode</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page Title -->
+  <section class="section">
+    <div class="section-inner">
+      <p class="install-back"><a href="./">&larr; Retour &agrave; l'accueil</a></p>
+      <h1 class="section-title">Guide d'installation</h1>
+      <p class="section-desc">kazahana n'est pas actuellement sign&eacute; num&eacute;riquement, votre syst&egrave;me d'exploitation peut donc afficher des avertissements de s&eacute;curit&eacute;.<br>Suivez les &eacute;tapes ci-dessous pour l'installer.</p>
+    </div>
+  </section>
+
+  <!-- Windows -->
+  <section class="section section-alt">
+    <div class="section-inner">
+      <h2 class="install-heading"><span class="material-symbols-rounded">desktop_windows</span> Windows</h2>
+
+      <div class="install-step">
+        <h3>1. T&eacute;l&eacute;charger l'installateur</h3>
+        <p>T&eacute;l&eacute;chargez le dernier installateur depuis la page <a href="https://github.com/osprey74/kazahana/releases" target="_blank" rel="noopener noreferrer">GitHub Releases</a>.</p>
+        <table class="install-table">
+          <thead><tr><th>Nom du fichier</th><th>Format</th><th>Cible</th></tr></thead>
+          <tbody>
+            <tr><td><code>kazahana_x.x.x_x64-setup.exe</code></td><td>Installateur NSIS</td><td>Windows 10 / 11 (64 bits)</td></tr>
+            <tr><td><code>kazahana_x.x.x_x64_en-US.msi</code></td><td>Installateur MSI</td><td>Windows 10 / 11 (64 bits)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="install-step">
+        <h3>2. G&eacute;rer l'avertissement SmartScreen</h3>
+        <p>Lorsque vous ex&eacute;cutez l'installateur, Microsoft Defender SmartScreen peut afficher un avertissement :</p>
+        <div class="install-callout">
+          <strong>Windows a prot&eacute;g&eacute; votre ordinateur</strong><br>
+          Microsoft Defender SmartScreen a emp&ecirc;ch&eacute; le d&eacute;marrage d'une application non reconnue. L'ex&eacute;cution de cette application peut mettre votre ordinateur en danger.
+        </div>
+        <p>Il s'agit d'un avertissement standard pour les applications qui ne sont pas sign&eacute;es num&eacute;riquement. kazahana est un logiciel open source dont le code source est publiquement disponible sur GitHub.</p>
+        <ol>
+          <li>Cliquez sur <strong>&laquo; Informations compl&eacute;mentaires &raquo;</strong> dans la bo&icirc;te de dialogue d'avertissement</li>
+          <li>Le nom de l'application et les informations sur l'&eacute;diteur seront affich&eacute;s</li>
+          <li>Cliquez sur le bouton <strong>&laquo; Ex&eacute;cuter quand m&ecirc;me &raquo;</strong></li>
+        </ol>
+      </div>
+
+      <div class="install-step">
+        <h3>3. Installation</h3>
+        <p>Apr&egrave;s avoir pass&eacute; SmartScreen, l'assistant d'installation standard d&eacute;marrera.</p>
+        <ol>
+          <li>Confirmez le dossier d'installation (la valeur par d&eacute;faut convient)</li>
+          <li>Cliquez sur <strong>&laquo; Installer &raquo;</strong></li>
+          <li>Une fois l'installation termin&eacute;e, cliquez sur <strong>&laquo; Terminer &raquo;</strong></li>
+        </ol>
+      </div>
+
+      <div class="install-step">
+        <h3>4. Lancement</h3>
+        <p>Lancez kazahana depuis le menu D&eacute;marrer ou le raccourci sur le bureau. L'avertissement SmartScreen n'appara&icirc;tra plus apr&egrave;s le premier lancement.</p>
+      </div>
+
+      <div class="install-step">
+        <h3>Note : Avertissements de t&eacute;l&eacute;chargement du navigateur</h3>
+        <ul>
+          <li><strong>Microsoft Edge</strong> : Peut afficher &laquo; Ce fichier n'est pas couramment t&eacute;l&eacute;charg&eacute;. &raquo; Cliquez sur le menu <code>&hellip;</code> et s&eacute;lectionnez <strong>&laquo; Conserver &raquo;</strong>.</li>
+          <li><strong>Google Chrome</strong> : Peut afficher &laquo; Ce fichier peut &ecirc;tre dangereux. &raquo; Cliquez sur l'ic&ocirc;ne <code>&and;</code> et s&eacute;lectionnez <strong>&laquo; Conserver &raquo;</strong>.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- macOS -->
+  <section class="section">
+    <div class="section-inner">
+      <h2 class="install-heading"><span class="material-symbols-rounded">laptop_mac</span> macOS</h2>
+
+      <div class="install-step">
+        <h3>1. T&eacute;l&eacute;charger l'installateur</h3>
+        <p>T&eacute;l&eacute;chargez le dernier installateur depuis la page <a href="https://github.com/osprey74/kazahana/releases" target="_blank" rel="noopener noreferrer">GitHub Releases</a>.</p>
+        <table class="install-table">
+          <thead><tr><th>Nom du fichier</th><th>Cible</th></tr></thead>
+          <tbody>
+            <tr><td><code>kazahana_x.x.x_x64.dmg</code></td><td>macOS (Intel)</td></tr>
+            <tr><td><code>kazahana_x.x.x_aarch64.dmg</code></td><td>macOS (Apple Silicon : M1 / M2 / M3 / M4)</td></tr>
+          </tbody>
+        </table>
+        <p class="install-tip">Pour v&eacute;rifier la puce de votre Mac : Cliquez sur le menu Apple dans le coin sup&eacute;rieur gauche et s&eacute;lectionnez <strong>&laquo; &Agrave; propos de ce Mac &raquo;</strong>.</p>
+      </div>
+
+      <div class="install-step">
+        <h3>2. Installer l'application</h3>
+        <ol>
+          <li>Ouvrez le fichier <code>.dmg</code> t&eacute;l&eacute;charg&eacute;</li>
+          <li>Glissez l'ic&ocirc;ne kazahana dans le dossier <strong>Applications</strong></li>
+          <li>Fermez la fen&ecirc;tre <code>.dmg</code> et &eacute;jectez l'image disque</li>
+        </ol>
+      </div>
+
+      <div class="install-step">
+        <h3>3. G&eacute;rer l'avertissement Gatekeeper</h3>
+        <p>Au premier lancement, macOS Gatekeeper affichera un avertissement :</p>
+        <div class="install-callout">
+          <strong>&laquo; kazahana &raquo; ne peut pas &ecirc;tre ouvert car le d&eacute;veloppeur ne peut pas &ecirc;tre v&eacute;rifi&eacute;.</strong>
+        </div>
+        <p>Il s'agit d'un avertissement standard pour les applications qui ne sont pas sign&eacute;es num&eacute;riquement ou notari&eacute;es.</p>
+
+        <h4>M&eacute;thode A : Autoriser via les R&eacute;glages Syst&egrave;me (Recommand&eacute;)</h4>
+        <ol>
+          <li>Lorsque l'avertissement appara&icirc;t, cliquez sur <strong>&laquo; OK &raquo;</strong> pour fermer la bo&icirc;te de dialogue</li>
+          <li>Ouvrez <strong>R&eacute;glages Syst&egrave;me</strong> &gt; <strong>&laquo; Confidentialit&eacute; et s&eacute;curit&eacute; &raquo;</strong></li>
+          <li>En bas, vous verrez : &laquo; L'utilisation de kazahana a &eacute;t&eacute; bloqu&eacute;e car il ne provient pas d'un d&eacute;veloppeur identifi&eacute; &raquo;</li>
+          <li>Cliquez sur <strong>&laquo; Ouvrir quand m&ecirc;me &raquo;</strong></li>
+          <li>Authentifiez-vous avec votre mot de passe administrateur ou Touch ID</li>
+          <li>Lorsque la bo&icirc;te de dialogue de confirmation appara&icirc;t, cliquez sur <strong>&laquo; Ouvrir &raquo;</strong></li>
+        </ol>
+
+        <h4>M&eacute;thode B : Ouvrir via un clic droit</h4>
+        <ol>
+          <li>Ouvrez le dossier <strong>Applications</strong> dans le Finder</li>
+          <li>Faites un <strong>clic droit</strong> (ou Control + clic) sur kazahana</li>
+          <li>S&eacute;lectionnez <strong>&laquo; Ouvrir &raquo;</strong> dans le menu contextuel</li>
+          <li>Lorsque vous y &ecirc;tes invit&eacute;, cliquez sur <strong>&laquo; Ouvrir &raquo;</strong></li>
+        </ol>
+        <p class="install-tip">Sur certaines versions de macOS, la M&eacute;thode B peut ne pas fonctionner. Dans ce cas, essayez la M&eacute;thode A.</p>
+
+        <h4>M&eacute;thode C : Supprimer l'attribut de quarantaine via le Terminal (Avanc&eacute;)</h4>
+        <p>Ouvrez le Terminal et ex&eacute;cutez :</p>
+        <pre class="install-code">xattr -cr /Applications/kazahana.app</pre>
+        <p>Cela supprime l'attribut de quarantaine (<code>com.apple.quarantine</code>) appliqu&eacute; aux fichiers t&eacute;l&eacute;charg&eacute;s, vous permettant de contourner la v&eacute;rification Gatekeeper.</p>
+      </div>
+
+      <div class="install-step">
+        <h3>4. Lancement</h3>
+        <p>Lancez kazahana depuis le Launchpad ou le dossier Applications. Apr&egrave;s l'&eacute;tape d'autorisation initiale, il se lancera normalement.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Uninstall -->
+  <section class="section section-alt">
+    <div class="section-inner">
+      <h2 class="install-heading"><span class="material-symbols-rounded">delete</span> D&eacute;sinstallation</h2>
+      <div class="install-step">
+        <h3>Windows</h3>
+        <p>Allez dans <strong>Param&egrave;tres</strong> &gt; <strong>Applications</strong> &gt; <strong>Applications install&eacute;es</strong>, trouvez kazahana et cliquez sur <strong>&laquo; D&eacute;sinstaller &raquo;</strong>.</p>
+      </div>
+      <div class="install-step">
+        <h3>macOS</h3>
+        <p>Glissez kazahana du dossier <strong>Applications</strong> vers la Corbeille.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Troubleshooting -->
+  <section class="section">
+    <div class="section-inner">
+      <h2 class="install-heading"><span class="material-symbols-rounded">build</span> D&eacute;pannage</h2>
+      <div class="install-step">
+        <h3>L'application ne se lance pas</h3>
+        <ul>
+          <li>Assurez-vous que votre syst&egrave;me d'exploitation est &agrave; jour</li>
+          <li>Windows : Windows 10 ou ult&eacute;rieur est requis</li>
+          <li>macOS : macOS 12 (Monterey) ou ult&eacute;rieur est requis</li>
+        </ul>
+      </div>
+      <div class="install-step">
+        <h3>&laquo; kazahana est endommag&eacute; et ne peut pas &ecirc;tre ouvert &raquo; (macOS)</h3>
+        <p>Ex&eacute;cutez la commande suivante dans le Terminal :</p>
+        <pre class="install-code">xattr -cr /Applications/kazahana.app</pre>
+      </div>
+      <div class="install-step">
+        <h3>Autres probl&egrave;mes</h3>
+        <p>Si le probl&egrave;me persiste, veuillez nous contacter :</p>
+        <ul>
+          <li>GitHub Issues : <a href="https://github.com/osprey74/kazahana/issues" target="_blank" rel="noopener noreferrer">https://github.com/osprey74/kazahana/issues</a></li>
+          <li>Email : <a href="mailto:kazahana.app@gmail.com">kazahana.app@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Security -->
+  <section class="section section-alt">
+    <div class="section-inner">
+      <h2 class="install-heading"><span class="material-symbols-rounded">shield</span> &Agrave; propos de la s&eacute;curit&eacute;</h2>
+      <div class="install-step">
+        <p>kazahana est un logiciel open source (Licence MIT). Le code source est publiquement disponible sur <a href="https://github.com/osprey74/kazahana" target="_blank" rel="noopener noreferrer">GitHub</a> et peut &ecirc;tre examin&eacute; par n'importe qui.</p>
+        <p>L'application n'est pas actuellement sign&eacute;e num&eacute;riquement, c'est pourquoi votre syst&egrave;me d'exploitation affiche des avertissements de s&eacute;curit&eacute;. Cela ne signifie pas que l'application est dangereuse &mdash; cela signifie simplement que l'&eacute;diteur ne peut pas &ecirc;tre v&eacute;rifi&eacute; &eacute;lectroniquement. La signature num&eacute;rique est pr&eacute;vue pour l'avenir.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <p class="footer-brand">kazahana &mdash; Client Bluesky L&eacute;ger pour Bureau</p>
+      <p class="footer-links">
+        <a href="https://github.com/osprey74/kazahana" target="_blank" rel="noopener noreferrer">GitHub</a> &middot;
+        License : <a href="https://github.com/osprey74/kazahana/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">MIT</a> &middot;
+        &copy; 2025 osprey74
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("lang-select").addEventListener("change", function () {
+      window.location.href = "../" + this.value + "/install.html";
+    });
+  </script>
+
+</body>
+</html>

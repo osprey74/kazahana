@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>kazahana - 安裝指南</title>
+  <meta name="description" content="如何在 Windows 和 macOS 上安裝 kazahana，一款輕量級 Bluesky 桌面用戶端。">
+  <link rel="icon" href="../images/icon.png" type="image/png">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/install.css">
+  <script src="../js/theme.js"></script>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <a href="./" class="header-logo">
+        <img src="../images/icon.png" alt="kazahana">
+        <span>kazahana</span>
+      </a>
+      <div class="header-controls">
+        <select class="lang-select" id="lang-select" aria-label="語言">
+          <option value="ja">日本語</option>
+          <option value="en">English</option>
+          <option value="pt-BR">Portugu&ecirc;s</option>
+          <option value="de">Deutsch</option>
+          <option value="zh-TW" selected>繁體中文</option>
+          <option value="zh-CN">简体中文</option>
+          <option value="fr">Fran&ccedil;ais</option>
+          <option value="ko">한국어</option>
+          <option value="es">Espa&ntilde;ol</option>
+          <option value="ru">Русский</option>
+          <option value="id">Bahasa Indonesia</option>
+        </select>
+        <button class="theme-toggle" id="theme-toggle" aria-label="切換主題">
+          <span class="material-symbols-rounded">dark_mode</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page Title -->
+  <section class="section">
+    <div class="section-inner">
+      <p class="install-back"><a href="./">&larr; 返回首頁</a></p>
+      <h1 class="section-title">安裝指南</h1>
+      <p class="section-desc">kazahana 目前尚未進行程式碼簽署，因此您的作業系統可能會顯示安全性警告。<br>請按照以下步驟進行安裝。</p>
+    </div>
+  </section>
+
+  <!-- Windows -->
+  <section class="section section-alt">
+    <div class="section-inner">
+      <h2 class="install-heading"><span class="material-symbols-rounded">desktop_windows</span> Windows</h2>
+
+      <div class="install-step">
+        <h3>1. 下載安裝程式</h3>
+        <p>從 <a href="https://github.com/osprey74/kazahana/releases" target="_blank" rel="noopener noreferrer">GitHub Releases</a> 頁面下載最新的安裝程式。</p>
+        <table class="install-table">
+          <thead><tr><th>檔案名稱</th><th>格式</th><th>適用平台</th></tr></thead>
+          <tbody>
+            <tr><td><code>kazahana_x.x.x_x64-setup.exe</code></td><td>NSIS 安裝程式</td><td>Windows 10 / 11（64 位元）</td></tr>
+            <tr><td><code>kazahana_x.x.x_x64_en-US.msi</code></td><td>MSI 安裝程式</td><td>Windows 10 / 11（64 位元）</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="install-step">
+        <h3>2. 處理 SmartScreen 警告</h3>
+        <p>執行安裝程式時，Microsoft Defender SmartScreen 可能會顯示警告：</p>
+        <div class="install-callout">
+          <strong>Windows 已保護您的電腦</strong><br>
+          Microsoft Defender SmartScreen 已阻止無法辨識的應用程式啟動。執行此應用程式可能會使您的電腦面臨風險。
+        </div>
+        <p>這是未進行程式碼簽署的應用程式的標準警告。kazahana 是開放原始碼軟體，其原始碼已公開於 GitHub。</p>
+        <ol>
+          <li>在警告對話框中點擊<strong>「其他資訊」</strong></li>
+          <li>將會顯示應用程式名稱和發行者資訊</li>
+          <li>點擊<strong>「仍要執行」</strong>按鈕</li>
+        </ol>
+      </div>
+
+      <div class="install-step">
+        <h3>3. 安裝</h3>
+        <p>通過 SmartScreen 後，標準安裝精靈將會啟動。</p>
+        <ol>
+          <li>確認安裝資料夾（使用預設值即可）</li>
+          <li>點擊<strong>「安裝」</strong></li>
+          <li>安裝完成後，點擊<strong>「完成」</strong></li>
+        </ol>
+      </div>
+
+      <div class="install-step">
+        <h3>4. 啟動</h3>
+        <p>從開始功能表或桌面捷徑啟動 kazahana。首次啟動後，SmartScreen 警告將不再出現。</p>
+      </div>
+
+      <div class="install-step">
+        <h3>注意：瀏覽器下載警告</h3>
+        <ul>
+          <li><strong>Microsoft Edge</strong>：可能會顯示「此檔案不常被下載。」點擊 <code>&hellip;</code> 選單並選擇<strong>「保留」</strong>。</li>
+          <li><strong>Google Chrome</strong>：可能會顯示「此檔案可能有危險。」點擊 <code>&and;</code> 圖示並選擇<strong>「保留」</strong>。</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- macOS -->
+  <section class="section">
+    <div class="section-inner">
+      <h2 class="install-heading"><span class="material-symbols-rounded">laptop_mac</span> macOS</h2>
+
+      <div class="install-step">
+        <h3>1. 下載安裝程式</h3>
+        <p>從 <a href="https://github.com/osprey74/kazahana/releases" target="_blank" rel="noopener noreferrer">GitHub Releases</a> 頁面下載最新的安裝程式。</p>
+        <table class="install-table">
+          <thead><tr><th>檔案名稱</th><th>適用平台</th></tr></thead>
+          <tbody>
+            <tr><td><code>kazahana_x.x.x_x64.dmg</code></td><td>macOS（Intel）</td></tr>
+            <tr><td><code>kazahana_x.x.x_aarch64.dmg</code></td><td>macOS（Apple Silicon：M1 / M2 / M3 / M4）</td></tr>
+          </tbody>
+        </table>
+        <p class="install-tip">如何查看 Mac 的晶片：點擊左上角的蘋果選單，選擇<strong>「關於這台 Mac」</strong>。</p>
+      </div>
+
+      <div class="install-step">
+        <h3>2. 安裝應用程式</h3>
+        <ol>
+          <li>開啟下載的 <code>.dmg</code> 檔案</li>
+          <li>將 kazahana 圖示拖曳至<strong>應用程式</strong>資料夾</li>
+          <li>關閉 <code>.dmg</code> 視窗並退出磁碟映像</li>
+        </ol>
+      </div>
+
+      <div class="install-step">
+        <h3>3. 處理 Gatekeeper 警告</h3>
+        <p>首次啟動時，macOS Gatekeeper 會顯示警告：</p>
+        <div class="install-callout">
+          <strong>無法打開「kazahana」，因為無法驗證開發者。</strong>
+        </div>
+        <p>這是未進行程式碼簽署或公證的應用程式的標準警告。</p>
+
+        <h4>方法 A：透過系統設定允許（建議）</h4>
+        <ol>
+          <li>當警告出現時，點擊<strong>「好」</strong>關閉對話框</li>
+          <li>開啟<strong>系統設定</strong> &gt; <strong>「隱私權與安全性」</strong></li>
+          <li>在底部，您會看到：「kazahana 因為不是來自已識別的開發者而被阻擋」</li>
+          <li>點擊<strong>「強制打開」</strong></li>
+          <li>使用管理員密碼或 Touch ID 進行驗證</li>
+          <li>當確認對話框出現時，點擊<strong>「打開」</strong></li>
+        </ol>
+
+        <h4>方法 B：透過右鍵點擊開啟</h4>
+        <ol>
+          <li>在 Finder 中開啟<strong>應用程式</strong>資料夾</li>
+          <li>在 kazahana 上<strong>按右鍵</strong>（或 Control + 點擊）</li>
+          <li>從快捷選單中選擇<strong>「打開」</strong></li>
+          <li>當提示出現時，點擊<strong>「打開」</strong></li>
+        </ol>
+        <p class="install-tip">在某些 macOS 版本中，方法 B 可能無法使用。如果是這樣，請嘗試方法 A。</p>
+
+        <h4>方法 C：透過終端機移除隔離屬性（進階）</h4>
+        <p>開啟終端機並執行：</p>
+        <pre class="install-code">xattr -cr /Applications/kazahana.app</pre>
+        <p>這會移除套用於下載檔案的隔離屬性（<code>com.apple.quarantine</code>），讓您可以繞過 Gatekeeper 驗證。</p>
+      </div>
+
+      <div class="install-step">
+        <h3>4. 啟動</h3>
+        <p>從 Launchpad 或應用程式資料夾啟動 kazahana。完成初始權限步驟後，它將正常啟動。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Uninstall -->
+  <section class="section section-alt">
+    <div class="section-inner">
+      <h2 class="install-heading"><span class="material-symbols-rounded">delete</span> 解除安裝</h2>
+      <div class="install-step">
+        <h3>Windows</h3>
+        <p>前往<strong>設定</strong> &gt; <strong>應用程式</strong> &gt; <strong>已安裝的應用程式</strong>，找到 kazahana，然後點擊<strong>「解除安裝」</strong>。</p>
+      </div>
+      <div class="install-step">
+        <h3>macOS</h3>
+        <p>將 kazahana 從<strong>應用程式</strong>資料夾拖曳至垃圾桶。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Troubleshooting -->
+  <section class="section">
+    <div class="section-inner">
+      <h2 class="install-heading"><span class="material-symbols-rounded">build</span> 疑難排解</h2>
+      <div class="install-step">
+        <h3>應用程式無法啟動</h3>
+        <ul>
+          <li>請確認您的作業系統已更新至最新版本</li>
+          <li>Windows：需要 Windows 10 或更新版本</li>
+          <li>macOS：需要 macOS 12（Monterey）或更新版本</li>
+        </ul>
+      </div>
+      <div class="install-step">
+        <h3>「kazahana 已損壞，無法打開」（macOS）</h3>
+        <p>在終端機中執行以下命令：</p>
+        <pre class="install-code">xattr -cr /Applications/kazahana.app</pre>
+      </div>
+      <div class="install-step">
+        <h3>其他問題</h3>
+        <p>如果問題持續存在，請聯繫我們：</p>
+        <ul>
+          <li>GitHub Issues：<a href="https://github.com/osprey74/kazahana/issues" target="_blank" rel="noopener noreferrer">https://github.com/osprey74/kazahana/issues</a></li>
+          <li>電子郵件：<a href="mailto:kazahana.app@gmail.com">kazahana.app@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Security -->
+  <section class="section section-alt">
+    <div class="section-inner">
+      <h2 class="install-heading"><span class="material-symbols-rounded">shield</span> 關於安全性</h2>
+      <div class="install-step">
+        <p>kazahana 是開放原始碼軟體（MIT 授權條款）。原始碼已公開於 <a href="https://github.com/osprey74/kazahana" target="_blank" rel="noopener noreferrer">GitHub</a>，任何人都可以審閱。</p>
+        <p>該應用程式目前尚未進行程式碼簽署，這就是您的作業系統顯示安全性警告的原因。這並不代表該應用程式有危險 &mdash; 而僅僅表示無法以電子方式驗證發行者。程式碼簽署已計劃在未來實施。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <p class="footer-brand">kazahana &mdash; 輕量級 Bluesky 桌面用戶端</p>
+      <p class="footer-links">
+        <a href="https://github.com/osprey74/kazahana" target="_blank" rel="noopener noreferrer">GitHub</a> &middot;
+        License: <a href="https://github.com/osprey74/kazahana/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">MIT</a> &middot;
+        &copy; 2025 osprey74
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("lang-select").addEventListener("change", function () {
+      window.location.href = "../" + this.value + "/install.html";
+    });
+  </script>
+
+</body>
+</html>
