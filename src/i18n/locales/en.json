@@ -165,7 +165,8 @@
     "unblock": "Unblock",
     "mutedUser": "You have muted this user",
     "blockingUser": "You have blocked this user",
-    "blockedByUser": "This user has blocked you"
+    "blockedByUser": "This user has blocked you",
+    "manageList": "Add/Remove from lists"
   },
   "search": {
     "placeholder": "Search users or posts...",
@@ -269,5 +270,9 @@
     "membersList": "Members",
     "noMembers": "No members",
     "feedBy": "by {{name}}"
+  },
+  "listManagement": {
+    "title": "Add/Remove from lists",
+    "noLists": "No curation lists"
   }
 }

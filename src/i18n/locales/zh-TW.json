@@ -164,7 +164,8 @@
     "unblock": "取消封鎖",
     "mutedUser": "你已靜音此使用者",
     "blockingUser": "你已封鎖此使用者",
-    "blockedByUser": "此使用者已封鎖你"
+    "blockedByUser": "此使用者已封鎖你",
+    "manageList": "新增/移除列表"
   },
   "search": {
     "placeholder": "搜尋使用者或貼文...",
@@ -267,5 +268,9 @@
     "membersList": "成員",
     "noMembers": "沒有成員",
     "feedBy": "by {{name}}"
+  },
+  "listManagement": {
+    "title": "新增/移除列表",
+    "noLists": "沒有策展列表"
   }
 }

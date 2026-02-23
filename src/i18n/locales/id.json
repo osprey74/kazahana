@@ -164,7 +164,8 @@
     "unblock": "Batalkan blokir",
     "mutedUser": "Anda telah membisukan pengguna ini",
     "blockingUser": "Anda telah memblokir pengguna ini",
-    "blockedByUser": "Pengguna ini telah memblokir Anda"
+    "blockedByUser": "Pengguna ini telah memblokir Anda",
+    "manageList": "Tambah/Hapus dari daftar"
   },
   "search": {
     "placeholder": "Cari pengguna atau postingan...",
@@ -267,5 +268,9 @@
     "membersList": "Anggota",
     "noMembers": "Tidak ada anggota",
     "feedBy": "oleh {{name}}"
+  },
+  "listManagement": {
+    "title": "Tambah/Hapus dari daftar",
+    "noLists": "Tidak ada daftar kurasi"
   }
 }

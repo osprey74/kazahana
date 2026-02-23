@@ -7,6 +7,7 @@ import { PostListModal } from "../post/PostListModal";
 import { ImageLightbox } from "../common/ImageLightbox";
 import { ContextMenu } from "../common/ContextMenu";
 import { ReportModal } from "../moderation/ReportModal";
+import { ListMembershipModal } from "../profile/ListMembershipModal";
 import { useComposeStore } from "../../stores/composeStore";
 import { useAuthStore } from "../../stores/authStore";
 import { Icon } from "../common/Icon";
@@ -113,6 +114,9 @@ export function AppLayout() {
 
       {/* Report Modal */}
       <ReportModal />
+
+      {/* List Membership Modal */}
+      <ListMembershipModal />
 
       {/* Context Menu */}
       <ContextMenu />

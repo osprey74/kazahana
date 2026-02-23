@@ -6,6 +6,7 @@ import type { ProfileViewDetailed } from "@atproto/api/dist/client/types/app/bsk
 import { useFollow, useUnfollow, useMuteActor, useUnmuteActor, useBlockActor, useUnblockActor } from "../../hooks/useProfile";
 import { useAuthStore } from "../../stores/authStore";
 import { useReportStore } from "../../stores/reportStore";
+import { useListManagementStore } from "../../stores/listManagementStore";
 import { Icon } from "../common/Icon";
 import { ConfirmDialog } from "../common/ConfirmDialog";
 import { useModerationOpts } from "../../contexts/ModerationContext";
@@ -159,6 +160,16 @@ export function ProfileHeader({ profile, isOwnProfile }: ProfileHeaderProps) {
                   <>
                     <div className="fixed inset-0 z-40" onClick={() => setMenuOpen(false)} />
                     <div className="absolute right-0 top-10 z-50 bg-white dark:bg-bg-dark border border-border-light dark:border-border-dark rounded-lg shadow-lg py-1 min-w-[180px] whitespace-nowrap">
+                      <button
+                        onClick={() => {
+                          setMenuOpen(false);
+                          useListManagementStore.getState().open(profile.did, profile.displayName || profile.handle);
+                        }}
+                        className="w-full flex items-center gap-2 px-3 py-2 text-sm text-text-light dark:text-text-dark hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                      >
+                        <Icon name="list" size={16} />
+                        <span>{t("profile.manageList")}</span>
+                      </button>
                       <button
                         onClick={handleToggleMute}
                         className="w-full flex items-center gap-2 px-3 py-2 text-sm text-text-light dark:text-text-dark hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"

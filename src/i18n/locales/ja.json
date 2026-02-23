@@ -165,7 +165,8 @@
     "unblock": "ブロック解除",
     "mutedUser": "このユーザーをミュートしています",
     "blockingUser": "このユーザーをブロックしています",
-    "blockedByUser": "このユーザーにブロックされています"
+    "blockedByUser": "このユーザーにブロックされています",
+    "manageList": "リストに追加/削除"
   },
   "search": {
     "placeholder": "ユーザーや投稿を検索...",
@@ -269,5 +270,9 @@
     "membersList": "メンバー",
     "noMembers": "メンバーがいません",
     "feedBy": "by {{name}}"
+  },
+  "listManagement": {
+    "title": "リストに追加/削除",
+    "noLists": "キュレーションリストがありません"
   }
 }

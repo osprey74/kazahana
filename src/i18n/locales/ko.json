@@ -164,7 +164,8 @@
     "unblock": "차단 해제",
     "mutedUser": "이 사용자를 뮤트했습니다",
     "blockingUser": "이 사용자를 차단했습니다",
-    "blockedByUser": "이 사용자가 당신을 차단했습니다"
+    "blockedByUser": "이 사용자가 당신을 차단했습니다",
+    "manageList": "리스트에 추가/삭제"
   },
   "search": {
     "placeholder": "사용자 또는 게시물 검색…",
@@ -267,5 +268,9 @@
     "membersList": "멤버",
     "noMembers": "멤버가 없습니다",
     "feedBy": "by {{name}}"
+  },
+  "listManagement": {
+    "title": "리스트에 추가/삭제",
+    "noLists": "큐레이션 리스트가 없습니다"
   }
 }

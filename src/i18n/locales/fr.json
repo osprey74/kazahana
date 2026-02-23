@@ -164,7 +164,8 @@
     "unblock": "Débloquer",
     "mutedUser": "Vous avez masqué cet utilisateur",
     "blockingUser": "Vous avez bloqué cet utilisateur",
-    "blockedByUser": "Cet utilisateur vous a bloqué"
+    "blockedByUser": "Cet utilisateur vous a bloqué",
+    "manageList": "Ajouter/Retirer des listes"
   },
   "search": {
     "placeholder": "Rechercher des utilisateurs ou des publications…",
@@ -267,5 +268,9 @@
     "membersList": "Membres",
     "noMembers": "Aucun membre",
     "feedBy": "par {{name}}"
+  },
+  "listManagement": {
+    "title": "Ajouter/Retirer des listes",
+    "noLists": "Aucune liste de curation"
   }
 }

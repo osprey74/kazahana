@@ -228,6 +228,120 @@ export function useUnblockActor() {
   });
 }
 
+export function useListMemberships(targetDid: string) {
+  return useQuery({
+    queryKey: ["listMemberships", targetDid],
+    queryFn: async () => {
+      const agent = getAgent();
+      const records: Array<{ uri: string; value: { list: string; subject: string } }> = [];
+      let cursor: string | undefined;
+      do {
+        const res = await agent.com.atproto.repo.listRecords({
+          repo: agent.session!.did,
+          collection: "app.bsky.graph.listitem",
+          limit: 100,
+          cursor,
+        });
+        for (const r of res.data.records) {
+          const val = r.value as { list?: string; subject?: string };
+          if (val.list && val.subject) {
+            records.push({ uri: r.uri, value: { list: val.list, subject: val.subject } });
+          }
+        }
+        cursor = res.data.cursor;
+      } while (cursor);
+
+      const memberships: Record<string, string> = {};
+      for (const r of records) {
+        if (r.value.subject === targetDid) {
+          memberships[r.value.list] = r.uri;
+        }
+      }
+      return memberships;
+    },
+    enabled: !!targetDid,
+    staleTime: 10_000,
+  });
+}
+
+export function useAddToList() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ did, listUri }: { did: string; listUri: string }) => {
+      const agent = getAgent();
+      const res = await agent.com.atproto.repo.createRecord({
+        repo: agent.session!.did,
+        collection: "app.bsky.graph.listitem",
+        record: {
+          $type: "app.bsky.graph.listitem",
+          subject: did,
+          list: listUri,
+          createdAt: new Date().toISOString(),
+        },
+      });
+      return res.data;
+    },
+    onMutate: async ({ did, listUri }) => {
+      await queryClient.cancelQueries({ queryKey: ["listMemberships", did] });
+      const previous = queryClient.getQueryData<Record<string, string>>(["listMemberships", did]);
+      queryClient.setQueryData<Record<string, string>>(["listMemberships", did], (old) => ({
+        ...old,
+        [listUri]: "__pending__",
+      }));
+      return { previous };
+    },
+    onError: (_err, vars, context) => {
+      if (context?.previous) {
+        queryClient.setQueryData(["listMemberships", vars.did], context.previous);
+      }
+    },
+    onSettled: (_, _err, vars) => {
+      queryClient.invalidateQueries({ queryKey: ["listMemberships", vars.did] });
+    },
+  });
+}
+
+export function useRemoveFromList() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ did, itemUri }: { did: string; itemUri: string }) => {
+      const agent = getAgent();
+      const rkey = itemUri.split("/").pop()!;
+      await agent.com.atproto.repo.deleteRecord({
+        repo: agent.session!.did,
+        collection: "app.bsky.graph.listitem",
+        rkey,
+      });
+    },
+    onMutate: async ({ did, itemUri }) => {
+      await queryClient.cancelQueries({ queryKey: ["listMemberships", did] });
+      const previous = queryClient.getQueryData<Record<string, string>>(["listMemberships", did]);
+      queryClient.setQueryData<Record<string, string>>(["listMemberships", did], (old) => {
+        if (!old) return old;
+        const next = { ...old };
+        for (const [listUri, uri] of Object.entries(next)) {
+          if (uri === itemUri) {
+            delete next[listUri];
+            break;
+          }
+        }
+        return next;
+      });
+      return { previous };
+    },
+    onError: (_err, vars, context) => {
+      if (context?.previous) {
+        queryClient.setQueryData(["listMemberships", vars.did], context.previous);
+      }
+    },
+    onSettled: (_, _err, vars) => {
+      queryClient.invalidateQueries({ queryKey: ["listMemberships", vars.did] });
+    },
+  });
+}
+
 export function useFollow() {
   const queryClient = useQueryClient();
 

@@ -164,7 +164,8 @@
     "unblock": "取消屏蔽",
     "mutedUser": "你已静音此用户",
     "blockingUser": "你已屏蔽此用户",
-    "blockedByUser": "此用户已屏蔽你"
+    "blockedByUser": "此用户已屏蔽你",
+    "manageList": "添加/移除列表"
   },
   "search": {
     "placeholder": "搜索用户或帖子…",
@@ -267,5 +268,9 @@
     "membersList": "成员",
     "noMembers": "没有成员",
     "feedBy": "by {{name}}"
+  },
+  "listManagement": {
+    "title": "添加/移除列表",
+    "noLists": "没有策展列表"
   }
 }
