@@ -13,6 +13,9 @@ import { LicenseView } from "./components/settings/LicenseView";
 import { ReadmeView } from "./components/settings/ReadmeView";
 import { HiddenPostsView } from "./components/settings/HiddenPostsView";
 import { FeedVisibilityView } from "./components/settings/FeedVisibilityView";
+import { StarterPackDetailView } from "./components/profile/StarterPackDetailView";
+import { FollowersPage } from "./components/profile/FollowersPage";
+import { FollowingPage } from "./components/profile/FollowingPage";
 import { LoadingSpinner } from "./components/common/LoadingSpinner";
 import { useAuthStore } from "./stores/authStore";
 import { applyTheme, useSettingsStore } from "./stores/settingsStore";
@@ -88,7 +91,10 @@ function AuthGate() {
             <Route path="/notifications" element={<NotificationList />} />
             <Route path="/profile" element={<ProfileView />} />
             <Route path="/profile/:handle" element={<ProfileView />} />
+            <Route path="/profile/:handle/followers" element={<FollowersPage />} />
+            <Route path="/profile/:handle/following" element={<FollowingPage />} />
             <Route path="/post/:uri" element={<ThreadView />} />
+            <Route path="/starter-pack/:uri" element={<StarterPackDetailView />} />
             <Route path="/settings" element={<SettingsView />} />
             <Route path="/settings/license" element={<LicenseView />} />
             <Route path="/settings/readme" element={<ReadmeView />} />

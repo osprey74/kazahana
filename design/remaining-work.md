@@ -44,8 +44,9 @@
 - [x] Report posts/users (`com.atproto.moderation.createReport`)
 - [ ] Mute/Block users (`muteActor` / `unmute`, `app.bsky.graph.block`)
 - [x] Copy post link / share
-- [ ] Starter Packs viewing
+- [x] Starter Packs viewing (profile tab + detail view)
 - [x] Post language tag auto-assignment (`langs` field from app language setting)
+- [ ] Starter Packs search tab in search view (`searchStarterPacks`)
 
 ## i18n (Additional Languages)
 - [x] Portuguese (pt)

@@ -3,23 +3,26 @@ import { Icon } from "./Icon";
 interface AvatarProps {
   src?: string;
   alt?: string;
-  size?: "sm" | "md" | "lg";
+  size?: "xs" | "sm" | "md" | "lg";
   badge?: "reply";
 }
 
 const sizeClasses = {
+  xs: "w-5 h-5",
   sm: "w-8 h-8",
   md: "w-10 h-10",
   lg: "w-14 h-14",
 };
 
 const badgeIconSize = {
+  xs: 8,
   sm: 10,
   md: 12,
   lg: 14,
 };
 
 const badgeSize = {
+  xs: "w-3 h-3",
   sm: "w-3.5 h-3.5",
   md: "w-4 h-4",
   lg: "w-5 h-5",

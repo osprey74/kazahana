@@ -128,6 +128,40 @@ export function useBookmarks(enabled: boolean) {
   });
 }
 
+export function useActorStarterPacks(handle: string) {
+  return useInfiniteQuery({
+    queryKey: ["actorStarterPacks", handle],
+    queryFn: async ({ pageParam }) => {
+      const agent = getAgent();
+      const res = await agent.app.bsky.graph.getActorStarterPacks({
+        actor: handle,
+        limit: 20,
+        cursor: pageParam as string | undefined,
+      });
+      return res.data;
+    },
+    initialPageParam: undefined as string | undefined,
+    getNextPageParam: (lastPage) => lastPage.cursor,
+    enabled: !!handle,
+    staleTime: 30_000,
+  });
+}
+
+export function useStarterPack(uri: string) {
+  return useQuery({
+    queryKey: ["starterPack", uri],
+    queryFn: async () => {
+      const agent = getAgent();
+      const res = await agent.app.bsky.graph.getStarterPack({
+        starterPack: uri,
+      });
+      return res.data;
+    },
+    enabled: !!uri,
+    staleTime: 30_000,
+  });
+}
+
 export function useFollow() {
   const queryClient = useQueryClient();
 

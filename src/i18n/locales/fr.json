@@ -147,7 +147,10 @@
     "noLikes": "Aucune publication aimée",
     "noMedia": "Aucune publication média",
     "noBookmarks": "Aucune publication en signet",
+    "starterPacks": "Packs de démarrage",
     "noFollowers": "Aucun abonné",
+    "followersTitle": "Utilisateurs qui vous suivent",
+    "followingTitle": "Utilisateurs que vous suivez",
     "noFollowing": "Ne suit personne",
     "loadFailed": "Échec du chargement du profil",
     "followsYou": "Vous suit",
@@ -240,5 +243,16 @@
     "copyLink": "Copier le lien",
     "copyImage": "Copier l'image",
     "saveImage": "Enregistrer l'image"
+  },
+  "starterPack": {
+    "noStarterPacks": "Aucun pack de démarrage",
+    "members": "{{count}} membres",
+    "joined": "{{count}} ont rejoint",
+    "joinedThisWeek": "{{count}} cette semaine",
+    "back": "Retour",
+    "feeds": "Flux",
+    "membersList": "Membres",
+    "noMembers": "Aucun membre",
+    "feedBy": "par {{name}}"
   }
 }

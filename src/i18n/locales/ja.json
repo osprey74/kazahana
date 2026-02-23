@@ -148,7 +148,10 @@
     "noLikes": "いいねした投稿はありません",
     "noMedia": "メディア投稿はありません",
     "noBookmarks": "付箋した投稿はありません",
+    "starterPacks": "スターターパック",
     "noFollowers": "フォロワーはいません",
+    "followersTitle": "あなたをフォローしているユーザー一覧",
+    "followingTitle": "あなたがフォローしているユーザー一覧",
     "noFollowing": "フォロー中のユーザーはいません",
     "loadFailed": "プロフィールの読み込みに失敗しました",
     "followsYou": "あなたをフォローしています",
@@ -242,5 +245,16 @@
     "copyLink": "リンクをコピー",
     "copyImage": "画像をコピー",
     "saveImage": "画像を保存"
+  },
+  "starterPack": {
+    "noStarterPacks": "スターターパックはありません",
+    "members": "{{count}} メンバー",
+    "joined": "{{count}} 人が参加",
+    "joinedThisWeek": "今週 {{count}} 人",
+    "back": "戻る",
+    "feeds": "フィード",
+    "membersList": "メンバー",
+    "noMembers": "メンバーがいません",
+    "feedBy": "by {{name}}"
   }
 }

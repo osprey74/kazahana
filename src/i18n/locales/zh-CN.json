@@ -147,7 +147,10 @@
     "noLikes": "没有喜欢的帖子",
     "noMedia": "没有媒体帖子",
     "noBookmarks": "没有收藏的帖子",
+    "starterPacks": "入门包",
     "noFollowers": "没有粉丝",
+    "followersTitle": "关注你的用户",
+    "followingTitle": "你关注的用户",
     "noFollowing": "未关注任何人",
     "loadFailed": "个人资料加载失败",
     "followsYou": "关注了你",
@@ -240,5 +243,16 @@
     "copyLink": "复制链接",
     "copyImage": "复制图片",
     "saveImage": "保存图片"
+  },
+  "starterPack": {
+    "noStarterPacks": "没有入门包",
+    "members": "{{count}} 位成员",
+    "joined": "{{count}} 人已加入",
+    "joinedThisWeek": "本周 {{count}} 人",
+    "back": "返回",
+    "feeds": "信息流",
+    "membersList": "成员",
+    "noMembers": "没有成员",
+    "feedBy": "by {{name}}"
   }
 }

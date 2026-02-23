@@ -148,7 +148,10 @@
     "noLikes": "No liked posts",
     "noMedia": "No media posts",
     "noBookmarks": "No bookmarked posts",
+    "starterPacks": "Starter Packs",
     "noFollowers": "No followers",
+    "followersTitle": "Users following you",
+    "followingTitle": "Users you are following",
     "noFollowing": "Not following anyone",
     "loadFailed": "Failed to load profile",
     "followsYou": "Follows you",
@@ -242,5 +245,16 @@
     "copyLink": "Copy Link",
     "copyImage": "Copy Image",
     "saveImage": "Save Image"
+  },
+  "starterPack": {
+    "noStarterPacks": "No starter packs",
+    "members": "{{count}} members",
+    "joined": "{{count}} joined",
+    "joinedThisWeek": "{{count}} this week",
+    "back": "Back",
+    "feeds": "Feeds",
+    "membersList": "Members",
+    "noMembers": "No members",
+    "feedBy": "by {{name}}"
   }
 }

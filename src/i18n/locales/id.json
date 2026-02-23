@@ -147,7 +147,10 @@
     "noLikes": "Tidak ada postingan yang disukai",
     "noMedia": "Tidak ada postingan media",
     "noBookmarks": "Tidak ada postingan yang ditandai",
+    "starterPacks": "Paket Starter",
     "noFollowers": "Tidak ada pengikut",
+    "followersTitle": "Pengguna yang mengikuti Anda",
+    "followingTitle": "Pengguna yang Anda ikuti",
     "noFollowing": "Tidak mengikuti siapa pun",
     "loadFailed": "Gagal memuat profil",
     "followsYou": "Mengikuti Anda",
@@ -240,5 +243,16 @@
     "copyLink": "Salin tautan",
     "copyImage": "Salin gambar",
     "saveImage": "Simpan gambar"
+  },
+  "starterPack": {
+    "noStarterPacks": "Tidak ada paket starter",
+    "members": "{{count}} anggota",
+    "joined": "{{count}} bergabung",
+    "joinedThisWeek": "{{count}} minggu ini",
+    "back": "Kembali",
+    "feeds": "Feed",
+    "membersList": "Anggota",
+    "noMembers": "Tidak ada anggota",
+    "feedBy": "oleh {{name}}"
   }
 }

@@ -147,7 +147,10 @@
     "noLikes": "Keine gelikten Beiträge",
     "noMedia": "Keine Medienbeiträge",
     "noBookmarks": "Keine Lesezeichen",
+    "starterPacks": "Starterpakete",
     "noFollowers": "Keine Follower",
+    "followersTitle": "Nutzer, die dir folgen",
+    "followingTitle": "Nutzer, denen du folgst",
     "noFollowing": "Folgt niemandem",
     "loadFailed": "Profil konnte nicht geladen werden",
     "followsYou": "Folgt dir",
@@ -240,5 +243,16 @@
     "copyLink": "Link kopieren",
     "copyImage": "Bild kopieren",
     "saveImage": "Bild speichern"
+  },
+  "starterPack": {
+    "noStarterPacks": "Keine Starterpakete",
+    "members": "{{count}} Mitglieder",
+    "joined": "{{count}} beigetreten",
+    "joinedThisWeek": "{{count}} diese Woche",
+    "back": "Zurück",
+    "feeds": "Feeds",
+    "membersList": "Mitglieder",
+    "noMembers": "Keine Mitglieder",
+    "feedBy": "von {{name}}"
   }
 }

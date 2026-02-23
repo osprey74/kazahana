@@ -147,7 +147,10 @@
     "noLikes": "좋아요한 게시물이 없습니다",
     "noMedia": "미디어 게시물이 없습니다",
     "noBookmarks": "북마크한 게시물이 없습니다",
+    "starterPacks": "스타터 팩",
     "noFollowers": "팔로워가 없습니다",
+    "followersTitle": "나를 팔로우하는 사용자",
+    "followingTitle": "내가 팔로우하는 사용자",
     "noFollowing": "팔로잉하는 사용자가 없습니다",
     "loadFailed": "프로필을 불러오지 못했습니다",
     "followsYou": "나를 팔로우 중",
@@ -240,5 +243,16 @@
     "copyLink": "링크 복사",
     "copyImage": "이미지 복사",
     "saveImage": "이미지 저장"
+  },
+  "starterPack": {
+    "noStarterPacks": "스타터 팩이 없습니다",
+    "members": "{{count}} 멤버",
+    "joined": "{{count}}명 참여",
+    "joinedThisWeek": "이번 주 {{count}}명",
+    "back": "뒤로",
+    "feeds": "피드",
+    "membersList": "멤버",
+    "noMembers": "멤버가 없습니다",
+    "feedBy": "by {{name}}"
   }
 }

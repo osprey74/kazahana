@@ -11,15 +11,12 @@ import { ConfirmDialog } from "../common/ConfirmDialog";
 import { useModerationOpts } from "../../contexts/ModerationContext";
 import { Avatar } from "../common/Avatar";
 import { ContentWarning } from "../common/ContentWarning";
-import type { ProfileTab } from "./ProfileView";
-
 interface ProfileHeaderProps {
   profile: ProfileViewDetailed;
   isOwnProfile: boolean;
-  onTabChange?: (tab: ProfileTab) => void;
 }
 
-export function ProfileHeader({ profile, isOwnProfile, onTabChange }: ProfileHeaderProps) {
+export function ProfileHeader({ profile, isOwnProfile }: ProfileHeaderProps) {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const logout = useAuthStore((s) => s.logout);
@@ -140,14 +137,14 @@ export function ProfileHeader({ profile, isOwnProfile, onTabChange }: ProfileHea
         {/* Stats */}
         <div className="flex gap-4 mt-3 text-sm">
           <button
-            onClick={() => onTabChange?.("following")}
+            onClick={() => navigate(`/profile/${profile.handle}/following`)}
             className="hover:underline"
           >
             <strong className="text-text-light dark:text-text-dark">{profile.followsCount ?? 0}</strong>{" "}
             <span className="text-gray-500">{t("profile.following")}</span>
           </button>
           <button
-            onClick={() => onTabChange?.("followers")}
+            onClick={() => navigate(`/profile/${profile.handle}/followers`)}
             className="hover:underline"
           >
             <strong className="text-text-light dark:text-text-dark">{profile.followersCount ?? 0}</strong>{" "}

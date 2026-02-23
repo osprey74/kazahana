@@ -4,17 +4,16 @@ import { useTranslation } from "react-i18next";
 import { Virtuoso } from "react-virtuoso";
 import { moderatePost } from "@atproto/api";
 import type { FeedViewPost, PostView } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
-import { useProfile, useAuthorFeed, useActorLikes, useAuthorMediaFeed, useBookmarks } from "../../hooks/useProfile";
+import { useProfile, useAuthorFeed, useActorLikes, useAuthorMediaFeed, useBookmarks, useActorStarterPacks } from "../../hooks/useProfile";
 import { useAuthStore } from "../../stores/authStore";
 import { useModerationOpts } from "../../contexts/ModerationContext";
 import { ProfileHeader } from "./ProfileHeader";
 import { PostCard } from "../timeline/PostCard";
-import { FollowersList } from "./FollowersList";
-import { FollowingList } from "./FollowingList";
+import { StarterPacksList } from "./StarterPacksList";
 import { LoadingSpinner } from "../common/LoadingSpinner";
 import { getAgent } from "../../lib/agent";
 
-export type ProfileTab = "posts" | "likes" | "media" | "bookmarks" | "followers" | "following";
+export type ProfileTab = "posts" | "likes" | "media" | "bookmarks" | "starterPacks";
 
 export function ProfileView() {
   const { t } = useTranslation();
@@ -61,6 +60,11 @@ export function ProfileView() {
     refetch: refetchMedia,
   } = useAuthorMediaFeed(resolvedHandle);
 
+  const {
+    data: starterPacksData,
+    refetch: refetchStarterPacks,
+  } = useActorStarterPacks(resolvedHandle);
+
   const isOwnProfile = !handle || handle === authProfile?.handle;
 
   const {
@@ -78,11 +82,12 @@ export function ProfileView() {
       refetchFeed();
       refetchLikes();
       refetchMedia();
+      refetchStarterPacks();
       if (isOwnProfile) refetchBookmarks();
     };
     window.addEventListener("kazahana:refresh", handler);
     return () => window.removeEventListener("kazahana:refresh", handler);
-  }, [refetchProfile, refetchFeed, refetchLikes, refetchMedia, refetchBookmarks, isOwnProfile]);
+  }, [refetchProfile, refetchFeed, refetchLikes, refetchMedia, refetchStarterPacks, refetchBookmarks, isOwnProfile]);
   const moderationOpts = useModerationOpts();
 
   const items = useMemo(() => {
@@ -151,13 +156,13 @@ export function ProfileView() {
 
   return (
     <div>
-      <ProfileHeader profile={profile} isOwnProfile={isOwnProfile} onTabChange={setTab} />
+      <ProfileHeader profile={profile} isOwnProfile={isOwnProfile} />
 
       {/* Tabs */}
       <div className="flex border-b border-border-light dark:border-border-dark">
         {(isOwnProfile
-          ? (["posts", "likes", "media", "bookmarks", "following", "followers"] as const)
-          : (["posts", "likes", "media", "following", "followers"] as const)
+          ? (["posts", "likes", "media", "bookmarks", "starterPacks"] as const)
+          : (["posts", "likes", "media", "starterPacks"] as const)
         ).map((tabKey) => (
           <button
             key={tabKey}
@@ -269,8 +274,7 @@ export function ProfileView() {
           </div>
         ) : null
       )}
-      {tab === "followers" && <FollowersList handle={resolvedHandle} scrollParent={scrollParent} />}
-      {tab === "following" && <FollowingList handle={resolvedHandle} scrollParent={scrollParent} />}
+      {tab === "starterPacks" && <StarterPacksList handle={resolvedHandle} scrollParent={scrollParent} />}
     </div>
   );
 }
