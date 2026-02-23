@@ -77,15 +77,7 @@ export function SettingsView() {
 
   return (
     <div className="px-4 py-4">
-      <div className="flex items-center gap-2 mb-6">
-        <button
-          onClick={() => navigate(-1)}
-          className="text-sm text-primary hover:underline"
-        >
-          <Icon name="arrow_back" size={16} className="inline-block align-text-bottom" /> {t("thread.back")}
-        </button>
-        <h2 className="text-lg font-bold text-text-light dark:text-text-dark">{t("settings.title")}</h2>
-      </div>
+      <h2 className="text-lg font-bold text-text-light dark:text-text-dark mb-6">{t("settings.title")}</h2>
 
       {/* Theme */}
       <section className="mb-6">
