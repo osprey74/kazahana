@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useQueryClient } from "@tanstack/react-query";
 import type { PostView } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
 import { getAgent } from "../../lib/agent";
 import { useComposeStore } from "../../stores/composeStore";
@@ -20,6 +21,20 @@ export function PostActions({ post }: PostActionsProps) {
   const [reposted, setReposted] = useState(!!post.viewer?.repost);
   const [repostCount, setRepostCount] = useState(post.repostCount ?? 0);
   const [repostUri, setRepostUri] = useState(post.viewer?.repost ?? "");
+
+  const [bookmarked, setBookmarked] = useState(!!post.viewer?.bookmarked);
+  const queryClient = useQueryClient();
+
+  // Sync state when Virtuoso recycles this component for a different post
+  useEffect(() => {
+    setLiked(!!post.viewer?.like);
+    setLikeCount(post.likeCount ?? 0);
+    setLikeUri(post.viewer?.like ?? "");
+    setReposted(!!post.viewer?.repost);
+    setRepostCount(post.repostCount ?? 0);
+    setRepostUri(post.viewer?.repost ?? "");
+    setBookmarked(!!post.viewer?.bookmarked);
+  }, [post.uri]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const replyCount = post.replyCount ?? 0;
   const quoteCount = post.quoteCount ?? 0;
@@ -60,6 +75,22 @@ export function PostActions({ post }: PostActionsProps) {
         setLikeCount((c) => c + 1);
         setLikeUri(res.uri);
       }
+    } catch {
+      // revert on error
+    }
+  };
+
+  const handleBookmark = async () => {
+    const agent = getAgent();
+    try {
+      if (bookmarked) {
+        await agent.app.bsky.bookmark.deleteBookmark({ uri: post.uri });
+        setBookmarked(false);
+      } else {
+        await agent.app.bsky.bookmark.createBookmark({ uri: post.uri, cid: post.cid });
+        setBookmarked(true);
+      }
+      queryClient.invalidateQueries({ queryKey: ["bookmarks"] });
     } catch {
       // revert on error
     }
@@ -117,6 +148,13 @@ export function PostActions({ post }: PostActionsProps) {
         count={quoteCount}
         active={false}
         onClick={() => openPostList("quotes", post.uri)}
+      />
+      <ActionButton
+        icon="bookmark"
+        count={0}
+        active={bookmarked}
+        activeColor="text-amber-500"
+        onClick={handleBookmark}
       />
       {isOwnPost && <PostMenu post={post} />}
     </div>

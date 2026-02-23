@@ -3,8 +3,8 @@ import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Virtuoso } from "react-virtuoso";
 import { moderatePost } from "@atproto/api";
-import type { FeedViewPost } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
-import { useProfile, useAuthorFeed, useActorLikes, useAuthorMediaFeed } from "../../hooks/useProfile";
+import type { FeedViewPost, PostView } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
+import { useProfile, useAuthorFeed, useActorLikes, useAuthorMediaFeed, useBookmarks } from "../../hooks/useProfile";
 import { useAuthStore } from "../../stores/authStore";
 import { useModerationOpts } from "../../contexts/ModerationContext";
 import { ProfileHeader } from "./ProfileHeader";
@@ -14,7 +14,7 @@ import { FollowingList } from "./FollowingList";
 import { LoadingSpinner } from "../common/LoadingSpinner";
 import { getAgent } from "../../lib/agent";
 
-export type ProfileTab = "posts" | "likes" | "media" | "followers" | "following";
+export type ProfileTab = "posts" | "likes" | "media" | "bookmarks" | "followers" | "following";
 
 export function ProfileView() {
   const { t } = useTranslation();
@@ -27,6 +27,11 @@ export function ProfileView() {
   useLayoutEffect(() => {
     setScrollParent(document.querySelector("main"));
   }, []);
+
+  // Reset tab when navigating to a different profile
+  useEffect(() => {
+    setTab("posts");
+  }, [handle]);
 
   // If no handle param, show own profile
   const resolvedHandle = handle || authProfile?.handle || getAgent().session?.handle || "";
@@ -56,6 +61,16 @@ export function ProfileView() {
     refetch: refetchMedia,
   } = useAuthorMediaFeed(resolvedHandle);
 
+  const isOwnProfile = !handle || handle === authProfile?.handle;
+
+  const {
+    data: bookmarksData,
+    fetchNextPage: fetchNextBookmarks,
+    hasNextPage: hasNextBookmarks,
+    isFetchingNextPage: isFetchingNextBookmarks,
+    refetch: refetchBookmarks,
+  } = useBookmarks(isOwnProfile);
+
   // Listen for refresh event (tab click / F5 / header button)
   useEffect(() => {
     const handler = () => {
@@ -63,12 +78,11 @@ export function ProfileView() {
       refetchFeed();
       refetchLikes();
       refetchMedia();
+      if (isOwnProfile) refetchBookmarks();
     };
     window.addEventListener("kazahana:refresh", handler);
     return () => window.removeEventListener("kazahana:refresh", handler);
-  }, [refetchProfile, refetchFeed, refetchLikes, refetchMedia]);
-
-  const isOwnProfile = !handle || handle === authProfile?.handle;
+  }, [refetchProfile, refetchFeed, refetchLikes, refetchMedia, refetchBookmarks, isOwnProfile]);
   const moderationOpts = useModerationOpts();
 
   const items = useMemo(() => {
@@ -92,6 +106,15 @@ export function ProfileView() {
     return all.filter((item) => !moderatePost(item.post, moderationOpts).ui("contentList").filter);
   }, [mediaData, moderationOpts]);
 
+  const bookmarkItems = useMemo(() => {
+    if (!bookmarksData?.pages) return [];
+    return bookmarksData.pages.flatMap((page) =>
+      page.bookmarks
+        .filter((b) => b.item.$type === "app.bsky.feed.defs#postView")
+        .map((b) => ({ post: b.item as PostView } as FeedViewPost))
+    );
+  }, [bookmarksData]);
+
   const loadMore = useCallback(() => {
     if (hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
@@ -110,6 +133,12 @@ export function ProfileView() {
     }
   }, [hasNextMedia, isFetchingNextMedia, fetchNextMedia]);
 
+  const loadMoreBookmarks = useCallback(() => {
+    if (hasNextBookmarks && !isFetchingNextBookmarks) {
+      fetchNextBookmarks();
+    }
+  }, [hasNextBookmarks, isFetchingNextBookmarks, fetchNextBookmarks]);
+
   if (profileLoading) return <LoadingSpinner />;
 
   if (profileError || !profile) {
@@ -126,10 +155,16 @@ export function ProfileView() {
 
       {/* Tabs */}
       <div className="flex border-b border-border-light dark:border-border-dark">
-        {(["posts", "likes", "media", "following", "followers"] as const).map((tabKey) => (
+        {(isOwnProfile
+          ? (["posts", "likes", "media", "bookmarks", "following", "followers"] as const)
+          : (["posts", "likes", "media", "following", "followers"] as const)
+        ).map((tabKey) => (
           <button
             key={tabKey}
-            onClick={() => setTab(tabKey)}
+            onClick={() => {
+              setTab(tabKey);
+              if (tabKey === "bookmarks") refetchBookmarks();
+            }}
             className={`flex-1 py-2.5 text-sm font-medium transition-colors ${
               tab === tabKey
                 ? "text-primary border-b-2 border-primary"
@@ -208,6 +243,29 @@ export function ProfileView() {
         ) : !mediaItems.length ? (
           <div className="flex items-center justify-center py-12 text-gray-400">
             <p>{t("profile.noMedia")}</p>
+          </div>
+        ) : null
+      )}
+      {tab === "bookmarks" && isOwnProfile && (
+        bookmarkItems.length > 0 && scrollParent ? (
+          <Virtuoso
+            customScrollParent={scrollParent}
+            data={bookmarkItems}
+            endReached={loadMoreBookmarks}
+            overscan={200}
+            itemContent={(_index, item: FeedViewPost) => (
+              <PostCard feedItem={item} showParentContext />
+            )}
+            components={{
+              Footer: () =>
+                isFetchingNextBookmarks ? (
+                  <LoadingSpinner />
+                ) : null,
+            }}
+          />
+        ) : !bookmarkItems.length ? (
+          <div className="flex items-center justify-center py-12 text-gray-400">
+            <p>{t("profile.noBookmarks")}</p>
           </div>
         ) : null
       )}

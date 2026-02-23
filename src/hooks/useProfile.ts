@@ -110,6 +110,24 @@ export function useFollowing(handle: string) {
   });
 }
 
+export function useBookmarks(enabled: boolean) {
+  return useInfiniteQuery({
+    queryKey: ["bookmarks"],
+    queryFn: async ({ pageParam }) => {
+      const agent = getAgent();
+      const res = await agent.app.bsky.bookmark.getBookmarks({
+        limit: 50,
+        cursor: pageParam as string | undefined,
+      });
+      return res.data;
+    },
+    initialPageParam: undefined as string | undefined,
+    getNextPageParam: (lastPage) => lastPage.cursor,
+    enabled,
+    staleTime: 30_000,
+  });
+}
+
 export function useFollow() {
   const queryClient = useQueryClient();
 
