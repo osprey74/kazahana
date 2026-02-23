@@ -42,6 +42,10 @@
 - [x] Bookmarks (`createBookmark` / `deleteBookmark` / `getBookmarks`)
 - [ ] Direct messages (`chat.bsky.convo.*`)
 - [x] Report posts/users (`com.atproto.moderation.createReport`)
+- [ ] Mute/Block users (`muteActor` / `unmute`, `app.bsky.graph.block`)
+- [ ] Copy post link / share
+- [ ] Starter Packs viewing
+- [x] Post language tag auto-assignment (`langs` field from app language setting)
 
 ## i18n (Additional Languages)
 - [x] Portuguese (pt)
@@ -59,7 +63,6 @@
 - [x] Rate limit handling (429 response backoff with `ratelimit-reset` header)
 - [x] Follow/unfollow functionality verification
 - [x] Image lightbox swipe gestures (touch/trackpad)
-- [ ] Settings: display current API rate limit consumption
 - [x] Notification tab: clickable user icon/name to navigate to profile
 - [x] Thread detail view: show "liked by" and "reposted by" lists
 - [x] Replace reply/RT/like text icons with icon font

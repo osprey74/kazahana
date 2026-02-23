@@ -107,7 +107,7 @@ function ThreadPostItem({
   const navigate = useNavigate();
   const moderationOpts = useModerationOpts();
   const showVia = useSettingsStore((s) => s.showVia);
-  const record = post.record as { text?: string; facets?: unknown[]; createdAt?: string; $via?: string };
+  const record = post.record as { text?: string; facets?: unknown[]; createdAt?: string; $via?: string; langs?: string[] };
   const images = getImages(post);
   const videoEmbed = getVideoEmbed(post);
   const externalEmbed = getExternalEmbed(post);
@@ -237,6 +237,9 @@ function ThreadPostItem({
           <div className="flex items-center justify-between mt-2">
             <PostActions post={post} />
             <div className="flex items-center gap-2">
+              {record.langs && record.langs.length > 0 && (
+                <span className="text-[10px] text-gray-400">langs: {record.langs.join(", ")}</span>
+              )}
               {showVia && record.$via && (
                 <span className="text-[10px] text-gray-400">via {record.$via}</span>
               )}

@@ -30,7 +30,7 @@ export function PostCard({ feedItem, showParentContext }: PostCardProps) {
   const showVia = useSettingsStore((s) => s.showVia);
   const { post, reason } = feedItem;
   const author = post.author;
-  const record = post.record as { text?: string; facets?: unknown[]; createdAt?: string; reply?: { parent?: { uri: string }; root?: { uri: string } }; $via?: string };
+  const record = post.record as { text?: string; facets?: unknown[]; createdAt?: string; reply?: { parent?: { uri: string }; root?: { uri: string } }; $via?: string; langs?: string[] };
 
   // Moderation
   const modDecision = moderationOpts ? moderatePost(post, moderationOpts) : null;
@@ -227,6 +227,9 @@ export function PostCard({ feedItem, showParentContext }: PostCardProps) {
           <div className="flex items-center justify-between mt-2">
             <PostActions post={post} />
             <div className="flex items-center gap-2">
+              {record.langs && record.langs.length > 0 && (
+                <span className="text-[10px] text-gray-400">langs: {record.langs.join(", ")}</span>
+              )}
               {showVia && record.$via && (
                 <span className="text-[10px] text-gray-400">via {record.$via}</span>
               )}
