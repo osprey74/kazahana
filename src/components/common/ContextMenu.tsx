@@ -197,8 +197,9 @@ export function ContextMenu() {
       const res = await tauriFetch(target.imageSrc);
       const blob = await res.blob();
       const ext = getImageExtension(blob.type);
+      const fileName = getImageFilename(target.imageSrc, ext);
       const filePath = await save({
-        defaultPath: `image.${ext}`,
+        defaultPath: fileName,
         filters: [{ name: "Image", extensions: [ext] }],
       });
       if (!filePath) return;
@@ -267,6 +268,21 @@ export function ContextMenu() {
 interface MenuItem {
   label: string;
   action: () => void;
+}
+
+function getImageFilename(url: string, ext: string): string {
+  try {
+    const pathname = new URL(url).pathname;
+    const lastSegment = pathname.split("/").pop() || "";
+    // Bluesky CDN URLs: "bafkreixxx@jpeg" → "bafkreixxx"
+    const baseName = lastSegment.split("@")[0];
+    if (baseName && baseName !== "image") {
+      return `${baseName}.${ext}`;
+    }
+  } catch {
+    // fall through
+  }
+  return `image.${ext}`;
 }
 
 function getImageExtension(mimeType: string): string {

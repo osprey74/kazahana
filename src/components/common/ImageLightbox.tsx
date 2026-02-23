@@ -129,7 +129,7 @@ export function ImageLightbox() {
         <img
           src={current.fullsize}
           alt={current.alt}
-          className="max-w-[90vw] max-h-[80vh] object-contain select-none pointer-events-none"
+          className="max-w-[90vw] max-h-[80vh] object-contain select-none"
           draggable={false}
         />
         {current.alt && (
