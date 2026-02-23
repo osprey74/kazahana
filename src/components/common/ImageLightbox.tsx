@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, useRef, useState } from "react";
 import { useLightboxStore } from "../../stores/lightboxStore";
 import { Icon } from "./Icon";
 
@@ -41,6 +41,50 @@ export function ImageLightbox() {
     };
   }, [isOpen]);
 
+  // Swipe gesture state
+  const [dragX, setDragX] = useState(0);
+  const dragRef = useRef({ startX: 0, startY: 0, dragging: false, swiped: false });
+
+  const handlePointerDown = useCallback((e: React.PointerEvent) => {
+    dragRef.current = { startX: e.clientX, startY: e.clientY, dragging: true, swiped: false };
+    setDragX(0);
+    (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
+  }, []);
+
+  const handlePointerMove = useCallback((e: React.PointerEvent) => {
+    if (!dragRef.current.dragging) return;
+    const dx = e.clientX - dragRef.current.startX;
+    const dy = e.clientY - dragRef.current.startY;
+    // Only track horizontal drag if it's more horizontal than vertical
+    if (!dragRef.current.swiped && Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 5) {
+      dragRef.current.swiped = true;
+    }
+    if (dragRef.current.swiped) {
+      setDragX(dx);
+    }
+  }, []);
+
+  const SWIPE_THRESHOLD = 50;
+
+  const handlePointerUp = useCallback(() => {
+    if (!dragRef.current.dragging) return;
+    dragRef.current.dragging = false;
+    if (dragRef.current.swiped) {
+      if (dragX > SWIPE_THRESHOLD) {
+        prev();
+      } else if (dragX < -SWIPE_THRESHOLD) {
+        next();
+      }
+    }
+    setDragX(0);
+  }, [dragX, prev, next]);
+
+  // Reset drag state on image change
+  useEffect(() => {
+    setDragX(0);
+    dragRef.current = { startX: 0, startY: 0, dragging: false, swiped: false };
+  }, [currentIndex]);
+
   if (!isOpen || images.length === 0) return null;
 
   const current = images[currentIndex];
@@ -74,13 +118,18 @@ export function ImageLightbox() {
 
       {/* Image + Alt text */}
       <div
-        className="flex flex-col items-center max-w-[90vw] max-h-[90vh]"
+        className="flex flex-col items-center max-w-[90vw] max-h-[90vh] touch-none"
         onClick={(e) => e.stopPropagation()}
+        onPointerDown={hasMultiple ? handlePointerDown : undefined}
+        onPointerMove={hasMultiple ? handlePointerMove : undefined}
+        onPointerUp={hasMultiple ? handlePointerUp : undefined}
+        onPointerCancel={hasMultiple ? handlePointerUp : undefined}
+        style={hasMultiple && dragX !== 0 ? { transform: `translateX(${dragX}px)`, transition: 'none' } : { transition: 'transform 0.2s ease-out' }}
       >
         <img
           src={current.fullsize}
           alt={current.alt}
-          className="max-w-[90vw] max-h-[80vh] object-contain select-none"
+          className="max-w-[90vw] max-h-[80vh] object-contain select-none pointer-events-none"
           draggable={false}
         />
         {current.alt && (

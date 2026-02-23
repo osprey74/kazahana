@@ -58,7 +58,7 @@
 - [x] Session auto-refresh robustness (401 error retry)
 - [x] Rate limit handling (429 response backoff with `ratelimit-reset` header)
 - [x] Follow/unfollow functionality verification
-- [ ] Image lightbox swipe gestures (touch/trackpad)
+- [x] Image lightbox swipe gestures (touch/trackpad)
 - [ ] Settings: display current API rate limit consumption
 - [x] Notification tab: clickable user icon/name to navigate to profile
 - [x] Thread detail view: show "liked by" and "reposted by" lists
@@ -70,7 +70,6 @@
 - [x] Profile: add "Lists" tab (リストフィードはフィードセレクターで閲覧可能のため完了)
 - [x] Fix dark mode text color (black text unreadable, change to white/light)
 - [x] Notification tab: show source post for like/reply/repost notifications
-- [ ] Thread composition: draft-based thread creation UI (↓+ button to add drafts, navigable draft list with collapsed prev/next posts, click to edit any draft, submit all at once on "投稿" press, sequential API submission for reply chain)
 - [x] Compose: link card generation from URL in post text (manual trigger via "リンクカード生成" button, OGP fetch via tauri-plugin-http)
 - [x] Search history: persist up to 200 entries across app restarts (localStorage/Zustand persist), individual delete and clear all buttons
 - [x] Official website via GitHub Pages
