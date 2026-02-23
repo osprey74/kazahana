@@ -295,7 +295,7 @@ export function SettingsView() {
 
       {/* About */}
       <section className="mb-6 text-sm text-gray-500 dark:text-gray-400">
-        <p className="font-medium text-text-light dark:text-text-dark">kazahana {t("settings.version", { version: "0.1.0" })}</p>
+        <p className="font-medium text-text-light dark:text-text-dark">kazahana {t("settings.version", { version: __APP_VERSION__ })}</p>
         <div className="mt-2 flex gap-3">
           <button
             onClick={() => navigate("/settings/license")}
