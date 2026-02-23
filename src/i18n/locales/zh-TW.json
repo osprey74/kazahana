@@ -41,7 +41,9 @@
     "unhidePost": "取消隱藏",
     "muteThread": "靜音此話題通知",
     "copyLink": "複製連結",
-    "unmuteThread": "取消靜音此話題通知"
+    "unmuteThread": "取消靜音此話題通知",
+    "muteUser": "靜音此使用者",
+    "unmuteUser": "取消靜音此使用者"
   },
   "notification": {
     "liked": "對你的貼文按讚",
@@ -155,7 +157,14 @@
     "loadFailed": "無法載入個人檔案",
     "followsYou": "追蹤了你",
     "notFollowsYou": "未追蹤你",
-    "logout": "登出"
+    "logout": "登出",
+    "mute": "靜音",
+    "unmute": "取消靜音",
+    "block": "封鎖",
+    "unblock": "取消封鎖",
+    "mutedUser": "你已靜音此使用者",
+    "blockingUser": "你已封鎖此使用者",
+    "blockedByUser": "此使用者已封鎖你"
   },
   "search": {
     "placeholder": "搜尋使用者或貼文...",
@@ -212,7 +221,11 @@
     "follow": "追蹤 {{name}}？",
     "follow_btn": "追蹤",
     "unfollow": "取消追蹤 {{name}}？",
-    "unfollow_btn": "取消追蹤"
+    "unfollow_btn": "取消追蹤",
+    "block": "封鎖 {{name}}？互相追蹤將被移除。",
+    "block_btn": "封鎖",
+    "unblock": "取消封鎖 {{name}}？",
+    "unblock_btn": "取消封鎖"
   },
   "report": {
     "reportPost": "檢舉此貼文",

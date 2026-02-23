@@ -41,7 +41,9 @@
     "unhidePost": "숨기기 해제",
     "muteThread": "스레드 알림 음소거",
     "copyLink": "링크 복사",
-    "unmuteThread": "스레드 알림 음소거 해제"
+    "unmuteThread": "스레드 알림 음소거 해제",
+    "muteUser": "이 사용자 뮤트",
+    "unmuteUser": "이 사용자 뮤트 해제"
   },
   "notification": {
     "liked": "님이 게시물을 좋아합니다",
@@ -155,7 +157,14 @@
     "loadFailed": "프로필을 불러오지 못했습니다",
     "followsYou": "나를 팔로우 중",
     "notFollowsYou": "나를 팔로우하지 않음",
-    "logout": "로그아웃"
+    "logout": "로그아웃",
+    "mute": "뮤트",
+    "unmute": "뮤트 해제",
+    "block": "차단",
+    "unblock": "차단 해제",
+    "mutedUser": "이 사용자를 뮤트했습니다",
+    "blockingUser": "이 사용자를 차단했습니다",
+    "blockedByUser": "이 사용자가 당신을 차단했습니다"
   },
   "search": {
     "placeholder": "사용자 또는 게시물 검색…",
@@ -212,7 +221,11 @@
     "follow": "{{name}}님을 팔로우하시겠습니까?",
     "follow_btn": "팔로우",
     "unfollow": "{{name}}님의 팔로우를 해제하시겠습니까?",
-    "unfollow_btn": "팔로우 해제"
+    "unfollow_btn": "팔로우 해제",
+    "block": "{{name}}을(를) 차단하시겠습니까? 상호 팔로우가 해제됩니다.",
+    "block_btn": "차단",
+    "unblock": "{{name}}의 차단을 해제하시겠습니까?",
+    "unblock_btn": "차단 해제"
   },
   "report": {
     "reportPost": "이 게시물 신고",

@@ -41,7 +41,9 @@
     "unhidePost": "Mostrar",
     "muteThread": "Silenciar notificações da conversa",
     "copyLink": "Copiar link",
-    "unmuteThread": "Ativar notificações da conversa"
+    "unmuteThread": "Ativar notificações da conversa",
+    "muteUser": "Silenciar este usuário",
+    "unmuteUser": "Deixar de silenciar este usuário"
   },
   "notification": {
     "liked": "curtiu sua publicação",
@@ -155,7 +157,14 @@
     "loadFailed": "Falha ao carregar perfil",
     "followsYou": "Segue você",
     "notFollowsYou": "Não segue você",
-    "logout": "Sair"
+    "logout": "Sair",
+    "mute": "Silenciar",
+    "unmute": "Deixar de silenciar",
+    "block": "Bloquear",
+    "unblock": "Desbloquear",
+    "mutedUser": "Você silenciou este usuário",
+    "blockingUser": "Você bloqueou este usuário",
+    "blockedByUser": "Este usuário bloqueou você"
   },
   "search": {
     "placeholder": "Buscar usuários ou publicações...",
@@ -212,7 +221,11 @@
     "follow": "Seguir {{name}}?",
     "follow_btn": "Seguir",
     "unfollow": "Deixar de seguir {{name}}?",
-    "unfollow_btn": "Deixar de seguir"
+    "unfollow_btn": "Deixar de seguir",
+    "block": "Bloquear {{name}}? Seguimentos mútuos serão removidos.",
+    "block_btn": "Bloquear",
+    "unblock": "Desbloquear {{name}}?",
+    "unblock_btn": "Desbloquear"
   },
   "report": {
     "reportPost": "Denunciar esta publicação",

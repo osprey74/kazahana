@@ -41,7 +41,9 @@
     "unhidePost": "Unhide",
     "muteThread": "Mute thread notifications",
     "copyLink": "Copy link",
-    "unmuteThread": "Unmute thread notifications"
+    "unmuteThread": "Unmute thread notifications",
+    "muteUser": "Mute this user",
+    "unmuteUser": "Unmute this user"
   },
   "notification": {
     "liked": "liked your post",
@@ -156,7 +158,14 @@
     "loadFailed": "Failed to load profile",
     "followsYou": "Follows you",
     "notFollowsYou": "Not following you",
-    "logout": "Logout"
+    "logout": "Logout",
+    "mute": "Mute",
+    "unmute": "Unmute",
+    "block": "Block",
+    "unblock": "Unblock",
+    "mutedUser": "You have muted this user",
+    "blockingUser": "You have blocked this user",
+    "blockedByUser": "This user has blocked you"
   },
   "search": {
     "placeholder": "Search users or posts...",
@@ -214,7 +223,11 @@
     "follow": "Follow {{name}}?",
     "follow_btn": "Follow",
     "unfollow": "Unfollow {{name}}?",
-    "unfollow_btn": "Unfollow"
+    "unfollow_btn": "Unfollow",
+    "block": "Block {{name}}? Mutual follows will be removed.",
+    "block_btn": "Block",
+    "unblock": "Unblock {{name}}?",
+    "unblock_btn": "Unblock"
   },
   "report": {
     "reportPost": "Report this post",

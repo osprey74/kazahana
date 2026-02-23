@@ -41,7 +41,9 @@
     "unhidePost": "取消隐藏",
     "muteThread": "静音此话题通知",
     "copyLink": "复制链接",
-    "unmuteThread": "取消静音此话题通知"
+    "unmuteThread": "取消静音此话题通知",
+    "muteUser": "静音此用户",
+    "unmuteUser": "取消静音此用户"
   },
   "notification": {
     "liked": "赞了你的帖子",
@@ -155,7 +157,14 @@
     "loadFailed": "个人资料加载失败",
     "followsYou": "关注了你",
     "notFollowsYou": "未关注你",
-    "logout": "退出登录"
+    "logout": "退出登录",
+    "mute": "静音",
+    "unmute": "取消静音",
+    "block": "屏蔽",
+    "unblock": "取消屏蔽",
+    "mutedUser": "你已静音此用户",
+    "blockingUser": "你已屏蔽此用户",
+    "blockedByUser": "此用户已屏蔽你"
   },
   "search": {
     "placeholder": "搜索用户或帖子…",
@@ -212,7 +221,11 @@
     "follow": "关注 {{name}}？",
     "follow_btn": "关注",
     "unfollow": "取消关注 {{name}}？",
-    "unfollow_btn": "取消关注"
+    "unfollow_btn": "取消关注",
+    "block": "屏蔽 {{name}}？互相关注将被移除。",
+    "block_btn": "屏蔽",
+    "unblock": "取消屏蔽 {{name}}？",
+    "unblock_btn": "取消屏蔽"
   },
   "report": {
     "reportPost": "举报此帖子",

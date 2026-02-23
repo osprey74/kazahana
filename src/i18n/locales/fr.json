@@ -41,7 +41,9 @@
     "unhidePost": "Démasquer",
     "muteThread": "Couper les notifications du fil",
     "copyLink": "Copier le lien",
-    "unmuteThread": "Réactiver les notifications du fil"
+    "unmuteThread": "Réactiver les notifications du fil",
+    "muteUser": "Masquer cet utilisateur",
+    "unmuteUser": "Ne plus masquer cet utilisateur"
   },
   "notification": {
     "liked": "a aimé votre publication",
@@ -155,7 +157,14 @@
     "loadFailed": "Échec du chargement du profil",
     "followsYou": "Vous suit",
     "notFollowsYou": "Ne vous suit pas",
-    "logout": "Se déconnecter"
+    "logout": "Se déconnecter",
+    "mute": "Masquer",
+    "unmute": "Ne plus masquer",
+    "block": "Bloquer",
+    "unblock": "Débloquer",
+    "mutedUser": "Vous avez masqué cet utilisateur",
+    "blockingUser": "Vous avez bloqué cet utilisateur",
+    "blockedByUser": "Cet utilisateur vous a bloqué"
   },
   "search": {
     "placeholder": "Rechercher des utilisateurs ou des publications…",
@@ -212,7 +221,11 @@
     "follow": "Suivre {{name}} ?",
     "follow_btn": "Suivre",
     "unfollow": "Ne plus suivre {{name}} ?",
-    "unfollow_btn": "Ne plus suivre"
+    "unfollow_btn": "Ne plus suivre",
+    "block": "Bloquer {{name}} ? Les abonnements mutuels seront supprimés.",
+    "block_btn": "Bloquer",
+    "unblock": "Débloquer {{name}} ?",
+    "unblock_btn": "Débloquer"
   },
   "report": {
     "reportPost": "Signaler cette publication",

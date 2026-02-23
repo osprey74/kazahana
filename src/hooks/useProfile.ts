@@ -162,6 +162,72 @@ export function useStarterPack(uri: string) {
   });
 }
 
+export function useMuteActor() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ did }: { did: string }) => {
+      const agent = getAgent();
+      await agent.mute(did);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["profile"] });
+    },
+  });
+}
+
+export function useUnmuteActor() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ did }: { did: string }) => {
+      const agent = getAgent();
+      await agent.unmute(did);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["profile"] });
+    },
+  });
+}
+
+export function useBlockActor() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ did }: { did: string }) => {
+      const agent = getAgent();
+      const res = await agent.app.bsky.graph.block.create(
+        { repo: agent.session!.did },
+        { subject: did, createdAt: new Date().toISOString() },
+      );
+      return res;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["profile"] });
+      queryClient.invalidateQueries({ queryKey: ["following"] });
+      queryClient.invalidateQueries({ queryKey: ["followers"] });
+    },
+  });
+}
+
+export function useUnblockActor() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ blockUri }: { blockUri: string }) => {
+      const agent = getAgent();
+      const rkey = blockUri.split("/").pop()!;
+      await agent.app.bsky.graph.block.delete({
+        repo: agent.session!.did,
+        rkey,
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["profile"] });
+    },
+  });
+}
+
 export function useFollow() {
   const queryClient = useQueryClient();
 

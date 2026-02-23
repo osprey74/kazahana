@@ -41,7 +41,9 @@
     "unhidePost": "非表示を解除",
     "muteThread": "スレッド通知をミュート",
     "copyLink": "リンクをコピー",
-    "unmuteThread": "スレッド通知のミュートを解除"
+    "unmuteThread": "スレッド通知のミュートを解除",
+    "muteUser": "このユーザーをミュート",
+    "unmuteUser": "このユーザーのミュートを解除"
   },
   "notification": {
     "liked": "がいいねしました",
@@ -156,7 +158,14 @@
     "loadFailed": "プロフィールの読み込みに失敗しました",
     "followsYou": "あなたをフォローしています",
     "notFollowsYou": "あなたをフォローしていません",
-    "logout": "ログアウト"
+    "logout": "ログアウト",
+    "mute": "ミュートする",
+    "unmute": "ミュート解除",
+    "block": "ブロックする",
+    "unblock": "ブロック解除",
+    "mutedUser": "このユーザーをミュートしています",
+    "blockingUser": "このユーザーをブロックしています",
+    "blockedByUser": "このユーザーにブロックされています"
   },
   "search": {
     "placeholder": "ユーザーや投稿を検索...",
@@ -214,7 +223,11 @@
     "follow": "{{name}} をフォローしますか？",
     "follow_btn": "フォローする",
     "unfollow": "{{name}} のフォローを解除しますか？",
-    "unfollow_btn": "フォロー解除"
+    "unfollow_btn": "フォロー解除",
+    "block": "{{name}} をブロックしますか？相互フォローが解除されます。",
+    "block_btn": "ブロックする",
+    "unblock": "{{name}} のブロックを解除しますか？",
+    "unblock_btn": "ブロック解除"
   },
   "report": {
     "reportPost": "この投稿を通報",

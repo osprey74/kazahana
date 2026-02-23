@@ -41,7 +41,9 @@
     "unhidePost": "Tampilkan",
     "muteThread": "Bisukan notifikasi utas",
     "copyLink": "Salin tautan",
-    "unmuteThread": "Bunyikan notifikasi utas"
+    "unmuteThread": "Bunyikan notifikasi utas",
+    "muteUser": "Bisukan pengguna ini",
+    "unmuteUser": "Batalkan bisukan pengguna ini"
   },
   "notification": {
     "liked": "menyukai postingan Anda",
@@ -155,7 +157,14 @@
     "loadFailed": "Gagal memuat profil",
     "followsYou": "Mengikuti Anda",
     "notFollowsYou": "Tidak mengikuti Anda",
-    "logout": "Keluar"
+    "logout": "Keluar",
+    "mute": "Bisukan",
+    "unmute": "Batalkan bisukan",
+    "block": "Blokir",
+    "unblock": "Batalkan blokir",
+    "mutedUser": "Anda telah membisukan pengguna ini",
+    "blockingUser": "Anda telah memblokir pengguna ini",
+    "blockedByUser": "Pengguna ini telah memblokir Anda"
   },
   "search": {
     "placeholder": "Cari pengguna atau postingan...",
@@ -212,7 +221,11 @@
     "follow": "Ikuti {{name}}?",
     "follow_btn": "Ikuti",
     "unfollow": "Berhenti mengikuti {{name}}?",
-    "unfollow_btn": "Berhenti mengikuti"
+    "unfollow_btn": "Berhenti mengikuti",
+    "block": "Blokir {{name}}? Saling mengikuti akan dihapus.",
+    "block_btn": "Blokir",
+    "unblock": "Batalkan blokir {{name}}?",
+    "unblock_btn": "Batalkan blokir"
   },
   "report": {
     "reportPost": "Laporkan postingan ini",

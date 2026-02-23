@@ -41,7 +41,9 @@
     "unhidePost": "Mostrar",
     "muteThread": "Silenciar notificaciones del hilo",
     "copyLink": "Copiar enlace",
-    "unmuteThread": "Activar notificaciones del hilo"
+    "unmuteThread": "Activar notificaciones del hilo",
+    "muteUser": "Silenciar a este usuario",
+    "unmuteUser": "Dejar de silenciar a este usuario"
   },
   "notification": {
     "liked": "le dio me gusta a tu publicación",
@@ -155,7 +157,14 @@
     "loadFailed": "Error al cargar el perfil",
     "followsYou": "Te sigue",
     "notFollowsYou": "No te sigue",
-    "logout": "Cerrar sesión"
+    "logout": "Cerrar sesión",
+    "mute": "Silenciar",
+    "unmute": "Dejar de silenciar",
+    "block": "Bloquear",
+    "unblock": "Desbloquear",
+    "mutedUser": "Has silenciado a este usuario",
+    "blockingUser": "Has bloqueado a este usuario",
+    "blockedByUser": "Este usuario te ha bloqueado"
   },
   "search": {
     "placeholder": "Buscar usuarios o publicaciones...",
@@ -212,7 +221,11 @@
     "follow": "¿Seguir a {{name}}?",
     "follow_btn": "Seguir",
     "unfollow": "¿Dejar de seguir a {{name}}?",
-    "unfollow_btn": "Dejar de seguir"
+    "unfollow_btn": "Dejar de seguir",
+    "block": "¿Bloquear a {{name}}? Se eliminarán los seguimientos mutuos.",
+    "block_btn": "Bloquear",
+    "unblock": "¿Desbloquear a {{name}}?",
+    "unblock_btn": "Desbloquear"
   },
   "report": {
     "reportPost": "Reportar esta publicación",

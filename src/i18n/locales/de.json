@@ -41,7 +41,9 @@
     "unhidePost": "Einblenden",
     "muteThread": "Thread-Benachrichtigungen stummschalten",
     "copyLink": "Link kopieren",
-    "unmuteThread": "Thread-Benachrichtigungen aktivieren"
+    "unmuteThread": "Thread-Benachrichtigungen aktivieren",
+    "muteUser": "Benutzer stummschalten",
+    "unmuteUser": "Stummschaltung des Benutzers aufheben"
   },
   "notification": {
     "liked": "gefällt dein Beitrag",
@@ -155,7 +157,14 @@
     "loadFailed": "Profil konnte nicht geladen werden",
     "followsYou": "Folgt dir",
     "notFollowsYou": "Folgt dir nicht",
-    "logout": "Abmelden"
+    "logout": "Abmelden",
+    "mute": "Stummschalten",
+    "unmute": "Stummschaltung aufheben",
+    "block": "Blockieren",
+    "unblock": "Blockierung aufheben",
+    "mutedUser": "Du hast diesen Benutzer stummgeschaltet",
+    "blockingUser": "Du hast diesen Benutzer blockiert",
+    "blockedByUser": "Dieser Benutzer hat dich blockiert"
   },
   "search": {
     "placeholder": "Nutzer oder Beiträge suchen...",
@@ -212,7 +221,11 @@
     "follow": "{{name}} folgen?",
     "follow_btn": "Folgen",
     "unfollow": "{{name}} entfolgen?",
-    "unfollow_btn": "Entfolgen"
+    "unfollow_btn": "Entfolgen",
+    "block": "{{name}} blockieren? Gegenseitige Follows werden entfernt.",
+    "block_btn": "Blockieren",
+    "unblock": "{{name}} entblockieren?",
+    "unblock_btn": "Entblockieren"
   },
   "report": {
     "reportPost": "Diesen Beitrag melden",

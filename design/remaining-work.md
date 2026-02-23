@@ -42,7 +42,7 @@
 - [x] Bookmarks (`createBookmark` / `deleteBookmark` / `getBookmarks`)
 - [ ] Direct messages (`chat.bsky.convo.*`)
 - [x] Report posts/users (`com.atproto.moderation.createReport`)
-- [ ] Mute/Block users (`muteActor` / `unmute`, `app.bsky.graph.block`)
+- [x] Mute/Block users (`muteActor` / `unmute`, `app.bsky.graph.block`)
 - [x] Copy post link / share
 - [x] Starter Packs viewing (profile tab + detail view)
 - [x] Post language tag auto-assignment (`langs` field from app language setting)

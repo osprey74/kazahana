@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { moderateProfile } from "@atproto/api";
 import type { ProfileViewDetailed } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
-import { useFollow, useUnfollow } from "../../hooks/useProfile";
+import { useFollow, useUnfollow, useMuteActor, useUnmuteActor, useBlockActor, useUnblockActor } from "../../hooks/useProfile";
 import { useAuthStore } from "../../stores/authStore";
 import { useReportStore } from "../../stores/reportStore";
 import { Icon } from "../common/Icon";
@@ -22,17 +22,29 @@ export function ProfileHeader({ profile, isOwnProfile }: ProfileHeaderProps) {
   const logout = useAuthStore((s) => s.logout);
   const follow = useFollow();
   const unfollow = useUnfollow();
+  const muteActor = useMuteActor();
+  const unmuteActor = useUnmuteActor();
+  const blockActor = useBlockActor();
+  const unblockActor = useUnblockActor();
   const moderationOpts = useModerationOpts();
 
   const [isFollowing, setIsFollowing] = useState(!!profile.viewer?.following);
   const [followUri, setFollowUri] = useState(profile.viewer?.following ?? "");
+  const [isMuted, setIsMuted] = useState(!!profile.viewer?.muted);
+  const [isBlocking, setIsBlocking] = useState(!!profile.viewer?.blocking);
+  const [blockUri, setBlockUri] = useState(profile.viewer?.blocking ?? "");
   const [showConfirm, setShowConfirm] = useState(false);
+  const [showBlockConfirm, setShowBlockConfirm] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   // Sync local state when profile data is refetched
   useEffect(() => {
     setIsFollowing(!!profile.viewer?.following);
     setFollowUri(profile.viewer?.following ?? "");
-  }, [profile.viewer?.following]);
+    setIsMuted(!!profile.viewer?.muted);
+    setIsBlocking(!!profile.viewer?.blocking);
+    setBlockUri(profile.viewer?.blocking ?? "");
+  }, [profile.viewer?.following, profile.viewer?.muted, profile.viewer?.blocking]);
 
   // Moderation for avatar & banner
   const modDecision = moderationOpts ? moderateProfile(profile, moderationOpts) : null;
@@ -55,6 +67,40 @@ export function ProfileHeader({ profile, isOwnProfile }: ProfileHeaderProps) {
       const res = await follow.mutateAsync({ did: profile.did });
       setIsFollowing(true);
       setFollowUri(res.uri);
+    }
+  };
+
+  const handleToggleMute = async () => {
+    setMenuOpen(false);
+    if (isMuted) {
+      await unmuteActor.mutateAsync({ did: profile.did });
+      setIsMuted(false);
+    } else {
+      await muteActor.mutateAsync({ did: profile.did });
+      setIsMuted(true);
+    }
+  };
+
+  const handleBlockClick = () => {
+    setMenuOpen(false);
+    setShowBlockConfirm(true);
+  };
+
+  const handleConfirmBlock = async () => {
+    setShowBlockConfirm(false);
+    if (isBlocking) {
+      if (blockUri) {
+        await unblockActor.mutateAsync({ blockUri });
+      }
+      setIsBlocking(false);
+      setBlockUri("");
+    } else {
+      const res = await blockActor.mutateAsync({ did: profile.did });
+      setIsBlocking(true);
+      setBlockUri(res.uri);
+      // Block removes mutual follows
+      setIsFollowing(false);
+      setFollowUri("");
     }
   };
 
@@ -89,24 +135,59 @@ export function ProfileHeader({ profile, isOwnProfile }: ProfileHeaderProps) {
           )}
           {!isOwnProfile && (
             <div className="flex items-center gap-2">
-              <button
-                onClick={handleFollowClick}
-                disabled={isPending}
-                className={`px-4 py-1.5 text-sm font-medium rounded-btn transition-colors disabled:opacity-50 ${
-                  isFollowing
-                    ? "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-red-100 hover:text-red-600"
-                    : "bg-primary text-white hover:bg-blue-600"
-                }`}
-              >
-                {isFollowing ? t("profile.following") : t("profile.follow")}
-              </button>
-              <button
-                onClick={() => useReportStore.getState().open({ type: "user", did: profile.did })}
-                className="w-8 h-8 flex items-center justify-center rounded-full bg-red-500/60 text-white hover:bg-red-500/80 transition-colors"
-                title={t("report.reportUser")}
-              >
-                <Icon name="flag" size={16} />
-              </button>
+              {!isBlocking && (
+                <button
+                  onClick={handleFollowClick}
+                  disabled={isPending}
+                  className={`px-4 py-1.5 text-sm font-medium rounded-btn transition-colors disabled:opacity-50 ${
+                    isFollowing
+                      ? "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-red-100 hover:text-red-600"
+                      : "bg-primary text-white hover:bg-blue-600"
+                  }`}
+                >
+                  {isFollowing ? t("profile.following") : t("profile.follow")}
+                </button>
+              )}
+              <div className="relative">
+                <button
+                  onClick={() => setMenuOpen((v) => !v)}
+                  className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                >
+                  <Icon name="more_horiz" size={18} />
+                </button>
+                {menuOpen && (
+                  <>
+                    <div className="fixed inset-0 z-40" onClick={() => setMenuOpen(false)} />
+                    <div className="absolute right-0 top-10 z-50 bg-white dark:bg-bg-dark border border-border-light dark:border-border-dark rounded-lg shadow-lg py-1 min-w-[180px] whitespace-nowrap">
+                      <button
+                        onClick={handleToggleMute}
+                        className="w-full flex items-center gap-2 px-3 py-2 text-sm text-text-light dark:text-text-dark hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                      >
+                        <Icon name={isMuted ? "volume_up" : "volume_off"} size={16} />
+                        <span>{isMuted ? t("profile.unmute") : t("profile.mute")}</span>
+                      </button>
+                      <button
+                        onClick={handleBlockClick}
+                        className={`w-full flex items-center gap-2 px-3 py-2 text-sm transition-colors ${
+                          isBlocking
+                            ? "text-text-light dark:text-text-dark hover:bg-gray-100 dark:hover:bg-gray-800"
+                            : "text-red-500 hover:bg-gray-100 dark:hover:bg-gray-800"
+                        }`}
+                      >
+                        <Icon name={isBlocking ? "person_add" : "block"} size={16} />
+                        <span>{isBlocking ? t("profile.unblock") : t("profile.block")}</span>
+                      </button>
+                      <button
+                        onClick={() => { setMenuOpen(false); useReportStore.getState().open({ type: "user", did: profile.did }); }}
+                        className="w-full flex items-center gap-2 px-3 py-2 text-sm text-text-light dark:text-text-dark hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                      >
+                        <Icon name="flag" size={16} />
+                        <span>{t("report.reportUser")}</span>
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
             </div>
           )}
           {isOwnProfile && (
@@ -157,6 +238,30 @@ export function ProfileHeader({ profile, isOwnProfile }: ProfileHeaderProps) {
         </div>
       </div>
 
+      {/* Muted / Blocked status banner */}
+      {!isOwnProfile && (isMuted || isBlocking || profile.viewer?.blockedBy) && (
+        <div className="px-4 py-2 border-t border-border-light dark:border-border-dark">
+          {profile.viewer?.blockedBy && (
+            <p className="text-sm text-red-500 flex items-center gap-1">
+              <Icon name="block" size={16} />
+              {t("profile.blockedByUser")}
+            </p>
+          )}
+          {isBlocking && (
+            <p className="text-sm text-red-500 flex items-center gap-1">
+              <Icon name="block" size={16} />
+              {t("profile.blockingUser")}
+            </p>
+          )}
+          {isMuted && !isBlocking && (
+            <p className="text-sm text-gray-500 flex items-center gap-1">
+              <Icon name="volume_off" size={16} />
+              {t("profile.mutedUser")}
+            </p>
+          )}
+        </div>
+      )}
+
       {showConfirm && (
         <ConfirmDialog
           message={
@@ -168,6 +273,20 @@ export function ProfileHeader({ profile, isOwnProfile }: ProfileHeaderProps) {
           danger={isFollowing}
           onConfirm={handleConfirmFollow}
           onCancel={() => setShowConfirm(false)}
+        />
+      )}
+
+      {showBlockConfirm && (
+        <ConfirmDialog
+          message={
+            isBlocking
+              ? t("confirm.unblock", { name: profile.displayName || profile.handle })
+              : t("confirm.block", { name: profile.displayName || profile.handle })
+          }
+          confirmLabel={isBlocking ? t("confirm.unblock_btn") : t("confirm.block_btn")}
+          danger={!isBlocking}
+          onConfirm={handleConfirmBlock}
+          onCancel={() => setShowBlockConfirm(false)}
         />
       )}
     </div>

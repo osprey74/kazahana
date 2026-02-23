@@ -7,6 +7,7 @@ import { useComposeStore } from "../../stores/composeStore";
 import { usePostListStore } from "../../stores/postListStore";
 import { useReportStore } from "../../stores/reportStore";
 import { useDeletePost } from "../../hooks/usePost";
+import { useMuteActor, useUnmuteActor } from "../../hooks/useProfile";
 import { Icon } from "../common/Icon";
 
 interface PostActionsProps {
@@ -167,6 +168,13 @@ function PostMenu({ post, isOwnPost }: { post: PostView; isOwnPost: boolean }) {
   const [confirming, setConfirming] = useState(false);
   const [threadMuted, setThreadMuted] = useState(!!post.viewer?.threadMuted);
   const deletePost = useDeletePost();
+  const muteActor = useMuteActor();
+  const unmuteActor = useUnmuteActor();
+  const [userMuted, setUserMuted] = useState(!!post.author.viewer?.muted);
+
+  useEffect(() => {
+    setUserMuted(!!post.author.viewer?.muted);
+  }, [post.author.viewer?.muted]);
 
   const handleDelete = () => {
     setOpen(false);
@@ -205,6 +213,21 @@ function PostMenu({ post, isOwnPost }: { post: PostView; isOwnPost: boolean }) {
       } else {
         await agent.app.bsky.graph.muteThread({ root: post.uri });
         setThreadMuted(true);
+      }
+    } catch {
+      // silently fail
+    }
+  };
+
+  const handleToggleMuteUser = async () => {
+    setOpen(false);
+    try {
+      if (userMuted) {
+        await unmuteActor.mutateAsync({ did: post.author.did });
+        setUserMuted(false);
+      } else {
+        await muteActor.mutateAsync({ did: post.author.did });
+        setUserMuted(true);
       }
     } catch {
       // silently fail
@@ -265,6 +288,15 @@ function PostMenu({ post, isOwnPost }: { post: PostView; isOwnPost: boolean }) {
                 <Icon name={threadMuted ? "notifications_active" : "notifications_off"} size={16} />
                 <span>{threadMuted ? t("post.unmuteThread") : t("post.muteThread")}</span>
               </button>
+              {!isOwnPost && (
+                <button
+                  onClick={handleToggleMuteUser}
+                  className="w-full flex items-center gap-2 px-3 py-2 text-sm text-text-light dark:text-text-dark hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                >
+                  <Icon name={userMuted ? "volume_up" : "volume_off"} size={16} />
+                  <span>{userMuted ? t("post.unmuteUser") : t("post.muteUser")}</span>
+                </button>
+              )}
             </div>
           </>
         )}
