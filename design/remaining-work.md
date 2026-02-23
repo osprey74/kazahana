@@ -39,7 +39,7 @@
 - [x] Post gate (quote restriction settings)
 - [x] Hide individual posts (Preferences hidden posts)
 - [ ] Mute thread notifications (`muteThread` / `unmuteThread`)
-- [ ] Bookmarks (`createBookmark` / `deleteBookmark` / `getBookmarks`)
+- [x] Bookmarks (`createBookmark` / `deleteBookmark` / `getBookmarks`)
 - [ ] Direct messages (`chat.bsky.convo.*`)
 - [ ] Report posts/users (`com.atproto.moderation.createReport`)
 
