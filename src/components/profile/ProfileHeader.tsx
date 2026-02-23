@@ -12,6 +12,7 @@ import { ConfirmDialog } from "../common/ConfirmDialog";
 import { useModerationOpts } from "../../contexts/ModerationContext";
 import { Avatar } from "../common/Avatar";
 import { ContentWarning } from "../common/ContentWarning";
+import { ProfileDescription } from "./ProfileDescription";
 interface ProfileHeaderProps {
   profile: ProfileViewDetailed;
   isOwnProfile: boolean;
@@ -221,9 +222,7 @@ export function ProfileHeader({ profile, isOwnProfile }: ProfileHeaderProps) {
 
         {/* Bio */}
         {profile.description && (
-          <p className="text-sm text-text-light dark:text-text-dark mt-2 whitespace-pre-wrap">
-            {profile.description}
-          </p>
+          <ProfileDescription text={profile.description} />
         )}
 
         {/* Stats */}
