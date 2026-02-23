@@ -58,7 +58,6 @@ export function VideoPlayer({ playlist, thumbnail, alt, aspectRatio, presentatio
         loop
         playsInline
         autoPlay
-        title={alt}
       />
     );
   }
@@ -97,7 +96,6 @@ export function VideoPlayer({ playlist, thumbnail, alt, aspectRatio, presentatio
       style={{ aspectRatio: ratio }}
       controls
       playsInline
-      title={alt}
     />
   );
 }
