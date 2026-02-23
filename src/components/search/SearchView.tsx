@@ -28,6 +28,17 @@ export function SearchView() {
     setScrollParent(document.querySelector("main"));
   }, []);
 
+  // Reset search state when tab is clicked while already active (kazahana:refresh)
+  useEffect(() => {
+    const handleRefresh = () => {
+      setQuery("");
+      setActiveQuery("");
+      setSearchParams({}, { replace: true });
+    };
+    window.addEventListener("kazahana:refresh", handleRefresh);
+    return () => window.removeEventListener("kazahana:refresh", handleRefresh);
+  }, [setSearchParams]);
+
   // Sync from URL search params (e.g. hashtag click from PostContent)
   useEffect(() => {
     const q = searchParams.get("q") ?? "";
@@ -61,13 +72,28 @@ export function SearchView() {
     <div>
       {/* Search bar */}
       <form onSubmit={handleSearch} className="px-4 py-3 border-b border-border-light dark:border-border-dark">
-        <input
-          type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder={t("search.placeholder")}
-          className="w-full px-3 py-2 border border-border-light dark:border-border-dark rounded-btn text-sm bg-transparent text-text-light dark:text-text-dark placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-        />
+        <div className="relative">
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder={t("search.placeholder")}
+            className="w-full px-3 py-2 pr-8 border border-border-light dark:border-border-dark rounded-btn text-sm bg-transparent text-text-light dark:text-text-dark placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+          />
+          {query && (
+            <button
+              type="button"
+              onClick={() => {
+                setQuery("");
+                setActiveQuery("");
+                setSearchParams({}, { replace: true });
+              }}
+              className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+            >
+              <Icon name="close" size={16} />
+            </button>
+          )}
+        </div>
       </form>
 
       {/* Tabs */}
