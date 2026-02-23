@@ -15,7 +15,6 @@ interface PostActionsProps {
 }
 
 export function PostActions({ post }: PostActionsProps) {
-  const { t } = useTranslation();
   const [liked, setLiked] = useState(!!post.viewer?.like);
   const [likeCount, setLikeCount] = useState(post.likeCount ?? 0);
   const [likeUri, setLikeUri] = useState(post.viewer?.like ?? "");

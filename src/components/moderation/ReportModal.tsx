@@ -16,7 +16,7 @@ const REASON_TYPES = [
 export function ReportModal() {
   const { t } = useTranslation();
   const { isOpen, target, close } = useReportStore();
-  const [reasonType, setReasonType] = useState(REASON_TYPES[0].value);
+  const [reasonType, setReasonType] = useState<(typeof REASON_TYPES)[number]["value"]>(REASON_TYPES[0].value);
   const [reason, setReason] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [result, setResult] = useState<"success" | "error" | null>(null);

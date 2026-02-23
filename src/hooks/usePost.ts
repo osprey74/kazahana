@@ -29,9 +29,13 @@ interface CreatePostParams {
 export type VideoErrorKey = "notAuthenticated" | "limitReached" | "uploadFailed" | "processingFailed" | "authFailed";
 
 export class VideoUploadError extends Error {
-  constructor(public readonly i18nKey: VideoErrorKey, public readonly detail?: string) {
+  readonly i18nKey: VideoErrorKey;
+  readonly detail?: string;
+  constructor(i18nKey: VideoErrorKey, detail?: string) {
     super(detail || i18nKey);
     this.name = "VideoUploadError";
+    this.i18nKey = i18nKey;
+    this.detail = detail;
   }
 }
 
@@ -325,7 +329,7 @@ export function useCreatePost() {
 
       // Create threadgate if not "everyone"
       if (did && threadgate && threadgate !== "everyone") {
-        const allowRules: Record<string, string>[] = [];
+        const allowRules: { $type: string }[] = [];
         if (threadgate === "mention") {
           allowRules.push({ $type: "app.bsky.feed.threadgate#mentionRule" });
         } else if (threadgate === "follower") {

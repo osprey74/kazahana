@@ -306,7 +306,7 @@ export function useRemoveFromList() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ did, itemUri }: { did: string; itemUri: string }) => {
+    mutationFn: async ({ itemUri }: { did: string; itemUri: string }) => {
       const agent = getAgent();
       const rkey = itemUri.split("/").pop()!;
       await agent.com.atproto.repo.deleteRecord({

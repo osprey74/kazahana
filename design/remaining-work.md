@@ -21,7 +21,7 @@
 - [x] Auto-start on OS boot via `tauri-plugin-autostart` (optional setting)
 
 ## Spec Section 9 (Build/Distribution)
-- [ ] Production build (`npm run tauri build`)
+- [x] Production build (`npm run tauri build`) — v1.0.0 Windows x64 (NSIS / MSI)
 - [ ] CI/CD with GitHub Actions (Section 9.3, marked as future)
 
 ## Bluesky API Features (kazahana scope)
@@ -46,7 +46,7 @@
 - [x] Copy post link / share
 - [x] Starter Packs viewing (profile tab + detail view)
 - [x] Post language tag auto-assignment (`langs` field from app language setting)
-- [ ] Starter Packs search tab in search view (`searchStarterPacks`)
+- [ ] Starter Packs search tab in search view (`searchStarterPacks`) — API未提供 (Bluesky側で404、lexiconのみ存在)
 
 ## i18n (Additional Languages)
 - [x] Portuguese (pt)

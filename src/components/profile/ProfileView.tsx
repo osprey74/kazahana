@@ -61,7 +61,6 @@ export function ProfileView() {
   } = useAuthorMediaFeed(resolvedHandle);
 
   const {
-    data: starterPacksData,
     refetch: refetchStarterPacks,
   } = useActorStarterPacks(resolvedHandle);
 

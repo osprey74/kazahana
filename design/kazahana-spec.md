@@ -516,6 +516,10 @@ npm run tauri build
 npm run tauri build
 ```
 
+**v1.0.0 ビルド成果物（Windows x64）:**
+- `kazahana_1.0.0_x64-setup.exe` (NSIS インストーラー, ~9.4 MB)
+- `kazahana_1.0.0_x64_en-US.msi` (MSI インストーラー, ~12 MB)
+
 ### 9.3 CI/CD（将来）
 - GitHub Actions で Windows / macOS 両ビルドを自動化
 - GitHub Releases で配布
