@@ -72,8 +72,19 @@
 - [ ] i18n strings for account management (ja/en)
 - Note: OAuth対応は後日。現段階ではアプリパスワード方式でのマルチアカウント
 
+## BSAF Reference Client Integration
+- [ ] Bot Definition JSON import (parse, validate schema, auto-follow bot account)
+- [ ] Dynamic filter settings UI generation from `filters` array (multi-select per type/value/target)
+- [ ] Tag-based filtering logic (`tags` field parsing, match against user-enabled options)
+- [ ] Duplicate detection and collapsing (type + value + time + target match across bots)
+- [ ] `self_url` periodic update check (compare `updated_at`, refresh filter UI)
+- [ ] BSAF settings screen (registered bots list, per-bot filter configuration)
+- [ ] i18n strings for BSAF features (ja/en)
+- Spec: https://github.com/osprey74/bsaf-protocol/blob/main/docs/bsaf-spec.md
+
 ## Beyond Spec (Potential Improvements)
 
+- [ ] Keyboard shortcut to open compose dialog from timeline view (e.g. `N` key)
 - [x] Session auto-refresh robustness (401 error retry)
 - [x] Rate limit handling (429 response backoff with `ratelimit-reset` header)
 - [x] Follow/unfollow functionality verification
