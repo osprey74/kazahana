@@ -10,6 +10,12 @@
 
 - **OS-specific close action text** — The close button setting now adapts its label based on the operating system. On macOS it reads "Minimize to Dock," and on Windows/Linux it reads "Minimize to system tray." The accompanying hint message also reflects the correct terminology for each platform.
 
+### Acknowledgements
+
+Thanks to the following users for bug reports:
+
+- あやがね / @ayagane.magical-pritt.jp — Reported the macOS Dock icon not restoring the window when minimized to tray
+
 ---
 
 ## Downloads
@@ -39,6 +45,12 @@
 ### 改善
 
 - **OS別の閉じるボタン設定テキスト** — 閉じるボタンの動作設定の表示がOSに応じて切り替わるようになりました。macOSでは「Dockに格納する」、Windows/Linuxでは「タスクトレイに最小化する」と表示されます。ヒントメッセージも各プラットフォームに適した用語で表示されます。
+
+### 謝辞
+
+バグ報告にご協力いただいた方々に感謝します：
+
+- あやがね / @ayagane.magical-pritt.jp — タスクトレイ最小化時にmacOSのDockアイコンをクリックしてもウィンドウが復元されない問題の報告
 
 ---
 

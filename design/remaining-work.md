@@ -130,3 +130,5 @@ Collaborator: よつぎnん / @yotsugin.bsky.social
 - [x] ウィンドウサイズ・位置の保存と復元 — 終了時にウィンドウサイズと画面上の配置位置を保存し、次回起動時に復元 (tauri-plugin-window-state) (要望者: あやがね / @ayagane.magical-pritt.jp)
 - [x] タスクトレイアイコン操作改善 — 左クリックでウィンドウ復元／最前面配置、右クリックメニューに「Open Window」「Minimize」「Exit」を実装 (要望者: あやがね / @ayagane.magical-pritt.jp)
 - [x] 閉じるボタン動作設定 — 設定画面に「閉じるボタンで終了」「閉じるボタンで最小化」オプションを追加。最小化選択時の注意書き表示 (要望者: あやがね / @ayagane.magical-pritt.jp)
+- [x] macOS Dockアイコンからのウィンドウ復元 — タスクトレイ最小化時にDockアイコンをクリックしてもウィンドウが復元されない問題を修正 (バグ報告者: あやがね / @ayagane.magical-pritt.jp)
+- [x] OS別の閉じるボタン設定テキスト — macOSでは「Dockに格納する」、Windows/Linuxでは「タスクトレイに最小化する」と表示するようOS判定を追加
