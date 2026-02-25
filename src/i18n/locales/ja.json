@@ -226,7 +226,9 @@
     "closeAction": "閉じるボタンの動作",
     "closeActionExit": "アプリを終了する",
     "closeActionMinimize": "タスクトレイに最小化する",
+    "closeActionMinimize_macos": "Dockに格納する",
     "closeActionMinimizeHint": "タスクトレイに最小化する場合、プログラムを終了するにはタスクトレイのアイコンを右クリックし「Exit」を選択してください。",
+    "closeActionMinimizeHint_macos": "Dockに格納する場合、プログラムを終了するにはDockアイコンを右クリックし「終了」を選択してください。",
     "pref": {
       "hide": "非表示",
       "warn": "警告",

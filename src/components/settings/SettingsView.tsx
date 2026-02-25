@@ -17,6 +17,8 @@ const CONTENT_LABELS = [
   { id: "graphic-media", adultOnly: false },
 ] as const;
 
+const isMac = /Macintosh|Mac OS X/i.test(navigator.userAgent);
+
 export function SettingsView() {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
@@ -169,12 +171,12 @@ export function SettingsView() {
               onChange={() => setCloseAction("minimize")}
               className="w-4 h-4 accent-primary"
             />
-            <span className="text-sm text-text-light dark:text-text-dark">{t("settings.closeActionMinimize")}</span>
+            <span className="text-sm text-text-light dark:text-text-dark">{t(isMac ? "settings.closeActionMinimize_macos" : "settings.closeActionMinimize")}</span>
           </label>
           {closeAction === "minimize" && (
             <p className="text-xs text-amber-600 dark:text-amber-400 mt-1 flex items-start gap-1">
               <Icon name="info" size={14} className="mt-0.5 shrink-0" />
-              <span>{t("settings.closeActionMinimizeHint")}</span>
+              <span>{t(isMac ? "settings.closeActionMinimizeHint_macos" : "settings.closeActionMinimizeHint")}</span>
             </p>
           )}
         </div>
