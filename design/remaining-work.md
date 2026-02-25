@@ -93,6 +93,14 @@ Collaborator: よつぎnん / @yotsugin.bsky.social
 - [x] スレッド内投稿のクリック遷移 — 非ハイライト投稿クリックでそのスレッドビューに遷移可能に
 - [x] 通知タブ「戻る」ボタン修正 — history.backからlocation.state.fromによる厳密な通知タブ遷移に変更
 
+## Peripheral Tools (Browser Integration)
+- [x] Custom URI protocol (`kazahana://compose?title=...&url=...`) via `tauri-plugin-deep-link`
+  - OS にプロトコルハンドラを登録、ブックマークレットからワンクリックで投稿画面にページタイトル+URLを事前入力
+  - 対象: ComposeModal / composeStore への初期テキスト注入、deep-link プラグイン導入、tauri.conf.json スキーム登録
+- [x] ブックマークレット設置手順のユーザーガイド記載（EN/JA 両方）
+  - `docs/en/guide/index.html`, `docs/ja/guide/index.html` にセクション追加
+  - 内容: ブックマークレットのコード、ブラウザごとの設置手順、使い方
+
 ## Beyond Spec (Potential Improvements)
 
 - [x] Keyboard shortcut to open compose dialog from timeline view (`N` key — AppLayout keydown handler)

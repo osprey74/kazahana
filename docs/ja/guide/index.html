@@ -35,7 +35,7 @@
     <p><a href="../">&larr; トップに戻る</a></p>
     <h1>操作マニュアル</h1>
     <p>kazahana は、Bluesky の軽量デスクトップクライアントアプリです。このマニュアルでは、各画面の名称と機能について解説します。</p>
-    <span class="guide-version">対応バージョン: kazahana v1.4.0</span>
+    <span class="guide-version">対応バージョン: kazahana v1.4.1</span>
 
     <!-- Table of Contents -->
     <nav class="guide-toc">
@@ -51,6 +51,7 @@
         <li><a href="#new-post">新規投稿</a></li>
         <li><a href="#post-detail">投稿詳細・スレッド</a></li>
         <li><a href="#settings">設定</a></li>
+        <li><a href="#bookmarklet">ブックマークレット</a></li>
       </ul>
     </nav>
 
@@ -426,6 +427,28 @@
       </tbody>
     </table>
 
+    <hr>
+
+    <!-- Bookmarklet -->
+    <h2 id="bookmarklet">ブックマークレット</h2>
+    <p>ブックマークレットを使うと、ブラウザで閲覧中のページのタイトルと URL をワンクリックで kazahana の投稿画面に送ることができます。</p>
+    <h3>設定方法</h3>
+    <p>以下のリンクをブラウザのブックマークバーにドラッグ＆ドロップするか、新規ブックマークを作成して URL 欄に下記のコードを貼り付けてください。</p>
+    <p>
+      <a href="javascript:void(function(){var t=encodeURIComponent(document.title),u=encodeURIComponent(location.href);window.open('kazahana://compose?title='+t+'&url='+u,'_self')})()" class="bookmarklet-link" onclick="return false;">kazahana に共有</a>
+    </p>
+    <details>
+      <summary>ブックマークレットのコード</summary>
+      <code class="bookmarklet-code">javascript:void(function(){var t=encodeURIComponent(document.title),u=encodeURIComponent(location.href);window.open('kazahana://compose?title='+t+'&amp;url='+u,'_self')})()</code>
+    </details>
+    <h3>使い方</h3>
+    <ol>
+      <li>ブラウザで任意のウェブページを開きます。</li>
+      <li>ブックマークバーの「kazahana に共有」をクリックします。</li>
+      <li>kazahana が起動（または前面に表示）され、ページのタイトルと URL が入力された投稿画面が開きます。</li>
+      <li>必要に応じてテキストを編集し、「投稿する」をクリックします。</li>
+    </ol>
+    <blockquote><p><strong>注意:</strong> ブックマークレットを使用するには、お使いのパソコンに kazahana がインストールされている必要があります。</p></blockquote>
   </div>
 
   <!-- Footer -->

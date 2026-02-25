@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { onOpenUrl, getCurrent as getCurrentDeepLink } from "@tauri-apps/plugin-deep-link";
 import { AppLayout } from "./components/layout";
 import { LoginForm } from "./components/auth/LoginForm";
 import { HomeView } from "./components/timeline/HomeView";
@@ -20,6 +21,7 @@ import { FollowersPage } from "./components/profile/FollowersPage";
 import { FollowingPage } from "./components/profile/FollowingPage";
 import { LoadingSpinner } from "./components/common/LoadingSpinner";
 import { useAuthStore } from "./stores/authStore";
+import { useComposeStore } from "./stores/composeStore";
 import { applyTheme, useSettingsStore } from "./stores/settingsStore";
 import { ModerationProvider } from "./contexts/ModerationContext";
 import { isRateLimitError, getRateLimitDelay } from "./lib/rateLimit";
@@ -47,6 +49,39 @@ const queryClient = new QueryClient({
   },
 });
 
+function parseDeepLink(url: string): { title?: string; url?: string } | null {
+  try {
+    const parsed = new URL(url);
+    if (parsed.protocol !== "kazahana:") return null;
+    if (parsed.hostname !== "compose") return null;
+    return {
+      title: parsed.searchParams.get("title") || undefined,
+      url: parsed.searchParams.get("url") || undefined,
+    };
+  } catch { return null; }
+}
+
+function handleDeepLinkUrls(urls: string[]) {
+  for (const url of urls) {
+    const params = parseDeepLink(url);
+    if (!params) continue;
+    const parts: string[] = [];
+    if (params.title) parts.push(params.title);
+    if (params.url) parts.push(params.url);
+    const text = parts.join("\n");
+    if (!text) continue;
+
+    const store = useComposeStore.getState();
+    if (store.isOpen) {
+      store.close();
+      setTimeout(() => useComposeStore.getState().open({ initialText: text }), 50);
+    } else {
+      store.open({ initialText: text });
+    }
+    break;
+  }
+}
+
 function AuthGate() {
   const { isLoggedIn, isLoading, restoreSession } = useAuthStore();
   const theme = useSettingsStore((s) => s.theme);
@@ -70,6 +105,24 @@ function AuthGate() {
     mq.addEventListener("change", handler);
     return () => mq.removeEventListener("change", handler);
   }, [theme]);
+
+  // Deep-link listener (only when logged in)
+  useEffect(() => {
+    if (!isLoggedIn) return;
+
+    // Handle cold-start URL (app launched via deep-link)
+    getCurrentDeepLink()
+      .then((urls) => { if (urls) handleDeepLinkUrls(urls); })
+      .catch(() => {});
+
+    // Listen for deep-link events while running
+    let unlisten: (() => void) | undefined;
+    onOpenUrl((urls) => handleDeepLinkUrls(urls))
+      .then((fn) => { unlisten = fn; })
+      .catch(() => {});
+
+    return () => { unlisten?.(); };
+  }, [isLoggedIn]);
 
   if (isLoading) {
     return (

@@ -1,7 +1,7 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
   "productName": "kazahana",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "identifier": "com.kazahana.app",
   "build": {
     "frontendDist": "../dist",
@@ -23,6 +23,13 @@
     ],
     "security": {
       "csp": null
+    }
+  },
+  "plugins": {
+    "deep-link": {
+      "desktop": {
+        "schemes": ["kazahana"]
+      }
     }
   },
   "bundle": {

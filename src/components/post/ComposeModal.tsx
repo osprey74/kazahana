@@ -60,7 +60,7 @@ function getVideoAspectRatio(file: File): Promise<{ width: number; height: numbe
 
 export function ComposeModal() {
   const { t } = useTranslation();
-  const { isOpen, replyTo, quoteTo, close } = useComposeStore();
+  const { isOpen, replyTo, quoteTo, initialText, close } = useComposeStore();
   const createPost = useCreatePost();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [text, setText] = useState("");
@@ -89,7 +89,7 @@ export function ComposeModal() {
   // Reset state when modal opens
   useEffect(() => {
     if (isOpen) {
-      setText("");
+      setText(initialText ?? "");
       setCursorPos(0);
       setImages([]);
       setVideo(null);
@@ -100,6 +100,11 @@ export function ComposeModal() {
       setMentionIndex(0);
       createPost.reset();
       resetOgp();
+      // Auto-fetch OGP card for deep-link URLs
+      if (initialText) {
+        const url = extractUrl(initialText);
+        if (url) fetchCardForUrl(url);
+      }
     }
   }, [isOpen]); // eslint-disable-line react-hooks/exhaustive-deps
 

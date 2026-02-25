@@ -19,6 +19,7 @@
     "notification:default",
     "autostart:default",
     "dialog:default",
-    "fs:default"
+    "fs:default",
+    "deep-link:default"
   ]
 }

@@ -1,6 +1,6 @@
 [package]
 name = "kazahana"
-version = "1.4.0"
+version = "1.4.1"
 description = "A lightweight Bluesky desktop client"
 authors = ["osprey74"]
 license = "MIT"
@@ -30,3 +30,5 @@ tauri-plugin-notification = "2"
 tauri-plugin-autostart = "2"
 tauri-plugin-dialog = "2"
 tauri-plugin-fs = "2"
+tauri-plugin-deep-link = "2"
+tauri-plugin-single-instance = "2"
