@@ -108,6 +108,9 @@ export function ThreadView() {
           from={from}
         />
       ))}
+
+      {/* Bottom spacer: allow last post to scroll up to center of window */}
+      <div className="h-[50vh]" />
     </div>
   );
 }
