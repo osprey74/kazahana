@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useComposeStore } from "../../stores/composeStore";
 import { useCreatePost, VideoUploadError } from "../../hooks/usePost";
 import { useOgp } from "../../hooks/useOgp";
+import { extractUrl } from "../../lib/ogp";
 import { useSearchActorsTypeahead } from "../../hooks/useSearch";
 import { ImageUpload, type ImageFile } from "./ImageUpload";
 import { VideoUpload, type VideoFile } from "./VideoUpload";
@@ -73,7 +74,7 @@ export function ComposeModal() {
   const [mentionIndex, setMentionIndex] = useState(0);
 
   // OGP link card (manual trigger)
-  const { detectedUrl, ogp, isLoading: ogpLoading, fetchCard, dismiss: dismissOgp, reset: resetOgp } = useOgp(text);
+  const { detectedUrl, ogp, isLoading: ogpLoading, fetchCard, fetchCardForUrl, dismiss: dismissOgp, reset: resetOgp } = useOgp(text);
 
   // Mention autocomplete
   const mentionInfo = getMentionQuery(text, cursorPos);
@@ -112,6 +113,16 @@ export function ComposeModal() {
     setCursorPos(e.target.selectionStart);
   };
 
+  const handlePaste = useCallback((e: React.ClipboardEvent<HTMLTextAreaElement>) => {
+    const pasted = e.clipboardData.getData("text");
+    if (!pasted) return;
+    const url = extractUrl(pasted);
+    if (!url) return;
+    // ogp/images/video/quote already present → skip
+    if (ogp || images.length > 0 || video || quoteTo) return;
+    fetchCardForUrl(url);
+  }, [fetchCardForUrl, ogp, images.length, video, quoteTo]);
+
   const handleSelect = (e: React.SyntheticEvent<HTMLTextAreaElement>) => {
     setCursorPos((e.target as HTMLTextAreaElement).selectionStart);
   };
@@ -138,6 +149,13 @@ export function ComposeModal() {
   }, [text, cursorPos]);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    // Alt+Enter to submit post
+    if (e.altKey && e.key === "Enter") {
+      e.preventDefault();
+      handleSubmit();
+      return;
+    }
+
     if (!showMention || !mentionResults) return;
 
     if (e.key === "ArrowDown") {
@@ -280,6 +298,7 @@ export function ComposeModal() {
             ref={textareaRef}
             value={text}
             onChange={handleTextChange}
+            onPaste={handlePaste}
             onSelect={handleSelect}
             onKeyDown={handleKeyDown}
             placeholder={replyTo ? t("compose.replyPlaceholder") : quoteTo ? t("compose.quotePlaceholder") : t("compose.placeholder")}

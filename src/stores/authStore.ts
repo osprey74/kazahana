@@ -2,7 +2,7 @@ import { create } from "zustand";
 import type { ProfileViewDetailed } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
 import type { AtpSessionData, AtpSessionEvent } from "@atproto/api";
 import { getAgent, resetAgent, setSessionHandler } from "../lib/agent";
-import { loadSession, clearSession, saveSession } from "../lib/session";
+import { loadSession, clearSession, saveSession, addHandleHistory } from "../lib/session";
 
 interface AuthState {
   isLoggedIn: boolean;
@@ -27,6 +27,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     try {
       const agent = getAgent();
       await agent.login({ identifier, password });
+      addHandleHistory(identifier);
       set({ isLoggedIn: true, isLoading: false });
       get().fetchProfile();
     } catch (e) {

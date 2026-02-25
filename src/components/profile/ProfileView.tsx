@@ -49,6 +49,8 @@ export function ProfileView() {
     fetchNextPage: fetchNextLikes,
     hasNextPage: hasNextLikes,
     isFetchingNextPage: isFetchingNextLikes,
+    isLoading: isLoadingLikes,
+    isError: isLikesError,
     refetch: refetchLikes,
   } = useActorLikes(resolvedHandle);
 
@@ -205,7 +207,13 @@ export function ProfileView() {
         ) : null
       )}
       {tab === "likes" && (
-        likeItems.length > 0 && scrollParent ? (
+        isLoadingLikes ? (
+          <LoadingSpinner />
+        ) : isLikesError ? (
+          <div className="flex items-center justify-center py-12 text-gray-400">
+            <p>{t("profile.likesUnavailable")}</p>
+          </div>
+        ) : likeItems.length > 0 && scrollParent ? (
           <Virtuoso
             customScrollParent={scrollParent}
             data={likeItems}

@@ -44,17 +44,24 @@ export function AppLayout() {
     return () => el.removeEventListener("scroll", onScroll);
   }, []);
 
-  // F5 keyboard shortcut for refresh
+  // Keyboard shortcuts: F5 refresh, "n" new post
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "F5" && canRefresh) {
         e.preventDefault();
         triggerRefresh();
       }
+      if (e.key === "n" && !e.ctrlKey && !e.metaKey && !e.altKey && !isSettings) {
+        const tag = (e.target as HTMLElement).tagName;
+        if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || (e.target as HTMLElement).isContentEditable) return;
+        if (useComposeStore.getState().isOpen) return;
+        e.preventDefault();
+        openCompose();
+      }
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [canRefresh, triggerRefresh]);
+  }, [canRefresh, triggerRefresh, openCompose, isSettings]);
 
   const scrollToTop = useCallback(() => {
     mainRef.current?.scrollTo({ top: 0, behavior: "instant" });

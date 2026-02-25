@@ -19,6 +19,13 @@ export function useOgp(text: string) {
     setIsLoading(false);
   }, [detectedUrl]);
 
+  const fetchCardForUrl = useCallback(async (url: string) => {
+    setIsLoading(true);
+    const data = await fetchOgp(url);
+    setOgp(data);
+    setIsLoading(false);
+  }, []);
+
   const dismiss = useCallback(() => {
     setOgp(null);
   }, []);
@@ -33,6 +40,7 @@ export function useOgp(text: string) {
     ogp,
     isLoading,
     fetchCard,
+    fetchCardForUrl,
     dismiss,
     reset,
   };

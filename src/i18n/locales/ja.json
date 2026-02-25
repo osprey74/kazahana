@@ -18,7 +18,8 @@
     "login": "ログイン",
     "loggingIn": "ログイン中...",
     "helpText": "アプリパスワードは Bluesky の設定画面から生成できます",
-    "loginFailed": "ログインに失敗しました"
+    "loginFailed": "ログインに失敗しました",
+    "deleteHandle": "削除"
   },
   "compose": {
     "cancel": "キャンセル",
@@ -156,9 +157,10 @@
     "noBookmarks": "付箋した投稿はありません",
     "starterPacks": "スターターパック",
     "noFollowers": "フォロワーはいません",
-    "followersTitle": "あなたをフォローしているユーザー一覧",
-    "followingTitle": "あなたがフォローしているユーザー一覧",
+    "followersTitle": "{{name}} のフォロワー",
+    "followingTitle": "{{name}} のフォロー中",
     "noFollowing": "フォロー中のユーザーはいません",
+    "likesUnavailable": "いいねを表示できません",
     "loadFailed": "プロフィールの読み込みに失敗しました",
     "followsYou": "あなたをフォローしています",
     "notFollowsYou": "あなたをフォローしていません",

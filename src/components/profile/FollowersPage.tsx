@@ -24,7 +24,7 @@ export function FollowersPage() {
           className="flex items-center gap-2 text-text-light dark:text-text-dark hover:text-gray-500 dark:hover:text-gray-400 transition-colors"
         >
           <Icon name="arrow_back" size={20} />
-          <span className="text-sm font-bold">{t("profile.followersTitle")}</span>
+          <span className="text-sm font-bold">{t("profile.followersTitle", { name: `@${handle}` })}</span>
         </button>
       </div>
       <FollowersList handle={handle} scrollParent={scrollParent} />

@@ -1,6 +1,6 @@
 import { load } from "@tauri-apps/plugin-store";
 import type { AtpSessionData } from "@atproto/api";
-import { SESSION_STORE_KEY, STORE_FILE } from "./constants";
+import { SESSION_STORE_KEY, HANDLE_HISTORY_KEY, STORE_FILE } from "./constants";
 
 let storeInstance: Awaited<ReturnType<typeof load>> | null = null;
 
@@ -25,4 +25,24 @@ export async function loadSession(): Promise<AtpSessionData | null> {
 export async function clearSession(): Promise<void> {
   const store = await getStore();
   await store.delete(SESSION_STORE_KEY);
+}
+
+export async function loadHandleHistory(): Promise<string[]> {
+  const store = await getStore();
+  const history = await store.get<string[]>(HANDLE_HISTORY_KEY);
+  return history ?? [];
+}
+
+export async function addHandleHistory(handle: string): Promise<void> {
+  const store = await getStore();
+  const history = await store.get<string[]>(HANDLE_HISTORY_KEY) ?? [];
+  const filtered = history.filter((h) => h !== handle);
+  filtered.unshift(handle);
+  await store.set(HANDLE_HISTORY_KEY, filtered.slice(0, 20));
+}
+
+export async function removeHandleHistory(handle: string): Promise<void> {
+  const store = await getStore();
+  const history = await store.get<string[]>(HANDLE_HISTORY_KEY) ?? [];
+  await store.set(HANDLE_HISTORY_KEY, history.filter((h) => h !== handle));
 }

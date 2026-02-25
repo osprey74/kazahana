@@ -18,7 +18,8 @@
     "login": "Login",
     "loggingIn": "Logging in...",
     "helpText": "You can generate an app password from your Bluesky settings",
-    "loginFailed": "Login failed"
+    "loginFailed": "Login failed",
+    "deleteHandle": "Delete"
   },
   "compose": {
     "cancel": "Cancel",
@@ -156,9 +157,10 @@
     "noBookmarks": "No bookmarked posts",
     "starterPacks": "Starter Packs",
     "noFollowers": "No followers",
-    "followersTitle": "Users following you",
-    "followingTitle": "Users you are following",
+    "followersTitle": "{{name}}'s Followers",
+    "followingTitle": "{{name}}'s Following",
     "noFollowing": "Not following anyone",
+    "likesUnavailable": "Unable to display likes",
     "loadFailed": "Failed to load profile",
     "followsYou": "Follows you",
     "notFollowsYou": "Not following you",

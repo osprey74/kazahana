@@ -84,7 +84,7 @@
 
 ## Beyond Spec (Potential Improvements)
 
-- [ ] Keyboard shortcut to open compose dialog from timeline view (e.g. `N` key)
+- [x] Keyboard shortcut to open compose dialog from timeline view (`N` key — AppLayout keydown handler)
 - [x] Session auto-refresh robustness (401 error retry)
 - [x] Rate limit handling (429 response backoff with `ratelimit-reset` header)
 - [x] Follow/unfollow functionality verification
@@ -100,5 +100,10 @@
 - [x] Fix dark mode text color (black text unreadable, change to white/light)
 - [x] Notification tab: show source post for like/reply/repost notifications
 - [x] Compose: link card generation from URL in post text (manual trigger via "リンクカード生成" button, OGP fetch via tauri-plugin-http)
+- [x] Compose: Alt+Enter keyboard shortcut to submit post
+- [x] Compose: auto-generate link card on paste when pasted text contains URL
+- [x] Profile: loading/error states for likes tab on other users' profiles
+- [x] Profile: followers/following page title shows target user's handle instead of "あなた"
+- [x] Login: custom handle history with individual delete (Tauri Store, autoComplete="off")
 - [x] Search history: persist up to 200 entries across app restarts (localStorage/Zustand persist), individual delete and clear all buttons
 - [x] Official website via GitHub Pages
