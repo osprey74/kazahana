@@ -143,6 +143,26 @@
   font-family: "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
 }
 
+/* ===== Code blocks ===== */
+.guide-content pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 24px;
+  overflow-x: auto;
+}
+
+.guide-content pre code {
+  border: none;
+  padding: 0;
+  border-radius: 0;
+  font-size: 12px;
+  line-height: 1.6;
+  word-break: break-all;
+  white-space: pre-wrap;
+}
+
 /* ===== Table of Contents ===== */
 .guide-toc {
   background: var(--surface);

@@ -97,7 +97,7 @@ Collaborator: よつぎnん / @yotsugin.bsky.social
 - [x] Custom URI protocol (`kazahana://compose?title=...&url=...`) via `tauri-plugin-deep-link`
   - OS にプロトコルハンドラを登録、ブックマークレットからワンクリックで投稿画面にページタイトル+URLを事前入力
   - 対象: ComposeModal / composeStore への初期テキスト注入、deep-link プラグイン導入、tauri.conf.json スキーム登録
-- [x] ブックマークレット設置手順のユーザーガイド記載（EN/JA 両方）
+- [ ] ブックマークレット設置手順のユーザーガイド記載（EN/JA 両方）
   - `docs/en/guide/index.html`, `docs/ja/guide/index.html` にセクション追加
   - 内容: ブックマークレットのコード、ブラウザごとの設置手順、使い方
 
