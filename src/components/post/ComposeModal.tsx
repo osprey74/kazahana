@@ -231,7 +231,7 @@ export function ComposeModal() {
         video: video ? { file: video.file, alt: video.alt, aspectRatio: videoAspectRatio } : undefined,
         external: !quoteTo && ogp ? { uri: ogp.url, title: ogp.title, description: ogp.description, thumbUrl: ogp.imageUrl } : undefined,
         replyTo: replyTo
-          ? { uri: replyTo.uri, cid: replyTo.cid }
+          ? { uri: replyTo.uri, cid: replyTo.cid, root: replyTo.root }
           : undefined,
         quoteTo: quoteTo
           ? { uri: quoteTo.uri, cid: quoteTo.cid }

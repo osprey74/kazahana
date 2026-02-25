@@ -200,6 +200,8 @@
     "autoStart": "Autostart",
     "enableAutoStart": "Kazahana beim Systemstart starten",
     "feedVisibility": "Sichtbare Feeds konfigurieren",
+    "feedOrderHint": "Verwenden Sie die Pfeile, um Feeds neu zu ordnen. Kontrollkästchen schalten die Sichtbarkeit um.",
+    "hiddenFeedsLabel": "Ausgeblendete Feeds",
     "noFeeds": "Keine Feeds oder Listen",
     "hiddenPosts": "Verborgene Beiträge",
     "noHiddenPosts": "Keine verborgenen Beiträge",

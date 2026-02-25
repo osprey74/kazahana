@@ -200,6 +200,8 @@
     "autoStart": "Inicialização automática",
     "enableAutoStart": "Iniciar kazahana ao ligar o sistema",
     "feedVisibility": "Configurar feeds visíveis",
+    "feedOrderHint": "Use as setas para reordenar os feeds. As caixas alternam a visibilidade.",
+    "hiddenFeedsLabel": "Feeds ocultos",
     "noFeeds": "Sem feeds ou listas",
     "hiddenPosts": "Publicações ocultas",
     "noHiddenPosts": "Nenhuma publicação oculta",

@@ -5,6 +5,7 @@ interface ComposeState {
   replyTo: {
     uri: string;
     cid: string;
+    root?: { uri: string; cid: string };
     author: { handle: string; displayName?: string; avatar?: string };
     text: string;
   } | null;

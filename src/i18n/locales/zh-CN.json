@@ -200,6 +200,8 @@
     "autoStart": "自动启动",
     "enableAutoStart": "系统启动时自动启动 kazahana",
     "feedVisibility": "设置显示的信息流",
+    "feedOrderHint": "使用箭头按钮调整信息流排列顺序。勾选框切换显示/隐藏。",
+    "hiddenFeedsLabel": "已隐藏的信息流",
     "noFeeds": "没有信息流或列表",
     "hiddenPosts": "已隐藏的帖子",
     "noHiddenPosts": "没有已隐藏的帖子",

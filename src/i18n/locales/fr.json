@@ -200,6 +200,8 @@
     "autoStart": "Démarrage automatique",
     "enableAutoStart": "Lancer kazahana au démarrage du système",
     "feedVisibility": "Configurer les flux visibles",
+    "feedOrderHint": "Utilisez les flèches pour réorganiser les flux. Les cases à cocher activent/désactivent la visibilité.",
+    "hiddenFeedsLabel": "Flux masqués",
     "noFeeds": "Aucun flux ni liste",
     "hiddenPosts": "Publications masquées",
     "noHiddenPosts": "Aucune publication masquée",

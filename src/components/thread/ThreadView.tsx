@@ -1,6 +1,8 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useRef, useLayoutEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { moderatePost } from "@atproto/api";
+import { isThreadViewPost as isThreadPost } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
 import type { PostView } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
 import { useThread } from "../../hooks/useThread";
 import { useModerationOpts } from "../../contexts/ModerationContext";
@@ -32,17 +34,41 @@ export function ThreadView() {
   const { t } = useTranslation();
   const { uri } = useParams<{ uri: string }>();
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = (location.state as { from?: string } | null)?.from;
   const decodedUri = uri ? decodeURIComponent(uri) : "";
   const { data: thread, isLoading, isError } = useThread(decodedUri);
+  const highlightRef = useRef<HTMLDivElement>(null);
+
+  // Collect parent chain (must be computed before hooks that depend on it)
+  const threadPost = (!isLoading && !isError && thread && isThreadPost(thread))
+    ? thread as ThreadViewPost
+    : null;
+
+  const parents: ThreadViewPost[] = [];
+  if (threadPost) {
+    let current = threadPost.parent;
+    while (current && isThreadPost(current)) {
+      parents.unshift(current as ThreadViewPost);
+      current = (current as ThreadViewPost).parent;
+    }
+  }
+
+  // Scroll to highlighted post when thread data loads
+  useLayoutEffect(() => {
+    if (highlightRef.current && parents.length > 0) {
+      highlightRef.current.scrollIntoView({ block: "start" });
+    }
+  }, [decodedUri, parents.length]);
 
   if (isLoading) return <LoadingSpinner />;
 
-  if (isError || !thread || thread.$type === "app.bsky.feed.defs#blockedPost" || thread.$type === "app.bsky.feed.defs#notFoundPost") {
+  if (!threadPost) {
     return (
       <div className="flex flex-col items-center justify-center py-12 text-gray-500">
         <p>{t("thread.notFound")}</p>
         <button
-          onClick={() => navigate(-1)}
+          onClick={() => from ? navigate(from) : navigate(-1)}
           className="mt-2 text-primary text-sm hover:underline"
         >
           {t("thread.back")}
@@ -51,22 +77,12 @@ export function ThreadView() {
     );
   }
 
-  const threadPost = thread as ThreadViewPost;
-
-  // Collect parent chain
-  const parents: ThreadViewPost[] = [];
-  let current = threadPost.parent;
-  while (current && current.$type === "app.bsky.feed.defs#threadViewPost") {
-    parents.unshift(current);
-    current = current.parent;
-  }
-
   return (
     <div>
       {/* Back button */}
       <div className="px-4 py-2 border-b border-border-light dark:border-border-dark">
         <button
-          onClick={() => navigate(-1)}
+          onClick={() => from ? navigate(from) : navigate(-1)}
           className="text-sm text-primary hover:underline"
         >
           <Icon name="arrow_back" size={16} className="inline-block align-text-bottom" /> {t("thread.back")}
@@ -75,20 +91,23 @@ export function ThreadView() {
 
       {/* Parent posts */}
       {parents.map((p) => (
-        <ThreadPostItem key={p.post.uri} post={p.post} isHighlighted={false} />
+        <ThreadPostItem key={p.post.uri} post={p.post} isHighlighted={false} from={from} />
       ))}
 
       {/* Main post */}
-      <ThreadPostItem post={threadPost.post} isHighlighted={true} />
+      <div ref={highlightRef}>
+        <ThreadPostItem post={threadPost.post} isHighlighted={true} />
+      </div>
 
       {/* Replies */}
       {threadPost.replies?.map((reply) => {
-        if (reply.$type !== "app.bsky.feed.defs#threadViewPost") return null;
+        if (!isThreadPost(reply)) return null;
         return (
           <ThreadPostItem
-            key={reply.post.uri}
-            post={reply.post}
+            key={(reply as ThreadViewPost).post.uri}
+            post={(reply as ThreadViewPost).post}
             isHighlighted={false}
+            from={from}
           />
         );
       })}
@@ -99,9 +118,11 @@ export function ThreadView() {
 function ThreadPostItem({
   post,
   isHighlighted,
+  from,
 }: {
   post: PostView;
   isHighlighted: boolean;
+  from?: string;
 }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -134,8 +155,12 @@ function ThreadPostItem({
   return (
     <article
       className={`px-4 py-3 border-b border-border-light dark:border-border-dark ${
-        isHighlighted ? "bg-blue-50 dark:bg-blue-900/20" : ""
+        isHighlighted ? "bg-blue-50 dark:bg-blue-900/20" : "hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer"
       }`}
+      onClick={!isHighlighted ? (e) => {
+        if ((e.target as HTMLElement).closest("button, a, video")) return;
+        navigate(`/post/${encodeURIComponent(post.uri)}`, from ? { state: { from } } : undefined);
+      } : undefined}
     >
       <div className="flex gap-3">
         <button onClick={() => navigate(`/profile/${post.author.handle}`)} className="self-start hover:opacity-80">

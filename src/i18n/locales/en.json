@@ -207,6 +207,8 @@
     "autoStart": "Auto Start",
     "enableAutoStart": "Launch Kazahana on system startup",
     "feedVisibility": "Configure visible feeds",
+    "feedOrderHint": "Use arrows to reorder feeds. Checkboxes toggle visibility.",
+    "hiddenFeedsLabel": "Hidden feeds",
     "noFeeds": "No feeds or lists",
     "hiddenPosts": "Hidden posts",
     "noHiddenPosts": "No hidden posts",

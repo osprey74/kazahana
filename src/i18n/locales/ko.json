@@ -200,6 +200,8 @@
     "autoStart": "자동 시작",
     "enableAutoStart": "시스템 시작 시 kazahana 자동 실행",
     "feedVisibility": "표시할 피드 설정",
+    "feedOrderHint": "화살표로 피드 순서를 변경합니다. 체크박스로 표시/숨김을 전환합니다.",
+    "hiddenFeedsLabel": "숨겨진 피드",
     "noFeeds": "피드나 리스트가 없습니다",
     "hiddenPosts": "숨긴 게시물",
     "noHiddenPosts": "숨긴 게시물이 없습니다",

@@ -200,6 +200,8 @@
     "autoStart": "Mulai otomatis",
     "enableAutoStart": "Jalankan kazahana saat sistem dinyalakan",
     "feedVisibility": "Atur feed yang ditampilkan",
+    "feedOrderHint": "Gunakan panah untuk mengatur ulang urutan feed. Kotak centang mengaktifkan/menonaktifkan visibilitas.",
+    "hiddenFeedsLabel": "Feed tersembunyi",
     "noFeeds": "Tidak ada feed atau daftar",
     "hiddenPosts": "Postingan tersembunyi",
     "noHiddenPosts": "Tidak ada postingan tersembunyi",

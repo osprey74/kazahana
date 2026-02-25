@@ -51,10 +51,14 @@ export function PostActions({ post }: PostActionsProps) {
   const quoteDisabled = !!(post.viewer as { embeddingDisabled?: boolean } | undefined)?.embeddingDisabled;
 
   const handleReply = () => {
-    const record = post.record as { text?: string };
+    const record = post.record as { text?: string; reply?: { root: { uri: string; cid: string } } };
+    // If the post is itself a reply, its record.reply.root is the thread root.
+    // Otherwise, this post IS the root.
+    const root = record.reply?.root ?? { uri: post.uri, cid: post.cid };
     openCompose({ replyTo: {
       uri: post.uri,
       cid: post.cid,
+      root,
       author: {
         handle: post.author.handle,
         displayName: post.author.displayName,

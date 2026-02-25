@@ -82,6 +82,17 @@
 - [ ] i18n strings for BSAF features (ja/en)
 - Spec: https://github.com/osprey74/bsaf-protocol/blob/main/docs/bsaf-spec.md
 
+## Completed Fixes (2025-02-25)
+Collaborator: よつぎnん / @yotsugin.bsky.social
+
+- [x] AT Protocol reply record root参照修正 — composeStore.ts, PostActions.tsx, ComposeModal.tsxでreplyTo.rootを正しく伝播。過去の投稿でroot===parentとなっていた問題を今後の投稿で解消
+- [x] ThreadView型ガード修正 — $type文字列比較からisThreadViewPost() SDK型ガードに変更
+- [x] スレッド親投稿チェーンの収集と表示
+- [x] React Hooks順序違反の修正 — useRef/useLayoutEffectが条件分岐後にあり白画面クラッシュしていた問題を修正
+- [x] 通知タブからのポスト遷移修正 — reply/mention/quoteはnotification.uri、like/repostはreasonSubjectを使用
+- [x] スレッド内投稿のクリック遷移 — 非ハイライト投稿クリックでそのスレッドビューに遷移可能に
+- [x] 通知タブ「戻る」ボタン修正 — history.backからlocation.state.fromによる厳密な通知タブ遷移に変更
+
 ## Beyond Spec (Potential Improvements)
 
 - [x] Keyboard shortcut to open compose dialog from timeline view (`N` key — AppLayout keydown handler)
@@ -107,3 +118,4 @@
 - [x] Login: custom handle history with individual delete (Tauri Store, autoComplete="off")
 - [x] Search history: persist up to 200 entries across app restarts (localStorage/Zustand persist), individual delete and clear all buttons
 - [x] Official website via GitHub Pages
+- [x] Settings: フィードの並べ替え機能 — 「表示するフィードを設定」画面で上下ボタンによる並べ替え、表示/非表示グループ分け表示 (要望者: あやがね / @ayagane.magical-pritt.jp)

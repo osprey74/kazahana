@@ -50,9 +50,13 @@ export function NotificationItem({ notification, subjectPost }: NotificationItem
 
   const handleClick = () => {
     if (reason === "follow") return;
-    const uri = subjectUri || notification.uri;
-    if (uri) {
-      navigate(`/post/${encodeURIComponent(uri)}`);
+    // For reply/mention/quote, navigate to the notification's own post (the reply itself).
+    // For like/repost, navigate to the subject post (the post that was liked/reposted).
+    const targetUri = (reason === "reply" || reason === "mention" || reason === "quote")
+      ? notification.uri
+      : subjectUri || notification.uri;
+    if (targetUri) {
+      navigate(`/post/${encodeURIComponent(targetUri)}`, { state: { from: "/notifications" } });
     }
   };
 

@@ -15,6 +15,7 @@ export function FeedSelector() {
   const [canScrollRight, setCanScrollRight] = useState(false);
 
   const hiddenFeeds = useFeedStore((s) => s.hiddenFeeds);
+  const feedOrder = useFeedStore((s) => s.feedOrder);
   const { data: savedFeeds } = useSavedFeeds();
   const { data: myLists } = useMyLists();
 
@@ -69,20 +70,36 @@ export function FeedSelector() {
     { feed: { type: "home" }, label: t("feed.home") },
   ];
 
+  const nonHomeTabs: { feed: FeedSource; label: string; uri: string }[] = [];
   if (savedFeeds) {
     for (const f of savedFeeds) {
       if (!hiddenFeeds.includes(f.uri)) {
-        tabs.push({ feed: { type: "custom", uri: f.uri, name: f.name }, label: f.name });
+        nonHomeTabs.push({ feed: { type: "custom", uri: f.uri, name: f.name }, label: f.name, uri: f.uri });
       }
     }
   }
   if (myLists) {
     for (const l of myLists) {
       if (!hiddenFeeds.includes(l.uri)) {
-        tabs.push({ feed: { type: "list", uri: l.uri, name: l.name }, label: l.name });
+        nonHomeTabs.push({ feed: { type: "list", uri: l.uri, name: l.name }, label: l.name, uri: l.uri });
       }
     }
   }
+
+  // Sort by feedOrder if set
+  if (feedOrder.length > 0) {
+    nonHomeTabs.sort((a, b) => {
+      const ai = feedOrder.indexOf(a.uri);
+      const bi = feedOrder.indexOf(b.uri);
+      // Items not in feedOrder go to the end, preserving original order
+      if (ai === -1 && bi === -1) return 0;
+      if (ai === -1) return 1;
+      if (bi === -1) return -1;
+      return ai - bi;
+    });
+  }
+
+  tabs.push(...nonHomeTabs);
 
   // Only show if there's more than just "Home"
   if (tabs.length <= 1) return null;
