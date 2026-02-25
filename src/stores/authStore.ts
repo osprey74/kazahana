@@ -57,6 +57,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       get().fetchProfile();
     } catch {
       await clearSession();
+      resetAgent();
       set({ isLoggedIn: false, isLoading: false });
     }
   },
