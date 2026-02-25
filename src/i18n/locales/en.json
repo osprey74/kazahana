@@ -19,6 +19,8 @@
     "loggingIn": "Logging in...",
     "helpText": "You can generate an app password from your Bluesky settings",
     "loginFailed": "Login failed",
+    "rateLimit": "Rate limit exceeded. Please wait and try again. The limit is usually lifted after about 5 minutes.",
+    "rateLimitWithTime": "Rate limit exceeded. Please wait {{seconds}} seconds and try again.",
     "deleteHandle": "Delete"
   },
   "compose": {

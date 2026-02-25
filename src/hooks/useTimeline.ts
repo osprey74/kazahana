@@ -3,6 +3,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import type { FeedViewPost } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
 import { getAgent } from "../lib/agent";
 import { useSettingsStore } from "../stores/settingsStore";
+import { isRateLimitError, getRateLimitDelay } from "../lib/rateLimit";
 
 const MAX_POSTS = 1024;
 const PAGE_SIZE = 100;
@@ -113,10 +114,15 @@ export function useTimeline() {
   }, []);
 
   // Poll for new posts every POLL_INTERVAL
+  const rateLimitUntilRef = useRef(0);
+
   useEffect(() => {
     if (query.isLoading || query.isError) return;
 
     const poll = async () => {
+      // Skip poll if rate-limited
+      if (Date.now() < rateLimitUntilRef.current) return;
+
       try {
         const current = itemsRef.current;
         if (current.length === 0) return;
@@ -137,8 +143,12 @@ export function useTimeline() {
           setPrependedPosts((prev) => [...newPosts, ...prev]);
           setPrependCount((c) => c + newPosts.length);
         }
-      } catch {
-        // Silently ignore poll errors
+      } catch (e) {
+        if (isRateLimitError(e)) {
+          const delay = getRateLimitDelay(e) ?? 60_000;
+          rateLimitUntilRef.current = Date.now() + delay;
+        }
+        // Silently ignore other poll errors
       }
     };
 

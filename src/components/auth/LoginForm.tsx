@@ -120,7 +120,18 @@ export function LoginForm() {
 
           {error && (
             <p className={`text-sm ${error === "session_expired" ? "text-amber-600 dark:text-amber-400" : "text-red-500"}`}>
-              {error === "session_expired" ? t("session.expired") : error}
+              {error === "session_expired"
+                ? t("session.expired")
+                : error.startsWith("rate_limit:")
+                  ? (() => {
+                      const seconds = error.split(":")[1];
+                      return seconds
+                        ? t("auth.rateLimitWithTime", { seconds })
+                        : t("auth.rateLimit");
+                    })()
+                  : error === "login_failed"
+                    ? t("auth.loginFailed")
+                    : error}
             </p>
           )}
 

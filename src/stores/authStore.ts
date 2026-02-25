@@ -3,6 +3,7 @@ import type { ProfileViewDetailed } from "@atproto/api/dist/client/types/app/bsk
 import type { AtpSessionData, AtpSessionEvent } from "@atproto/api";
 import { getAgent, resetAgent, setSessionHandler } from "../lib/agent";
 import { loadSession, clearSession, saveSession, addHandleHistory } from "../lib/session";
+import { isRateLimitError, getRateLimitDelay } from "../lib/rateLimit";
 
 interface AuthState {
   isLoggedIn: boolean;
@@ -31,9 +32,15 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       set({ isLoggedIn: true, isLoading: false });
       get().fetchProfile();
     } catch (e) {
-      const message =
-        e instanceof Error ? e.message : "Login failed";
-      set({ isLoggedIn: false, isLoading: false, error: message });
+      if (isRateLimitError(e)) {
+        const delay = getRateLimitDelay(e);
+        const seconds = delay ? Math.ceil(delay / 1000) : null;
+        set({ isLoggedIn: false, isLoading: false, error: `rate_limit:${seconds ?? ""}` });
+      } else {
+        const message =
+          e instanceof Error ? e.message : "Login failed";
+        set({ isLoggedIn: false, isLoading: false, error: message });
+      }
     }
   },
 

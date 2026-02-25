@@ -54,7 +54,7 @@ export function DMThreadView() {
   // Poll for new messages
   useEffect(() => {
     if (!convoId) return;
-    const id = setInterval(() => refetch(), 5_000);
+    const id = setInterval(() => refetch(), 15_000);
     return () => clearInterval(id);
   }, [convoId, refetch]);
 

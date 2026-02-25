@@ -19,6 +19,8 @@
     "loggingIn": "ログイン中...",
     "helpText": "アプリパスワードは Bluesky の設定画面から生成できます",
     "loginFailed": "ログインに失敗しました",
+    "rateLimit": "レート制限に達しました。しばらく待ってから再試行してください。通常、５分程度で制限は解除されます。",
+    "rateLimitWithTime": "レート制限に達しました。{{seconds}}秒後に再試行してください。",
     "deleteHandle": "削除"
   },
   "compose": {

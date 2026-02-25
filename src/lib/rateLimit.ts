@@ -13,7 +13,12 @@ interface ErrorWithHeaders {
 
 /** Check if the error is a 429 rate limit response */
 export function isRateLimitError(error: unknown): boolean {
-  return (error as ErrorWithHeaders)?.status === 429;
+  const err = error as ErrorWithHeaders & { error?: string; message?: string };
+  if (err?.status === 429) return true;
+  // Fallback: check error code or message string (for wrapped errors)
+  if (err?.error === "RateLimitExceeded") return true;
+  if (typeof err?.message === "string" && err.message.includes("Rate Limit")) return true;
+  return false;
 }
 
 /**
