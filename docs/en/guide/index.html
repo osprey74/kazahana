@@ -354,24 +354,53 @@
     </table>
     <hr>
     <h2 id="bookmarklet">Bookmarklet</h2>
-    <p>You can use a bookmarklet to quickly share the page you are currently viewing in your browser to kazahana's compose screen.</p>
-    <h3>Setup</h3>
-    <p>Drag the following link to your browser's bookmarks bar, or create a new bookmark manually and paste the code below as the URL.</p>
+    <p>You can use a bookmarklet to quickly share the page you are currently viewing in your browser to kazahana's compose screen. The page title and URL are automatically filled in, and a link card (OGP preview) is also generated.</p>
+
+    <h3>Bookmarklet Button</h3>
+    <p>If your browser's bookmarks bar is visible, you can drag the button below directly onto it.</p>
     <p>
       <a href="javascript:void(function(){var t=encodeURIComponent(document.title),u=encodeURIComponent(location.href);window.open('kazahana://compose?title='+t+'&url='+u,'_self')})()" class="bookmarklet-link" onclick="return false;">Share to kazahana</a>
     </p>
-    <details>
-      <summary>Bookmarklet code</summary>
-      <code class="bookmarklet-code">javascript:void(function(){var t=encodeURIComponent(document.title),u=encodeURIComponent(location.href);window.open('kazahana://compose?title='+t+'&amp;url='+u,'_self')})()</code>
-    </details>
-    <h3>How to use</h3>
+
+    <h3>Bookmarklet Code</h3>
+    <p>If drag-and-drop is not available, copy the code below and paste it as the URL when creating a bookmark manually.</p>
+    <pre><code>javascript:void(function(){var t=encodeURIComponent(document.title),u=encodeURIComponent(location.href);window.open('kazahana://compose?title='+t+'&amp;url='+u,'_self')})()</code></pre>
+
+    <h3>Setup by Browser</h3>
+
+    <h4>Google Chrome / Microsoft Edge / Brave</h4>
+    <ol>
+      <li>Make sure the bookmarks bar is visible (press <code>Ctrl+Shift+B</code> to toggle).</li>
+      <li><strong>Drag-and-drop:</strong> Drag the "Share to kazahana" button above onto the bookmarks bar.</li>
+      <li><strong>Manual setup:</strong> Right-click the bookmarks bar &rarr; "Add page..." &rarr; Enter <code>Share to kazahana</code> as the name, and paste the bookmarklet code above as the URL.</li>
+    </ol>
+
+    <h4>Mozilla Firefox</h4>
+    <ol>
+      <li>Make sure the bookmarks toolbar is visible (<code>Ctrl+Shift+B</code>, or View &rarr; Toolbars &rarr; Bookmarks Toolbar).</li>
+      <li><strong>Drag-and-drop:</strong> Drag the "Share to kazahana" button above onto the bookmarks toolbar.</li>
+      <li><strong>Manual setup:</strong> Right-click the bookmarks toolbar &rarr; "Add Bookmark..." &rarr; Enter <code>Share to kazahana</code> as the name, and paste the bookmarklet code as the Location (URL).</li>
+    </ol>
+
+    <h4>Safari (macOS)</h4>
+    <ol>
+      <li>Show the Favorites Bar (View &rarr; Show Favorites Bar, or <code>Cmd+Shift+B</code>).</li>
+      <li>First, bookmark any page (e.g., Bookmarks &rarr; Add Bookmark &rarr; save to Favorites Bar).</li>
+      <li>Right-click the newly created bookmark &rarr; "Edit Address..." &rarr; Replace the URL with the bookmarklet code above.</li>
+      <li>Rename the bookmark to <code>Share to kazahana</code>.</li>
+    </ol>
+
+    <h3>How to Use</h3>
     <ol>
       <li>Open any web page in your browser.</li>
-      <li>Click the "Share to kazahana" bookmark.</li>
-      <li>kazahana will open (or come to the foreground) with the compose screen pre-filled with the page title and URL.</li>
+      <li>Click the "Share to kazahana" bookmark on the bookmarks bar.</li>
+      <li>kazahana will open (or come to the foreground if already running) with the compose screen pre-filled with the page title and URL. A link card is also automatically generated.</li>
       <li>Edit the text if needed, then click "Post."</li>
     </ol>
-    <blockquote><p><strong>Note:</strong> kazahana must be installed on your computer for the bookmarklet to work.</p></blockquote>
+
+    <blockquote>
+      <p><strong>Note:</strong> kazahana must be installed on your computer for the bookmarklet to work. If kazahana is not installed, clicking the bookmarklet will have no effect.</p>
+    </blockquote>
   </div>
   <footer class="footer">
     <div class="footer-inner">

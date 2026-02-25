@@ -431,24 +431,53 @@
 
     <!-- Bookmarklet -->
     <h2 id="bookmarklet">ブックマークレット</h2>
-    <p>ブックマークレットを使うと、ブラウザで閲覧中のページのタイトルと URL をワンクリックで kazahana の投稿画面に送ることができます。</p>
-    <h3>設定方法</h3>
-    <p>以下のリンクをブラウザのブックマークバーにドラッグ＆ドロップするか、新規ブックマークを作成して URL 欄に下記のコードを貼り付けてください。</p>
+    <p>ブックマークレットを使うと、ブラウザで閲覧中のページのタイトルと URL をワンクリックで kazahana の投稿画面に送ることができます。リンクカード（OGP プレビュー）も自動生成されます。</p>
+
+    <h3>ブックマークレットボタン</h3>
+    <p>ブラウザのブックマークバーが表示されている場合、以下のボタンをそのままドラッグ＆ドロップで追加できます。</p>
     <p>
       <a href="javascript:void(function(){var t=encodeURIComponent(document.title),u=encodeURIComponent(location.href);window.open('kazahana://compose?title='+t+'&url='+u,'_self')})()" class="bookmarklet-link" onclick="return false;">kazahana に共有</a>
     </p>
-    <details>
-      <summary>ブックマークレットのコード</summary>
-      <code class="bookmarklet-code">javascript:void(function(){var t=encodeURIComponent(document.title),u=encodeURIComponent(location.href);window.open('kazahana://compose?title='+t+'&amp;url='+u,'_self')})()</code>
-    </details>
+
+    <h3>ブックマークレットのコード</h3>
+    <p>ドラッグ＆ドロップが使えない場合は、以下のコードをコピーし、ブックマークの手動作成時に URL 欄に貼り付けてください。</p>
+    <pre><code>javascript:void(function(){var t=encodeURIComponent(document.title),u=encodeURIComponent(location.href);window.open('kazahana://compose?title='+t+'&amp;url='+u,'_self')})()</code></pre>
+
+    <h3>ブラウザごとの設定手順</h3>
+
+    <h4>Google Chrome / Microsoft Edge / Brave</h4>
+    <ol>
+      <li>ブックマークバーを表示します（<code>Ctrl+Shift+B</code> で切り替え）。</li>
+      <li><strong>ドラッグ＆ドロップ:</strong> 上の「kazahana に共有」ボタンをブックマークバーにドラッグします。</li>
+      <li><strong>手動設定:</strong> ブックマークバーを右クリック →「ページを追加...」→ 名前に <code>kazahana に共有</code> と入力し、URL 欄に上記のブックマークレットコードを貼り付けます。</li>
+    </ol>
+
+    <h4>Mozilla Firefox</h4>
+    <ol>
+      <li>ブックマークツールバーを表示します（<code>Ctrl+Shift+B</code>、または 表示 → ツールバー → ブックマークツールバー）。</li>
+      <li><strong>ドラッグ＆ドロップ:</strong> 上の「kazahana に共有」ボタンをブックマークツールバーにドラッグします。</li>
+      <li><strong>手動設定:</strong> ブックマークツールバーを右クリック →「ブックマークを追加...」→ 名前に <code>kazahana に共有</code> と入力し、URL 欄にブックマークレットコードを貼り付けます。</li>
+    </ol>
+
+    <h4>Safari (macOS)</h4>
+    <ol>
+      <li>お気に入りバーを表示します（表示 → お気に入りバーを表示、または <code>Cmd+Shift+B</code>）。</li>
+      <li>まず任意のページをブックマークに追加します（ブックマーク → ブックマークに追加 → お気に入りバーに保存）。</li>
+      <li>作成したブックマークを右クリック →「アドレスを編集...」→ URL を上記のブックマークレットコードに置き換えます。</li>
+      <li>名前を <code>kazahana に共有</code> に変更します。</li>
+    </ol>
+
     <h3>使い方</h3>
     <ol>
       <li>ブラウザで任意のウェブページを開きます。</li>
       <li>ブックマークバーの「kazahana に共有」をクリックします。</li>
-      <li>kazahana が起動（または前面に表示）され、ページのタイトルと URL が入力された投稿画面が開きます。</li>
+      <li>kazahana が起動（または前面に表示）され、ページのタイトルと URL が入力された投稿画面が開きます。リンクカードも自動生成されます。</li>
       <li>必要に応じてテキストを編集し、「投稿する」をクリックします。</li>
     </ol>
-    <blockquote><p><strong>注意:</strong> ブックマークレットを使用するには、お使いのパソコンに kazahana がインストールされている必要があります。</p></blockquote>
+
+    <blockquote>
+      <p><strong>注意:</strong> ブックマークレットを使用するには、お使いのパソコンに kazahana がインストールされている必要があります。kazahana がインストールされていない場合、クリックしても何も起こりません。</p>
+    </blockquote>
   </div>
 
   <!-- Footer -->
