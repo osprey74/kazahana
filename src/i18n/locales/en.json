@@ -221,6 +221,10 @@
       "porn": "Pornography",
       "graphic-media": "Graphic Media"
     },
+    "closeAction": "Close Button",
+    "closeActionExit": "Exit the application",
+    "closeActionMinimize": "Minimize to system tray",
+    "closeActionMinimizeHint": "When minimized to the system tray, right-click the tray icon and select \"Exit\" to quit the program.",
     "pref": {
       "hide": "Hide",
       "warn": "Warn",

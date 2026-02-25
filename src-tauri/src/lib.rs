@@ -1,6 +1,14 @@
+use std::sync::atomic::{AtomicBool, Ordering};
 use tauri::Manager;
 
 mod tray;
+
+static MINIMIZE_ON_CLOSE: AtomicBool = AtomicBool::new(false);
+
+#[tauri::command]
+fn set_minimize_on_close(enabled: bool) {
+  MINIMIZE_ON_CLOSE.store(enabled, Ordering::Relaxed);
+}
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -27,6 +35,8 @@ pub fn run() {
       tauri_plugin_autostart::MacosLauncher::LaunchAgent,
       None,
     ))
+    .plugin(tauri_plugin_window_state::Builder::new().build())
+    .invoke_handler(tauri::generate_handler![set_minimize_on_close])
     .setup(|app| {
       if cfg!(debug_assertions) {
         app.handle().plugin(
@@ -47,6 +57,14 @@ pub fn run() {
       tray::setup_tray(app.handle())?;
 
       Ok(())
+    })
+    .on_window_event(|window, event| {
+      if let tauri::WindowEvent::CloseRequested { api, .. } = event {
+        if MINIMIZE_ON_CLOSE.load(Ordering::Relaxed) {
+          api.prevent_close();
+          let _ = window.hide();
+        }
+      }
     })
     .run(tauri::generate_context!())
     .expect("error while running tauri application");

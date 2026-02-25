@@ -127,3 +127,6 @@ Collaborator: よつぎnん / @yotsugin.bsky.social
 - [x] Search history: persist up to 200 entries across app restarts (localStorage/Zustand persist), individual delete and clear all buttons
 - [x] Official website via GitHub Pages
 - [x] Settings: フィードの並べ替え機能 — 「表示するフィードを設定」画面で上下ボタンによる並べ替え、表示/非表示グループ分け表示 (要望者: あやがね / @ayagane.magical-pritt.jp)
+- [x] ウィンドウサイズ・位置の保存と復元 — 終了時にウィンドウサイズと画面上の配置位置を保存し、次回起動時に復元 (tauri-plugin-window-state) (要望者: あやがね / @ayagane.magical-pritt.jp)
+- [x] タスクトレイアイコン操作改善 — 左クリックでウィンドウ復元／最前面配置、右クリックメニューに「Open Window」「Minimize」「Exit」を実装 (要望者: あやがね / @ayagane.magical-pritt.jp)
+- [x] 閉じるボタン動作設定 — 設定画面に「閉じるボタンで終了」「閉じるボタンで最小化」オプションを追加。最小化選択時の注意書き表示 (要望者: あやがね / @ayagane.magical-pritt.jp)

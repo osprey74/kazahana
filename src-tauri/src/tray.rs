@@ -1,14 +1,15 @@
 use tauri::{
     image::Image,
     menu::{Menu, MenuItem},
-    tray::TrayIconBuilder,
+    tray::{MouseButton, MouseButtonState, TrayIconBuilder, TrayIconEvent},
     AppHandle, Manager,
 };
 
 pub fn setup_tray(app: &AppHandle) -> Result<(), Box<dyn std::error::Error>> {
-    let show = MenuItem::with_id(app, "show", "Show", true, None::<&str>)?;
-    let quit = MenuItem::with_id(app, "quit", "Quit", true, None::<&str>)?;
-    let menu = Menu::with_items(app, &[&show, &quit])?;
+    let show = MenuItem::with_id(app, "show", "Open Window", true, None::<&str>)?;
+    let minimize = MenuItem::with_id(app, "minimize", "Minimize", true, None::<&str>)?;
+    let quit = MenuItem::with_id(app, "quit", "Exit", true, None::<&str>)?;
+    let menu = Menu::with_items(app, &[&show, &minimize, &quit])?;
 
     let icon = Image::from_bytes(include_bytes!("../icons/icon.png"))?;
 
@@ -19,8 +20,14 @@ pub fn setup_tray(app: &AppHandle) -> Result<(), Box<dyn std::error::Error>> {
         .on_menu_event(move |app, event| match event.id.as_ref() {
             "show" => {
                 if let Some(window) = app.get_webview_window("main") {
+                    let _ = window.unminimize();
                     let _ = window.show();
                     let _ = window.set_focus();
+                }
+            }
+            "minimize" => {
+                if let Some(window) = app.get_webview_window("main") {
+                    let _ = window.minimize();
                 }
             }
             "quit" => {
@@ -29,8 +36,14 @@ pub fn setup_tray(app: &AppHandle) -> Result<(), Box<dyn std::error::Error>> {
             _ => {}
         })
         .on_tray_icon_event(|tray, event| {
-            if let tauri::tray::TrayIconEvent::Click { .. } = event {
+            if let TrayIconEvent::Click {
+                button: MouseButton::Left,
+                button_state: MouseButtonState::Up,
+                ..
+            } = event
+            {
                 if let Some(window) = tray.app_handle().get_webview_window("main") {
+                    let _ = window.unminimize();
                     let _ = window.show();
                     let _ = window.set_focus();
                 }

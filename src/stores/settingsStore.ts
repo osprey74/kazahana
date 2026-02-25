@@ -1,7 +1,9 @@
 import { create } from "zustand";
 import { enable, disable, isEnabled } from "@tauri-apps/plugin-autostart";
+import { invoke } from "@tauri-apps/api/core";
 
 type Theme = "light" | "dark" | "system";
+type CloseAction = "exit" | "minimize";
 
 interface SettingsState {
   theme: Theme;
@@ -10,13 +12,20 @@ interface SettingsState {
   autoStart: boolean;
   videoVolume: number;
   showVia: boolean;
+  closeAction: CloseAction;
   setTheme: (theme: Theme) => void;
   setPollInterval: (seconds: number) => void;
   setDesktopNotification: (enabled: boolean) => void;
   setAutoStart: (enabled: boolean) => void;
   setVideoVolume: (volume: number) => void;
   setShowVia: (enabled: boolean) => void;
+  setCloseAction: (action: CloseAction) => void;
   initAutoStart: () => void;
+  initCloseAction: () => void;
+}
+
+function syncCloseAction(action: CloseAction) {
+  invoke("set_minimize_on_close", { enabled: action === "minimize" }).catch(() => {});
 }
 
 export const useSettingsStore = create<SettingsState>((set) => ({
@@ -26,6 +35,7 @@ export const useSettingsStore = create<SettingsState>((set) => ({
   autoStart: false, // Will be synced from plugin on init
   videoVolume: Number(localStorage.getItem("kazahana-video-volume")) || 50,
   showVia: localStorage.getItem("kazahana-show-via") !== "false",
+  closeAction: (localStorage.getItem("kazahana-close-action") as CloseAction) || "exit",
 
   setTheme: (theme: Theme) => {
     localStorage.setItem("kazahana-theme", theme);
@@ -62,10 +72,21 @@ export const useSettingsStore = create<SettingsState>((set) => ({
     set({ autoStart: enabled });
   },
 
+  setCloseAction: (action: CloseAction) => {
+    localStorage.setItem("kazahana-close-action", action);
+    syncCloseAction(action);
+    set({ closeAction: action });
+  },
+
   initAutoStart: () => {
     isEnabled()
       .then((enabled) => set({ autoStart: enabled }))
       .catch(() => {});
+  },
+
+  initCloseAction: () => {
+    const action = (localStorage.getItem("kazahana-close-action") as CloseAction) || "exit";
+    syncCloseAction(action);
   },
 
 }));

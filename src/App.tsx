@@ -87,11 +87,13 @@ function AuthGate() {
   const theme = useSettingsStore((s) => s.theme);
 
   const initAutoStart = useSettingsStore((s) => s.initAutoStart);
+  const initCloseAction = useSettingsStore((s) => s.initCloseAction);
 
   useEffect(() => {
     restoreSession();
     initAutoStart();
-  }, [restoreSession, initAutoStart]);
+    initCloseAction();
+  }, [restoreSession, initAutoStart, initCloseAction]);
 
   // Apply theme on mount and when it changes
   useEffect(() => {

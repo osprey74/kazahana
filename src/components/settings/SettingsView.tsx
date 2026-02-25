@@ -21,7 +21,7 @@ export function SettingsView() {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { theme, setTheme, pollInterval, setPollInterval, desktopNotification, setDesktopNotification, autoStart, setAutoStart, videoVolume, setVideoVolume, showVia, setShowVia } = useSettingsStore();
+  const { theme, setTheme, pollInterval, setPollInterval, desktopNotification, setDesktopNotification, autoStart, setAutoStart, videoVolume, setVideoVolume, showVia, setShowVia, closeAction, setCloseAction } = useSettingsStore();
   const logout = useAuthStore((s) => s.logout);
 
   // Fetch current moderation preferences
@@ -145,6 +145,39 @@ export function SettingsView() {
           />
           <span className="text-sm text-text-light dark:text-text-dark">{t("settings.enableAutoStart")}</span>
         </label>
+      </section>
+
+      {/* Close Button Action */}
+      <section className="mb-6">
+        <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t("settings.closeAction")}</h3>
+        <div className="flex flex-col gap-2 ml-4">
+          <label className="flex items-center gap-2 cursor-pointer">
+            <input
+              type="radio"
+              name="closeAction"
+              checked={closeAction === "exit"}
+              onChange={() => setCloseAction("exit")}
+              className="w-4 h-4 accent-primary"
+            />
+            <span className="text-sm text-text-light dark:text-text-dark">{t("settings.closeActionExit")}</span>
+          </label>
+          <label className="flex items-center gap-2 cursor-pointer">
+            <input
+              type="radio"
+              name="closeAction"
+              checked={closeAction === "minimize"}
+              onChange={() => setCloseAction("minimize")}
+              className="w-4 h-4 accent-primary"
+            />
+            <span className="text-sm text-text-light dark:text-text-dark">{t("settings.closeActionMinimize")}</span>
+          </label>
+          {closeAction === "minimize" && (
+            <p className="text-xs text-amber-600 dark:text-amber-400 mt-1 flex items-start gap-1">
+              <Icon name="info" size={14} className="mt-0.5 shrink-0" />
+              <span>{t("settings.closeActionMinimizeHint")}</span>
+            </p>
+          )}
+        </div>
       </section>
 
       {/* Video Volume */}
