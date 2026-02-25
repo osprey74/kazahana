@@ -53,6 +53,7 @@ Kazahana is designed as a **lightweight, always-running companion app** — not 
 - [x] Bookmarks
 - [x] Quote post
 - [x] Direct messages
+- [x] Bookmarklet & custom URI protocol (`kazahana://compose`) for quick sharing from browser
 
 ## Tech Stack
 
