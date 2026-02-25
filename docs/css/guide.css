@@ -1,0 +1,232 @@
+/* kazahana guide - additional styles */
+
+/* ===== Guide Layout ===== */
+.guide-content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 48px 24px 80px;
+}
+
+.guide-content h1 {
+  font-size: 32px;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+.guide-content > p:first-of-type {
+  color: var(--text-secondary);
+  font-size: 15px;
+  margin-bottom: 8px;
+}
+
+.guide-version {
+  display: inline-block;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 4px 12px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 40px;
+}
+
+.guide-content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 48px 0;
+}
+
+/* ===== Headings ===== */
+.guide-content h2 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--primary);
+}
+
+.guide-content h3 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-top: 32px;
+  margin-bottom: 12px;
+}
+
+.guide-content h4 {
+  font-size: 16px;
+  font-weight: 700;
+  margin-top: 24px;
+  margin-bottom: 8px;
+}
+
+/* ===== Paragraphs ===== */
+.guide-content p {
+  font-size: 15px;
+  line-height: 1.8;
+  margin-bottom: 16px;
+}
+
+/* ===== Tables ===== */
+.guide-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 24px;
+  font-size: 14px;
+}
+
+.guide-content th {
+  background: var(--surface);
+  font-weight: 700;
+  text-align: left;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.guide-content td {
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  vertical-align: top;
+}
+
+.guide-content tr:hover td {
+  background: var(--surface);
+}
+
+/* ===== Images ===== */
+.guide-content img {
+  max-width: 380px;
+  height: auto;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  display: block;
+  margin: 20px auto 24px;
+}
+
+.guide-content img.img-small {
+  max-width: 300px;
+}
+
+.guide-content img.img-inline {
+  max-width: 240px;
+  display: inline-block;
+  margin: 8px;
+}
+
+/* ===== Blockquotes (tips) ===== */
+.guide-content blockquote {
+  background: var(--surface);
+  border-left: 4px solid var(--primary);
+  border-radius: 0 8px 8px 0;
+  padding: 16px 20px;
+  margin: 16px 0 24px;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.guide-content blockquote strong {
+  color: var(--text);
+}
+
+.guide-content blockquote p {
+  margin-bottom: 0;
+}
+
+/* ===== Inline code ===== */
+.guide-content code {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 13px;
+  font-family: "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+}
+
+/* ===== Table of Contents ===== */
+.guide-toc {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px 28px;
+  margin-bottom: 40px;
+}
+
+.guide-toc h2 {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.guide-toc ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px 24px;
+}
+
+.guide-toc li {
+  font-size: 14px;
+}
+
+.guide-toc li::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background: var(--primary);
+  border-radius: 50%;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.guide-toc a {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.guide-toc a:hover {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+/* ===== Back to top ===== */
+.guide-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  margin-top: 4px;
+  color: var(--text-secondary);
+}
+
+.guide-back-link:hover {
+  color: var(--primary);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .guide-content {
+    padding: 32px 16px 60px;
+  }
+
+  .guide-content h1 {
+    font-size: 24px;
+  }
+
+  .guide-content h2 {
+    font-size: 20px;
+  }
+
+  .guide-content img {
+    max-width: 100%;
+  }
+
+  .guide-toc ul {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>操作マニュアル - kazahana</title>
+  <meta name="description" content="kazahana の各画面の名称と機能を解説する操作マニュアルです。">
+  <link rel="icon" href="../../images/icon.png" type="image/png">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/guide.css">
+  <script src="../../js/theme.js"></script>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <a href="../" class="header-logo">
+        <img src="../../images/icon.png" alt="kazahana">
+        <span>kazahana</span>
+      </a>
+      <div class="header-controls">
+        <a href="../../en/guide/" style="font-size:13px; color:var(--text-secondary); margin-right:8px;">English</a>
+        <button class="theme-toggle" id="theme-toggle" aria-label="テーマ切替">
+          <span class="material-symbols-rounded">dark_mode</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Guide Content -->
+  <div class="guide-content">
+
+    <p><a href="../">&larr; トップに戻る</a></p>
+    <h1>操作マニュアル</h1>
+    <p>kazahana は、Bluesky の軽量デスクトップクライアントアプリです。このマニュアルでは、各画面の名称と機能について解説します。</p>
+    <span class="guide-version">対応バージョン: kazahana v1.2.0</span>
+
+    <!-- Table of Contents -->
+    <nav class="guide-toc">
+      <h2>目次</h2>
+      <ul>
+        <li><a href="#login">ログイン</a></li>
+        <li><a href="#layout">画面の基本構成</a></li>
+        <li><a href="#timeline">ホーム（タイムライン）</a></li>
+        <li><a href="#search">検索</a></li>
+        <li><a href="#notifications">通知</a></li>
+        <li><a href="#dm">ダイレクトメッセージ</a></li>
+        <li><a href="#profile">プロフィール</a></li>
+        <li><a href="#new-post">新規投稿</a></li>
+        <li><a href="#post-detail">投稿詳細・スレッド</a></li>
+        <li><a href="#settings">設定</a></li>
+      </ul>
+    </nav>
+
+    <hr>
+
+    <!-- Login -->
+    <h2 id="login">ログイン</h2>
+    <p>アプリを起動すると、ログイン画面が表示されます。</p>
+    <img src="./images/01_login.png" alt="ログイン画面">
+    <table>
+      <thead><tr><th>項目</th><th>説明</th></tr></thead>
+      <tbody>
+        <tr><td><strong>ハンドル</strong></td><td>Bluesky のハンドルを入力します（例: <code>user.bsky.social</code>）</td></tr>
+        <tr><td><strong>アプリパスワード</strong></td><td>Bluesky で生成したアプリパスワードを入力します（形式: <code>xxxx-xxxx-xxxx-xxxx</code>）</td></tr>
+        <tr><td><strong>ログインボタン</strong></td><td>入力した情報でログインを実行します</td></tr>
+      </tbody>
+    </table>
+    <p>画面下部の「アプリパスワードは Bluesky の設定画面から生成できます」のリンクから、Bluesky のアプリパスワード設定ページにアクセスできます。</p>
+    <blockquote><p><strong>ヒント:</strong> kazahana ではアカウントの通常パスワードではなく、Bluesky の設定画面で発行する「アプリパスワード」を使用します。</p></blockquote>
+
+    <hr>
+
+    <!-- Basic Screen Layout -->
+    <h2 id="layout">画面の基本構成</h2>
+    <p>ログイン後の各画面は、共通のレイアウトで構成されています。</p>
+    <img src="./images/02_timeline.png" alt="ホーム画面">
+
+    <h3>タイトルバー</h3>
+    <p>画面最上部に表示されます。アプリ名「kazahana」と、ウィンドウ操作ボタン（最小化・最大化・閉じる）が配置されています。</p>
+
+    <h3>ユーザーバー</h3>
+    <table>
+      <thead><tr><th>位置</th><th>要素</th><th>説明</th></tr></thead>
+      <tbody>
+        <tr><td>左</td><td>リロードボタン</td><td>タイムラインを手動で更新します</td></tr>
+        <tr><td>中央</td><td>ハンドル表示</td><td>ログイン中のアカウントのハンドルが表示されます</td></tr>
+        <tr><td>右</td><td>設定アイコン（⚙）</td><td><a href="#settings">設定画面</a>を開きます</td></tr>
+      </tbody>
+    </table>
+
+    <h3>ナビゲーションバー</h3>
+    <p>ユーザーバーの下に、5つのアイコンが横並びで表示されます。各アイコンをクリックすると対応する画面に切り替わります。</p>
+    <table>
+      <thead><tr><th>アイコン</th><th>画面</th><th>説明</th></tr></thead>
+      <tbody>
+        <tr><td>🏠</td><td><a href="#timeline">ホーム</a></td><td>タイムラインを表示します</td></tr>
+        <tr><td>🔍</td><td><a href="#search">検索</a></td><td>ユーザーや投稿を検索します</td></tr>
+        <tr><td>🔔</td><td><a href="#notifications">通知</a></td><td>いいね・リポスト等の通知を表示します</td></tr>
+        <tr><td>✉️</td><td><a href="#dm">ダイレクトメッセージ</a></td><td>DM の会話一覧を表示します</td></tr>
+        <tr><td>👤</td><td><a href="#profile">プロフィール</a></td><td>自分のプロフィールを表示します</td></tr>
+      </tbody>
+    </table>
+    <p>未読のダイレクトメッセージがある場合、✉️ アイコンに赤い数字のバッジが表示されます。</p>
+
+    <h3>新規投稿ボタン（FAB）</h3>
+    <p>画面右下に常時表示される青い丸ボタンです。クリックすると<a href="#new-post">新規投稿画面</a>が開きます。</p>
+
+    <hr>
+
+    <!-- Home (Timeline) -->
+    <h2 id="timeline">ホーム（タイムライン）</h2>
+    <p>ナビゲーションバーの 🏠 アイコンで表示される画面です。フォロー中のユーザーの投稿が時系列で表示されます。</p>
+
+    <h3>フィードタブ</h3>
+    <table>
+      <thead><tr><th>タブ</th><th>説明</th></tr></thead>
+      <tbody>
+        <tr><td><strong>ホーム</strong></td><td>フォロー中のユーザーの投稿を表示します（常時表示）</td></tr>
+        <tr><td><strong>Discover</strong></td><td>おすすめの投稿を表示します（表示/非表示を設定可能）</td></tr>
+        <tr><td><strong>Video</strong></td><td>動画投稿を表示します（表示/非表示を設定可能）</td></tr>
+      </tbody>
+    </table>
+    <p>表示するフィードタブは、<a href="#settings-feeds">設定画面</a>からカスタマイズできます。</p>
+
+    <h3>投稿カード</h3>
+    <table>
+      <thead><tr><th>要素</th><th>説明</th></tr></thead>
+      <tbody>
+        <tr><td><strong>リポストラベル</strong></td><td>リポストされた投稿の場合、上部に「○○ がリポスト」と表示されます</td></tr>
+        <tr><td><strong>アバター</strong></td><td>投稿者のプロフィール画像です。クリックで投稿者のプロフィール画面を開きます</td></tr>
+        <tr><td><strong>表示名・ハンドル</strong></td><td>投稿者の表示名とハンドル（<code>@xxx</code>）が表示されます</td></tr>
+        <tr><td><strong>経過時間</strong></td><td>投稿からの経過時間（「27分」「2時間」「2日」など）が表示されます</td></tr>
+        <tr><td><strong>投稿本文</strong></td><td>テキスト、リンク、ハッシュタグなどが表示されます</td></tr>
+        <tr><td><strong>画像サムネイル</strong></td><td>投稿に画像が含まれる場合、サムネイルが表示されます</td></tr>
+        <tr><td><strong>リンクカード</strong></td><td>投稿に URL が含まれる場合、OGP 情報（サムネイル・タイトル・説明文）がカード形式で表示されます</td></tr>
+        <tr><td><strong>言語ラベル</strong></td><td>投稿の言語が右下に表示されます（例: <code>langs: ja</code>）</td></tr>
+        <tr><td><strong>クライアント名</strong></td><td>設定で有効にしている場合、投稿元のクライアント名（例: <code>via kazahana</code>）が表示されます</td></tr>
+      </tbody>
+    </table>
+
+    <h3>アクションバー</h3>
+    <p>各投稿カードの下部に、操作アイコンが横並びで表示されます。</p>
+    <img src="./images/05_action_bar.png" alt="アクションバー" class="img-small">
+    <table>
+      <thead><tr><th>アイコン</th><th>クリック時の動作</th><th>数字の表示</th><th>数字クリック時の動作</th></tr></thead>
+      <tbody>
+        <tr><td>💬 返信</td><td>返信の作成画面を開く</td><td>あり</td><td>―（一覧表示なし）</td></tr>
+        <tr><td>🔁 リポスト</td><td>即座にリポストを実行</td><td>あり</td><td>リポストした人の一覧を表示</td></tr>
+        <tr><td>♡ いいね</td><td>いいねを付ける／取り消す</td><td>あり</td><td>いいねした人の一覧を表示</td></tr>
+        <tr><td>「99」引用</td><td>ポップアップメニューを表示</td><td>―</td><td>―</td></tr>
+        <tr><td>🔖 ブックマーク</td><td>投稿をブックマークに保存／解除</td><td>―</td><td>―</td></tr>
+        <tr><td>⋮ メニュー</td><td>その他の操作メニューを開く</td><td>―</td><td>―</td></tr>
+      </tbody>
+    </table>
+
+    <h4>引用ポップアップメニュー</h4>
+    <p>「99」引用アイコンをクリックすると、以下のメニューが表示されます。</p>
+    <img src="./images/06_quote_popup.png" alt="引用ポップアップ" class="img-small">
+    <table>
+      <thead><tr><th>項目</th><th>説明</th></tr></thead>
+      <tbody>
+        <tr><td><strong>引用して投稿</strong></td><td>引用リポストの作成画面を開きます</td></tr>
+        <tr><td><strong>引用一覧を見る</strong></td><td>この投稿を引用した投稿の一覧を表示します</td></tr>
+      </tbody>
+    </table>
+
+    <h3>既読位置マーカー</h3>
+    <img src="./images/03_timeline_read_marker.png" alt="ここまで読んだ">
+    <p>タイムライン上に「↓ここまで読んだ↓」と書かれた青い横バーが表示されます。前回閲覧した位置を示しており、どこまで読んだかが一目でわかります。</p>
+
+    <h3>トップへ戻るボタン</h3>
+    <p>タイムラインを下にスクロールすると、画面左下に青い丸ボタン（↑矢印アイコン）が表示されます。クリックするとフィードの先頭に戻ります。</p>
+
+    <hr>
+
+    <!-- Search -->
+    <h2 id="search">検索</h2>
+    <p>ナビゲーションバーの 🔍 アイコンで表示される画面です。</p>
+
+    <h3>検索の初期画面</h3>
+    <img src="./images/07_search_initial.png" alt="検索初期画面">
+    <table>
+      <thead><tr><th>要素</th><th>説明</th></tr></thead>
+      <tbody>
+        <tr><td><strong>検索入力フィールド</strong></td><td>「ユーザーや投稿を検索...」と表示されます。テキストを入力して Enter で検索を実行します</td></tr>
+        <tr><td><strong>検索履歴</strong></td><td>過去の検索キーワードが一覧表示されます</td></tr>
+        <tr><td><strong>個別削除（×）</strong></td><td>各履歴の右側の × ボタンで個別に削除できます</td></tr>
+        <tr><td><strong>すべて削除</strong></td><td>右上のリンクで検索履歴を一括削除できます</td></tr>
+      </tbody>
+    </table>
+
+    <h3>検索結果</h3>
+    <img src="./images/08_search_results.png" alt="検索結果">
+    <p>検索を実行すると、結果が「投稿」「ユーザー」の2つのタブで表示されます。</p>
+    <table>
+      <thead><tr><th>タブ</th><th>説明</th></tr></thead>
+      <tbody>
+        <tr><td><strong>投稿</strong></td><td>検索キーワードに一致する投稿がカード形式で表示されます（デフォルト）</td></tr>
+        <tr><td><strong>ユーザー</strong></td><td>検索キーワードに一致するユーザーが一覧表示されます</td></tr>
+      </tbody>
+    </table>
+    <p>検索入力フィールドの右側にある × ボタンで、入力をクリアして初期画面に戻れます。</p>
+
+    <hr>
+
+    <!-- Notifications -->
+    <h2 id="notifications">通知</h2>
+    <p>ナビゲーションバーの 🔔 アイコンで表示される画面です。</p>
+    <img src="./images/09_notifications.png" alt="通知画面">
+    <p>新しい通知が時系列で上から一覧表示されます。各通知には、アクションの種類・実行したユーザーの情報・対象の投稿プレビュー・経過時間が含まれます。</p>
+
+    <h3>通知の種類</h3>
+    <table>
+      <thead><tr><th>アイコン</th><th>種類</th><th>内容</th></tr></thead>
+      <tbody>
+        <tr><td>❤️</td><td>いいね</td><td>自分の投稿がいいねされた</td></tr>
+        <tr><td>💬</td><td>返信</td><td>自分の投稿に返信があった</td></tr>
+        <tr><td>👤</td><td>フォロー</td><td>自分のアカウントがフォローされた</td></tr>
+        <tr><td>🔁</td><td>リポスト</td><td>自分の投稿がリポストされた</td></tr>
+        <tr><td>「99」</td><td>引用</td><td>自分の投稿が引用リポストされた</td></tr>
+        <tr><td>@</td><td>メンション</td><td>他のユーザーの投稿で自分が言及された</td></tr>
+      </tbody>
+    </table>
+
+    <hr>
+
+    <!-- Direct Messages -->
+    <h2 id="dm">ダイレクトメッセージ</h2>
+    <p>ナビゲーションバーの ✉️ アイコンで表示される画面です。</p>
+
+    <h3>会話一覧</h3>
+    <img src="./images/10_dm_list.png" alt="DM会話一覧">
+    <table>
+      <thead><tr><th>要素</th><th>説明</th></tr></thead>
+      <tbody>
+        <tr><td><strong>アバター・表示名</strong></td><td>会話相手のプロフィール情報です</td></tr>
+        <tr><td><strong>最新メッセージプレビュー</strong></td><td>最新のメッセージの冒頭が表示されます</td></tr>
+        <tr><td><strong>経過時間</strong></td><td>最新メッセージの経過時間です</td></tr>
+        <tr><td><strong>未読バッジ</strong></td><td>未読メッセージがある場合、緑色の丸に件数が表示されます</td></tr>
+      </tbody>
+    </table>
+    <p>会話をクリックするとスレッド（個別のやり取り画面）が開きます。</p>
+    <p>画面右下の青い丸ボタン（✉ アイコン）をクリックすると、新しい DM の会話を開始できます。</p>
+
+    <h3>スレッド表示</h3>
+    <img src="./images/11_dm_thread.png" alt="DMスレッド">
+    <table>
+      <thead><tr><th>要素</th><th>説明</th></tr></thead>
+      <tbody>
+        <tr><td><strong>← 戻るボタン</strong></td><td>会話一覧に戻ります</td></tr>
+        <tr><td><strong>相手の情報</strong></td><td>アバター・表示名・ハンドルが表示されます</td></tr>
+        <tr><td><strong>⋮ メニュー</strong></td><td>その他の操作メニューを開きます</td></tr>
+        <tr><td><strong>過去のメッセージを読み込む</strong></td><td>クリックすると、さらに古いメッセージを取得します</td></tr>
+        <tr><td><strong>メッセージ表示エリア</strong></td><td>相手のメッセージは左寄せ・グレー背景、自分のメッセージは右寄せ・青背景の吹き出しで表示されます。各メッセージの下に経過時間が表示されます</td></tr>
+        <tr><td><strong>メッセージ入力エリア</strong></td><td>テキストを入力し、右側の送信ボタン（▶）でメッセージを送信します</td></tr>
+      </tbody>
+    </table>
+
+    <hr>
+
+    <!-- Profile -->
+    <h2 id="profile">プロフィール</h2>
+    <p>ナビゲーションバーの 👤 アイコンで自分のプロフィールが表示されます。他ユーザーのアバターや表示名をクリックした場合は、そのユーザーのプロフィールが表示されます。</p>
+
+    <h3>自分のプロフィール</h3>
+    <img src="./images/12_profile_self.png" alt="自分のプロフィール">
+    <table>
+      <thead><tr><th>要素</th><th>説明</th></tr></thead>
+      <tbody>
+        <tr><td><strong>バナー画像</strong></td><td>画面上部の背景画像です</td></tr>
+        <tr><td><strong>アバター</strong></td><td>丸型のプロフィール画像です</td></tr>
+        <tr><td><strong>表示名・ハンドル</strong></td><td>アカウントの表示名とハンドルです</td></tr>
+        <tr><td><strong>自己紹介（Bio）</strong></td><td>プロフィールの自己紹介文とリンクです</td></tr>
+        <tr><td><strong>フォロー中</strong></td><td>クリックでフォロー中ユーザーの一覧を表示します</td></tr>
+        <tr><td><strong>フォロワー</strong></td><td>クリックでフォロワーの一覧を表示します</td></tr>
+        <tr><td><strong>投稿数</strong></td><td>投稿の総数です（クリック非対応）</td></tr>
+      </tbody>
+    </table>
+
+    <h4>コンテンツタブ</h4>
+    <table>
+      <thead><tr><th>タブ</th><th>説明</th></tr></thead>
+      <tbody>
+        <tr><td><strong>投稿</strong></td><td>自分の投稿・リポストの一覧です</td></tr>
+        <tr><td><strong>いいね</strong></td><td>自分がいいねした投稿の一覧です</td></tr>
+        <tr><td><strong>メディア</strong></td><td>画像・動画を含む投稿のみ表示します</td></tr>
+        <tr><td><strong>付箋</strong></td><td>ピン留めした投稿の一覧です</td></tr>
+        <tr><td><strong>スターターパック</strong></td><td>自分が作成したスターターパックの一覧です</td></tr>
+      </tbody>
+    </table>
+    <img src="./images/15_profile_pinned.png" alt="付箋タブ">
+
+    <h3>他ユーザーのプロフィール</h3>
+    <p>他ユーザーのプロフィールでは、バナー画像の右下にフォロー操作ボタンが表示されます。</p>
+    <p><strong>未フォロー時:</strong></p>
+    <img src="./images/14_profile_other_unfollow.png" alt="未フォローのプロフィール">
+    <p>「フォローする」ボタン（青背景）が表示されます。クリックでフォローします。</p>
+    <p><strong>フォロー中:</strong></p>
+    <img src="./images/13_profile_other_following.png" alt="フォロー中のプロフィール">
+    <p>「フォロー中」ボタン（白背景）が表示されます。クリックでフォローを解除します。</p>
+
+    <h4>「…」メニュー</h4>
+    <table>
+      <thead><tr><th>項目</th><th>説明</th></tr></thead>
+      <tbody>
+        <tr><td><strong>リストに追加／削除</strong></td><td>ユーザーをリストに追加または削除します</td></tr>
+        <tr><td><strong>ミュートする</strong></td><td>ユーザーをミュートします</td></tr>
+        <tr><td><strong>ブロックする</strong></td><td>ユーザーをブロックします</td></tr>
+        <tr><td><strong>このユーザーを通報</strong></td><td>ユーザーを通報します</td></tr>
+      </tbody>
+    </table>
+    <blockquote><p><strong>補足:</strong> 他ユーザーのプロフィールでは、コンテンツタブに「付箋」タブは表示されません。</p></blockquote>
+
+    <h3>フォロー中・フォロワー一覧</h3>
+    <p>プロフィール画面の「フォロー中」「フォロワー」をクリックすると、それぞれの一覧画面が表示されます。</p>
+    <img src="./images/16_following_list.png" alt="フォロー中一覧">
+    <img src="./images/17_follower_list.png" alt="フォロワー一覧">
+    <p>各ユーザーの情報として、アバター・表示名・ハンドル・Bio の冒頭が表示されます。</p>
+    <table>
+      <thead><tr><th>画面</th><th>右側の表示</th></tr></thead>
+      <tbody>
+        <tr><td><strong>フォロー中一覧</strong></td><td>相手が自分をフォローしているかどうかの状態ラベル</td></tr>
+        <tr><td><strong>フォロワー一覧</strong></td><td>「フォロー中」ボタン（フォロー済みの場合）</td></tr>
+      </tbody>
+    </table>
+
+    <hr>
+
+    <!-- New Post -->
+    <h2 id="new-post">新規投稿</h2>
+    <p>画面右下の新規投稿ボタン（FAB）をクリックすると、投稿作成画面がモーダルで表示されます。</p>
+    <img src="./images/18_new_post.png" alt="新規投稿画面">
+    <table>
+      <thead><tr><th>要素</th><th>説明</th></tr></thead>
+      <tbody>
+        <tr><td><strong>キャンセル</strong></td><td>投稿を中止してモーダルを閉じます</td></tr>
+        <tr><td><strong>投稿するボタン</strong></td><td>投稿を実行します</td></tr>
+        <tr><td><strong>テキスト入力エリア</strong></td><td>投稿本文を入力します。プレースホルダーは「いまどうしてる？」です</td></tr>
+        <tr><td><strong>文字数カウンター</strong></td><td>右下に現在の文字数と上限が表示されます（0/300）</td></tr>
+        <tr><td><strong>画像を追加</strong></td><td>画像ファイルを選択して添付します（最大4枚、1MB以下）</td></tr>
+        <tr><td><strong>動画を追加</strong></td><td>動画ファイルを選択して添付します（100MB以下）</td></tr>
+        <tr><td><strong>返信範囲の設定</strong></td><td>「全員が返信可能」のドロップダウンで、返信できるユーザーの範囲を設定します</td></tr>
+        <tr><td><strong>引用を許可しない</strong></td><td>チェックを入れると、この投稿の引用リポストを禁止します</td></tr>
+      </tbody>
+    </table>
+
+    <hr>
+
+    <!-- Post Detail & Thread -->
+    <h2 id="post-detail">投稿詳細・スレッド</h2>
+    <p>タイムラインや検索結果で投稿カードをクリックすると、投稿の詳細画面が表示されます。</p>
+
+    <h3>投稿詳細</h3>
+    <img src="./images/19_post_detail.png" alt="投稿詳細">
+    <p>「← 戻る」ボタンで前の画面に戻ります。タイムライン上では省略されていた投稿本文が全文表示され、リンクカードや画像も展開されます。アクションバーも同様に操作可能です。</p>
+
+    <h3>スレッド表示</h3>
+    <img src="./images/20_post_thread.png" alt="スレッド表示">
+    <p>返信がある投稿では、元の投稿の下にスレッド形式で返信が時系列に表示されます。各返信も通常の投稿カードと同じレイアウトで表示されます。</p>
+
+    <hr>
+
+    <!-- Settings -->
+    <h2 id="settings">設定</h2>
+    <p>ユーザーバー右端の ⚙ アイコンをクリックすると、設定画面が表示されます。</p>
+    <img src="./images/21_settings.png" alt="設定画面">
+
+    <h3>テーマ</h3>
+    <table>
+      <thead><tr><th>選択肢</th><th>説明</th></tr></thead>
+      <tbody>
+        <tr><td><strong>ライト</strong></td><td>明るい配色で表示します</td></tr>
+        <tr><td><strong>ダーク</strong></td><td>暗い配色で表示します</td></tr>
+        <tr><td><strong>システム</strong></td><td>OS の設定に連動して自動で切り替えます</td></tr>
+      </tbody>
+    </table>
+
+    <h3>取得タイミング</h3>
+    <p>タイムラインの自動更新間隔を設定します。「30秒」「60秒」「90秒」「120秒」から選択できます。</p>
+
+    <h3>デスクトップ通知</h3>
+    <p>「デスクトップ通知を有効にする」のチェックボックスで、OS のデスクトップ通知による新着通知の受け取りを切り替えます。</p>
+
+    <h3>自動起動</h3>
+    <p>「OS 起動時に kazahana を自動起動する」のチェックボックスで、パソコン起動時の自動起動を切り替えます。</p>
+
+    <h3>動画音量</h3>
+    <p>スライダーで動画再生時の音量を調整します（0〜100%）。</p>
+
+    <h3 id="settings-feeds">表示するフィードを設定</h3>
+    <img src="./images/22_settings_feeds.png" alt="フィード設定">
+    <p>「表示するフィードを設定 >」をクリックすると、フィード設定画面が表示されます。自分がフォローしているフィードがチェックボックス付きで一覧表示され、ON/OFF でホーム画面のフィードタブへの表示を切り替えられます。</p>
+    <blockquote><p><strong>補足:</strong> 「ホーム」タブは常時表示されるため、この一覧には含まれません。</p></blockquote>
+
+    <h3>クライアント名表示</h3>
+    <p>「投稿のクライアント名を表示する」のチェックボックスを有効にすると、各投稿の右下に投稿元のクライアント名（例: <code>via kazahana</code>）が表示されます。</p>
+
+    <h3>コンテンツモデレーション</h3>
+    <table>
+      <thead><tr><th>項目</th><th>説明</th></tr></thead>
+      <tbody>
+        <tr><td><strong>成人向けコンテンツを有効にする</strong></td><td>チェックボックスで有効/無効を切り替えます</td></tr>
+        <tr><td><strong>カテゴリごとの設定</strong></td><td>「ヌード」「性的示唆」「ポルノ」「過激なメディア」の各カテゴリについて、「非表示」「警告」「表示」の3段階で表示レベルを設定できます</td></tr>
+      </tbody>
+    </table>
+    <p>「非表示にした投稿 >」をクリックすると、モデレーションにより非表示となった投稿の一覧を確認できます。</p>
+    <img src="./images/23_settings_hidden.png" alt="非表示にした投稿">
+
+    <h3>言語設定</h3>
+    <p>ドロップダウンでアプリの UI 言語を切り替えます。</p>
+
+    <h3>ログアウト</h3>
+    <p>「ログアウト」ボタンをクリックすると、現在のアカウントからログアウトし、ログイン画面に戻ります。</p>
+
+    <h3>アプリ情報</h3>
+    <table>
+      <thead><tr><th>項目</th><th>説明</th></tr></thead>
+      <tbody>
+        <tr><td><strong>バージョン</strong></td><td>現在のアプリバージョン（例: <code>kazahana v1.2.0</code>）</td></tr>
+        <tr><td><strong>MIT License</strong></td><td>ライセンス情報へのリンクです</td></tr>
+        <tr><td><strong>README</strong></td><td>アプリの README ページへのリンクです</td></tr>
+        <tr><td><strong>Buy the developer a coffee on Ko-fi</strong></td><td>開発者への支援（寄付）リンクです</td></tr>
+      </tbody>
+    </table>
+
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <p class="footer-brand">kazahana &mdash; 軽量 Bluesky デスクトップクライアント</p>
+      <p class="footer-links">
+        <a href="https://github.com/osprey74/kazahana" target="_blank" rel="noopener noreferrer">GitHub</a> &middot;
+        ライセンス: <a href="https://github.com/osprey74/kazahana/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">MIT</a> &middot;
+        &copy; 2026 osprey74
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>
