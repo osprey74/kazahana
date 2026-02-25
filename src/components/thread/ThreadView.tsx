@@ -99,18 +99,15 @@ export function ThreadView() {
         <ThreadPostItem post={threadPost.post} isHighlighted={true} />
       </div>
 
-      {/* Replies */}
-      {threadPost.replies?.map((reply) => {
-        if (!isThreadPost(reply)) return null;
-        return (
-          <ThreadPostItem
-            key={(reply as ThreadViewPost).post.uri}
-            post={(reply as ThreadViewPost).post}
-            isHighlighted={false}
-            from={from}
-          />
-        );
-      })}
+      {/* Replies (flattened recursively) */}
+      {flattenReplies(threadPost).map((reply) => (
+        <ThreadPostItem
+          key={reply.post.uri}
+          post={reply.post}
+          isHighlighted={false}
+          from={from}
+        />
+      ))}
     </div>
   );
 }
@@ -282,6 +279,19 @@ function ThreadPostItem({
       </div>
     </article>
   );
+}
+
+/** Flatten the reply tree depth-first so the longest conversation chain comes first. */
+function flattenReplies(node: ThreadViewPost): ThreadViewPost[] {
+  const result: ThreadViewPost[] = [];
+  if (!node.replies) return result;
+  for (const reply of node.replies) {
+    if (!isThreadPost(reply)) continue;
+    const tvp = reply as ThreadViewPost;
+    result.push(tvp);
+    result.push(...flattenReplies(tvp));
+  }
+  return result;
 }
 
 interface ExternalEmbed {
