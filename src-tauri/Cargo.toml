@@ -1,6 +1,6 @@
 [package]
 name = "kazahana"
-version = "1.4.5"
+version = "1.4.6"
 description = "A lightweight Bluesky desktop client"
 authors = ["osprey74"]
 license = "MIT"
