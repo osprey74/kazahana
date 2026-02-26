@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { TabBar } from "./TabBar";
 import { ComposeModal } from "../post/ComposeModal";
@@ -79,7 +79,7 @@ export function AppLayout() {
           <span className="w-5" />
         )}
         <h1 className="text-sm font-medium text-gray-500 dark:text-gray-400 flex-1 text-center">@{profile?.handle ?? "..."}</h1>
-        <a href="/settings" className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" title={t("settings.title")}><Icon name="settings" size={20} /></a>
+        <Link to="/settings" className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" title={t("settings.title")}><Icon name="settings" size={20} /></Link>
       </header>
 
       {/* Tab Navigation */}

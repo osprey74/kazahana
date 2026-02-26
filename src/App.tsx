@@ -61,7 +61,8 @@ function parseDeepLink(url: string): { title?: string; url?: string } | null {
   } catch { return null; }
 }
 
-let lastHandledDeepLink = "";
+const DEEP_LINK_KEY = "kazahana:lastDeepLink";
+let lastHandledDeepLink = sessionStorage.getItem(DEEP_LINK_KEY) ?? "";
 
 function handleDeepLinkUrls(urls: string[]) {
   for (const url of urls) {
@@ -75,6 +76,7 @@ function handleDeepLinkUrls(urls: string[]) {
     if (!text) continue;
 
     lastHandledDeepLink = url;
+    sessionStorage.setItem(DEEP_LINK_KEY, url);
     const store = useComposeStore.getState();
     if (store.isOpen) {
       store.close();
