@@ -86,6 +86,18 @@ export function ComposeModal() {
   const isOverLimit = graphemeCount > MAX_GRAPHEMES;
   const canPost = text.trim().length > 0 && !isOverLimit && !createPost.isPending;
 
+  // Close modal on Escape key
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && !createPost.isPending) {
+        close();
+      }
+    };
+    window.addEventListener("keydown", handleEsc);
+    return () => window.removeEventListener("keydown", handleEsc);
+  }, [isOpen, close, createPost.isPending]);
+
   // Reset state when modal opens
   useEffect(() => {
     if (isOpen) {

@@ -301,9 +301,8 @@ export function useCreatePost() {
             });
             if (imgRes.ok) {
               const blob = await imgRes.blob();
-              const buf = new Uint8Array(await blob.arrayBuffer());
-              const mimeType = imgRes.headers.get("content-type") || "image/jpeg";
-              const uploaded = await agent.uploadBlob(buf, { encoding: mimeType });
+              const compressed = await compressOgpThumb(blob);
+              const uploaded = await agent.uploadBlob(compressed.data, { encoding: compressed.mimeType });
               thumb = uploaded.data.blob;
             }
           } catch {
@@ -382,4 +381,37 @@ export function useCreatePost() {
       queryClient.invalidateQueries({ queryKey: ["timeline"] });
     },
   });
+}
+
+const OGP_MAX_BYTES = 950_000; // ~950KB, safely under Bluesky's 976.56KB limit
+const OGP_MAX_WIDTH = 800;
+
+/** Compress an OGP thumbnail image to fit within Bluesky's upload limit. */
+async function compressOgpThumb(blob: Blob): Promise<{ data: Uint8Array; mimeType: string }> {
+  // If already small enough, pass through as-is
+  if (blob.size <= OGP_MAX_BYTES) {
+    return { data: new Uint8Array(await blob.arrayBuffer()), mimeType: blob.type || "image/jpeg" };
+  }
+
+  const img = await createImageBitmap(blob);
+  const scale = Math.min(1, OGP_MAX_WIDTH / img.width);
+  const w = Math.round(img.width * scale);
+  const h = Math.round(img.height * scale);
+
+  const canvas = new OffscreenCanvas(w, h);
+  const ctx = canvas.getContext("2d")!;
+  ctx.drawImage(img, 0, 0, w, h);
+  img.close();
+
+  // Try progressively lower JPEG quality until under the size limit
+  for (let quality = 0.85; quality >= 0.3; quality -= 0.1) {
+    const result = await canvas.convertToBlob({ type: "image/jpeg", quality });
+    if (result.size <= OGP_MAX_BYTES) {
+      return { data: new Uint8Array(await result.arrayBuffer()), mimeType: "image/jpeg" };
+    }
+  }
+
+  // Fallback: lowest quality
+  const fallback = await canvas.convertToBlob({ type: "image/jpeg", quality: 0.2 });
+  return { data: new Uint8Array(await fallback.arrayBuffer()), mimeType: "image/jpeg" };
 }

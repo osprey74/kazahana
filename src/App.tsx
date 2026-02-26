@@ -61,8 +61,11 @@ function parseDeepLink(url: string): { title?: string; url?: string } | null {
   } catch { return null; }
 }
 
+let lastHandledDeepLink = "";
+
 function handleDeepLinkUrls(urls: string[]) {
   for (const url of urls) {
+    if (url === lastHandledDeepLink) continue;
     const params = parseDeepLink(url);
     if (!params) continue;
     const parts: string[] = [];
@@ -71,6 +74,7 @@ function handleDeepLinkUrls(urls: string[]) {
     const text = parts.join("\n");
     if (!text) continue;
 
+    lastHandledDeepLink = url;
     const store = useComposeStore.getState();
     if (store.isOpen) {
       store.close();
