@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl:*)",
+      "Bash(gh release:*)",
+      "Bash(where:*)",
+      "Bash(git remote get-url:*)",
+      "WebFetch(domain:osprey74.github.io)",
+      "WebFetch(domain:www.npmjs.com)",
+      "WebFetch(domain:v2.tauri.app)",
+      "Bash(npx:*)",
+      "Bash(git tag:*)",
+      "Bash(gh.exe release view v1.0.0)",
+      "Bash(cmd.exe /c \"where gh\")",
+      "WebFetch(domain:api.github.com)",
+      "Bash(for f in docs/ja/install.html docs/en/install.html docs/pt-BR/install.html docs/de/install.html docs/zh-TW/install.html docs/zh-CN/install.html docs/fr/install.html docs/ko/install.html docs/es/install.html docs/ru/install.html)",
+      "Bash(do sed -i 's/\\\\&copy; 2025 osprey74/\\\\&copy; 2026 osprey74/g' \"$f\")",
+      "Bash(where.exe:*)",
+      "Read(//c/Program Files/**)",
+      "Bash(\"/c/Program Files/GitHub CLI/gh.exe\" --version)",
+      "Bash(\"/c/Program Files/GitHub CLI/gh.exe\" auth status)",
+      "Bash(\"/c/Program Files/GitHub CLI/gh.exe\" release list --limit 5)",
+      "Bash(\"/c/Program Files/GitHub CLI/gh.exe\" release edit v1.2.0 --notes-file RELEASE_NOTES_v1.2.0.md)"
+    ]
+  }
+}

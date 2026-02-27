@@ -15,7 +15,9 @@ src-tauri/target/
 # IDE / Tools
 .vscode/
 .idea/
-.claude/
+.claude/*
+!.claude/skills/
+!.claude/settings.json
 *.swp
 *.swo
 
