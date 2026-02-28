@@ -40,7 +40,7 @@ Kazahana is designed as a **lightweight, always-running companion app** — not 
 - [x] Link card (OGP preview)
 - [x] Thread view
 - [x] Notifications (like, repost, follow, mention, reply, quote)
-- [x] User profile / Follow / Unfollow / Likes / Media tabs
+- [x] User profile / Follow / Unfollow / Likes / Media tabs / Pinned post
 - [x] Search (posts & users)
 - [x] Dark / Light / System theme
 - [x] i18n (Japanese / English)
