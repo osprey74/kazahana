@@ -21,7 +21,6 @@ export function DMThreadView() {
   const [showMenu, setShowMenu] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
-  const messagesContainerRef = useRef<HTMLDivElement>(null);
 
   const convoQuery = useQuery({
     queryKey: ["conversation", convoId],
@@ -60,19 +59,44 @@ export function DMThreadView() {
 
   const messages = useMemo(() => {
     if (!data?.pages) return [];
-    // Messages come newest-first from API, reverse for display
-    // Filter to known message types (exclude unknown { $type: string } variants)
+    // Messages come newest-first from API; reverse to chronological (oldest first)
     return data.pages
       .flatMap((page) => page.messages)
       .filter(
         (msg) =>
           ChatBskyConvoDefs.isMessageView(msg) || ChatBskyConvoDefs.isDeletedMessageView(msg),
-      ) as (ChatBskyConvoDefs.MessageView | ChatBskyConvoDefs.DeletedMessageView)[];
+      )
+      .reverse() as (ChatBskyConvoDefs.MessageView | ChatBskyConvoDefs.DeletedMessageView)[];
   }, [data]);
 
-  // Scroll to bottom on new messages
+  const prevMessagesLenRef = useRef(0);
+  const prevScrollHeightRef = useRef(0);
+  const mainScrollRef = useRef<HTMLElement | null>(null);
+
+  // Resolve the <main> scroll container once
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "instant" });
+    mainScrollRef.current = document.querySelector("main");
+  }, []);
+
+  // Scroll to bottom on new messages; preserve position when loading older
+  useEffect(() => {
+    const scrollEl = mainScrollRef.current;
+    if (!scrollEl) return;
+    const prevLen = prevMessagesLenRef.current;
+    prevMessagesLenRef.current = messages.length;
+
+    if (prevLen === 0) {
+      // Initial load — scroll to bottom (newest)
+      bottomRef.current?.scrollIntoView({ behavior: "instant" });
+    } else if (prevScrollHeightRef.current > 0) {
+      // Loaded older messages at top — keep scroll position
+      const added = scrollEl.scrollHeight - prevScrollHeightRef.current;
+      scrollEl.scrollTop += added;
+      prevScrollHeightRef.current = 0;
+    } else {
+      // New message arrived — scroll to bottom
+      bottomRef.current?.scrollIntoView({ behavior: "instant" });
+    }
   }, [messages.length]);
 
   const handleSend = useCallback(async () => {
@@ -137,9 +161,9 @@ export function DMThreadView() {
   }, [convoId, convoQuery]);
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col">
       {/* Header */}
-      <div className="flex items-center gap-3 px-4 py-2 border-b border-border-light dark:border-border-dark">
+      <div className="sticky top-0 z-20 bg-white dark:bg-bg-dark flex items-center gap-3 px-4 py-2 border-b border-border-light dark:border-border-dark">
         <button
           onClick={() => navigate("/messages")}
           className="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
@@ -206,10 +230,7 @@ export function DMThreadView() {
       )}
 
       {/* Messages */}
-      <div
-        ref={messagesContainerRef}
-        className="flex-1 overflow-y-auto scrollbar-thin py-2"
-      >
+      <div className="py-2">
         {isLoading && <LoadingSpinner />}
         {isError && (
           <div className="flex flex-col items-center py-8 text-gray-500">
@@ -222,7 +243,10 @@ export function DMThreadView() {
         {hasNextPage && (
           <div className="flex justify-center py-2">
             <button
-              onClick={() => fetchNextPage()}
+              onClick={() => {
+                prevScrollHeightRef.current = mainScrollRef.current?.scrollHeight ?? 0;
+                fetchNextPage();
+              }}
               disabled={isFetchingNextPage}
               className="text-xs text-primary hover:underline"
             >
@@ -262,6 +286,9 @@ export function DMThreadView() {
           </button>
         </div>
       </div>
+
+      {/* Bottom spacer — half window height so the input can scroll up to center */}
+      <div className="h-[50vh]" />
     </div>
   );
 }

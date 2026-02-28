@@ -174,4 +174,4 @@ Collaborator: よつぎnん / @yotsugin.bsky.social
 ### チャット
 
 - [ ] リアクションボタン（絵文字スタンプ）の追加 — API完備（`chat.bsky.convo.addReaction` / `removeReaction`、`MessageView.reactions`）。絵文字ピッカーUIとMessageBubbleへのリアクション表示の実装が必要
-- [ ] メッセージの時系列を昇順に変更 — 古いメッセージが上、最新が下、画面下部に投稿エリアを配置
+- [x] メッセージの時系列を昇順に変更 — API返却順を.reverse()で時系列昇順化、スティッキーヘッダー、入力欄下に50vh余白、過去メッセージ読み込み時のスクロール位置補正
