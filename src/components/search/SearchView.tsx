@@ -70,7 +70,8 @@ export function SearchView() {
 
   return (
     <div>
-      {/* Search bar */}
+      {/* Search bar + tabs (sticky) */}
+      <div className="sticky top-0 z-20 bg-white dark:bg-bg-dark">
       <form onSubmit={handleSearch} className="px-4 py-3 border-b border-border-light dark:border-border-dark">
         <div className="relative">
           <input
@@ -121,6 +122,7 @@ export function SearchView() {
           </button>
         </div>
       )}
+      </div>
 
       {/* Results */}
       {activeQuery && tab === "posts" && (

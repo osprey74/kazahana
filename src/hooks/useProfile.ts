@@ -53,6 +53,64 @@ export function useActorLikes(handle: string) {
   });
 }
 
+export function useAuthorReplies(handle: string) {
+  return useInfiniteQuery({
+    queryKey: ["authorReplies", handle],
+    queryFn: async ({ pageParam }) => {
+      const agent = getAgent();
+      const res = await agent.getAuthorFeed({
+        actor: handle,
+        limit: 50,
+        cursor: pageParam as string | undefined,
+        filter: "posts_with_replies",
+      });
+      return res.data;
+    },
+    initialPageParam: undefined as string | undefined,
+    getNextPageParam: (lastPage) => lastPage.cursor,
+    enabled: !!handle,
+    staleTime: 30_000,
+  });
+}
+
+export function useActorFeeds(handle: string) {
+  return useInfiniteQuery({
+    queryKey: ["actorFeeds", handle],
+    queryFn: async ({ pageParam }) => {
+      const agent = getAgent();
+      const res = await agent.app.bsky.feed.getActorFeeds({
+        actor: handle,
+        limit: 50,
+        cursor: pageParam as string | undefined,
+      });
+      return res.data;
+    },
+    initialPageParam: undefined as string | undefined,
+    getNextPageParam: (lastPage) => lastPage.cursor,
+    enabled: !!handle,
+    staleTime: 30_000,
+  });
+}
+
+export function useActorLists(handle: string) {
+  return useInfiniteQuery({
+    queryKey: ["actorLists", handle],
+    queryFn: async ({ pageParam }) => {
+      const agent = getAgent();
+      const res = await agent.app.bsky.graph.getLists({
+        actor: handle,
+        limit: 50,
+        cursor: pageParam as string | undefined,
+      });
+      return res.data;
+    },
+    initialPageParam: undefined as string | undefined,
+    getNextPageParam: (lastPage) => lastPage.cursor,
+    enabled: !!handle,
+    staleTime: 30_000,
+  });
+}
+
 export function useAuthorMediaFeed(handle: string) {
   return useInfiniteQuery({
     queryKey: ["authorMediaFeed", handle],

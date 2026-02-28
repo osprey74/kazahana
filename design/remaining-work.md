@@ -140,6 +140,9 @@ Collaborator: よつぎnん / @yotsugin.bsky.social
 - [x] 操作マニュアルのキーバインド表記修正 — 「Alt+エンターキーの押下でも投稿を実行できます」を「Alt+エンターキー（Windows版）／Option+エンターキー（macOS版）の押下でも投稿を実行できます」に変更する
 - [x] プロフィールのピン留め投稿表示 — `getAuthorFeed` に `includePins: true` を渡し、`reasonPin` 付き投稿をピンアイコン＋ラベルで先頭表示。全11言語対応
 
+- [x] 検索ページのスティッキーヘッダー — 検索フィールド＋投稿/ユーザータブをsticky top-0でラップ
+- [x] プロフィールページのスティッキーヘッダー — 投稿/いいね/メディア等のタブにsticky top-0を追加
+
 ## User Feedback (あやがね / @ayagane.magical-pritt.jp) — 2026-02-28
 
 ### 通知欄

@@ -1,19 +1,21 @@
-import { useState, useCallback, useEffect, useLayoutEffect, useMemo } from "react";
+import { useState, useCallback, useEffect, useLayoutEffect, useMemo, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Virtuoso } from "react-virtuoso";
 import { moderatePost } from "@atproto/api";
 import type { FeedViewPost, PostView } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
-import { useProfile, useAuthorFeed, useActorLikes, useAuthorMediaFeed, useBookmarks, useActorStarterPacks } from "../../hooks/useProfile";
+import { useProfile, useAuthorFeed, useAuthorReplies, useActorLikes, useAuthorMediaFeed, useActorFeeds, useActorLists, useBookmarks, useActorStarterPacks } from "../../hooks/useProfile";
 import { useAuthStore } from "../../stores/authStore";
 import { useModerationOpts } from "../../contexts/ModerationContext";
 import { ProfileHeader } from "./ProfileHeader";
 import { PostCard } from "../timeline/PostCard";
 import { StarterPacksList } from "./StarterPacksList";
+import { ActorFeedsList } from "./ActorFeedsList";
+import { ActorListsList } from "./ActorListsList";
 import { LoadingSpinner } from "../common/LoadingSpinner";
 import { getAgent } from "../../lib/agent";
 
-export type ProfileTab = "posts" | "likes" | "media" | "bookmarks" | "starterPacks";
+export type ProfileTab = "posts" | "replies" | "likes" | "media" | "feeds" | "lists" | "bookmarks" | "starterPacks";
 
 export function ProfileView() {
   const { t } = useTranslation();
@@ -21,11 +23,26 @@ export function ProfileView() {
   const authProfile = useAuthStore((s) => s.profile);
   const [tab, setTab] = useState<ProfileTab>("posts");
   const [scrollParent, setScrollParent] = useState<HTMLElement | null>(null);
+  const tabsRef = useRef<HTMLDivElement>(null);
+  const scrollLockRef = useRef<number | null>(null);
 
   // Resolve the actual scroll container (<main> in AppLayout)
   useLayoutEffect(() => {
     setScrollParent(document.querySelector("main"));
   }, []);
+
+  // Keep tabs pinned at top after tab switch (don't reveal ProfileHeader)
+  useLayoutEffect(() => {
+    const pos = scrollLockRef.current;
+    if (pos !== null && scrollParent) {
+      scrollParent.scrollTop = pos;
+      // Also enforce after Virtuoso's initial render
+      requestAnimationFrame(() => {
+        scrollParent.scrollTop = pos;
+      });
+      scrollLockRef.current = null;
+    }
+  }, [tab, scrollParent]);
 
   // Reset tab when navigating to a different profile
   useEffect(() => {
@@ -43,6 +60,14 @@ export function ProfileView() {
     isFetchingNextPage,
     refetch: refetchFeed,
   } = useAuthorFeed(resolvedHandle);
+
+  const {
+    data: repliesData,
+    fetchNextPage: fetchNextReplies,
+    hasNextPage: hasNextReplies,
+    isFetchingNextPage: isFetchingNextReplies,
+    refetch: refetchReplies,
+  } = useAuthorReplies(resolvedHandle);
 
   const {
     data: likesData,
@@ -63,6 +88,14 @@ export function ProfileView() {
   } = useAuthorMediaFeed(resolvedHandle);
 
   const {
+    refetch: refetchActorFeeds,
+  } = useActorFeeds(resolvedHandle);
+
+  const {
+    refetch: refetchActorLists,
+  } = useActorLists(resolvedHandle);
+
+  const {
     refetch: refetchStarterPacks,
   } = useActorStarterPacks(resolvedHandle);
 
@@ -81,15 +114,25 @@ export function ProfileView() {
     const handler = () => {
       refetchProfile();
       refetchFeed();
+      refetchReplies();
       refetchLikes();
       refetchMedia();
+      refetchActorFeeds();
+      refetchActorLists();
       refetchStarterPacks();
       if (isOwnProfile) refetchBookmarks();
     };
     window.addEventListener("kazahana:refresh", handler);
     return () => window.removeEventListener("kazahana:refresh", handler);
-  }, [refetchProfile, refetchFeed, refetchLikes, refetchMedia, refetchStarterPacks, refetchBookmarks, isOwnProfile]);
+  }, [refetchProfile, refetchFeed, refetchReplies, refetchLikes, refetchMedia, refetchActorFeeds, refetchActorLists, refetchStarterPacks, refetchBookmarks, isOwnProfile]);
   const moderationOpts = useModerationOpts();
+
+  const replyItems = useMemo(() => {
+    if (!repliesData?.pages) return [];
+    const all = repliesData.pages.flatMap((page) => page.feed);
+    if (!moderationOpts) return all;
+    return all.filter((item) => !moderatePost(item.post, moderationOpts).ui("contentList").filter);
+  }, [repliesData, moderationOpts]);
 
   const items = useMemo(() => {
     if (!feedData?.pages) return [];
@@ -120,6 +163,12 @@ export function ProfileView() {
         .map((b) => ({ post: b.item as PostView } as FeedViewPost))
     );
   }, [bookmarksData]);
+
+  const loadMoreReplies = useCallback(() => {
+    if (hasNextReplies && !isFetchingNextReplies) {
+      fetchNextReplies();
+    }
+  }, [hasNextReplies, isFetchingNextReplies, fetchNextReplies]);
 
   const loadMore = useCallback(() => {
     if (hasNextPage && !isFetchingNextPage) {
@@ -160,14 +209,18 @@ export function ProfileView() {
       <ProfileHeader profile={profile} isOwnProfile={isOwnProfile} />
 
       {/* Tabs */}
-      <div className="flex border-b border-border-light dark:border-border-dark">
+      <div ref={tabsRef} className="sticky top-0 z-20 bg-white dark:bg-bg-dark flex border-b border-border-light dark:border-border-dark">
         {(isOwnProfile
-          ? (["posts", "likes", "media", "bookmarks", "starterPacks"] as const)
-          : (["posts", "likes", "media", "starterPacks"] as const)
+          ? (["posts", "replies", "likes", "media", "bookmarks", "starterPacks"] as const)
+          : (["posts", "replies", "media", "starterPacks"] as const)
         ).map((tabKey) => (
           <button
             key={tabKey}
             onClick={() => {
+              const tabsEl = tabsRef.current;
+              if (scrollParent && tabsEl && scrollParent.scrollTop >= tabsEl.offsetTop) {
+                scrollLockRef.current = tabsEl.offsetTop;
+              }
               setTab(tabKey);
               if (tabKey === "bookmarks") refetchBookmarks();
             }}
@@ -182,7 +235,8 @@ export function ProfileView() {
         ))}
       </div>
 
-      {/* Tab content */}
+      {/* Tab content — min-h-screen prevents scroll jump when Virtuoso remounts on tab switch */}
+      <div className="min-h-screen">
       {tab === "posts" && (
         items.length > 0 && scrollParent ? (
           <Virtuoso
@@ -203,6 +257,29 @@ export function ProfileView() {
         ) : !items.length ? (
           <div className="flex items-center justify-center py-12 text-gray-400">
             <p>{t("profile.noPosts")}</p>
+          </div>
+        ) : null
+      )}
+      {tab === "replies" && (
+        replyItems.length > 0 && scrollParent ? (
+          <Virtuoso
+            customScrollParent={scrollParent}
+            data={replyItems}
+            endReached={loadMoreReplies}
+            overscan={200}
+            itemContent={(_index, item: FeedViewPost) => (
+              <PostCard feedItem={item} showParentContext />
+            )}
+            components={{
+              Footer: () =>
+                isFetchingNextReplies ? (
+                  <LoadingSpinner />
+                ) : null,
+            }}
+          />
+        ) : !replyItems.length ? (
+          <div className="flex items-center justify-center py-12 text-gray-400">
+            <p>{t("profile.noReplies")}</p>
           </div>
         ) : null
       )}
@@ -281,7 +358,10 @@ export function ProfileView() {
           </div>
         ) : null
       )}
+      {tab === "feeds" && <ActorFeedsList handle={resolvedHandle} scrollParent={scrollParent} />}
+      {tab === "lists" && <ActorListsList handle={resolvedHandle} scrollParent={scrollParent} />}
       {tab === "starterPacks" && <StarterPacksList handle={resolvedHandle} scrollParent={scrollParent} />}
+      </div>
     </div>
   );
 }
