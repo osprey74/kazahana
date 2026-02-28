@@ -47,6 +47,7 @@
     "unhidePost": "Unhide",
     "muteThread": "Mute thread notifications",
     "copyLink": "Copy link",
+    "translate": "Translate",
     "unmuteThread": "Unmute thread notifications",
     "muteUser": "Mute this user",
     "unmuteUser": "Unmute this user",
@@ -129,6 +130,7 @@
   },
   "image": {
     "addImages": "Add images (max {{max}}, under 1MB)",
+    "dropHere": "Drop images here",
     "altPlaceholder": "ALT text",
     "imageLabel": "Image {{n}}",
     "noAlt": "No ALT text set"
@@ -202,6 +204,9 @@
     "pollIntervalUnit": "{{seconds}}s",
     "supportMessage": "Buy the developer a coffee",
     "supportButton": "Support on Ko-fi",
+    "imageOpenMode": "Image Display",
+    "imageOpenModeApp": "Open in app",
+    "imageOpenModeExternal": "Open in browser",
     "videoVolume": "Video Volume",
     "notification": "Desktop Notifications",
     "enableNotification": "Enable desktop notifications",

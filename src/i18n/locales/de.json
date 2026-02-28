@@ -43,6 +43,7 @@
     "unhidePost": "Einblenden",
     "muteThread": "Thread-Benachrichtigungen stummschalten",
     "copyLink": "Link kopieren",
+    "translate": "Übersetzen",
     "unmuteThread": "Thread-Benachrichtigungen aktivieren",
     "muteUser": "Benutzer stummschalten",
     "unmuteUser": "Stummschaltung des Benutzers aufheben"
@@ -123,6 +124,7 @@
   },
   "image": {
     "addImages": "Bilder hinzufügen (max. {{max}}, unter 1 MB)",
+    "dropHere": "Bilder hierher ziehen",
     "altPlaceholder": "ALT-Text",
     "imageLabel": "Bild {{n}}",
     "noAlt": "Kein ALT-Text vorhanden"
@@ -194,6 +196,9 @@
     "pollIntervalUnit": "{{seconds}}s",
     "supportMessage": "Spendiere dem Entwickler einen Kaffee",
     "supportButton": "Auf Ko-fi unterstützen",
+    "imageOpenMode": "Bildanzeige",
+    "imageOpenModeApp": "In der App anzeigen",
+    "imageOpenModeExternal": "Im Browser öffnen",
     "notification": "Desktop-Benachrichtigungen",
     "enableNotification": "Desktop-Benachrichtigungen aktivieren",
     "showVia": "Client-Name",

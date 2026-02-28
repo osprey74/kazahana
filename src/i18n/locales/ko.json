@@ -43,6 +43,7 @@
     "unhidePost": "숨기기 해제",
     "muteThread": "스레드 알림 음소거",
     "copyLink": "링크 복사",
+    "translate": "번역하기",
     "unmuteThread": "스레드 알림 음소거 해제",
     "muteUser": "이 사용자 뮤트",
     "unmuteUser": "이 사용자 뮤트 해제"
@@ -123,6 +124,7 @@
   },
   "image": {
     "addImages": "이미지 추가 (최대 {{max}}장, 1MB 이하)",
+    "dropHere": "여기에 이미지를 놓으세요",
     "altPlaceholder": "ALT 텍스트",
     "imageLabel": "이미지 {{n}}",
     "noAlt": "ALT 텍스트가 설정되지 않았습니다"
@@ -194,6 +196,9 @@
     "pollIntervalUnit": "{{seconds}}초",
     "supportMessage": "개발자에게 커피 한 잔 사주기",
     "supportButton": "Ko-fi에서 후원하기",
+    "imageOpenMode": "이미지 표시",
+    "imageOpenModeApp": "앱에서 열기",
+    "imageOpenModeExternal": "브라우저에서 열기",
     "notification": "데스크톱 알림",
     "enableNotification": "데스크톱 알림 활성화",
     "showVia": "클라이언트 이름",

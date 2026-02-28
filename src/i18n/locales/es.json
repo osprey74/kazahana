@@ -43,6 +43,7 @@
     "unhidePost": "Mostrar",
     "muteThread": "Silenciar notificaciones del hilo",
     "copyLink": "Copiar enlace",
+    "translate": "Traducir",
     "unmuteThread": "Activar notificaciones del hilo",
     "muteUser": "Silenciar a este usuario",
     "unmuteUser": "Dejar de silenciar a este usuario"
@@ -123,6 +124,7 @@
   },
   "image": {
     "addImages": "Añadir imágenes (máx. {{max}}, menos de 1 MB)",
+    "dropHere": "Suelta las imágenes aquí",
     "altPlaceholder": "Texto ALT",
     "imageLabel": "Imagen {{n}}",
     "noAlt": "Sin texto ALT"
@@ -194,6 +196,9 @@
     "pollIntervalUnit": "{{seconds}}s",
     "supportMessage": "Invítale un café al desarrollador",
     "supportButton": "Apoyar en Ko-fi",
+    "imageOpenMode": "Visualización de imágenes",
+    "imageOpenModeApp": "Abrir en la aplicación",
+    "imageOpenModeExternal": "Abrir en el navegador",
     "notification": "Notificaciones de escritorio",
     "enableNotification": "Activar notificaciones de escritorio",
     "showVia": "Nombre del cliente",

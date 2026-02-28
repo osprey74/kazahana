@@ -47,6 +47,7 @@
     "unhidePost": "非表示を解除",
     "muteThread": "スレッド通知をミュート",
     "copyLink": "リンクをコピー",
+    "translate": "翻訳する",
     "unmuteThread": "スレッド通知のミュートを解除",
     "muteUser": "このユーザーをミュート",
     "unmuteUser": "このユーザーのミュートを解除",
@@ -129,6 +130,7 @@
   },
   "image": {
     "addImages": "画像を追加（最大{{max}}枚、1MB以下）",
+    "dropHere": "ここに画像をドロップ",
     "altPlaceholder": "ALT テキスト",
     "imageLabel": "画像{{n}}",
     "noAlt": "ALTテキスト設定なし"
@@ -202,6 +204,9 @@
     "pollIntervalUnit": "{{seconds}}秒",
     "supportMessage": "アプリ作者にコーヒーをご馳走する",
     "supportButton": "Ko-fi でサポート",
+    "imageOpenMode": "画像の表示方法",
+    "imageOpenModeApp": "アプリ内で表示する",
+    "imageOpenModeExternal": "ブラウザで開く",
     "videoVolume": "動画音量",
     "notification": "デスクトップ通知",
     "enableNotification": "デスクトップ通知を有効にする",

@@ -43,6 +43,7 @@
     "unhidePost": "Mostrar",
     "muteThread": "Silenciar notificações da conversa",
     "copyLink": "Copiar link",
+    "translate": "Traduzir",
     "unmuteThread": "Ativar notificações da conversa",
     "muteUser": "Silenciar este usuário",
     "unmuteUser": "Deixar de silenciar este usuário"
@@ -123,6 +124,7 @@
   },
   "image": {
     "addImages": "Adicionar imagens (máx. {{max}}, até 1MB)",
+    "dropHere": "Solte as imagens aqui",
     "altPlaceholder": "Texto ALT",
     "imageLabel": "Imagem {{n}}",
     "noAlt": "Texto ALT não definido"
@@ -194,6 +196,9 @@
     "pollIntervalUnit": "{{seconds}}s",
     "supportMessage": "Pague um café para o desenvolvedor",
     "supportButton": "Apoiar no Ko-fi",
+    "imageOpenMode": "Exibição de imagens",
+    "imageOpenModeApp": "Abrir no aplicativo",
+    "imageOpenModeExternal": "Abrir no navegador",
     "notification": "Notificações do sistema",
     "enableNotification": "Ativar notificações do sistema",
     "showVia": "Nome do Cliente",

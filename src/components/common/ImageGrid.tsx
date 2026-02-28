@@ -1,6 +1,8 @@
 import type { ViewImage } from "@atproto/api/dist/client/types/app/bsky/embed/images";
 import { useTranslation } from "react-i18next";
+import { openUrl } from "@tauri-apps/plugin-opener";
 import { useLightboxStore } from "../../stores/lightboxStore";
+import { useSettingsStore } from "../../stores/settingsStore";
 
 interface ImageGridProps {
   images: ViewImage[];
@@ -9,6 +11,7 @@ interface ImageGridProps {
 export function ImageGrid({ images }: ImageGridProps) {
   const { t } = useTranslation();
   const openLightbox = useLightboxStore((s) => s.open);
+  const imageOpenMode = useSettingsStore((s) => s.imageOpenMode);
   const count = images.length;
 
   if (count === 0) return null;
@@ -23,6 +26,10 @@ export function ImageGrid({ images }: ImageGridProps) {
           : "grid-cols-2";
 
   const handleClick = (index: number) => {
+    if (imageOpenMode === "external") {
+      openUrl(images[index].fullsize);
+      return;
+    }
     openLightbox(
       images.map((img) => ({
         fullsize: img.fullsize,

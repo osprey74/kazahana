@@ -43,6 +43,7 @@
     "unhidePost": "Démasquer",
     "muteThread": "Couper les notifications du fil",
     "copyLink": "Copier le lien",
+    "translate": "Traduire",
     "unmuteThread": "Réactiver les notifications du fil",
     "muteUser": "Masquer cet utilisateur",
     "unmuteUser": "Ne plus masquer cet utilisateur"
@@ -123,6 +124,7 @@
   },
   "image": {
     "addImages": "Ajouter des images (max {{max}}, moins de 1 Mo)",
+    "dropHere": "Déposez les images ici",
     "altPlaceholder": "Texte ALT",
     "imageLabel": "Image {{n}}",
     "noAlt": "Aucun texte ALT défini"
@@ -194,6 +196,9 @@
     "pollIntervalUnit": "{{seconds}} s",
     "supportMessage": "Offrez un café au développeur",
     "supportButton": "Soutenir sur Ko-fi",
+    "imageOpenMode": "Affichage des images",
+    "imageOpenModeApp": "Ouvrir dans l'application",
+    "imageOpenModeExternal": "Ouvrir dans le navigateur",
     "notification": "Notifications bureau",
     "enableNotification": "Activer les notifications bureau",
     "showVia": "Nom du client",

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import type { Notification } from "@atproto/api/dist/client/types/app/bsky/notification/listNotifications";
@@ -5,6 +6,8 @@ import type { PostView } from "@atproto/api/dist/client/types/app/bsky/feed/defs
 import { formatDistanceToNowStrict } from "date-fns";
 import { ja } from "date-fns/locale";
 import { enUS } from "date-fns/locale";
+import { getAgent } from "../../lib/agent";
+import { useComposeStore } from "../../stores/composeStore";
 import { Avatar } from "../common/Avatar";
 import { Icon } from "../common/Icon";
 
@@ -74,6 +77,9 @@ export function NotificationItem({ notification, subjectPost }: NotificationItem
         ? (subjectPost?.record as { text?: string } | undefined)?.text
         : undefined;
 
+  // The post to show action buttons for
+  const actionPost = subjectPost;
+
   return (
     <div
       onClick={handleClick}
@@ -86,19 +92,90 @@ export function NotificationItem({ notification, subjectPost }: NotificationItem
       </button>
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-1 text-sm">
-          <Icon name={icon} size={16} className="text-gray-500 flex-shrink-0" filled={reason === "like"} />
+          <Icon name={icon} size={16} className={`flex-shrink-0 ${reason === "like" ? "text-red-500" : reason === "repost" ? "text-green-500" : "text-gray-500"}`} filled={reason === "like"} />
           <button onClick={handleProfileClick} className="font-bold text-text-light dark:text-text-dark truncate hover:underline">
             {author.displayName || author.handle}
           </button>
-          <span className="text-gray-500 flex-shrink-0">{label}</span>
+          <span className="text-gray-700 dark:text-gray-300 flex-shrink-0">{label}</span>
         </div>
         {displayText && (
-          <p className="text-xs text-gray-500 mt-0.5 line-clamp-2">
+          <p className="text-xs text-gray-600 dark:text-gray-300 mt-0.5 line-clamp-2">
             {displayText}
           </p>
         )}
-        <span className="text-xs text-gray-400">{timeAgo}</span>
+        <div className="flex items-center gap-1 mt-0.5">
+          <span className="text-xs text-gray-400">{timeAgo}</span>
+          {actionPost && reason !== "follow" && (
+            <NotificationActions post={actionPost} />
+          )}
+        </div>
       </div>
+    </div>
+  );
+}
+
+/** Compact action buttons (reply, repost, like) for a notification's post */
+function NotificationActions({ post }: { post: PostView }) {
+  const openCompose = useComposeStore((s) => s.open);
+  const [liked, setLiked] = useState(!!post.viewer?.like);
+  const [likeUri, setLikeUri] = useState(post.viewer?.like ?? "");
+  const [reposted, setReposted] = useState(!!post.viewer?.repost);
+  const [repostUri, setRepostUri] = useState(post.viewer?.repost ?? "");
+
+  const handleReply = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const record = post.record as { text?: string; reply?: { root: { uri: string; cid: string } } };
+    const root = record.reply?.root ?? { uri: post.uri, cid: post.cid };
+    openCompose({ replyTo: {
+      uri: post.uri, cid: post.cid, root,
+      author: { handle: post.author.handle, displayName: post.author.displayName, avatar: post.author.avatar },
+      text: record.text ?? "",
+    }});
+  };
+
+  const handleLike = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    try {
+      const agent = getAgent();
+      if (liked) {
+        if (likeUri) await agent.deleteLike(likeUri);
+        setLiked(false);
+        setLikeUri("");
+      } else {
+        const res = await agent.like(post.uri, post.cid);
+        setLiked(true);
+        setLikeUri(res.uri);
+      }
+    } catch { /* ignore */ }
+  };
+
+  const handleRepost = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    try {
+      const agent = getAgent();
+      if (reposted) {
+        if (repostUri) await agent.deleteRepost(repostUri);
+        setReposted(false);
+        setRepostUri("");
+      } else {
+        const res = await agent.repost(post.uri, post.cid);
+        setReposted(true);
+        setRepostUri(res.uri);
+      }
+    } catch { /* ignore */ }
+  };
+
+  return (
+    <div className="flex items-center gap-3 ml-auto" onClick={(e) => e.stopPropagation()}>
+      <button onClick={handleReply} title="Reply" className="text-gray-400 hover:text-primary transition-colors">
+        <Icon name="chat_bubble_outline" size={14} />
+      </button>
+      <button onClick={handleRepost} title="Repost" className={`transition-colors ${reposted ? "text-green-600" : "text-gray-400 hover:text-green-600"}`}>
+        <Icon name="repeat" size={14} filled={reposted} />
+      </button>
+      <button onClick={handleLike} title="Like" className={`transition-colors ${liked ? "text-red-500" : "text-gray-400 hover:text-red-500"}`}>
+        <Icon name={liked ? "favorite" : "favorite_border"} size={14} filled={liked} />
+      </button>
     </div>
   );
 }

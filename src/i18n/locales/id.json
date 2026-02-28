@@ -43,6 +43,7 @@
     "unhidePost": "Tampilkan",
     "muteThread": "Bisukan notifikasi utas",
     "copyLink": "Salin tautan",
+    "translate": "Terjemahkan",
     "unmuteThread": "Bunyikan notifikasi utas",
     "muteUser": "Bisukan pengguna ini",
     "unmuteUser": "Batalkan bisukan pengguna ini"
@@ -123,6 +124,7 @@
   },
   "image": {
     "addImages": "Tambah gambar (maks. {{max}}, di bawah 1 MB)",
+    "dropHere": "Letakkan gambar di sini",
     "altPlaceholder": "Teks ALT",
     "imageLabel": "Gambar {{n}}",
     "noAlt": "Teks ALT belum diisi"
@@ -194,6 +196,9 @@
     "pollIntervalUnit": "{{seconds}}d",
     "supportMessage": "Traktir developer secangkir kopi",
     "supportButton": "Dukung di Ko-fi",
+    "imageOpenMode": "Tampilan Gambar",
+    "imageOpenModeApp": "Buka di aplikasi",
+    "imageOpenModeExternal": "Buka di browser",
     "notification": "Notifikasi desktop",
     "enableNotification": "Aktifkan notifikasi desktop",
     "showVia": "Nama Klien",

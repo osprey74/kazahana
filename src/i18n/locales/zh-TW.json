@@ -43,6 +43,7 @@
     "unhidePost": "取消隱藏",
     "muteThread": "靜音此話題通知",
     "copyLink": "複製連結",
+    "translate": "翻譯",
     "unmuteThread": "取消靜音此話題通知",
     "muteUser": "靜音此使用者",
     "unmuteUser": "取消靜音此使用者"
@@ -123,6 +124,7 @@
   },
   "image": {
     "addImages": "新增圖片（最多 {{max}} 張，1MB 以下）",
+    "dropHere": "將圖片拖放到此處",
     "altPlaceholder": "ALT 替代文字",
     "imageLabel": "圖片 {{n}}",
     "noAlt": "未設定 ALT 替代文字"
@@ -194,6 +196,9 @@
     "pollIntervalUnit": "{{seconds}} 秒",
     "supportMessage": "請開發者喝杯咖啡",
     "supportButton": "在 Ko-fi 上贊助",
+    "imageOpenMode": "圖片顯示方式",
+    "imageOpenModeApp": "在應用程式內開啟",
+    "imageOpenModeExternal": "在瀏覽器中開啟",
     "notification": "桌面通知",
     "enableNotification": "啟用桌面通知",
     "showVia": "客戶端名稱",

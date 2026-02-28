@@ -8,7 +8,9 @@ export function HomeView() {
 
   return (
     <>
-      <FeedSelector />
+      <div className="sticky top-0 z-20 bg-white dark:bg-bg-dark">
+        <FeedSelector />
+      </div>
       {currentFeed.type === "home" ? (
         <TimelineView />
       ) : (

@@ -43,6 +43,7 @@
     "unhidePost": "取消隐藏",
     "muteThread": "静音此话题通知",
     "copyLink": "复制链接",
+    "translate": "翻译",
     "unmuteThread": "取消静音此话题通知",
     "muteUser": "静音此用户",
     "unmuteUser": "取消静音此用户"
@@ -123,6 +124,7 @@
   },
   "image": {
     "addImages": "添加图片（最多 {{max}} 张，每张不超过 1MB）",
+    "dropHere": "将图片拖放到此处",
     "altPlaceholder": "ALT 文字",
     "imageLabel": "图片 {{n}}",
     "noAlt": "未设置 ALT 文字"
@@ -194,6 +196,9 @@
     "pollIntervalUnit": "{{seconds}}秒",
     "supportMessage": "请开发者喝杯咖啡",
     "supportButton": "在 Ko-fi 上支持",
+    "imageOpenMode": "图片显示方式",
+    "imageOpenModeApp": "在应用内打开",
+    "imageOpenModeExternal": "在浏览器中打开",
     "notification": "桌面通知",
     "enableNotification": "启用桌面通知",
     "showVia": "客户端名称",

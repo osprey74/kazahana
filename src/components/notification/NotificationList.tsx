@@ -90,7 +90,7 @@ export function NotificationList() {
       endReached={loadMore}
       overscan={200}
       itemContent={(_index, item: Notification) => (
-        <NotificationItem notification={item} subjectPost={item.reasonSubject ? subjectPosts.get(item.reasonSubject) : undefined} />
+        <NotificationItem notification={item} subjectPost={item.reasonSubject ? subjectPosts.get(item.reasonSubject) : subjectPosts.get(item.uri)} />
       )}
       components={{
         Footer: () => (isFetchingNextPage ? <LoadingSpinner /> : null),

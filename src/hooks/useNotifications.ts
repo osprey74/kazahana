@@ -74,6 +74,10 @@ export function useSubjectPosts(notifications: Notification[]) {
       if ((n.reason === "like" || n.reason === "repost") && n.reasonSubject) {
         set.add(n.reasonSubject);
       }
+      // Also fetch post data for reply/mention/quote so action buttons work
+      if (n.reason === "reply" || n.reason === "mention" || n.reason === "quote") {
+        set.add(n.uri);
+      }
     }
     return [...set];
   }, [notifications]);

@@ -43,6 +43,7 @@
     "unhidePost": "Показать",
     "muteThread": "Отключить уведомления ветки",
     "copyLink": "Скопировать ссылку",
+    "translate": "Перевести",
     "unmuteThread": "Включить уведомления ветки",
     "muteUser": "Заглушить этого пользователя",
     "unmuteUser": "Снять заглушку с этого пользователя"
@@ -123,6 +124,7 @@
   },
   "image": {
     "addImages": "Добавить изображения (макс. {{max}}, до 1 МБ)",
+    "dropHere": "Перетащите изображения сюда",
     "altPlaceholder": "Текст ALT",
     "imageLabel": "Изображение {{n}}",
     "noAlt": "Текст ALT не задан"
@@ -194,6 +196,9 @@
     "pollIntervalUnit": "{{seconds}}с",
     "supportMessage": "Угостите разработчика кофе",
     "supportButton": "Поддержать на Ko-fi",
+    "imageOpenMode": "Отображение изображений",
+    "imageOpenModeApp": "Открыть в приложении",
+    "imageOpenModeExternal": "Открыть в браузере",
     "notification": "Уведомления на рабочем столе",
     "enableNotification": "Включить уведомления на рабочем столе",
     "showVia": "Имя клиента",

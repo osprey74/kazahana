@@ -23,7 +23,7 @@ export function SettingsView() {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { theme, setTheme, pollInterval, setPollInterval, desktopNotification, setDesktopNotification, autoStart, setAutoStart, videoVolume, setVideoVolume, showVia, setShowVia, closeAction, setCloseAction } = useSettingsStore();
+  const { theme, setTheme, pollInterval, setPollInterval, desktopNotification, setDesktopNotification, autoStart, setAutoStart, videoVolume, setVideoVolume, showVia, setShowVia, closeAction, setCloseAction, imageOpenMode, setImageOpenMode } = useSettingsStore();
   const logout = useAuthStore((s) => s.logout);
 
   // Fetch current moderation preferences
@@ -198,6 +198,33 @@ export function SettingsView() {
           />
           <Icon name="volume_up" size={18} className="text-gray-500" />
           <span className="text-sm text-gray-600 dark:text-gray-400 w-10 text-right">{videoVolume}%</span>
+        </div>
+      </section>
+
+      {/* Image Display Mode */}
+      <section className="mb-6">
+        <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t("settings.imageOpenMode")}</h3>
+        <div className="flex flex-col gap-2 ml-4">
+          <label className="flex items-center gap-2 cursor-pointer">
+            <input
+              type="radio"
+              name="imageOpenMode"
+              checked={imageOpenMode === "app"}
+              onChange={() => setImageOpenMode("app")}
+              className="w-4 h-4 accent-primary"
+            />
+            <span className="text-sm text-text-light dark:text-text-dark">{t("settings.imageOpenModeApp")}</span>
+          </label>
+          <label className="flex items-center gap-2 cursor-pointer">
+            <input
+              type="radio"
+              name="imageOpenMode"
+              checked={imageOpenMode === "external"}
+              onChange={() => setImageOpenMode("external")}
+              className="w-4 h-4 accent-primary"
+            />
+            <span className="text-sm text-text-light dark:text-text-dark">{t("settings.imageOpenModeExternal")}</span>
+          </label>
         </div>
       </section>
 

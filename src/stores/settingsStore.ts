@@ -4,6 +4,7 @@ import { invoke } from "@tauri-apps/api/core";
 
 type Theme = "light" | "dark" | "system";
 type CloseAction = "exit" | "minimize";
+type ImageOpenMode = "app" | "external";
 
 interface SettingsState {
   theme: Theme;
@@ -13,6 +14,7 @@ interface SettingsState {
   videoVolume: number;
   showVia: boolean;
   closeAction: CloseAction;
+  imageOpenMode: ImageOpenMode;
   setTheme: (theme: Theme) => void;
   setPollInterval: (seconds: number) => void;
   setDesktopNotification: (enabled: boolean) => void;
@@ -20,6 +22,7 @@ interface SettingsState {
   setVideoVolume: (volume: number) => void;
   setShowVia: (enabled: boolean) => void;
   setCloseAction: (action: CloseAction) => void;
+  setImageOpenMode: (mode: ImageOpenMode) => void;
   initAutoStart: () => void;
   initCloseAction: () => void;
 }
@@ -36,6 +39,7 @@ export const useSettingsStore = create<SettingsState>((set) => ({
   videoVolume: Number(localStorage.getItem("kazahana-video-volume")) || 50,
   showVia: localStorage.getItem("kazahana-show-via") !== "false",
   closeAction: (localStorage.getItem("kazahana-close-action") as CloseAction) || "exit",
+  imageOpenMode: (localStorage.getItem("kazahana-image-open-mode") as ImageOpenMode) || "app",
 
   setTheme: (theme: Theme) => {
     localStorage.setItem("kazahana-theme", theme);
@@ -76,6 +80,11 @@ export const useSettingsStore = create<SettingsState>((set) => ({
     localStorage.setItem("kazahana-close-action", action);
     syncCloseAction(action);
     set({ closeAction: action });
+  },
+
+  setImageOpenMode: (mode: ImageOpenMode) => {
+    localStorage.setItem("kazahana-image-open-mode", mode);
+    set({ imageOpenMode: mode });
   },
 
   initAutoStart: () => {

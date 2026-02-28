@@ -11,6 +11,33 @@ import { Avatar } from "../common/Avatar";
 import { Icon } from "../common/Icon";
 
 const MAX_GRAPHEMES = 300;
+const IMAGE_MAX_BYTES = 1_000_000; // 1MB — Bluesky image upload limit
+const IMAGE_MAX_WIDTH = 2048;
+const IMAGE_ACCEPTED = ["image/jpeg", "image/png", "image/webp"];
+
+/** Compress a pasted image (e.g. screenshot) to fit within Bluesky's upload limit. */
+async function compressImageFile(file: File): Promise<File> {
+  if (file.size <= IMAGE_MAX_BYTES) return file;
+
+  const img = await createImageBitmap(file);
+  const scale = Math.min(1, IMAGE_MAX_WIDTH / img.width);
+  const w = Math.round(img.width * scale);
+  const h = Math.round(img.height * scale);
+
+  const canvas = new OffscreenCanvas(w, h);
+  const ctx = canvas.getContext("2d")!;
+  ctx.drawImage(img, 0, 0, w, h);
+  img.close();
+
+  for (let quality = 0.85; quality >= 0.3; quality -= 0.1) {
+    const blob = await canvas.convertToBlob({ type: "image/jpeg", quality });
+    if (blob.size <= IMAGE_MAX_BYTES) {
+      return new File([blob], "screenshot.jpg", { type: "image/jpeg" });
+    }
+  }
+  const fallback = await canvas.convertToBlob({ type: "image/jpeg", quality: 0.2 });
+  return new File([fallback], "screenshot.jpg", { type: "image/jpeg" });
+}
 
 function countGraphemes(text: string): number {
   if (typeof Intl !== "undefined" && Intl.Segmenter) {
@@ -72,6 +99,7 @@ export function ComposeModal() {
   const [replyGate, setReplyGate] = useState<"everyone" | "mention" | "follower" | "following" | "nobody">("everyone");
   const [disableQuote, setDisableQuote] = useState(false);
   const [mentionIndex, setMentionIndex] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
 
   // OGP link card (manual trigger)
   const { detectedUrl, ogp, isLoading: ogpLoading, fetchCard, fetchCardForUrl, dismiss: dismissOgp, reset: resetOgp } = useOgp(text);
@@ -130,7 +158,36 @@ export function ComposeModal() {
     setCursorPos(e.target.selectionStart);
   };
 
-  const handlePaste = useCallback((e: React.ClipboardEvent<HTMLTextAreaElement>) => {
+  const handleAddImages = useCallback((files: File[]) => {
+    const newImages: ImageFile[] = files.map((file) => ({
+      id: crypto.randomUUID(),
+      file,
+      preview: URL.createObjectURL(file),
+      alt: "",
+    }));
+    setImages((prev) => [...prev, ...newImages]);
+  }, []);
+
+  const handlePaste = useCallback(async (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
+    // Handle clipboard image paste (screenshots, copied images)
+    if (!video && images.length < 4) {
+      const imageItems = Array.from(e.clipboardData.items).filter(
+        (item) => item.kind === "file" && IMAGE_ACCEPTED.includes(item.type),
+      );
+      if (imageItems.length > 0) {
+        e.preventDefault();
+        const files: File[] = [];
+        for (const item of imageItems) {
+          const raw = item.getAsFile();
+          if (!raw) continue;
+          files.push(await compressImageFile(raw));
+        }
+        if (files.length > 0) handleAddImages(files);
+        return;
+      }
+    }
+
+    // Handle text paste (URL → OGP link card)
     const pasted = e.clipboardData.getData("text");
     if (!pasted) return;
     const url = extractUrl(pasted);
@@ -138,7 +195,7 @@ export function ComposeModal() {
     // ogp/images/video/quote already present → skip
     if (ogp || images.length > 0 || video || quoteTo) return;
     fetchCardForUrl(url);
-  }, [fetchCardForUrl, ogp, images.length, video, quoteTo]);
+  }, [fetchCardForUrl, ogp, images.length, video, quoteTo, handleAddImages]);
 
   const handleSelect = (e: React.SyntheticEvent<HTMLTextAreaElement>) => {
     setCursorPos((e.target as HTMLTextAreaElement).selectionStart);
@@ -189,16 +246,6 @@ export function ComposeModal() {
       setCursorPos(0); // Force close dropdown
     }
   };
-
-  const handleAddImages = useCallback((files: File[]) => {
-    const newImages: ImageFile[] = files.map((file) => ({
-      id: crypto.randomUUID(),
-      file,
-      preview: URL.createObjectURL(file),
-      alt: "",
-    }));
-    setImages((prev) => [...prev, ...newImages]);
-  }, []);
 
   const handleRemoveImage = useCallback((id: string) => {
     setImages((prev) => {
@@ -267,14 +314,45 @@ export function ComposeModal() {
     );
   };
 
+  const handleModalDragOver = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    if (!video) setIsDragging(true);
+  }, [video]);
+
+  const handleModalDragLeave = useCallback((e: React.DragEvent) => {
+    // Only trigger when leaving the modal container itself
+    if (e.currentTarget === e.target) setIsDragging(false);
+  }, []);
+
+  const handleModalDrop = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+    if (video || images.length >= 4) return;
+    const files = Array.from(e.dataTransfer.files).filter(
+      (f) => IMAGE_ACCEPTED.includes(f.type) && f.size <= IMAGE_MAX_BYTES,
+    );
+    if (files.length > 0) handleAddImages(files);
+  }, [video, images.length, handleAddImages]);
+
   if (!isOpen) return null;
 
   const hasVideo = video !== null;
   const hasImages = images.length > 0;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center pt-16 bg-black/40">
-      <div className="bg-white dark:bg-bg-dark rounded-card w-full max-w-md mx-4 shadow-xl">
+    <div
+      className="fixed inset-0 z-50 flex items-start justify-center pt-16 bg-black/40"
+      onDragOver={handleModalDragOver}
+      onDragLeave={handleModalDragLeave}
+      onDrop={handleModalDrop}
+    >
+      <div className="bg-white dark:bg-bg-dark rounded-card w-full max-w-md mx-4 shadow-xl relative">
+        {/* Drag overlay */}
+        {isDragging && !video && (
+          <div className="absolute inset-0 z-10 bg-primary/10 border-2 border-dashed border-primary rounded-card flex items-center justify-center pointer-events-none">
+            <p className="text-primary font-medium text-sm">{t("image.dropHere")}</p>
+          </div>
+        )}
         {/* Header */}
         <div className="flex items-center justify-between px-4 py-3 border-b border-border-light dark:border-border-dark">
           <button

@@ -57,6 +57,15 @@ Kazahana is designed as a **lightweight, always-running companion app** — not 
 - [x] Window size & position persistence (save on exit, restore on launch)
 - [x] System tray: left-click to restore, right-click menu (Open Window / Minimize / Exit)
 - [x] Configurable close button behavior (exit or minimize to tray)
+- [x] Image drag & drop onto compose modal (with auto-compression for large images)
+- [x] Clipboard image paste (screenshot paste with JPEG compression)
+- [x] Translate button in post menu (Google Translate integration)
+- [x] Notification action buttons (reply, repost, like directly from notifications)
+- [x] Color-coded notification icons (red heart for likes, green for reposts)
+- [x] Feed/list quick-jump menu in header
+- [x] Image display mode setting (in-app lightbox or external browser)
+- [x] Sticky feed tab header on scroll
+- [x] Auto-mention when composing from profile page (N key or FAB button)
 
 ## Tech Stack
 

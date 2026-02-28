@@ -8,6 +8,7 @@ import { usePostListStore } from "../../stores/postListStore";
 import { useReportStore } from "../../stores/reportStore";
 import { useDeletePost } from "../../hooks/usePost";
 import { useMuteActor, useUnmuteActor } from "../../hooks/useProfile";
+import { openUrl } from "@tauri-apps/plugin-opener";
 import { Icon } from "../common/Icon";
 
 interface PostActionsProps {
@@ -211,7 +212,7 @@ export function PostActions({ post }: PostActionsProps) {
 }
 
 function PostMenu({ post, isOwnPost }: { post: PostView; isOwnPost: boolean }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
   const [confirming, setConfirming] = useState(false);
@@ -329,6 +330,18 @@ function PostMenu({ post, isOwnPost }: { post: PostView; isOwnPost: boolean }) {
               >
                 <Icon name="link" size={16} />
                 <span>{t("post.copyLink")}</span>
+              </button>
+              <button
+                onClick={() => {
+                  setOpen(false);
+                  const postText = (post.record as { text?: string })?.text ?? "";
+                  const lang = i18n.language.startsWith("ja") ? "ja" : i18n.language.split("-")[0];
+                  openUrl(`https://translate.google.com/?sl=auto&tl=${lang}&text=${encodeURIComponent(postText)}&op=translate`);
+                }}
+                className="w-full flex items-center gap-2 px-3 py-2 text-sm text-text-light dark:text-text-dark hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              >
+                <Icon name="translate" size={16} />
+                <span>{t("post.translate")}</span>
               </button>
               <button
                 onClick={handleToggleMuteThread}
