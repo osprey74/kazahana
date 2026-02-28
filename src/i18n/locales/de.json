@@ -33,6 +33,7 @@
   },
   "post": {
     "reposted": "hat geteilt",
+    "pinned": "Angepinnter Beitrag",
     "replyTo": "Antwort an",
     "delete": "Löschen",
     "deleteConfirm": "Diesen Beitrag löschen?",

@@ -33,6 +33,7 @@
   },
   "post": {
     "reposted": "님이 리포스트함",
+    "pinned": "고정된 게시물",
     "replyTo": "답글 대상",
     "delete": "삭제",
     "deleteConfirm": "이 게시물을 삭제하시겠습니까?",

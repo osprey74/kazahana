@@ -33,6 +33,7 @@
   },
   "post": {
     "reposted": "republicó",
+    "pinned": "Publicación fijada",
     "replyTo": "Respondiendo a",
     "delete": "Eliminar",
     "deleteConfirm": "¿Eliminar esta publicación?",

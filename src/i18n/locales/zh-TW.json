@@ -33,6 +33,7 @@
   },
   "post": {
     "reposted": "轉發了",
+    "pinned": "置頂貼文",
     "replyTo": "回覆給",
     "delete": "刪除",
     "deleteConfirm": "刪除這則貼文？",

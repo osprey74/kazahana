@@ -37,6 +37,7 @@
   },
   "post": {
     "reposted": "reposted",
+    "pinned": "Pinned post",
     "replyTo": "Replying to",
     "delete": "Delete",
     "deleteConfirm": "Delete this post?",

@@ -33,6 +33,7 @@
   },
   "post": {
     "reposted": "a republié",
+    "pinned": "Publication épinglée",
     "replyTo": "En réponse à",
     "delete": "Supprimer",
     "deleteConfirm": "Supprimer cette publication ?",

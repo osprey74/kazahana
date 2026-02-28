@@ -33,6 +33,7 @@
   },
   "post": {
     "reposted": "memposting ulang",
+    "pinned": "Postingan disematkan",
     "replyTo": "Membalas",
     "delete": "Hapus",
     "deleteConfirm": "Hapus postingan ini?",

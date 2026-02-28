@@ -48,6 +48,7 @@
 - [x] Copy post link / share
 - [x] Starter Packs viewing (profile tab + detail view)
 - [x] Post language tag auto-assignment (`langs` field from app language setting)
+- [x] Pinned post display on profile (`getAuthorFeed` with `includePins`, `reasonPin` UI indicator)
 - [ ] Starter Packs search tab in search view (`searchStarterPacks`) — API未提供 (Bluesky側で404、lexiconのみ存在)
 
 ## i18n (Additional Languages)

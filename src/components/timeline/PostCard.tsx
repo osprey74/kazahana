@@ -45,6 +45,7 @@ export function PostCard({ feedItem, showParentContext }: PostCardProps) {
   const repostBy = isRepost
     ? (reason as { by?: { displayName?: string; handle?: string } }).by
     : null;
+  const isPinned = reason?.$type === "app.bsky.feed.defs#reasonPin";
 
   const images = getImages(post);
   const videoEmbed = getVideoEmbed(post);
@@ -70,6 +71,12 @@ export function PostCard({ feedItem, showParentContext }: PostCardProps) {
         navigate(`/post/${encodeURIComponent(post.uri)}`);
       }}
     >
+      {isPinned && (
+        <div className="flex items-center gap-1 text-xs text-gray-500 mb-1 ml-12">
+          <Icon name="push_pin" size={14} />
+          <span>{t("post.pinned")}</span>
+        </div>
+      )}
       {isRepost && repostBy && (
         <div className="flex items-center gap-1 text-xs text-gray-500 mb-1 ml-12">
           <Icon name="repeat" size={14} />

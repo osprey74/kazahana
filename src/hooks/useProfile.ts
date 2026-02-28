@@ -23,6 +23,7 @@ export function useAuthorFeed(handle: string) {
         actor: handle,
         limit: 50,
         cursor: pageParam as string | undefined,
+        includePins: !pageParam,
       });
       return res.data;
     },

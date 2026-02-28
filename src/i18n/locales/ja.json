@@ -37,6 +37,7 @@
   },
   "post": {
     "reposted": "がリポスト",
+    "pinned": "ピン留め投稿",
     "replyTo": "に返信",
     "delete": "削除",
     "deleteConfirm": "この投稿を削除しますか？",

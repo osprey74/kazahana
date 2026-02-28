@@ -33,6 +33,7 @@
   },
   "post": {
     "reposted": "转发了",
+    "pinned": "置顶帖子",
     "replyTo": "回复",
     "delete": "删除",
     "deleteConfirm": "删除这条帖子？",
