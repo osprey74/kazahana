@@ -227,3 +227,8 @@ Collaborator: よつぎnん / @yotsugin.bsky.social
 
 - [x] リアクションボタン（絵文字スタンプ）の追加 — クイック絵文字ピッカー（❤️👍😂😮😢🎉）、リアクション表示（グループ化・カウント・自分のリアクションハイライト）、トグル操作対応
 - [x] メッセージの時系列を昇順に変更 — API返却順を.reverse()で時系列昇順化、スティッキーヘッダー、入力欄下に50vh余白、過去メッセージ読み込み時のスクロール位置補正
+
+## Bug Reports (あやがね / @ayagane.magical-pritt.jp) — 2026-03-01
+
+- [x] リポスト経由の通知クリックで「投稿が見つかりません」と表示される — reasonSubjectがリポストレコードURI（app.bsky.feed.repost）の場合、ThreadViewに渡す前に解決済み元ポストURIを使用するよう修正（NotificationItem.tsx handleClick）
+- [x] 通知のアクションボタン（返信・リポスト・いいね）が一部の通知で表示されない — reply/mention/quote通知でsubjectPost lookupがreasonSubject（親ポスト）で検索していたが、fetchはnotification.uriで行っていたためミスマッチ発生。reason種別に応じたlookupキー分岐に修正（NotificationList.tsx）

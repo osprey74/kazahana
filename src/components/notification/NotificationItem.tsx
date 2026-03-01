@@ -55,9 +55,13 @@ export function NotificationItem({ notification, subjectPost }: NotificationItem
     if (reason === "follow") return;
     // For reply/mention/quote, navigate to the notification's own post (the reply itself).
     // For like/repost, navigate to the subject post (the post that was liked/reposted).
-    const targetUri = (reason === "reply" || reason === "mention" || reason === "quote")
+    let targetUri = (reason === "reply" || reason === "mention" || reason === "quote")
       ? notification.uri
       : subjectUri || notification.uri;
+    // If the subject is a repost record URI, use the resolved original post URI
+    if (targetUri?.includes("/app.bsky.feed.repost/") && subjectPost?.uri) {
+      targetUri = subjectPost.uri;
+    }
     if (targetUri) {
       navigate(`/post/${encodeURIComponent(targetUri)}`, { state: { from: "/notifications" } });
     }
