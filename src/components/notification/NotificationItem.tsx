@@ -58,9 +58,13 @@ export function NotificationItem({ notification, subjectPost }: NotificationItem
     let targetUri = (reason === "reply" || reason === "mention" || reason === "quote")
       ? notification.uri
       : subjectUri || notification.uri;
+    console.log("[NotificationItem] handleClick:", { reason, targetUri, subjectPostUri: subjectPost?.uri, subjectUri });
     // If the subject is a repost record URI, use the resolved original post URI
     if (targetUri?.includes("/app.bsky.feed.repost/") && subjectPost?.uri) {
+      console.log("[NotificationItem] Resolved repost URI via subjectPost:", subjectPost.uri);
       targetUri = subjectPost.uri;
+    } else if (targetUri?.includes("/app.bsky.feed.repost/")) {
+      console.warn("[NotificationItem] Repost URI not resolved yet (subjectPost not loaded), will be resolved by useThread");
     }
     if (targetUri) {
       navigate(`/post/${encodeURIComponent(targetUri)}`, { state: { from: "/notifications" } });
