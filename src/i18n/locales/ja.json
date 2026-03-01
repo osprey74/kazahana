@@ -115,7 +115,8 @@
     "expired": "セッションの有効期限が切れました。再度ログインしてください。"
   },
   "common": {
-    "retry": "再試行"
+    "retry": "再試行",
+    "clear": "クリア"
   },
   "moderation": {
     "postHidden": "モデレーションにより非表示",
@@ -184,7 +185,9 @@
     "mutedUser": "このユーザーをミュートしています",
     "blockingUser": "このユーザーをブロックしています",
     "blockedByUser": "このユーザーにブロックされています",
-    "manageList": "リストに追加/削除"
+    "manageList": "リストに追加/削除",
+    "searchPlaceholder": "このユーザーの投稿を検索",
+    "noSearchResults": "検索結果はありません"
   },
   "search": {
     "placeholder": "ユーザーや投稿を検索...",
@@ -225,6 +228,7 @@
     "feedOrderHint": "矢印ボタンでフィードの並び順を変更できます。チェックで表示/非表示を切り替えます。",
     "hiddenFeedsLabel": "非表示のフィード",
     "noFeeds": "フィード・リストがありません",
+    "showAllInQuickJump": "フィード選択ドロップダウンメニューに全てのフィードを表示する",
     "hiddenPosts": "非表示にした投稿",
     "noHiddenPosts": "非表示にした投稿はありません",
     "viewPost": "投稿を見る",
@@ -313,6 +317,7 @@
     "noMessages": "メッセージはまだありません",
     "deleted": "メッセージが削除されました",
     "deleteForMe": "自分側で削除",
+    "addReaction": "リアクションを追加",
     "loadOlder": "過去のメッセージを読み込む",
     "unknown": "不明なユーザー",
     "dmPermissionError": "DM権限が必要です。DM権限を有効にしてアプリパスワードを再生成してください。",

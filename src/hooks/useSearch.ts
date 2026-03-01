@@ -40,6 +40,26 @@ export function useSearchPosts(query: string) {
   });
 }
 
+export function useSearchPostsByAuthor(query: string, author: string) {
+  return useInfiniteQuery({
+    queryKey: ["searchPostsByAuthor", query, author],
+    queryFn: async ({ pageParam }) => {
+      const agent = getAgent();
+      const res = await agent.app.bsky.feed.searchPosts({
+        q: query,
+        author,
+        limit: 20,
+        cursor: pageParam as string | undefined,
+      });
+      return res.data;
+    },
+    initialPageParam: undefined as string | undefined,
+    getNextPageParam: (lastPage) => lastPage.cursor,
+    enabled: query.length > 0 && author.length > 0,
+    staleTime: 60_000,
+  });
+}
+
 export function useSearchActorsTypeahead(query: string) {
   const [debouncedQuery, setDebouncedQuery] = useState(query);
 

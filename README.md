@@ -66,6 +66,11 @@ Kazahana is designed as a **lightweight, always-running companion app** — not 
 - [x] Image display mode setting (in-app lightbox or external browser)
 - [x] Sticky feed tab header on scroll
 - [x] Auto-mention when composing from profile page (N key or FAB button)
+- [x] Non-pinned feed display & feed visibility settings (show all / visible only in quick-jump)
+- [x] Repost notification subject resolution (show original post for repost-via likes)
+- [x] Profile post search (search posts by specific user)
+- [x] Drag & drop feed/list reordering in settings
+- [x] Chat message reactions (emoji stamps with quick picker)
 
 ## Tech Stack
 

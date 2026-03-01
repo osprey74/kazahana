@@ -109,7 +109,8 @@
     "expired": "Su sesión ha expirado. Inicie sesión de nuevo."
   },
   "common": {
-    "retry": "Reintentar"
+    "retry": "Reintentar",
+    "clear": "Borrar"
   },
   "moderation": {
     "postHidden": "Publicación oculta por moderación",
@@ -176,7 +177,9 @@
     "mutedUser": "Has silenciado a este usuario",
     "blockingUser": "Has bloqueado a este usuario",
     "blockedByUser": "Este usuario te ha bloqueado",
-    "manageList": "Añadir/Quitar de listas"
+    "manageList": "Añadir/Quitar de listas",
+    "searchPlaceholder": "Buscar publicaciones de este usuario",
+    "noSearchResults": "Sin resultados de búsqueda"
   },
   "search": {
     "placeholder": "Buscar usuarios o publicaciones...",
@@ -216,6 +219,7 @@
     "feedOrderHint": "Usa las flechas para reordenar los feeds. Las casillas alternan la visibilidad.",
     "hiddenFeedsLabel": "Feeds ocultos",
     "noFeeds": "No hay feeds ni listas",
+    "showAllInQuickJump": "Mostrar todos los feeds en el menú desplegable de selección de feeds",
     "hiddenPosts": "Publicaciones ocultas",
     "noHiddenPosts": "No hay publicaciones ocultas",
     "viewPost": "Ver publicación",
@@ -298,6 +302,7 @@
     "noMessages": "Aún no hay mensajes",
     "deleted": "Mensaje eliminado",
     "deleteForMe": "Eliminar para mí",
+    "addReaction": "Añadir reacción",
     "loadOlder": "Cargar mensajes anteriores",
     "unknown": "Usuario desconocido",
     "dmPermissionError": "Se requiere permiso de DM. Regenere su contraseña de aplicación con acceso a DM habilitado.",

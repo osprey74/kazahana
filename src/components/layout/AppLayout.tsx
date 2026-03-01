@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Outlet, useLocation, Link } from "react-router-dom";
+import { Outlet, useLocation, useNavigate, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { TabBar } from "./TabBar";
 import { ComposeModal } from "../post/ComposeModal";
@@ -21,6 +21,7 @@ const REFRESHABLE_PATHS = ["/", "/notifications", "/messages", "/profile"];
 export function AppLayout() {
   const { t } = useTranslation();
   const location = useLocation();
+  const navigate = useNavigate();
   const openCompose = useComposeStore((s) => s.open);
   const openDMCompose = useDMComposeStore((s) => s.open);
   const profile = useAuthStore((s) => s.profile);
@@ -29,7 +30,7 @@ export function AppLayout() {
   const mainRef = useRef<HTMLElement>(null);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [feedMenuOpen, setFeedMenuOpen] = useState(false);
-  const { setCurrentFeed, hiddenFeeds, feedOrder } = useFeedStore();
+  const { setCurrentFeed, feedOrder, hiddenFeeds, showAllInQuickJump } = useFeedStore();
   const { data: savedFeeds } = useSavedFeeds();
   const { data: myLists } = useMyLists();
 
@@ -103,8 +104,9 @@ export function AppLayout() {
               savedFeeds={savedFeeds}
               myLists={myLists}
               hiddenFeeds={hiddenFeeds}
+              showAll={showAllInQuickJump}
               feedOrder={feedOrder}
-              onSelect={(feed: FeedSource) => { setFeedMenuOpen(false); setCurrentFeed(feed); }}
+              onSelect={(feed: FeedSource) => { setFeedMenuOpen(false); setCurrentFeed(feed); if (location.pathname !== "/") navigate("/"); }}
               onClose={() => setFeedMenuOpen(false)}
               t={t}
             />}
@@ -194,6 +196,7 @@ function FeedQuickJumpMenu({
   savedFeeds,
   myLists,
   hiddenFeeds,
+  showAll,
   feedOrder,
   onSelect,
   onClose,
@@ -202,13 +205,18 @@ function FeedQuickJumpMenu({
   savedFeeds?: { uri: string; name: string }[];
   myLists?: { uri: string; name: string }[];
   hiddenFeeds: string[];
+  showAll: boolean;
   feedOrder: string[];
   onSelect: (feed: FeedSource) => void;
   onClose: () => void;
   t: (key: string) => string;
 }) {
-  const feeds = (savedFeeds ?? []).filter((f) => !hiddenFeeds.includes(f.uri));
-  const lists = (myLists ?? []).filter((l) => !hiddenFeeds.includes(l.uri));
+  const feeds = showAll
+    ? [...(savedFeeds ?? [])]
+    : (savedFeeds ?? []).filter((f) => !hiddenFeeds.includes(f.uri));
+  const lists = showAll
+    ? [...(myLists ?? [])]
+    : (myLists ?? []).filter((l) => !hiddenFeeds.includes(l.uri));
 
   // Sort feeds by feedOrder
   if (feedOrder.length > 0) {

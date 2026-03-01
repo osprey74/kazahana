@@ -109,7 +109,8 @@
     "expired": "Sesi Anda telah berakhir. Silakan masuk kembali."
   },
   "common": {
-    "retry": "Coba lagi"
+    "retry": "Coba lagi",
+    "clear": "Hapus"
   },
   "moderation": {
     "postHidden": "Postingan disembunyikan oleh moderasi",
@@ -176,7 +177,9 @@
     "mutedUser": "Anda telah membisukan pengguna ini",
     "blockingUser": "Anda telah memblokir pengguna ini",
     "blockedByUser": "Pengguna ini telah memblokir Anda",
-    "manageList": "Tambah/Hapus dari daftar"
+    "manageList": "Tambah/Hapus dari daftar",
+    "searchPlaceholder": "Cari postingan pengguna ini",
+    "noSearchResults": "Tidak ada hasil pencarian"
   },
   "search": {
     "placeholder": "Cari pengguna atau postingan...",
@@ -216,6 +219,7 @@
     "feedOrderHint": "Gunakan panah untuk mengatur ulang urutan feed. Kotak centang mengaktifkan/menonaktifkan visibilitas.",
     "hiddenFeedsLabel": "Feed tersembunyi",
     "noFeeds": "Tidak ada feed atau daftar",
+    "showAllInQuickJump": "Tampilkan semua feed di menu dropdown pemilihan feed",
     "hiddenPosts": "Postingan tersembunyi",
     "noHiddenPosts": "Tidak ada postingan tersembunyi",
     "viewPost": "Lihat postingan",
@@ -298,6 +302,7 @@
     "noMessages": "Belum ada pesan",
     "deleted": "Pesan dihapus",
     "deleteForMe": "Hapus untuk saya",
+    "addReaction": "Tambah reaksi",
     "loadOlder": "Muat pesan lama",
     "unknown": "Pengguna tidak dikenal",
     "dmPermissionError": "Izin DM diperlukan. Silakan buat ulang kata sandi aplikasi dengan akses DM diaktifkan.",

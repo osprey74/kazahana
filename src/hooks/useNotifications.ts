@@ -87,15 +87,58 @@ export function useSubjectPosts(notifications: Notification[]) {
     queryFn: async () => {
       if (uris.length === 0) return new Map<string, PostView>();
       const agent = getAgent();
+
+      // Separate post URIs from repost record URIs
+      const postUris: string[] = [];
+      const repostUris: string[] = [];
+      for (const uri of uris) {
+        if (uri.includes("/app.bsky.feed.repost/")) {
+          repostUris.push(uri);
+        } else {
+          postUris.push(uri);
+        }
+      }
+
+      // Resolve repost URIs to original post URIs
+      const repostToPostUri = new Map<string, string>();
+      for (const repostUri of repostUris) {
+        const match = repostUri.match(/^at:\/\/([^/]+)\/app\.bsky\.feed\.repost\/(.+)$/);
+        if (!match) continue;
+        try {
+          const res = await agent.com.atproto.repo.getRecord({
+            repo: match[1],
+            collection: "app.bsky.feed.repost",
+            rkey: match[2],
+          });
+          const subject = (res.data.value as { subject?: { uri: string } }).subject;
+          if (subject?.uri) {
+            repostToPostUri.set(repostUri, subject.uri);
+            postUris.push(subject.uri);
+          }
+        } catch {
+          // Repost may have been deleted
+        }
+      }
+
+      // Fetch all post URIs (deduplicated)
+      const uniquePostUris = [...new Set(postUris)];
       const map = new Map<string, PostView>();
-      // getPosts accepts max 25 URIs per call
-      for (let i = 0; i < uris.length; i += 25) {
-        const batch = uris.slice(i, i + 25);
+      for (let i = 0; i < uniquePostUris.length; i += 25) {
+        const batch = uniquePostUris.slice(i, i + 25);
         const res = await agent.getPosts({ uris: batch });
         for (const post of res.data.posts) {
           map.set(post.uri, post);
         }
       }
+
+      // Map repost URIs to their resolved posts for lookup
+      for (const [repostUri, postUri] of repostToPostUri) {
+        const post = map.get(postUri);
+        if (post) {
+          map.set(repostUri, post);
+        }
+      }
+
       return map;
     },
     enabled: uris.length > 0,

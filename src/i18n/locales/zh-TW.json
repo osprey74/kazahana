@@ -109,7 +109,8 @@
     "expired": "您的登入已過期，請重新登入。"
   },
   "common": {
-    "retry": "重試"
+    "retry": "重試",
+    "clear": "清除"
   },
   "moderation": {
     "postHidden": "此貼文已被內容審核隱藏",
@@ -176,7 +177,9 @@
     "mutedUser": "你已靜音此使用者",
     "blockingUser": "你已封鎖此使用者",
     "blockedByUser": "此使用者已封鎖你",
-    "manageList": "新增/移除列表"
+    "manageList": "新增/移除列表",
+    "searchPlaceholder": "搜尋此使用者的貼文",
+    "noSearchResults": "沒有搜尋結果"
   },
   "search": {
     "placeholder": "搜尋使用者或貼文...",
@@ -216,6 +219,7 @@
     "feedOrderHint": "使用箭頭按鈕調整資訊流排列順序。勾選方塊切換顯示/隱藏。",
     "hiddenFeedsLabel": "已隱藏的資訊流",
     "noFeeds": "沒有資訊流或列表",
+    "showAllInQuickJump": "在資訊流選擇下拉選單中顯示所有資訊流",
     "hiddenPosts": "已隱藏的貼文",
     "noHiddenPosts": "沒有已隱藏的貼文",
     "viewPost": "查看貼文",
@@ -298,6 +302,7 @@
     "noMessages": "尚無訊息",
     "deleted": "訊息已刪除",
     "deleteForMe": "為我刪除",
+    "addReaction": "新增表情回應",
     "loadOlder": "載入較舊的訊息",
     "unknown": "未知使用者",
     "dmPermissionError": "需要私訊權限。請重新產生啟用私訊存取權的應用程式密碼。",

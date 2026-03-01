@@ -109,7 +109,8 @@
     "expired": "Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an."
   },
   "common": {
-    "retry": "Erneut versuchen"
+    "retry": "Erneut versuchen",
+    "clear": "Löschen"
   },
   "moderation": {
     "postHidden": "Beitrag durch Moderation ausgeblendet",
@@ -176,7 +177,9 @@
     "mutedUser": "Du hast diesen Benutzer stummgeschaltet",
     "blockingUser": "Du hast diesen Benutzer blockiert",
     "blockedByUser": "Dieser Benutzer hat dich blockiert",
-    "manageList": "Zu Listen hinzufügen/entfernen"
+    "manageList": "Zu Listen hinzufügen/entfernen",
+    "searchPlaceholder": "Beiträge dieses Benutzers durchsuchen",
+    "noSearchResults": "Keine Suchergebnisse"
   },
   "search": {
     "placeholder": "Nutzer oder Beiträge suchen...",
@@ -216,6 +219,7 @@
     "feedOrderHint": "Verwenden Sie die Pfeile, um Feeds neu zu ordnen. Kontrollkästchen schalten die Sichtbarkeit um.",
     "hiddenFeedsLabel": "Ausgeblendete Feeds",
     "noFeeds": "Keine Feeds oder Listen",
+    "showAllInQuickJump": "Alle Feeds im Feed-Auswahl-Dropdown anzeigen",
     "hiddenPosts": "Verborgene Beiträge",
     "noHiddenPosts": "Keine verborgenen Beiträge",
     "viewPost": "Beitrag ansehen",
@@ -298,6 +302,7 @@
     "noMessages": "Noch keine Nachrichten",
     "deleted": "Nachricht gelöscht",
     "deleteForMe": "Für mich löschen",
+    "addReaction": "Reaktion hinzufügen",
     "loadOlder": "Ältere Nachrichten laden",
     "unknown": "Unbekannter Benutzer",
     "dmPermissionError": "DM-Berechtigung erforderlich. Bitte generieren Sie Ihr App-Passwort mit DM-Zugang neu.",

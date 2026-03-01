@@ -109,7 +109,8 @@
     "expired": "您的登录已过期，请重新登录。"
   },
   "common": {
-    "retry": "重试"
+    "retry": "重试",
+    "clear": "清除"
   },
   "moderation": {
     "postHidden": "此帖子已被内容审核隐藏",
@@ -176,7 +177,9 @@
     "mutedUser": "你已静音此用户",
     "blockingUser": "你已屏蔽此用户",
     "blockedByUser": "此用户已屏蔽你",
-    "manageList": "添加/移除列表"
+    "manageList": "添加/移除列表",
+    "searchPlaceholder": "搜索该用户的帖子",
+    "noSearchResults": "没有搜索结果"
   },
   "search": {
     "placeholder": "搜索用户或帖子…",
@@ -216,6 +219,7 @@
     "feedOrderHint": "使用箭头按钮调整信息流排列顺序。勾选框切换显示/隐藏。",
     "hiddenFeedsLabel": "已隐藏的信息流",
     "noFeeds": "没有信息流或列表",
+    "showAllInQuickJump": "在信息流选择下拉菜单中显示所有信息流",
     "hiddenPosts": "已隐藏的帖子",
     "noHiddenPosts": "没有已隐藏的帖子",
     "viewPost": "查看帖子",
@@ -298,6 +302,7 @@
     "noMessages": "暂无消息",
     "deleted": "消息已删除",
     "deleteForMe": "为我删除",
+    "addReaction": "添加表情回应",
     "loadOlder": "加载更早的消息",
     "unknown": "未知用户",
     "dmPermissionError": "需要私信权限。请重新生成启用私信访问权限的应用密码。",

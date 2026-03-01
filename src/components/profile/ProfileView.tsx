@@ -5,6 +5,7 @@ import { Virtuoso } from "react-virtuoso";
 import { moderatePost } from "@atproto/api";
 import type { FeedViewPost, PostView } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
 import { useProfile, useAuthorFeed, useAuthorReplies, useActorLikes, useAuthorMediaFeed, useActorFeeds, useActorLists, useBookmarks, useActorStarterPacks } from "../../hooks/useProfile";
+import { useSearchPostsByAuthor } from "../../hooks/useSearch";
 import { useAuthStore } from "../../stores/authStore";
 import { useModerationOpts } from "../../contexts/ModerationContext";
 import { ProfileHeader } from "./ProfileHeader";
@@ -13,6 +14,7 @@ import { StarterPacksList } from "./StarterPacksList";
 import { ActorFeedsList } from "./ActorFeedsList";
 import { ActorListsList } from "./ActorListsList";
 import { LoadingSpinner } from "../common/LoadingSpinner";
+import { Icon } from "../common/Icon";
 import { getAgent } from "../../lib/agent";
 
 export type ProfileTab = "posts" | "replies" | "likes" | "media" | "feeds" | "lists" | "bookmarks" | "starterPacks";
@@ -25,6 +27,8 @@ export function ProfileView() {
   const [scrollParent, setScrollParent] = useState<HTMLElement | null>(null);
   const tabsRef = useRef<HTMLDivElement>(null);
   const scrollLockRef = useRef<number | null>(null);
+  const [searchInput, setSearchInput] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
 
   // Resolve the actual scroll container (<main> in AppLayout)
   useLayoutEffect(() => {
@@ -44,10 +48,18 @@ export function ProfileView() {
     }
   }, [tab, scrollParent]);
 
-  // Reset tab when navigating to a different profile
+  // Reset tab and search when navigating to a different profile
   useEffect(() => {
     setTab("posts");
+    setSearchInput("");
+    setDebouncedSearch("");
   }, [handle]);
+
+  // Debounce search input
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedSearch(searchInput), 300);
+    return () => clearTimeout(timer);
+  }, [searchInput]);
 
   // If no handle param, show own profile
   const resolvedHandle = handle || authProfile?.handle || getAgent().session?.handle || "";
@@ -108,6 +120,14 @@ export function ProfileView() {
     isFetchingNextPage: isFetchingNextBookmarks,
     refetch: refetchBookmarks,
   } = useBookmarks(isOwnProfile);
+
+  const {
+    data: searchData,
+    fetchNextPage: fetchNextSearch,
+    hasNextPage: hasNextSearch,
+    isFetchingNextPage: isFetchingNextSearch,
+    isLoading: isSearchLoading,
+  } = useSearchPostsByAuthor(debouncedSearch, resolvedHandle);
 
   // Listen for refresh event (tab click / F5 / header button)
   useEffect(() => {
@@ -194,6 +214,19 @@ export function ProfileView() {
     }
   }, [hasNextBookmarks, isFetchingNextBookmarks, fetchNextBookmarks]);
 
+  const searchItems = useMemo(() => {
+    if (!searchData?.pages) return [];
+    const all = searchData.pages.flatMap((page) => page.posts);
+    if (!moderationOpts) return all;
+    return all.filter((post) => !moderatePost(post, moderationOpts).ui("contentList").filter);
+  }, [searchData, moderationOpts]);
+
+  const loadMoreSearch = useCallback(() => {
+    if (hasNextSearch && !isFetchingNextSearch) {
+      fetchNextSearch();
+    }
+  }, [hasNextSearch, isFetchingNextSearch, fetchNextSearch]);
+
   if (profileLoading) return <LoadingSpinner />;
 
   if (profileError || !profile) {
@@ -238,27 +271,80 @@ export function ProfileView() {
       {/* Tab content — min-h-screen prevents scroll jump when Virtuoso remounts on tab switch */}
       <div className="min-h-screen">
       {tab === "posts" && (
-        items.length > 0 && scrollParent ? (
-          <Virtuoso
-            customScrollParent={scrollParent}
-            data={items}
-            endReached={loadMore}
-            overscan={200}
-            itemContent={(_index, item: FeedViewPost) => (
-              <PostCard feedItem={item} showParentContext />
-            )}
-            components={{
-              Footer: () =>
-                isFetchingNextPage ? (
-                  <LoadingSpinner />
-                ) : null,
-            }}
-          />
-        ) : !items.length ? (
-          <div className="flex items-center justify-center py-12 text-gray-400">
-            <p>{t("profile.noPosts")}</p>
+        <>
+          {/* Search bar */}
+          <div className="px-3 py-2 border-b border-border-light dark:border-border-dark">
+            <div className="relative">
+              <Icon name="search" size={16} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400" />
+              <input
+                type="text"
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+                placeholder={t("profile.searchPlaceholder")}
+                className="w-full pl-8 pr-8 py-1.5 text-sm bg-gray-100 dark:bg-gray-800 text-text-light dark:text-text-dark rounded-full border border-transparent focus:border-primary focus:outline-none"
+              />
+              {searchInput && (
+                <button
+                  type="button"
+                  title={t("common.clear")}
+                  onClick={() => { setSearchInput(""); setDebouncedSearch(""); }}
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                >
+                  <Icon name="close" size={16} />
+                </button>
+              )}
+            </div>
           </div>
-        ) : null
+
+          {/* Search results or normal feed */}
+          {debouncedSearch ? (
+            isSearchLoading ? (
+              <LoadingSpinner />
+            ) : searchItems.length > 0 && scrollParent ? (
+              <Virtuoso
+                customScrollParent={scrollParent}
+                data={searchItems}
+                endReached={loadMoreSearch}
+                overscan={200}
+                itemContent={(_index, post: PostView) => (
+                  <PostCard feedItem={{ post } as FeedViewPost} showParentContext />
+                )}
+                components={{
+                  Footer: () =>
+                    isFetchingNextSearch ? (
+                      <LoadingSpinner />
+                    ) : null,
+                }}
+              />
+            ) : (
+              <div className="flex items-center justify-center py-12 text-gray-400">
+                <p>{t("profile.noSearchResults")}</p>
+              </div>
+            )
+          ) : (
+            items.length > 0 && scrollParent ? (
+              <Virtuoso
+                customScrollParent={scrollParent}
+                data={items}
+                endReached={loadMore}
+                overscan={200}
+                itemContent={(_index, item: FeedViewPost) => (
+                  <PostCard feedItem={item} showParentContext />
+                )}
+                components={{
+                  Footer: () =>
+                    isFetchingNextPage ? (
+                      <LoadingSpinner />
+                    ) : null,
+                }}
+              />
+            ) : !items.length ? (
+              <div className="flex items-center justify-center py-12 text-gray-400">
+                <p>{t("profile.noPosts")}</p>
+              </div>
+            ) : null
+          )}
+        </>
       )}
       {tab === "replies" && (
         replyItems.length > 0 && scrollParent ? (

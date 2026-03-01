@@ -115,7 +115,8 @@
     "expired": "Your session has expired. Please log in again."
   },
   "common": {
-    "retry": "Retry"
+    "retry": "Retry",
+    "clear": "Clear"
   },
   "moderation": {
     "postHidden": "Post hidden by moderation",
@@ -184,7 +185,9 @@
     "mutedUser": "You have muted this user",
     "blockingUser": "You have blocked this user",
     "blockedByUser": "This user has blocked you",
-    "manageList": "Add/Remove from lists"
+    "manageList": "Add/Remove from lists",
+    "searchPlaceholder": "Search this user's posts",
+    "noSearchResults": "No search results"
   },
   "search": {
     "placeholder": "Search users or posts...",
@@ -225,6 +228,7 @@
     "feedOrderHint": "Use arrows to reorder feeds. Checkboxes toggle visibility.",
     "hiddenFeedsLabel": "Hidden feeds",
     "noFeeds": "No feeds or lists",
+    "showAllInQuickJump": "Show all feeds in the feed selection dropdown menu",
     "hiddenPosts": "Hidden posts",
     "noHiddenPosts": "No hidden posts",
     "viewPost": "View post",
@@ -313,6 +317,7 @@
     "noMessages": "No messages yet",
     "deleted": "Message deleted",
     "deleteForMe": "Delete for me",
+    "addReaction": "Add reaction",
     "loadOlder": "Load older messages",
     "unknown": "Unknown user",
     "dmPermissionError": "DM permission required. Please regenerate your app password with DM access enabled.",

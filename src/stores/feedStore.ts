@@ -12,6 +12,8 @@ interface FeedState {
   toggleFeedVisibility: (uri: string) => void;
   feedOrder: string[];
   setFeedOrder: (order: string[]) => void;
+  showAllInQuickJump: boolean;
+  setShowAllInQuickJump: (value: boolean) => void;
 }
 
 function loadFeed(): FeedSource {
@@ -68,5 +70,12 @@ export const useFeedStore = create<FeedState>((set, get) => ({
   setFeedOrder: (order) => {
     localStorage.setItem("kazahana-feed-order", JSON.stringify(order));
     set({ feedOrder: order });
+  },
+
+  showAllInQuickJump: localStorage.getItem("kazahana-quickjump-show-all") === "true",
+
+  setShowAllInQuickJump: (value) => {
+    localStorage.setItem("kazahana-quickjump-show-all", String(value));
+    set({ showAllInQuickJump: value });
   },
 }));

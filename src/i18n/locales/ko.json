@@ -109,7 +109,8 @@
     "expired": "세션이 만료되었습니다. 다시 로그인해 주세요."
   },
   "common": {
-    "retry": "다시 시도"
+    "retry": "다시 시도",
+    "clear": "지우기"
   },
   "moderation": {
     "postHidden": "콘텐츠 관리에 의해 숨겨진 게시물",
@@ -176,7 +177,9 @@
     "mutedUser": "이 사용자를 뮤트했습니다",
     "blockingUser": "이 사용자를 차단했습니다",
     "blockedByUser": "이 사용자가 당신을 차단했습니다",
-    "manageList": "리스트에 추가/삭제"
+    "manageList": "리스트에 추가/삭제",
+    "searchPlaceholder": "이 사용자의 게시물 검색",
+    "noSearchResults": "검색 결과가 없습니다"
   },
   "search": {
     "placeholder": "사용자 또는 게시물 검색…",
@@ -216,6 +219,7 @@
     "feedOrderHint": "화살표로 피드 순서를 변경합니다. 체크박스로 표시/숨김을 전환합니다.",
     "hiddenFeedsLabel": "숨겨진 피드",
     "noFeeds": "피드나 리스트가 없습니다",
+    "showAllInQuickJump": "피드 선택 드롭다운 메뉴에 모든 피드 표시",
     "hiddenPosts": "숨긴 게시물",
     "noHiddenPosts": "숨긴 게시물이 없습니다",
     "viewPost": "게시물 보기",
@@ -298,6 +302,7 @@
     "noMessages": "메시지가 없습니다",
     "deleted": "삭제된 메시지",
     "deleteForMe": "내 쪽에서 삭제",
+    "addReaction": "리액션 추가",
     "loadOlder": "이전 메시지 불러오기",
     "unknown": "알 수 없는 사용자",
     "dmPermissionError": "DM 권한이 필요합니다. DM 접근 권한을 활성화하여 앱 비밀번호를 다시 생성하세요.",

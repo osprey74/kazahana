@@ -62,6 +62,36 @@ export function useDeleteMessage() {
   });
 }
 
+export function useAddReaction() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ convoId, messageId, value }: { convoId: string; messageId: string; value: string }) => {
+      const agent = getChatAgent();
+      const res = await agent.chat.bsky.convo.addReaction({ convoId, messageId, value });
+      return res.data;
+    },
+    onSuccess: (_data, { convoId }) => {
+      queryClient.invalidateQueries({ queryKey: ["messages", convoId] });
+    },
+  });
+}
+
+export function useRemoveReaction() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ convoId, messageId, value }: { convoId: string; messageId: string; value: string }) => {
+      const agent = getChatAgent();
+      const res = await agent.chat.bsky.convo.removeReaction({ convoId, messageId, value });
+      return res.data;
+    },
+    onSuccess: (_data, { convoId }) => {
+      queryClient.invalidateQueries({ queryKey: ["messages", convoId] });
+    },
+  });
+}
+
 export function useMarkConvoAsRead() {
   const queryClient = useQueryClient();
 

@@ -5,6 +5,7 @@ interface SavedFeed {
   uri: string;
   name: string;
   avatar?: string;
+  pinned: boolean;
 }
 
 interface SavedList {
@@ -21,28 +22,32 @@ export function useSavedFeeds() {
       const prefsRes = await agent.app.bsky.actor.getPreferences();
       const prefs = prefsRes.data.preferences;
 
-      // Extract pinned feed URIs from savedFeedsPrefV2
-      const feedUris: string[] = [];
+      // Extract all saved feed URIs from savedFeedsPrefV2 (pinned + non-pinned)
+      const feedEntries: { uri: string; pinned: boolean }[] = [];
       for (const pref of prefs) {
         if (pref.$type === "app.bsky.actor.defs#savedFeedsPrefV2") {
           const items = (pref as { items?: Array<{ type: string; value: string; pinned: boolean }> }).items;
           if (items) {
             for (const item of items) {
-              if (item.type === "feed" && item.pinned) {
-                feedUris.push(item.value);
+              if (item.type === "feed") {
+                feedEntries.push({ uri: item.value, pinned: item.pinned });
               }
             }
           }
         }
       }
 
-      if (feedUris.length === 0) return [] as SavedFeed[];
+      if (feedEntries.length === 0) return [] as SavedFeed[];
+
+      const feedUris = feedEntries.map((e) => e.uri);
+      const pinnedMap = new Map(feedEntries.map((e) => [e.uri, e.pinned]));
 
       const res = await agent.app.bsky.feed.getFeedGenerators({ feeds: feedUris });
       return res.data.feeds.map((f) => ({
         uri: f.uri,
         name: f.displayName,
         avatar: f.avatar,
+        pinned: pinnedMap.get(f.uri) ?? false,
       })) as SavedFeed[];
     },
     staleTime: 5 * 60_000,

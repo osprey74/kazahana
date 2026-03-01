@@ -109,7 +109,8 @@
     "expired": "Sua sessão expirou. Faça login novamente."
   },
   "common": {
-    "retry": "Tentar novamente"
+    "retry": "Tentar novamente",
+    "clear": "Limpar"
   },
   "moderation": {
     "postHidden": "Publicação ocultada pela moderação",
@@ -176,7 +177,9 @@
     "mutedUser": "Você silenciou este usuário",
     "blockingUser": "Você bloqueou este usuário",
     "blockedByUser": "Este usuário bloqueou você",
-    "manageList": "Adicionar/Remover de listas"
+    "manageList": "Adicionar/Remover de listas",
+    "searchPlaceholder": "Pesquisar publicações deste usuário",
+    "noSearchResults": "Nenhum resultado encontrado"
   },
   "search": {
     "placeholder": "Buscar usuários ou publicações...",
@@ -216,6 +219,7 @@
     "feedOrderHint": "Use as setas para reordenar os feeds. As caixas alternam a visibilidade.",
     "hiddenFeedsLabel": "Feeds ocultos",
     "noFeeds": "Sem feeds ou listas",
+    "showAllInQuickJump": "Mostrar todos os feeds no menu suspenso de seleção de feeds",
     "hiddenPosts": "Publicações ocultas",
     "noHiddenPosts": "Nenhuma publicação oculta",
     "viewPost": "Ver publicação",
@@ -298,6 +302,7 @@
     "noMessages": "Nenhuma mensagem ainda",
     "deleted": "Mensagem excluída",
     "deleteForMe": "Excluir para mim",
+    "addReaction": "Adicionar reação",
     "loadOlder": "Carregar mensagens anteriores",
     "unknown": "Usuário desconhecido",
     "dmPermissionError": "Permissão de DM necessária. Regenere sua senha de app com acesso a DM habilitado.",

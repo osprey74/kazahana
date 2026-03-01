@@ -109,7 +109,8 @@
     "expired": "Votre session a expiré. Veuillez vous reconnecter."
   },
   "common": {
-    "retry": "Réessayer"
+    "retry": "Réessayer",
+    "clear": "Effacer"
   },
   "moderation": {
     "postHidden": "Publication masquée par la modération",
@@ -176,7 +177,9 @@
     "mutedUser": "Vous avez masqué cet utilisateur",
     "blockingUser": "Vous avez bloqué cet utilisateur",
     "blockedByUser": "Cet utilisateur vous a bloqué",
-    "manageList": "Ajouter/Retirer des listes"
+    "manageList": "Ajouter/Retirer des listes",
+    "searchPlaceholder": "Rechercher les publications de cet utilisateur",
+    "noSearchResults": "Aucun résultat de recherche"
   },
   "search": {
     "placeholder": "Rechercher des utilisateurs ou des publications…",
@@ -216,6 +219,7 @@
     "feedOrderHint": "Utilisez les flèches pour réorganiser les flux. Les cases à cocher activent/désactivent la visibilité.",
     "hiddenFeedsLabel": "Flux masqués",
     "noFeeds": "Aucun flux ni liste",
+    "showAllInQuickJump": "Afficher tous les flux dans le menu déroulant de sélection des flux",
     "hiddenPosts": "Publications masquées",
     "noHiddenPosts": "Aucune publication masquée",
     "viewPost": "Voir la publication",
@@ -298,6 +302,7 @@
     "noMessages": "Pas encore de messages",
     "deleted": "Message supprimé",
     "deleteForMe": "Supprimer pour moi",
+    "addReaction": "Ajouter une réaction",
     "loadOlder": "Charger les messages plus anciens",
     "unknown": "Utilisateur inconnu",
     "dmPermissionError": "Autorisation DM requise. Veuillez régénérer votre mot de passe d'application avec l'accès DM activé.",
