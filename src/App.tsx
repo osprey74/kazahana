@@ -14,6 +14,7 @@ import { LicenseView } from "./components/settings/LicenseView";
 import { ReadmeView } from "./components/settings/ReadmeView";
 import { HiddenPostsView } from "./components/settings/HiddenPostsView";
 import { FeedVisibilityView } from "./components/settings/FeedVisibilityView";
+import { BsafBotsView } from "./components/settings/BsafBotsView";
 import { StarterPackDetailView } from "./components/profile/StarterPackDetailView";
 import { DMListView } from "./components/messages/DMListView";
 import { DMThreadView } from "./components/messages/DMThreadView";
@@ -25,6 +26,8 @@ import { useComposeStore } from "./stores/composeStore";
 import { applyTheme, useSettingsStore } from "./stores/settingsStore";
 import { ModerationProvider } from "./contexts/ModerationContext";
 import { isRateLimitError, getRateLimitDelay } from "./lib/rateLimit";
+import { useBsafStore } from "./stores/bsafStore";
+import { checkBsafBotUpdates } from "./lib/bsafUpdater";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -114,6 +117,13 @@ function AuthGate() {
     return () => mq.removeEventListener("change", handler);
   }, [theme]);
 
+  // BSAF bot definition update check (once on login)
+  const bsafEnabled = useBsafStore((s) => s.bsafEnabled);
+  useEffect(() => {
+    if (!isLoggedIn || !bsafEnabled) return;
+    checkBsafBotUpdates();
+  }, [isLoggedIn, bsafEnabled]);
+
   // Deep-link listener (only when logged in)
   useEffect(() => {
     if (!isLoggedIn) return;
@@ -165,6 +175,7 @@ function AuthGate() {
             <Route path="/settings/readme" element={<ReadmeView />} />
             <Route path="/settings/hidden-posts" element={<HiddenPostsView />} />
             <Route path="/settings/feed-visibility" element={<FeedVisibilityView />} />
+            <Route path="/settings/bsaf" element={<BsafBotsView />} />
           </Route>
         </Routes>
       </ModerationProvider>

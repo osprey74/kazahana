@@ -44,6 +44,7 @@
         <li><a href="#new-post">New Post</a></li>
         <li><a href="#post-detail">Post Detail &amp; Thread</a></li>
         <li><a href="#settings">Settings</a></li>
+        <li><a href="#bsaf">BSAF (Structured Alert Feed)</a></li>
         <li><a href="#bookmarklet">Bookmarklet</a></li>
       </ul>
     </nav>
@@ -354,6 +355,38 @@
         <tr><td><strong>Buy the developer a coffee on Ko-fi</strong></td><td>Support the developer</td></tr>
       </tbody>
     </table>
+    <hr>
+    <h2 id="bsaf">BSAF (Structured Alert Feed)</h2>
+    <p>kazahana supports the <a href="https://github.com/osprey74/bsaf-protocol" target="_blank" rel="noopener">BSAF protocol</a> (Bluesky Structured Alert Feed), enabling structured filtering of alert bot posts such as earthquake and tsunami warnings.</p>
+
+    <h3>Enabling BSAF</h3>
+    <p>In Settings, check "Enable kazahana as a BSAF-compatible client." When enabled, a link to "Manage BSAF Bots >" appears below the checkbox.</p>
+
+    <h3>Registering a Bot</h3>
+    <p>On the BSAF bot management screen, you can register BSAF-compatible bots using one of two methods:</p>
+    <table>
+      <thead><tr><th>Method</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><strong>URL input</strong></td><td>Enter the URL of a Bot Definition JSON and click "Fetch." GitHub repository URLs are automatically converted to raw content URLs.</td></tr>
+        <tr><td><strong>Local file</strong></td><td>Click "or load from JSON file" to select a local <code>bot-definition.json</code> file.</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Filter Settings</h3>
+    <p>Click a registered bot's name to expand its filter settings. Each filter group (e.g., event type, severity, region) can be individually toggled. "Select all" and "Deselect all" buttons are available for each group.</p>
+    <blockquote>
+      <p><strong>Important: AND-based filtering</strong> — All filter conditions must match for a post to appear. For example, if you set the event type to "earthquake" and the region to "Hokkaido," only earthquake posts targeting Hokkaido will be displayed. Posts about earthquakes in other regions will be filtered out.</p>
+    </blockquote>
+
+    <h3>Where Filters Apply</h3>
+    <p>BSAF filters are applied to the <strong>Home Timeline</strong> and <strong>Custom Feeds</strong> only. On a bot's <strong>Profile page</strong>, all posts are always displayed without filtering. This means you can visit a bot's profile at any time to review the complete history of alerts, including those outside your current filter settings.</p>
+
+    <h3>Duplicate Detection</h3>
+    <p>When multiple BSAF bots report the same event (same type, value, time, and target), kazahana automatically collapses duplicates — only the first bot's post is shown, with a note indicating how many other bots reported the same event.</p>
+
+    <h3>Unregistering a Bot</h3>
+    <p>Click "Unregister" on a bot's expanded panel. This removes the bot from kazahana and automatically unfollows the bot's account.</p>
+
     <hr>
     <h2 id="bookmarklet">Bookmarklet</h2>
     <p>You can use a bookmarklet to quickly share the page you are currently viewing in your browser to kazahana's compose screen. The page title and URL are automatically filled in, and a link card (OGP preview) is also generated.</p>

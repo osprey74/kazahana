@@ -4,6 +4,9 @@ import { Virtuoso } from "react-virtuoso";
 import { moderatePost } from "@atproto/api";
 import type { FeedViewPost } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
 import { useTimeline } from "../../hooks/useTimeline";
+import { useBsafDuplicates } from "../../hooks/useBsafDuplicates";
+import { useBsafStore } from "../../stores/bsafStore";
+import { parseBsafTags, shouldShowBsafPost } from "../../lib/bsaf";
 import { useModerationOpts } from "../../contexts/ModerationContext";
 import { PostCard } from "./PostCard";
 import { LoadingSpinner } from "../common/LoadingSpinner";
@@ -33,14 +36,34 @@ export function TimelineView() {
     return () => window.removeEventListener("kazahana:refresh", handler);
   }, [refetch]);
 
-  // Pre-filter items that should be completely hidden by moderation
+  const { duplicateInfo, hiddenDuplicates } = useBsafDuplicates(items);
+  const bsafEnabled = useBsafStore((s) => s.bsafEnabled);
+  const registeredBots = useBsafStore((s) => s.registeredBots);
+
+  // Pre-filter items that should be completely hidden by moderation, BSAF duplicates, or BSAF filters
   const filteredItems = useMemo(() => {
-    if (!moderationOpts) return items;
     return items.filter((item) => {
-      const decision = moderatePost(item.post, moderationOpts);
-      return !decision.ui("contentList").filter;
+      // Hide BSAF duplicate posts
+      if (hiddenDuplicates.has(item.post.uri)) return false;
+      // Hide moderation-filtered posts
+      if (moderationOpts) {
+        const decision = moderatePost(item.post, moderationOpts);
+        if (decision.ui("contentList").filter) return false;
+      }
+      // BSAF filter by user settings
+      if (bsafEnabled) {
+        const record = item.post.record as { tags?: string[] };
+        if (record.tags) {
+          const parsed = parseBsafTags(record.tags);
+          if (parsed) {
+            const matchedBot = registeredBots.find((b) => b.definition.bot.did === item.post.author.did);
+            if (matchedBot && !shouldShowBsafPost(parsed, matchedBot)) return false;
+          }
+        }
+      }
+      return true;
     });
-  }, [items, moderationOpts]);
+  }, [items, moderationOpts, hiddenDuplicates, bsafEnabled, registeredBots]);
 
   // Resolve the actual scroll container (<main> in AppLayout)
   useLayoutEffect(() => {
@@ -95,7 +118,7 @@ export function TimelineView() {
                   {t("timeline.readUpToHere")}
                 </div>
               )}
-              <PostCard feedItem={item} />
+              <PostCard feedItem={item} bsafDuplicateInfo={duplicateInfo.get(item.post.uri)} />
             </>
           )}
           components={{

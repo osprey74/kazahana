@@ -118,14 +118,19 @@
 - `C:\Users\ospre\.claude\plans\modular-jumping-curry.md` に Phase 1-9 の詳細実装計画を記載
 
 ## BSAF Reference Client Integration
-- [ ] Bot Definition JSON import (parse, validate schema, auto-follow bot account)
-- [ ] Dynamic filter settings UI generation from `filters` array (multi-select per type/value/target)
-- [ ] Tag-based filtering logic (`tags` field parsing, match against user-enabled options)
-- [ ] Duplicate detection and collapsing (type + value + time + target match across bots)
-- [ ] `self_url` periodic update check (compare `updated_at`, refresh filter UI)
-- [ ] BSAF settings screen (registered bots list, per-bot filter configuration)
-- [ ] i18n strings for BSAF features (ja/en)
+- [x] Bot Definition JSON import (parse, validate schema, auto-follow bot account)
+- [x] Bot registration via URL fetch and local file dialog
+- [x] Bot unregistration with auto-unfollow
+- [x] Dynamic filter settings UI generation from `filters` array (multi-select per type/value/target)
+- [x] Tag-based filtering logic (`tags` field parsing, match against user-enabled options)
+- [x] Duplicate detection and collapsing (type + value + time + target match across bots)
+- [x] `self_url` update check on app startup (compare `updated_at`, refresh filter UI)
+- [x] BSAF settings screen (master toggle, registered bots list, per-bot accordion filter config)
+- [x] BSAF store with localStorage persistence (bsafEnabled, registeredBots, filterSettings)
+- [x] i18n strings for BSAF features (全11言語)
 - Spec: https://github.com/osprey74/bsaf-protocol/blob/main/docs/bsaf-spec.md
+- Implementation plan: `design/bsaf-client-implementation-plan.md`
+- Branch: `feature/bsaf-client`
 
 ## Completed Fixes (2025-02-25)
 Collaborator: よつぎnん / @yotsugin.bsky.social

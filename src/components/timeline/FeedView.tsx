@@ -5,6 +5,8 @@ import { moderatePost } from "@atproto/api";
 import type { FeedViewPost } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
 import { useFeed } from "../../hooks/useFeed";
 import { useModerationOpts } from "../../contexts/ModerationContext";
+import { useBsafStore } from "../../stores/bsafStore";
+import { parseBsafTags, shouldShowBsafPost } from "../../lib/bsaf";
 import type { FeedSource } from "../../stores/feedStore";
 import { PostCard } from "./PostCard";
 import { LoadingSpinner } from "../common/LoadingSpinner";
@@ -36,13 +38,30 @@ export function FeedView({ feed }: { feed: FeedSource }) {
     return data.pages.flatMap((page) => page.feed);
   }, [data]);
 
+  const bsafEnabled = useBsafStore((s) => s.bsafEnabled);
+  const registeredBots = useBsafStore((s) => s.registeredBots);
+
   const filteredItems = useMemo(() => {
-    if (!moderationOpts) return items;
     return items.filter((item) => {
-      const decision = moderatePost(item.post, moderationOpts);
-      return !decision.ui("contentList").filter;
+      // Hide moderation-filtered posts
+      if (moderationOpts) {
+        const decision = moderatePost(item.post, moderationOpts);
+        if (decision.ui("contentList").filter) return false;
+      }
+      // BSAF filter by user settings
+      if (bsafEnabled) {
+        const record = item.post.record as { tags?: string[] };
+        if (record.tags) {
+          const parsed = parseBsafTags(record.tags);
+          if (parsed) {
+            const matchedBot = registeredBots.find((b) => b.definition.bot.did === item.post.author.did);
+            if (matchedBot && !shouldShowBsafPost(parsed, matchedBot)) return false;
+          }
+        }
+      }
+      return true;
     });
-  }, [items, moderationOpts]);
+  }, [items, moderationOpts, bsafEnabled, registeredBots]);
 
   useLayoutEffect(() => {
     setScrollParent(document.querySelector("main"));

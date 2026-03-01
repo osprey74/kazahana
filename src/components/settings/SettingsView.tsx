@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useQueryClient, useQuery } from "@tanstack/react-query";
 import { openUrl } from "@tauri-apps/plugin-opener";
 import { useSettingsStore } from "../../stores/settingsStore";
+import { useBsafStore } from "../../stores/bsafStore";
 import { useAuthStore } from "../../stores/authStore";
 import { getAgent } from "../../lib/agent";
 import { Icon } from "../common/Icon";
@@ -25,6 +26,7 @@ export function SettingsView() {
   const queryClient = useQueryClient();
   const { theme, setTheme, pollInterval, setPollInterval, desktopNotification, setDesktopNotification, autoStart, setAutoStart, videoVolume, setVideoVolume, showVia, setShowVia, closeAction, setCloseAction, imageOpenMode, setImageOpenMode } = useSettingsStore();
   const logout = useAuthStore((s) => s.logout);
+  const { bsafEnabled, setBsafEnabled } = useBsafStore();
 
   // Fetch current moderation preferences
   const { data: modPrefs } = useQuery({
@@ -255,6 +257,30 @@ export function SettingsView() {
           />
           <span className="text-sm text-text-light dark:text-text-dark">{t("settings.enableShowVia")}</span>
         </label>
+      </section>
+
+      {/* BSAF */}
+      <section className="mb-6">
+        <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t("bsaf.title")}</h3>
+        <label className="flex items-center gap-2 cursor-pointer ml-4">
+          <input
+            type="checkbox"
+            checked={bsafEnabled}
+            onChange={(e) => setBsafEnabled(e.target.checked)}
+            className="w-4 h-4 rounded accent-primary"
+          />
+          <span className="text-sm text-text-light dark:text-text-dark">{t("bsaf.enableBsaf")}</span>
+        </label>
+        {bsafEnabled && (
+          <button
+            onClick={() => navigate("/settings/bsaf")}
+            className="flex items-center gap-2 text-sm text-primary hover:underline ml-4 mt-2"
+          >
+            <Icon name="smart_toy" size={16} />
+            {t("bsaf.manageBots")}
+            <Icon name="chevron_right" size={16} />
+          </button>
+        )}
       </section>
 
       <hr className="border-border-light dark:border-border-dark mb-6" />

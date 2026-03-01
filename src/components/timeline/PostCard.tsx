@@ -17,13 +17,15 @@ import { PostContent } from "./PostContent";
 import { PostActions } from "./PostActions";
 import { useModerationOpts } from "../../contexts/ModerationContext";
 import { useSettingsStore } from "../../stores/settingsStore";
+import type { BsafDuplicateInfo } from "../../hooks/useBsafDuplicates";
 
 interface PostCardProps {
   feedItem: FeedViewPost;
   showParentContext?: boolean;
+  bsafDuplicateInfo?: BsafDuplicateInfo;
 }
 
-export function PostCard({ feedItem, showParentContext }: PostCardProps) {
+export function PostCard({ feedItem, showParentContext, bsafDuplicateInfo }: PostCardProps) {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const moderationOpts = useModerationOpts();
@@ -227,6 +229,16 @@ export function PostCard({ feedItem, showParentContext }: PostCardProps) {
             <div className="flex items-center gap-1 mt-1.5 text-gray-400">
               <Icon name="lock" size={12} />
               <span className="text-[11px]">{t("gate.replyRestricted")}</span>
+            </div>
+          )}
+
+          {/* BSAF duplicate indicator */}
+          {bsafDuplicateInfo && bsafDuplicateInfo.duplicateHandles.length > 0 && (
+            <div className="flex items-center gap-1 mt-1.5 text-gray-400">
+              <Icon name="content_copy" size={12} />
+              <span className="text-[11px]">
+                {t("bsaf.duplicateReport", { count: bsafDuplicateInfo.duplicateHandles.length })}
+              </span>
             </div>
           )}
 

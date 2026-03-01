@@ -71,6 +71,18 @@ Kazahana is designed as a **lightweight, always-running companion app** — not 
 - [x] Profile post search (search posts by specific user)
 - [x] Drag & drop feed/list reordering in settings
 - [x] Chat message reactions (emoji stamps with quick picker)
+- [x] BSAF (Bluesky Structured Alert Feed) compatible client
+
+### BSAF Support
+
+Kazahana supports the [BSAF protocol](https://github.com/osprey74/bsaf-protocol), enabling structured filtering of alert bot posts (e.g., earthquake/tsunami alerts from JMA bots).
+
+- **Register BSAF-compatible bots** via URL or local JSON file in Settings
+- **Per-bot filter settings** — choose which categories, severity levels, and regions to display
+- **AND-based filtering** — all filter conditions must match for a post to appear (e.g., if you set type to "earthquake" and region to "Hokkaido", only Hokkaido earthquake posts are shown)
+- **Filters apply to Home Timeline and Custom Feeds only** — bot profile pages always show all posts unfiltered, so you can check the full history of alerts regardless of your filter settings
+- **Duplicate detection** — when multiple bots report the same event, duplicates are automatically collapsed
+- **Auto-update** — bot definitions are checked for updates on each app launch
 
 ## Tech Stack
 

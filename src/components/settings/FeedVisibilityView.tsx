@@ -194,6 +194,8 @@ export function FeedVisibilityView() {
             <span className="text-sm text-text-light dark:text-text-dark">{t("settings.showAllInQuickJump")}</span>
           </label>
 
+          <hr className="border-border-light dark:border-border-dark my-3" />
+
           {allFeeds.length > 0 ? (
             <>
               <p className="text-[11px] text-gray-400 dark:text-gray-500 mb-3">{t("settings.feedOrderHint")}</p>

@@ -51,6 +51,7 @@
         <li><a href="#new-post">新規投稿</a></li>
         <li><a href="#post-detail">投稿詳細・スレッド</a></li>
         <li><a href="#settings">設定</a></li>
+        <li><a href="#bsaf">BSAF（構造化アラートフィード）</a></li>
         <li><a href="#bookmarklet">ブックマークレット</a></li>
       </ul>
     </nav>
@@ -429,6 +430,40 @@
         <tr><td><strong>Buy the developer a coffee on Ko-fi</strong></td><td>開発者への支援（寄付）リンクです</td></tr>
       </tbody>
     </table>
+
+    <hr>
+
+    <!-- BSAF -->
+    <h2 id="bsaf">BSAF（構造化アラートフィード）</h2>
+    <p>kazahana は <a href="https://github.com/osprey74/bsaf-protocol" target="_blank" rel="noopener">BSAF プロトコル</a>（Bluesky Structured Alert Feed）に対応しており、地震・津波警報Botなどの構造化アラート投稿をフィルタリングできます。</p>
+
+    <h3>BSAF を有効にする</h3>
+    <p>設定画面で「kazahana の BSAF 対応機能を有効化する」にチェックを入れます。有効にすると、チェックボックスの下に「BSAF 対応 Bot を管理する >」のリンクが表示されます。</p>
+
+    <h3>Bot の登録</h3>
+    <p>BSAF Bot 管理画面では、以下の2つの方法で BSAF 対応 Bot を登録できます。</p>
+    <table>
+      <thead><tr><th>方法</th><th>説明</th></tr></thead>
+      <tbody>
+        <tr><td><strong>URL 入力</strong></td><td>Bot定義JSONのURLを入力し「取得」をクリックします。GitHub リポジトリの URL は自動的に Raw コンテンツ URL に変換されます。</td></tr>
+        <tr><td><strong>ローカルファイル</strong></td><td>「または JSON ファイルから読み込む」をクリックして、ローカルの <code>bot-definition.json</code> ファイルを選択します。</td></tr>
+      </tbody>
+    </table>
+
+    <h3>フィルタ設定</h3>
+    <p>登録済み Bot の名前をクリックすると、フィルタ設定が展開されます。各フィルタグループ（情報種別・重み付け・地域など）ごとに表示/非表示を個別に切り替えられます。「すべて選択」「すべて解除」ボタンも各グループに用意されています。</p>
+    <blockquote>
+      <p><strong>重要：AND 条件によるフィルタリング</strong> — すべてのフィルタ条件を満たした投稿のみ表示されます。例えば、情報種別を「地震」、地域を「北海道」に設定した場合、北海道を対象とした地震情報のみが表示されます。他の地域の地震情報はフィルタにより非表示となります。</p>
+    </blockquote>
+
+    <h3>フィルタの適用範囲</h3>
+    <p>BSAF フィルタは<strong>ホームタイムライン</strong>と<strong>カスタムフィード</strong>にのみ適用されます。Bot の<strong>プロフィール画面</strong>ではフィルタに関係なくすべての投稿が表示されます。そのため、設定した条件外の情報も Bot のプロフィールページからいつでも確認できます。</p>
+
+    <h3>重複検出</h3>
+    <p>複数の BSAF Bot が同一のイベント（同じ種別・値・時刻・対象）を報告した場合、kazahana は重複を自動的にまとめます。最初の Bot の投稿のみが表示され、他に何件の Bot が同じイベントを報告したかが注記されます。</p>
+
+    <h3>Bot の登録解除</h3>
+    <p>Bot の展開パネルにある「登録を解除」をクリックします。kazahana から Bot が削除され、Bot アカウントのフォローも自動的に解除されます。</p>
 
     <hr>
 
