@@ -225,7 +225,7 @@
     "autoStart": "自動起動",
     "enableAutoStart": "OS起動時にkazahanaを自動起動する",
     "feedVisibility": "表示するフィードを設定",
-    "feedOrderHint": "矢印ボタンでフィードの並び順を変更できます。チェックで表示/非表示を切り替えます。",
+    "feedOrderHint": "ドラッグ＆ドロップでフィードの並び順を変更できます。チェックで表示/非表示を切り替えます。",
     "hiddenFeedsLabel": "非表示のフィード",
     "noFeeds": "フィード・リストがありません",
     "showAllInQuickJump": "フィード選択ドロップダウンメニューに全てのフィードを表示する",

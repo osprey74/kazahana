@@ -216,7 +216,7 @@
     "autoStart": "自動啟動",
     "enableAutoStart": "系統啟動時自動啟動 kazahana",
     "feedVisibility": "設定顯示的資訊流",
-    "feedOrderHint": "使用箭頭按鈕調整資訊流排列順序。勾選方塊切換顯示/隱藏。",
+    "feedOrderHint": "Drag and drop to reorder feeds. Checkboxes toggle visibility.",
     "hiddenFeedsLabel": "已隱藏的資訊流",
     "noFeeds": "沒有資訊流或列表",
     "showAllInQuickJump": "在資訊流選擇下拉選單中顯示所有資訊流",

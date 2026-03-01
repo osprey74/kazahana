@@ -216,7 +216,7 @@
     "autoStart": "Mulai otomatis",
     "enableAutoStart": "Jalankan kazahana saat sistem dinyalakan",
     "feedVisibility": "Atur feed yang ditampilkan",
-    "feedOrderHint": "Gunakan panah untuk mengatur ulang urutan feed. Kotak centang mengaktifkan/menonaktifkan visibilitas.",
+    "feedOrderHint": "Drag and drop to reorder feeds. Checkboxes toggle visibility.",
     "hiddenFeedsLabel": "Feed tersembunyi",
     "noFeeds": "Tidak ada feed atau daftar",
     "showAllInQuickJump": "Tampilkan semua feed di menu dropdown pemilihan feed",

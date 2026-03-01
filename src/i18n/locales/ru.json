@@ -216,7 +216,7 @@
     "autoStart": "Автозапуск",
     "enableAutoStart": "Запускать kazahana при старте системы",
     "feedVisibility": "Настроить отображаемые ленты",
-    "feedOrderHint": "Используйте стрелки для изменения порядка лент. Флажки переключают видимость.",
+    "feedOrderHint": "Drag and drop to reorder feeds. Checkboxes toggle visibility.",
     "hiddenFeedsLabel": "Скрытые ленты",
     "noFeeds": "Нет лент или списков",
     "showAllInQuickJump": "Показывать все ленты в выпадающем меню выбора лент",

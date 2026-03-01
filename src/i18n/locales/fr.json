@@ -216,7 +216,7 @@
     "autoStart": "Démarrage automatique",
     "enableAutoStart": "Lancer kazahana au démarrage du système",
     "feedVisibility": "Configurer les flux visibles",
-    "feedOrderHint": "Utilisez les flèches pour réorganiser les flux. Les cases à cocher activent/désactivent la visibilité.",
+    "feedOrderHint": "Drag and drop to reorder feeds. Checkboxes toggle visibility.",
     "hiddenFeedsLabel": "Flux masqués",
     "noFeeds": "Aucun flux ni liste",
     "showAllInQuickJump": "Afficher tous les flux dans le menu déroulant de sélection des flux",
