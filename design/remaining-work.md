@@ -64,14 +64,58 @@
 
 ## Multi-Account Support
 - [ ] Session store refactor: single session → multi-account array (`accounts[]` + `currentDid`)
-- [ ] Agent management: singleton → account-aware Map (`Map<did, AtpAgent>`)
+- [ ] Agent management: シングルトン維持＋セッション差し替え方式（下記設計検討結果参照）
 - [ ] authStore redesign: `accounts[]`, `switchAccount(did)`, `addAccount()`, `removeAccount(did)`
 - [ ] Account switcher UI in AppLayout header
 - [ ] Settings: account management section (add/remove/switch)
 - [ ] Login form: "Add Account" flow after initial login
 - [ ] Query cache isolation per account (invalidate on switch)
-- [ ] i18n strings for account management (ja/en)
+- [ ] i18n strings for account management (ja/en + 全11ロケール)
 - Note: OAuth対応は後日。現段階ではアプリパスワード方式でのマルチアカウント
+
+### 設計検討結果 (2026-03-01)
+
+#### 現状分析
+- `AtpAgent` はシングルトン (`src/lib/agent.ts`)、`getAgent()` で取得
+- セッションは Tauri Store (`kazahana-store.json`) に単一キー `"session"` で保存 (`src/lib/session.ts`)
+- authStore (`src/stores/authStore.ts`) は単一 `profile` / `isLoggedIn` のみ
+- React Query キー（30+種）にアカウント識別子なし
+- `getAgent()` を直接呼ぶファイル: 14フック + 10コンポーネント = 24ファイル
+
+#### 設計判断
+
+**1. Agent管理: シングルトン維持（`Map<did, AtpAgent>` は不採用）**
+- 単一 `AtpAgent` を維持し、アカウント切替時にセッションを差し替える
+- 理由: Map方式は並行セッションリフレッシュ管理が複雑。シングルトン維持なら24ファイルへの変更不要
+- バックグラウンド通知ポーリング（非アクティブアカウント）は v2 で軽量 fetch ベースで対応可能
+
+**2. Query Cache: 切替時にクリア（キープレフィックス方式は不採用）**
+- `queryClient.clear()` をアカウント切替時に実行（1行で完結）
+- 理由: キープレフィックス方式は14フックファイル全てに変更が必要で変更量大・リグレッションリスク高
+- 切替後のデータ再取得は1-2秒（アプリ起動時と同等UX）
+
+**3. 設定スコープ**
+- グローバル（変更不要）: theme, language, pollInterval, desktopNotification, autoStart, videoVolume, showVia, closeAction, imageOpenMode → `settingsStore.ts` 変更不要
+- アカウント別（DIDスコープ化）: feedStore (currentFeed, hiddenFeeds, feedOrder, showAllInQuickJump), searchHistoryStore (history)
+
+**4. 通知ポーリング: アクティブアカウントのみ（v1）**
+
+#### 変更ファイル一覧
+- 新規作成 (2): `src/lib/queryClient.ts`, `src/components/account/AccountSwitcher.tsx`
+- 大幅変更 (3): `src/stores/authStore.ts`, `src/lib/session.ts`, `src/components/settings/SettingsView.tsx`
+- 中程度 (5): `src/stores/feedStore.ts`, `src/stores/searchHistoryStore.ts`, `src/components/layout/AppLayout.tsx`, `src/components/auth/LoginForm.tsx`, `src/App.tsx`
+- 軽微 (3): `src/lib/agent.ts`, `src/lib/constants.ts`, `src/hooks/useTimeline.ts`
+- i18n (11): 全ロケールファイル
+- 変更不要: 14フック, 10コンポーネント, `chatAgent.ts`（既存DID不一致チェックが切替を自動処理）, `settingsStore.ts`
+
+#### エッジケース対応方針
+- 既存ユーザーアップグレード: `migrateFromSingleSession()` で旧 `"session"` キーから新形式へ自動移行
+- 非アクティブアカウントのセッション期限切れ: `switchAccount()` で `resumeSession` 失敗時にエラー表示＋削除→再ログイン促進
+- 同一アカウント二重追加: DID重複チェックでブロック
+- 切替時: `/` に遷移、composeModal を閉じる、タイムラインモジュールステートをリセット
+
+#### 詳細設計書
+- `C:\Users\ospre\.claude\plans\modular-jumping-curry.md` に Phase 1-9 の詳細実装計画を記載
 
 ## BSAF Reference Client Integration
 - [ ] Bot Definition JSON import (parse, validate schema, auto-follow bot account)
