@@ -77,7 +77,7 @@ export function shouldShowBsafPost(parsed: BsafParsedTags, bot: BsafRegisteredBo
     if (!enabledValues) continue;
 
     // Get the post's value for this filter tag
-    const postValue = (parsed as Record<string, string>)[filter.tag];
+    const postValue = (parsed as unknown as Record<string, string>)[filter.tag];
     if (postValue === undefined) continue;
 
     // If the value is not in the enabled list, hide the post
