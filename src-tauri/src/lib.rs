@@ -53,6 +53,12 @@ pub fn run() {
         let _ = app.deep_link().register("kazahana");
       }
 
+      // Open devtools in release builds for debugging
+      #[cfg(feature = "devtools")]
+      if let Some(window) = app.get_webview_window("main") {
+        window.open_devtools();
+      }
+
       // Setup system tray
       tray::setup_tray(app.handle())?;
 
