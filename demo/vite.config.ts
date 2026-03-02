@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  // GitHub Pages: set base to repo name when deploying
+  // GitHub Pages: deploy to docs/ja/demo/ path
   // For local dev, use '/'
-  base: process.env.GITHUB_ACTIONS ? '/kazahana/' : '/',
+  base: process.env.BUILD_FOR_PAGES ? '/kazahana/ja/demo/' : '/',
 })
