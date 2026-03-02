@@ -77,6 +77,8 @@ Kazahana is designed as a **lightweight, always-running companion app** — not 
 
 Kazahana supports the [BSAF protocol](https://github.com/osprey74/bsaf-protocol), enabling structured filtering of alert bot posts (e.g., earthquake/tsunami alerts from JMA bots).
 
+> **How to Register a BSAF Bot**: [Registration Guide (English)](https://osprey74.github.io/kazahana/en/guide/bsaf-bot-registration.html) | [登録ガイド（日本語）](https://osprey74.github.io/kazahana/ja/guide/bsaf-bot-registration.html)
+
 - **Register BSAF-compatible bots** via URL or local JSON file in Settings
 - **Per-bot filter settings** — choose which categories, severity levels, and regions to display
 - **AND-based filtering** — all filter conditions must match for a post to appear (e.g., if you set type to "earthquake" and region to "Hokkaido", only Hokkaido earthquake posts are shown)

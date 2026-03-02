@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BSAF 対応 Bot の登録手順 - kazahana</title>
+  <meta name="description" content="BSAF 対応 Bot を kazahana に登録し、必要な情報だけを受け取れるようにフィルタリングを設定する手順を説明します。">
+  <link rel="icon" href="../../images/icon.png" type="image/png">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/guide.css">
+  <script src="../../js/theme.js"></script>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <a href="../" class="header-logo">
+        <img src="../../images/icon.png" alt="kazahana">
+        <span>kazahana</span>
+      </a>
+      <div class="header-controls">
+        <button class="theme-toggle" id="theme-toggle" aria-label="テーマ切替">
+          <span class="material-symbols-rounded">dark_mode</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Guide Content -->
+  <div class="guide-content">
+
+    <p><a href="./">&larr; 操作マニュアルに戻る</a></p>
+    <h1>BSAF 対応 Bot の登録手順</h1>
+    <p>このガイドでは、BSAF（Bluesky Structured Alert Framework）対応 Bot を kazahana に登録し、必要な情報だけを受け取れるようにフィルタリングを設定する手順を説明します。</p>
+    <p>ここでは例として、気象庁の防災情報を配信する <strong>bsaf-jma-bot</strong>（<a href="https://bsky.app/profile/jma-alert-bot.bsky.social" target="_blank" rel="noopener noreferrer">@jma-alert-bot.bsky.social</a>）を登録します。</p>
+
+    <!-- Table of Contents -->
+    <nav class="guide-toc">
+      <h2>目次</h2>
+      <ul>
+        <li><a href="#prerequisites">前提条件</a></li>
+        <li><a href="#step1">Step 1：Bot をフォローする</a></li>
+        <li><a href="#step2">Step 2：Bot 定義 JSON を入手する</a></li>
+        <li><a href="#step3">Step 3：BSAF 機能を有効化する</a></li>
+        <li><a href="#step4">Step 4：Bot 定義 JSON を登録する</a></li>
+        <li><a href="#step5">Step 5：フィルタリング設定画面を開く</a></li>
+        <li><a href="#step6">Step 6：受け取りたい情報を選択する</a></li>
+        <li><a href="#step7">Step 7：タイムラインで確認する</a></li>
+        <li><a href="#summary">登録の流れ（まとめ）</a></li>
+        <li><a href="#links">関連リンク</a></li>
+      </ul>
+    </nav>
+
+    <hr>
+
+    <!-- Prerequisites -->
+    <h2 id="prerequisites">前提条件</h2>
+    <ul>
+      <li>kazahana がインストール済みであること</li>
+      <li>Bluesky アカウントでログイン済みであること</li>
+    </ul>
+
+    <hr>
+
+    <!-- Step 1 -->
+    <h2 id="step1">Step 1：BSAF 対応 Bot をフォローする</h2>
+    <p>Bluesky 上で、登録したい BSAF 対応 Bot のアカウントをフォローします。</p>
+    <blockquote><p><strong>ヒント:</strong> 専用のリストを作成し、BSAF 対応 Bot をまとめておくと管理しやすくなります。</p></blockquote>
+    <img src="./images/bsaf-bot-manual-000.png" alt="防災情報Bot（非公式）@jma-alert-bot.bsky.social のアカウントページ">
+
+    <hr>
+
+    <!-- Step 2 -->
+    <h2 id="step2">Step 2：Bot 定義 JSON を入手する</h2>
+    <p>BSAF 対応 Bot は、フィルタリングに必要な情報をまとめた <strong>Bot 定義 JSON</strong> を公開しています。登録には、以下のいずれかが必要です。</p>
+    <table>
+      <thead><tr><th>方法</th><th>説明</th></tr></thead>
+      <tbody>
+        <tr><td><strong>配布 URL（推奨）</strong></td><td>Bot の README やプロフィールに記載されている JSON の URL</td></tr>
+        <tr><td><strong>JSON ファイル</strong></td><td>ダウンロード済みの JSON ファイル</td></tr>
+      </tbody>
+    </table>
+    <p>bsaf-jma-bot の場合、Bot 定義 JSON の URL は以下のとおりです。</p>
+    <pre><code>https://raw.githubusercontent.com/osprey74/bsaf-jma-bot/main/bot-definition.json</code></pre>
+    <img src="./images/bsaf-bot-manual-001.png" alt="GitHub 上の bsaf-jma-bot">
+
+    <hr>
+
+    <!-- Step 3 -->
+    <h2 id="step3">Step 3：BSAF 機能を有効化する</h2>
+    <ol>
+      <li>kazahana の <strong>管理画面</strong> を開きます。</li>
+      <li>「<strong>kazahana の BSAF 対応機能を有効化する</strong>」のチェックボックスをオンにします。</li>
+      <li>チェックボックスの下に表示される「<strong>BSAF 対応 Bot を管理する</strong>」リンクをクリックします。</li>
+    </ol>
+    <img src="./images/bsaf-bot-manual-002.png" alt="kazahana の管理画面上の BSAF 対応機能を有効化するチェックボックス">
+
+    <hr>
+
+    <!-- Step 4 -->
+    <h2 id="step4">Step 4：Bot 定義 JSON を登録する</h2>
+    <p>「<strong>BSAF 対応 Bot を管理する</strong>」画面が開きます。以下のいずれかの方法で Bot 定義 JSON を読み込みます。</p>
+
+    <h3>URL から取得する場合（推奨）</h3>
+    <ol>
+      <li>「<strong>Bot Definition JSON の URL を入力</strong>」欄に、Step 2 で入手した URL を貼り付けます。</li>
+      <li>「<strong>取得</strong>」ボタンをクリックします。</li>
+    </ol>
+
+    <h3>ファイルから読み込む場合</h3>
+    <ol>
+      <li>「<strong>または JSON ファイルから読み込む</strong>」をクリックします。</li>
+      <li>ファイル選択ダイアログが表示されるので、ダウンロード済みの JSON ファイルを選択します。</li>
+    </ol>
+    <img src="./images/bsaf-bot-manual-003.png" alt="BSAF 対応 Bot を管理する画面">
+
+    <hr>
+
+    <!-- Step 5 -->
+    <h2 id="step5">Step 5：フィルタリング設定画面を開く</h2>
+    <p>登録が完了すると、BSAF 対応 Bot の <strong>名前</strong> と <strong>ハンドル名</strong> が一覧に表示されます。</p>
+    <p>表示された Bot 名をクリックして、フィルタリング設定画面を開きます。</p>
+    <img src="./images/bsaf-bot-manual-004.png" alt="kazahana に登録された BSAF 対応 Bot">
+
+    <hr>
+
+    <!-- Step 6 -->
+    <h2 id="step6">Step 6：受け取りたい情報を選択する</h2>
+    <p>BSAF 対応 Bot に関連付けられたタグ（情報の種類・地域など）が一覧表示されます。</p>
+    <p><strong>受け取りたい情報のタグを選択して青色にします。</strong> 青色になったタグに該当する情報のみが、タイムラインに表示されるようになります。</p>
+    <p>bsaf-jma-bot の場合、以下のようなタグを設定できます。</p>
+    <table>
+      <thead><tr><th>設定項目</th><th>内容</th><th>例</th></tr></thead>
+      <tbody>
+        <tr><td><strong>type（情報の種類）</strong></td><td>受け取りたい災害種別</td><td>earthquake（地震）、tsunami（津波）、eruption（噴火）など</td></tr>
+        <tr><td><strong>value（情報の規模）</strong></td><td>受け取りたい規模の下限</td><td>震度3以上、震度5弱以上 など</td></tr>
+        <tr><td><strong>target（対象地域）</strong></td><td>受け取りたい地域</td><td>jp-hokkaido（北海道）、jp-kanto（関東）など</td></tr>
+      </tbody>
+    </table>
+    <blockquote><p><strong>ヒント:</strong> 自分の居住地域と、関心のある災害種別だけを選択しておくと、本当に必要な情報だけを受け取れます。</p></blockquote>
+    <img src="./images/bsaf-bot-manual-005.png" alt="BSAF 対応 Bot のポストから必要な情報を抜き出す設定">
+
+    <hr>
+
+    <!-- Step 7 -->
+    <h2 id="step7">Step 7：タイムラインで確認する</h2>
+    <p>設定完了後、kazahana の <strong>タイムライン</strong> または <strong>リスト画面</strong> を確認します。</p>
+    <p>BSAF 対応 Bot の投稿のうち、Step 6 で選択したフィルタ条件に合致する情報のみが表示されます。条件に合致しない投稿は自動的にフィルタリングされ、表示されません。</p>
+    <img src="./images/bsaf-bot-manual-006.png" alt="タイムライン上に表示された BSAF 対応 Bot のポスト">
+
+    <hr>
+
+    <!-- Summary -->
+    <h2 id="summary">登録の流れ（まとめ）</h2>
+    <pre><code>Bot をフォロー → Bot 定義 JSON を入手 → BSAF 機能を有効化
+→ JSON を登録 → フィルタリング設定 → タイムラインで確認</code></pre>
+
+    <hr>
+
+    <!-- Related Links -->
+    <h2 id="links">関連リンク</h2>
+    <ul>
+      <li><a href="https://github.com/osprey74/bsaf-protocol" target="_blank" rel="noopener noreferrer">BSAF プロトコル仕様</a></li>
+      <li><a href="https://github.com/osprey74/bsaf-jma-bot" target="_blank" rel="noopener noreferrer">bsaf-jma-bot リポジトリ</a></li>
+      <li><a href="../">kazahana 公式サイト</a></li>
+      <li><a href="https://github.com/osprey74/kazahana" target="_blank" rel="noopener noreferrer">kazahana リポジトリ</a></li>
+    </ul>
+
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <p class="footer-brand">kazahana &mdash; 軽量 Bluesky デスクトップクライアント</p>
+      <p class="footer-links">
+        <a href="https://github.com/osprey74/kazahana" target="_blank" rel="noopener noreferrer">GitHub</a> &middot;
+        ライセンス: <a href="https://github.com/osprey74/kazahana/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">MIT</a> &middot;
+        &copy; 2026 osprey74
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>
