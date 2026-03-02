@@ -276,7 +276,8 @@
     "undo": "Rückgängig",
     "copyLink": "Link kopieren",
     "copyImage": "Bild kopieren",
-    "saveImage": "Bild speichern"
+    "saveImage": "Bild speichern",
+    "searchWeb": "Im Web suchen"
   },
   "starterPack": {
     "noStarterPacks": "Keine Starterpakete",

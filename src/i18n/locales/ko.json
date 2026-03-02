@@ -276,7 +276,8 @@
     "undo": "실행 취소",
     "copyLink": "링크 복사",
     "copyImage": "이미지 복사",
-    "saveImage": "이미지 저장"
+    "saveImage": "이미지 저장",
+    "searchWeb": "웹에서 검색"
   },
   "starterPack": {
     "noStarterPacks": "스타터 팩이 없습니다",

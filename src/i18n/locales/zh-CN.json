@@ -276,7 +276,8 @@
     "undo": "撤销",
     "copyLink": "复制链接",
     "copyImage": "复制图片",
-    "saveImage": "保存图片"
+    "saveImage": "保存图片",
+    "searchWeb": "在网上搜索"
   },
   "starterPack": {
     "noStarterPacks": "没有入门包",

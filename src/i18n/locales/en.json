@@ -295,7 +295,8 @@
     "undo": "Undo",
     "copyLink": "Copy Link",
     "copyImage": "Copy Image",
-    "saveImage": "Save Image"
+    "saveImage": "Save Image",
+    "searchWeb": "Search Web"
   },
   "starterPack": {
     "noStarterPacks": "No starter packs",

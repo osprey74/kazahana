@@ -276,7 +276,8 @@
     "undo": "Annuler",
     "copyLink": "Copier le lien",
     "copyImage": "Copier l'image",
-    "saveImage": "Enregistrer l'image"
+    "saveImage": "Enregistrer l'image",
+    "searchWeb": "Rechercher sur le Web"
   },
   "starterPack": {
     "noStarterPacks": "Aucun pack de démarrage",

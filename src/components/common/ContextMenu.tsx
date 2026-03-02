@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { save } from "@tauri-apps/plugin-dialog";
 import { writeFile } from "@tauri-apps/plugin-fs";
 import { fetch as tauriFetch } from "@tauri-apps/plugin-http";
+import { openUrl } from "@tauri-apps/plugin-opener";
 
 interface TargetInfo {
   hasSelection: boolean;
@@ -237,6 +238,12 @@ export function ContextMenu() {
   } else if (target.hasSelection) {
     items.push({ label: t("contextMenu.copy"), action: handleCopy });
     items.push({ label: t("contextMenu.selectAll"), action: handleSelectAll });
+    items.push({ label: t("contextMenu.searchWeb"), action: () => {
+      close();
+      if (target.selectionText) {
+        openUrl(`https://www.google.com/search?q=${encodeURIComponent(target.selectionText)}`);
+      }
+    }});
   }
 
   if (items.length > 0) items.push("separator");

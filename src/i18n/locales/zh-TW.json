@@ -276,7 +276,8 @@
     "undo": "復原",
     "copyLink": "複製連結",
     "copyImage": "複製圖片",
-    "saveImage": "儲存圖片"
+    "saveImage": "儲存圖片",
+    "searchWeb": "在網路上搜尋"
   },
   "starterPack": {
     "noStarterPacks": "沒有入門包",

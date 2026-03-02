@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import { formatDistanceToNowStrict, type Locale } from "date-fns";
 import { ja, enUS, de, es, fr, ko, pt, ru, id, zhTW, zhCN } from "date-fns/locale";
 import { ChatBskyConvoDefs } from "@atproto/api";
 import { useDeleteMessage, useAddReaction, useRemoveReaction } from "../../hooks/useMessages";
 import { getAgent } from "../../lib/agent";
+import { parseRichText } from "../../lib/richtext";
 import { Icon } from "../common/Icon";
 
 const dateFnsLocales: Record<string, Locale> = {
@@ -21,6 +23,7 @@ interface MessageBubbleProps {
 
 export function MessageBubble({ message, isMine, convoId }: MessageBubbleProps) {
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const deleteMessage = useDeleteMessage();
@@ -84,7 +87,46 @@ export function MessageBubble({ message, isMine, convoId }: MessageBubbleProps) 
               : "bg-gray-100 dark:bg-gray-800 text-text-light dark:text-text-dark rounded-bl-md"
           }`}
         >
-          {msg.text}
+          {parseRichText(msg.text, msg.facets).map((seg, i) => {
+            if (seg.link) {
+              return (
+                <a
+                  key={i}
+                  href={seg.link.uri}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={isMine ? "underline hover:opacity-80" : "text-primary hover:underline"}
+                >
+                  {seg.text}
+                </a>
+              );
+            }
+            if (seg.mention) {
+              return (
+                <button
+                  type="button"
+                  key={i}
+                  onClick={() => navigate(`/profile/${seg.mention!.did}`)}
+                  className={isMine ? "underline hover:opacity-80" : "text-primary hover:underline"}
+                >
+                  {seg.text}
+                </button>
+              );
+            }
+            if (seg.tag) {
+              return (
+                <button
+                  type="button"
+                  key={i}
+                  onClick={() => navigate(`/search?q=${encodeURIComponent(`#${seg.tag!.tag}`)}`)}
+                  className={isMine ? "underline hover:opacity-80" : "text-primary hover:underline"}
+                >
+                  {seg.text}
+                </button>
+              );
+            }
+            return <span key={i}>{seg.text}</span>;
+          })}
         </div>
 
         {/* Reactions display */}
