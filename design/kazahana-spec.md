@@ -2,7 +2,7 @@
 
 **バージョン**: 1.4
 **作成日**: 2026-02-21
-**最終更新**: 2026-03-01
+**最終更新**: 2026-03-02
 **プラットフォーム**: Windows 11 / macOS
 **フレームワーク**: Tauri v2 + React 19 + TypeScript 5.9
 
@@ -181,6 +181,8 @@ kazahanaは全機能を網羅するスタンドアロンアプリではなく、
 | 未読数 | `app.bsky.notification.getUnreadCount` + タブバッジ | ✅ |
 | 既読処理 | `app.bsky.notification.updateSeen` | ✅ |
 | OS通知 | Tauri Notification plugin | ✅ |
+| リポストへのいいね通知 | `like-via-repost` reason対応（Bluesky設定でON時） | ✅ |
+| リポストのリポスト通知 | `repost-via-repost` reason対応（Bluesky設定でON時） | ✅ |
 
 ### 4.6 プロフィール
 | 機能 | API | 状態 |
@@ -501,7 +503,7 @@ kazahana/
 | Material Symbols Rounded アイコン統一 | ✅ |
 | Ko-fi サポートボタン | ✅ |
 | コンテンツモデレーション（ラベル判定、フィルタ、ブラー、設定UI） | ✅ |
-| OS通知（種別表示対応: いいね/リポスト/返信/メンション/フォロー/引用） | ✅ |
+| OS通知（種別表示対応: いいね/リポスト/返信/メンション/フォロー/引用/リポストへのいいね/リポストのリポスト） | ✅ |
 | 自動起動 | ✅ |
 
 ### Phase 5: BSAF 対応クライアント

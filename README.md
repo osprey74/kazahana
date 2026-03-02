@@ -39,7 +39,7 @@ Kazahana is designed as a **lightweight, always-running companion app** — not 
 - [x] Image lightbox with keyboard navigation
 - [x] Link card (OGP preview)
 - [x] Thread view
-- [x] Notifications (like, repost, follow, mention, reply, quote)
+- [x] Notifications (like, repost, follow, mention, reply, quote, like-via-repost, repost-via-repost)
 - [x] User profile / Follow / Unfollow / Likes / Media tabs / Pinned post
 - [x] Search (posts & users)
 - [x] Dark / Light / System theme
@@ -48,7 +48,7 @@ Kazahana is designed as a **lightweight, always-running companion app** — not 
 - [x] Custom feeds & list feeds (tab selector)
 - [x] Threadgate & postgate (reply / quote restrictions)
 - [x] Video attachments (upload, HLS playback, volume setting)
-- [x] Desktop notifications (with reason breakdown: like/repost/reply/mention/follow/quote)
+- [x] Desktop notifications (with reason breakdown: like/repost/reply/mention/follow/quote/like-via-repost/repost-via-repost)
 - [x] Auto-start on OS boot (optional)
 - [x] Bookmarks
 - [x] Quote post

@@ -71,7 +71,7 @@ export function useSubjectPosts(notifications: Notification[]) {
   const uris = useMemo(() => {
     const set = new Set<string>();
     for (const n of notifications) {
-      if ((n.reason === "like" || n.reason === "repost") && n.reasonSubject) {
+      if ((n.reason === "like" || n.reason === "repost" || n.reason === "like-via-repost" || n.reason === "repost-via-repost") && n.reasonSubject) {
         set.add(n.reasonSubject);
       }
       // Also fetch post data for reply/mention/quote so action buttons work

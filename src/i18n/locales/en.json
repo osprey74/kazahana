@@ -61,6 +61,8 @@
     "mentioned": "mentioned you",
     "replied": "replied to your post",
     "quoted": "quoted your post",
+    "likedViaRepost": "liked your repost",
+    "repostedViaRepost": "reposted your repost",
     "empty": "No notifications",
     "loadFailed": "Failed to load notifications",
     "osBody": "You have {{count}} new notification(s)",
@@ -71,7 +73,9 @@
       "follow": "{{count}} follow(s)",
       "mention": "{{count}} mention(s)",
       "reply": "{{count}} reply/replies",
-      "quote": "{{count}} quote(s)"
+      "quote": "{{count}} quote(s)",
+      "like-via-repost": "{{count}} like(s) on repost",
+      "repost-via-repost": "{{count}} repost(s) of repost"
     }
   },
   "timeline": {

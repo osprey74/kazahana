@@ -114,7 +114,7 @@ export function MessageBubble({ message, isMine, convoId }: MessageBubbleProps) 
           <button
             type="button"
             onClick={() => { setShowEmojiPicker(!showEmojiPicker); setShowMenu(false); }}
-            className="opacity-0 group-hover:opacity-100 transition-opacity text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+            className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
             title={t("messages.addReaction")}
           >
             <Icon name="add_reaction" size={14} />
@@ -123,7 +123,7 @@ export function MessageBubble({ message, isMine, convoId }: MessageBubbleProps) 
             <button
               type="button"
               onClick={() => { setShowMenu(!showMenu); setShowEmojiPicker(false); }}
-              className="opacity-0 group-hover:opacity-100 transition-opacity text-gray-400 hover:text-gray-600"
+              className="text-gray-400 hover:text-gray-600"
             >
               <Icon name="more_horiz" size={14} />
             </button>

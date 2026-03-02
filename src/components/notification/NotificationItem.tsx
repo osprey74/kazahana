@@ -23,6 +23,8 @@ const REASON_ICONS: Record<string, string> = {
   mention: "chat_bubble",
   reply: "chat_bubble",
   quote: "repeat",
+  "like-via-repost": "favorite",
+  "repost-via-repost": "repeat",
 };
 
 const REASON_KEYS: Record<string, string> = {
@@ -32,6 +34,8 @@ const REASON_KEYS: Record<string, string> = {
   mention: "notification.mentioned",
   reply: "notification.replied",
   quote: "notification.quoted",
+  "like-via-repost": "notification.likedViaRepost",
+  "repost-via-repost": "notification.repostedViaRepost",
 };
 
 export function NotificationItem({ notification, subjectPost }: NotificationItemProps) {
@@ -58,13 +62,9 @@ export function NotificationItem({ notification, subjectPost }: NotificationItem
     let targetUri = (reason === "reply" || reason === "mention" || reason === "quote")
       ? notification.uri
       : subjectUri || notification.uri;
-    console.log("[NotificationItem] handleClick:", { reason, targetUri, subjectPostUri: subjectPost?.uri, subjectUri });
     // If the subject is a repost record URI, use the resolved original post URI
     if (targetUri?.includes("/app.bsky.feed.repost/") && subjectPost?.uri) {
-      console.log("[NotificationItem] Resolved repost URI via subjectPost:", subjectPost.uri);
       targetUri = subjectPost.uri;
-    } else if (targetUri?.includes("/app.bsky.feed.repost/")) {
-      console.warn("[NotificationItem] Repost URI not resolved yet (subjectPost not loaded), will be resolved by useThread");
     }
     if (targetUri) {
       navigate(`/post/${encodeURIComponent(targetUri)}`, { state: { from: "/notifications" } });
@@ -81,7 +81,7 @@ export function NotificationItem({ notification, subjectPost }: NotificationItem
   const displayText =
     (reason === "reply" || reason === "mention" || reason === "quote")
       ? record?.text
-      : (reason === "like" || reason === "repost")
+      : (reason === "like" || reason === "repost" || reason === "like-via-repost" || reason === "repost-via-repost")
         ? (subjectPost?.record as { text?: string } | undefined)?.text
         : undefined;
 
@@ -100,7 +100,7 @@ export function NotificationItem({ notification, subjectPost }: NotificationItem
       </button>
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-1 text-sm">
-          <Icon name={icon} size={16} className={`flex-shrink-0 ${reason === "like" ? "text-red-500" : reason === "repost" ? "text-green-500" : "text-gray-500"}`} filled={reason === "like"} />
+          <Icon name={icon} size={16} className={`flex-shrink-0 ${reason === "like" || reason === "like-via-repost" ? "text-red-500" : reason === "repost" || reason === "repost-via-repost" ? "text-green-500" : "text-gray-500"}`} filled={reason === "like" || reason === "like-via-repost"} />
           <button onClick={handleProfileClick} className="font-bold text-text-light dark:text-text-dark truncate hover:underline">
             {author.displayName || author.handle}
           </button>

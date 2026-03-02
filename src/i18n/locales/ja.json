@@ -61,6 +61,8 @@
     "mentioned": "があなたをメンションしました",
     "replied": "が返信しました",
     "quoted": "が引用しました",
+    "likedViaRepost": "があなたのリポストをいいねしました",
+    "repostedViaRepost": "があなたのリポストをリポストしました",
     "empty": "通知はありません",
     "loadFailed": "通知の読み込みに失敗しました",
     "osBody": "{{count}}件の新しい通知があります",
@@ -71,7 +73,9 @@
       "follow": "フォロー {{count}}件",
       "mention": "メンション {{count}}件",
       "reply": "返信 {{count}}件",
-      "quote": "引用 {{count}}件"
+      "quote": "引用 {{count}}件",
+      "like-via-repost": "リポストへのいいね {{count}}件",
+      "repost-via-repost": "リポストのリポスト {{count}}件"
     }
   },
   "timeline": {

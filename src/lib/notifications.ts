@@ -7,7 +7,7 @@ import i18n from "../i18n";
 import { useSettingsStore } from "../stores/settingsStore";
 
 export type NotificationReasonCounts = Partial<
-  Record<"like" | "repost" | "follow" | "mention" | "reply" | "quote", number>
+  Record<"like" | "repost" | "follow" | "mention" | "reply" | "quote" | "like-via-repost" | "repost-via-repost", number>
 >;
 
 /**
@@ -47,6 +47,8 @@ const REASON_KEYS: (keyof NotificationReasonCounts)[] = [
   "mention",
   "reply",
   "quote",
+  "like-via-repost",
+  "repost-via-repost",
 ];
 
 function buildNotificationBody(

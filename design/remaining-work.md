@@ -232,3 +232,9 @@ Collaborator: よつぎnん / @yotsugin.bsky.social
 
 - [x] リポスト経由の通知クリックで「投稿が見つかりません」と表示される — reasonSubjectがリポストレコードURI（app.bsky.feed.repost）の場合、ThreadViewに渡す前に解決済み元ポストURIを使用するよう修正（NotificationItem.tsx handleClick）
 - [x] 通知のアクションボタン（返信・リポスト・いいね）が一部の通知で表示されない — reply/mention/quote通知でsubjectPost lookupがreasonSubject（親ポスト）で検索していたが、fetchはnotification.uriで行っていたためミスマッチ発生。reason種別に応じたlookupキー分岐に修正（NotificationList.tsx）
+
+## Improvements (2026-03-02)
+
+- [x] like-via-repost / repost-via-repost 通知の表示対応 — Bluesky公式設定「リポストへのいいね」「リポストのリポスト」有効時の通知reason（`like-via-repost` / `repost-via-repost`）に対応。アイコン・ラベル・色・displayText・URI解決・デスクトップ通知カウント・i18n（EN/JA）を追加（NotificationItem.tsx, useNotifications.ts, notifications.ts, en.json, ja.json）
+- [x] デバッグコード除去 — `lib.rs` open_devtools無条件呼び出し、`useThread.ts` console.log/warn/error、`NotificationItem.tsx` console.log/warnを除去
+- [x] DMリアクションボタンの常時表示化 — チャットメッセージのリアクション追加ボタン・削除ボタンをホバー時のみ表示から常時表示に変更（MessageBubble.tsx）

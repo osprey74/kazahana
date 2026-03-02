@@ -4,12 +4,8 @@ import { getAgent } from "../lib/agent";
 /** Resolve a repost record URI to the original post URI */
 async function resolveRepostUri(uri: string): Promise<string> {
   if (!uri.includes("/app.bsky.feed.repost/")) return uri;
-  console.log("[useThread] Detected repost URI, resolving:", uri);
   const match = uri.match(/^at:\/\/([^/]+)\/app\.bsky\.feed\.repost\/(.+)$/);
-  if (!match) {
-    console.warn("[useThread] Repost URI regex did not match:", uri);
-    return uri;
-  }
+  if (!match) return uri;
   const agent = getAgent();
   try {
     const res = await agent.com.atproto.repo.getRecord({
@@ -18,13 +14,9 @@ async function resolveRepostUri(uri: string): Promise<string> {
       rkey: match[2],
     });
     const subject = (res.data.value as { subject?: { uri?: string } })?.subject;
-    if (subject?.uri) {
-      console.log("[useThread] Resolved repost →", subject.uri);
-      return subject.uri;
-    }
-    console.warn("[useThread] Repost record has no subject.uri:", res.data.value);
-  } catch (err) {
-    console.error("[useThread] Failed to resolve repost URI:", err);
+    if (subject?.uri) return subject.uri;
+  } catch {
+    // Repost may have been deleted
   }
   return uri;
 }
