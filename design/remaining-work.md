@@ -238,7 +238,7 @@ Collaborator: よつぎnん / @yotsugin.bsky.social
 - [x] like-via-repost / repost-via-repost 通知の表示対応 — Bluesky公式設定「リポストへのいいね」「リポストのリポスト」有効時の通知reason（`like-via-repost` / `repost-via-repost`）に対応。アイコン・ラベル・色・displayText・URI解決・デスクトップ通知カウント・i18n（EN/JA）を追加（NotificationItem.tsx, useNotifications.ts, notifications.ts, en.json, ja.json）
 - [x] デバッグコード除去 — `lib.rs` open_devtools無条件呼び出し、`useThread.ts` console.log/warn/error、`NotificationItem.tsx` console.log/warnを除去
 - [x] DMリアクションボタンの常時表示化 — チャットメッセージのリアクション追加ボタン・削除ボタンをホバー時のみ表示から常時表示に変更（MessageBubble.tsx）
-- [ ] ポスト詳細画面のテキスト選択コンテキストメニューに「Webで検索」を追加 — 既存メニュー（コピー/全て選択/再読み込み）に選択テキストをブラウザで検索する機能を追加
-- [ ] DMメッセージ内のURL文字列をクリッカブルにする — メッセージテキスト内のURLを検出しリンク化、クリックで外部ブラウザを開く
-- [ ] DMメッセージ内のハッシュタグをクリッカブルにする — TLのポストと同様にハッシュタグを検出しリンク化、クリックでそのハッシュタグの検索結果を表示
-- [ ] デモページへのリンクを日本語README・日本語ドキュメントに設置 — `README.ja.md` と `docs/ja/guide/index.html` からデモページへたどれるようリンクを追加
+- [x] ポスト詳細画面のテキスト選択コンテキストメニューに「Webで検索」を追加 — 既存メニュー（コピー/全て選択/再読み込み）に選択テキストをブラウザで検索する機能を追加
+- [x] DMメッセージ内のURL文字列をクリッカブルにする — メッセージテキスト内のURLを検出しリンク化、クリックで外部ブラウザを開く
+- [x] DMメッセージ内のハッシュタグをクリッカブルにする — TLのポストと同様にハッシュタグを検出しリンク化、クリックでそのハッシュタグの検索結果を表示
+- [x] デモページへのリンクを日本語README・日本語ドキュメントに設置 — `README.ja.md` と `docs/ja/guide/index.html` からデモページへたどれるようリンクを追加
