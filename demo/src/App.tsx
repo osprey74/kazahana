@@ -83,7 +83,7 @@ export default function App() {
                 <div style={styles.bannerTitle}>
                   {bsafEnabled
                     ? "✨ BSAFパース有効 — Bot投稿が構造化表示されています"
-                    : "📝 BSAFパース無効 — 全ての投稿が生テキストで表示されています"}
+                    : "📝 BSAFパース無効 — 全ての投稿がRAWテキストで表示されています"}
                 </div>
                 <div style={styles.bannerDesc}>
                   {bsafEnabled
