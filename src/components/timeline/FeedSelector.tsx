@@ -133,7 +133,14 @@ export function FeedSelector() {
             <button
               key={tab.feed.type === "home" ? "home" : tab.feed.uri}
               ref={active ? activeRef : undefined}
-              onClick={() => setCurrentFeed(tab.feed)}
+              onClick={() => {
+                if (active) {
+                  document.querySelector("main")?.scrollTo({ top: 0, behavior: "instant" });
+                  window.dispatchEvent(new CustomEvent("kazahana:refresh"));
+                } else {
+                  setCurrentFeed(tab.feed);
+                }
+              }}
               className={`flex-shrink-0 px-4 py-2 text-xs font-medium transition-colors relative whitespace-nowrap ${
                 active
                   ? "text-primary"
