@@ -49,7 +49,7 @@ export function PostCard({ post, bsafEnabled, duplicateCount }: PostCardProps) {
           </span>
         </div>
       )}
-      {post.tags.length > 0 && (
+      {isBsaf && post.tags.length > 0 && (
         <>
           <div style={styles.divider} />
           <div style={styles.tags}>
