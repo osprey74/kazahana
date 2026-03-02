@@ -127,7 +127,7 @@ export function SettingsPanel({
 
       {/* Raw BSAF post data */}
       <div style={styles.section}>
-        <div style={styles.sectionTitle}>BSAF Bot 投稿の生データ</div>
+        <div style={styles.sectionTitle}>BSAF Bot 投稿のRAWデータ</div>
         <div style={styles.sectionSubtitle}>
           AT Protocol (app.bsky.feed.post) レコード形式
         </div>
