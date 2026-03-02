@@ -83,6 +83,8 @@ Kazahana supports the [BSAF protocol](https://github.com/osprey74/bsaf-protocol)
 - **Per-bot filter settings** — choose which categories, severity levels, and regions to display
 - **AND-based filtering** — all filter conditions must match for a post to appear (e.g., if you set type to "earthquake" and region to "Hokkaido", only Hokkaido earthquake posts are shown)
 - **Filters apply to Home Timeline and Custom Feeds only** — bot profile pages always show all posts unfiltered, so you can check the full history of alerts regardless of your filter settings
+- **Severity-colored border** — BSAF posts display a left border colored by severity level (e.g., red for strong earthquakes, yellow for warnings)
+- **BSAF tag display** — structured tags (type, value, target, source, etc.) are shown below the post body
 - **Duplicate detection** — when multiple bots report the same event, duplicates are automatically collapsed
 - **Auto-update** — bot definitions are checked for updates on each app launch
 

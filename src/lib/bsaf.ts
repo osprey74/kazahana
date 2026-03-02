@@ -98,6 +98,35 @@ export function isBsafDuplicate(a: BsafParsedTags, b: BsafParsedTags): boolean {
 }
 
 /**
+ * Earthquake intensity values (raw format per BSAF spec)
+ */
+const EARTHQUAKE_INTENSITIES = new Set([
+  "1", "2", "3", "4", "5-", "5+", "6-", "6+", "7",
+]);
+
+/**
+ * Get severity border color based on BSAF value (raw format).
+ *
+ * Earthquake: "1","2","3","4","5-","5+","6-","6+","7"
+ * Weather: "info","advisory","warning","severe-warning","special-warning"
+ */
+export function getSeverityBorderColor(value: string): string {
+  if (EARTHQUAKE_INTENSITIES.has(value)) {
+    if (["6-", "6+", "7"].includes(value)) return "#BE185D";
+    if (["5-", "5+"].includes(value)) return "#DC2626";
+    if (value === "4") return "#D97706";
+    return "#16A34A";
+  }
+  switch (value) {
+    case "special-warning": return "#BE185D";
+    case "severe-warning":
+    case "warning": return "#D97706";
+    case "advisory": return "#CA8A04";
+    default: return "#2563EB";
+  }
+}
+
+/**
  * Convert GitHub blob/tree URLs to raw content URLs.
  * e.g. https://github.com/user/repo/blob/main/file.json
  *   → https://raw.githubusercontent.com/user/repo/main/file.json

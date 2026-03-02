@@ -17,6 +17,8 @@ import { PostContent } from "./PostContent";
 import { PostActions } from "./PostActions";
 import { useModerationOpts } from "../../contexts/ModerationContext";
 import { useSettingsStore } from "../../stores/settingsStore";
+import { useBsafStore } from "../../stores/bsafStore";
+import { parseBsafTags, getSeverityBorderColor } from "../../lib/bsaf";
 import type { BsafDuplicateInfo } from "../../hooks/useBsafDuplicates";
 
 interface PostCardProps {
@@ -30,9 +32,14 @@ export function PostCard({ feedItem, showParentContext, bsafDuplicateInfo }: Pos
   const navigate = useNavigate();
   const moderationOpts = useModerationOpts();
   const showVia = useSettingsStore((s) => s.showVia);
+  const bsafEnabled = useBsafStore((s) => s.bsafEnabled);
   const { post, reason } = feedItem;
   const author = post.author;
-  const record = post.record as { text?: string; facets?: unknown[]; createdAt?: string; reply?: { parent?: { uri: string }; root?: { uri: string } }; $via?: string; langs?: string[] };
+  const record = post.record as { text?: string; facets?: unknown[]; createdAt?: string; reply?: { parent?: { uri: string }; root?: { uri: string } }; $via?: string; langs?: string[]; tags?: string[] };
+
+  // BSAF visual styling
+  const bsafParsed = bsafEnabled && record.tags ? parseBsafTags(record.tags) : null;
+  const bsafBorderColor = bsafParsed ? getSeverityBorderColor(bsafParsed.value) : undefined;
 
   // Moderation
   const modDecision = moderationOpts ? moderatePost(post, moderationOpts) : null;
@@ -67,6 +74,7 @@ export function PostCard({ feedItem, showParentContext, bsafDuplicateInfo }: Pos
   return (
     <article
       className="px-4 py-3 border-b border-border-light dark:border-border-dark hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors cursor-pointer"
+      style={bsafBorderColor ? { borderLeft: `5px solid ${bsafBorderColor}` } : undefined}
       onClick={(e) => {
         // Don't navigate if clicking on interactive elements
         if ((e.target as HTMLElement).closest("button, a, video")) return;
@@ -240,6 +248,20 @@ export function PostCard({ feedItem, showParentContext, bsafDuplicateInfo }: Pos
                 {t("bsaf.duplicateReport", { count: bsafDuplicateInfo.duplicateHandles.length })}
               </span>
             </div>
+          )}
+
+          {/* BSAF tags */}
+          {bsafParsed && record.tags && record.tags.length > 0 && (
+            <>
+              <div className="border-t border-[#666] mt-2" />
+              <div className="flex flex-wrap gap-1 mt-2">
+                {record.tags.map((tag, i) => (
+                  <span key={i} className="text-[11px] px-2 py-0.5 rounded bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 font-mono">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </>
           )}
 
           {/* Actions + Moderation label */}
