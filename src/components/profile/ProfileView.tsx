@@ -250,12 +250,17 @@ export function ProfileView() {
           <button
             key={tabKey}
             onClick={() => {
-              const tabsEl = tabsRef.current;
-              if (scrollParent && tabsEl && scrollParent.scrollTop >= tabsEl.offsetTop) {
-                scrollLockRef.current = tabsEl.offsetTop;
+              if (tab === tabKey) {
+                document.querySelector("main")?.scrollTo({ top: 0, behavior: "instant" });
+                window.dispatchEvent(new CustomEvent("kazahana:refresh"));
+              } else {
+                const tabsEl = tabsRef.current;
+                if (scrollParent && tabsEl && scrollParent.scrollTop >= tabsEl.offsetTop) {
+                  scrollLockRef.current = tabsEl.offsetTop;
+                }
+                setTab(tabKey);
+                if (tabKey === "bookmarks") refetchBookmarks();
               }
-              setTab(tabKey);
-              if (tabKey === "bookmarks") refetchBookmarks();
             }}
             className={`flex-1 py-2.5 text-sm font-medium transition-colors ${
               tab === tabKey
