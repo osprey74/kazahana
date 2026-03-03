@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import type { Notification } from "@atproto/api/dist/client/types/app/bsky/notification/listNotifications";
 import type { PostView } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
+import type { ViewImage } from "@atproto/api/dist/client/types/app/bsky/embed/images";
 import { formatDistanceToNowStrict } from "date-fns";
 import { ja } from "date-fns/locale";
 import { enUS } from "date-fns/locale";
@@ -37,6 +38,21 @@ const REASON_KEYS: Record<string, string> = {
   "like-via-repost": "notification.likedViaRepost",
   "repost-via-repost": "notification.repostedViaRepost",
 };
+
+function getPostImages(post?: PostView): ViewImage[] {
+  const embed = post?.embed;
+  if (!embed) return [];
+  if (embed.$type === "app.bsky.embed.images#view") {
+    return (embed as { images?: ViewImage[] }).images ?? [];
+  }
+  if (embed.$type === "app.bsky.embed.recordWithMedia#view") {
+    const media = (embed as { media?: { $type?: string; images?: ViewImage[] } }).media;
+    if (media?.$type === "app.bsky.embed.images#view") {
+      return media.images ?? [];
+    }
+  }
+  return [];
+}
 
 export function NotificationItem({ notification, subjectPost }: NotificationItemProps) {
   const { t, i18n } = useTranslation();
@@ -88,6 +104,8 @@ export function NotificationItem({ notification, subjectPost }: NotificationItem
   // The post to show action buttons for
   const actionPost = subjectPost;
 
+  const images = getPostImages(subjectPost);
+
   return (
     <div
       onClick={handleClick}
@@ -118,6 +136,19 @@ export function NotificationItem({ notification, subjectPost }: NotificationItem
           )}
         </div>
       </div>
+      {images.length > 0 && (
+        <div className="flex gap-0.5 self-start flex-shrink-0">
+          {images.map((img, i) => (
+            <img
+              key={i}
+              src={img.thumb}
+              alt={img.alt || ""}
+              className="w-8 h-8 rounded object-cover"
+              loading="lazy"
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
