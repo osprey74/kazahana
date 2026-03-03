@@ -74,7 +74,7 @@ export function PostCard({ feedItem, showParentContext, bsafDuplicateInfo }: Pos
   return (
     <article
       className="px-4 py-3 border-b border-border-light dark:border-border-dark hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors cursor-pointer"
-      style={bsafBorderColor ? { borderLeft: `5px solid ${bsafBorderColor}` } : undefined}
+      style={bsafBorderColor ? { borderLeft: `5px solid ${bsafBorderColor}`, marginTop: 10, marginBottom: 10 } : undefined}
       onClick={(e) => {
         // Don't navigate if clicking on interactive elements
         if ((e.target as HTMLElement).closest("button, a, video")) return;
