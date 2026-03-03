@@ -9,12 +9,12 @@ import { ja } from "date-fns/locale";
 import { enUS } from "date-fns/locale";
 import { getAgent } from "../../lib/agent";
 import { useComposeStore } from "../../stores/composeStore";
+import { useSubjectPost } from "../../hooks/useNotifications";
 import { Avatar } from "../common/Avatar";
 import { Icon } from "../common/Icon";
 
 interface NotificationItemProps {
   notification: Notification;
-  subjectPost?: PostView;
 }
 
 const REASON_ICONS: Record<string, string> = {
@@ -54,7 +54,8 @@ function getPostImages(post?: PostView): ViewImage[] {
   return [];
 }
 
-export function NotificationItem({ notification, subjectPost }: NotificationItemProps) {
+export function NotificationItem({ notification }: NotificationItemProps) {
+  const subjectPost = useSubjectPost(notification);
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const { author, reason, indexedAt, isRead } = notification;

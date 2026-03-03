@@ -2,7 +2,7 @@ import { useCallback, useEffect, useLayoutEffect, useMemo, useState } from "reac
 import { useTranslation } from "react-i18next";
 import { Virtuoso } from "react-virtuoso";
 import { moderateProfile } from "@atproto/api";
-import { useNotifications, useMarkAsRead, useSubjectPosts } from "../../hooks/useNotifications";
+import { useNotifications, useMarkAsRead } from "../../hooks/useNotifications";
 import { useModerationOpts } from "../../contexts/ModerationContext";
 import { NotificationItem } from "./NotificationItem";
 import { LoadingSpinner } from "../common/LoadingSpinner";
@@ -49,8 +49,6 @@ export function NotificationList() {
     });
   }, [data, moderationOpts]);
 
-  const subjectPosts = useSubjectPosts(items);
-
   const loadMore = useCallback(() => {
     if (hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
@@ -90,11 +88,7 @@ export function NotificationList() {
       endReached={loadMore}
       overscan={200}
       itemContent={(_index, item: Notification) => (
-        <NotificationItem notification={item} subjectPost={
-          (item.reason === "reply" || item.reason === "mention" || item.reason === "quote")
-            ? subjectPosts.get(item.uri)
-            : item.reasonSubject ? subjectPosts.get(item.reasonSubject) : undefined
-        } />
+        <NotificationItem notification={item} />
       )}
       components={{
         Footer: () => (isFetchingNextPage ? <LoadingSpinner /> : null),

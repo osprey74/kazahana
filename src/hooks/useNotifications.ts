@@ -1,6 +1,5 @@
 import { useInfiniteQuery, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useCallback, useEffect, useMemo, useRef } from "react";
-import type { PostView } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
 import type { Notification } from "@atproto/api/dist/client/types/app/bsky/notification/listNotifications";
 import { getAgent } from "../lib/agent";
 import { sendNotification, type NotificationReasonCounts } from "../lib/notifications";
@@ -67,43 +66,30 @@ export function useUnreadCount() {
   return query;
 }
 
-export function useSubjectPosts(notifications: Notification[]) {
-  const uris = useMemo(() => {
-    const set = new Set<string>();
-    for (const n of notifications) {
-      if ((n.reason === "like" || n.reason === "repost" || n.reason === "like-via-repost" || n.reason === "repost-via-repost") && n.reasonSubject) {
-        set.add(n.reasonSubject);
-      }
-      // Also fetch post data for reply/mention/quote so action buttons work
-      if (n.reason === "reply" || n.reason === "mention" || n.reason === "quote") {
-        set.add(n.uri);
-      }
+/** Fetch a single subject post for a notification (lazy, per-item) */
+export function useSubjectPost(notification: Notification) {
+  const uri = useMemo(() => {
+    const { reason } = notification;
+    if (reason === "reply" || reason === "mention" || reason === "quote") {
+      return notification.uri;
     }
-    return [...set];
-  }, [notifications]);
+    if ((reason === "like" || reason === "repost" || reason === "like-via-repost" || reason === "repost-via-repost") && notification.reasonSubject) {
+      return notification.reasonSubject;
+    }
+    return null;
+  }, [notification]);
 
   const { data } = useQuery({
-    queryKey: ["subjectPosts", uris],
+    queryKey: ["subjectPost", uri],
     queryFn: async () => {
-      if (uris.length === 0) return new Map<string, PostView>();
+      if (!uri) return null;
       const agent = getAgent();
 
-      // Separate post URIs from repost record URIs
-      const postUris: string[] = [];
-      const repostUris: string[] = [];
-      for (const uri of uris) {
-        if (uri.includes("/app.bsky.feed.repost/")) {
-          repostUris.push(uri);
-        } else {
-          postUris.push(uri);
-        }
-      }
-
-      // Resolve repost URIs to original post URIs
-      const repostToPostUri = new Map<string, string>();
-      for (const repostUri of repostUris) {
-        const match = repostUri.match(/^at:\/\/([^/]+)\/app\.bsky\.feed\.repost\/(.+)$/);
-        if (!match) continue;
+      // Resolve repost record URI to original post URI
+      let postUri = uri;
+      if (uri.includes("/app.bsky.feed.repost/")) {
+        const match = uri.match(/^at:\/\/([^/]+)\/app\.bsky\.feed\.repost\/(.+)$/);
+        if (!match) return null;
         try {
           const res = await agent.com.atproto.repo.getRecord({
             repo: match[1],
@@ -111,41 +97,21 @@ export function useSubjectPosts(notifications: Notification[]) {
             rkey: match[2],
           });
           const subject = (res.data.value as { subject?: { uri: string } }).subject;
-          if (subject?.uri) {
-            repostToPostUri.set(repostUri, subject.uri);
-            postUris.push(subject.uri);
-          }
+          if (!subject?.uri) return null;
+          postUri = subject.uri;
         } catch {
-          // Repost may have been deleted
+          return null;
         }
       }
 
-      // Fetch all post URIs (deduplicated)
-      const uniquePostUris = [...new Set(postUris)];
-      const map = new Map<string, PostView>();
-      for (let i = 0; i < uniquePostUris.length; i += 25) {
-        const batch = uniquePostUris.slice(i, i + 25);
-        const res = await agent.getPosts({ uris: batch });
-        for (const post of res.data.posts) {
-          map.set(post.uri, post);
-        }
-      }
-
-      // Map repost URIs to their resolved posts for lookup
-      for (const [repostUri, postUri] of repostToPostUri) {
-        const post = map.get(postUri);
-        if (post) {
-          map.set(repostUri, post);
-        }
-      }
-
-      return map;
+      const res = await agent.getPosts({ uris: [postUri] });
+      return res.data.posts[0] ?? null;
     },
-    enabled: uris.length > 0,
+    enabled: !!uri,
     staleTime: 60_000,
   });
 
-  return data ?? new Map<string, PostView>();
+  return data ?? undefined;
 }
 
 export function useMarkAsRead() {
