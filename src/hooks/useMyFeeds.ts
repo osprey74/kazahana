@@ -14,67 +14,112 @@ interface SavedList {
   avatar?: string;
 }
 
-export function useSavedFeeds() {
+/** Shared hook for fetching parsed Bluesky preferences (cached by React Query) */
+function useBskyPreferences() {
   return useQuery({
-    queryKey: ["savedFeeds"],
+    queryKey: ["bskyPreferences"],
     queryFn: async () => {
       const agent = getAgent();
-      const prefsRes = await agent.app.bsky.actor.getPreferences();
-      const prefs = prefsRes.data.preferences;
-
-      // Extract all saved feed URIs from savedFeedsPrefV2 (pinned + non-pinned)
-      const feedEntries: { uri: string; pinned: boolean }[] = [];
-      for (const pref of prefs) {
-        if (pref.$type === "app.bsky.actor.defs#savedFeedsPrefV2") {
-          const items = (pref as { items?: Array<{ type: string; value: string; pinned: boolean }> }).items;
-          if (items) {
-            for (const item of items) {
-              if (item.type === "feed") {
-                feedEntries.push({ uri: item.value, pinned: item.pinned });
-              }
-            }
-          }
-        }
-      }
-
-      if (feedEntries.length === 0) return [] as SavedFeed[];
-
-      const feedUris = feedEntries.map((e) => e.uri);
-      const pinnedMap = new Map(feedEntries.map((e) => [e.uri, e.pinned]));
-
-      const res = await agent.app.bsky.feed.getFeedGenerators({ feeds: feedUris });
-      return res.data.feeds.map((f) => ({
-        uri: f.uri,
-        name: f.displayName,
-        avatar: f.avatar,
-        pinned: pinnedMap.get(f.uri) ?? false,
-      })) as SavedFeed[];
+      return agent.getPreferences();
     },
     staleTime: 5 * 60_000,
   });
 }
 
-export function useMyLists() {
+export function useSavedFeeds() {
+  const { data: prefs, isLoading: prefsLoading } = useBskyPreferences();
+
   return useQuery({
-    queryKey: ["myLists"],
+    queryKey: ["savedFeeds", prefs?.savedFeeds],
+    queryFn: async () => {
+      const savedFeeds = prefs?.savedFeeds ?? [];
+
+      // Extract feed generators from preferences
+      const feedEntries = savedFeeds.filter((f) => f.type === "feed");
+      if (feedEntries.length === 0) return [] as SavedFeed[];
+
+      const pinnedMap = new Map(feedEntries.map((e) => [e.value, e.pinned]));
+
+      // getFeedGenerators accepts max 25 URIs per call
+      const agent = getAgent();
+      const allFeeds: SavedFeed[] = [];
+      const feedUris = feedEntries.map((e) => e.value);
+      for (let i = 0; i < feedUris.length; i += 25) {
+        const batch = feedUris.slice(i, i + 25);
+        const res = await agent.app.bsky.feed.getFeedGenerators({ feeds: batch });
+        for (const f of res.data.feeds) {
+          allFeeds.push({
+            uri: f.uri,
+            name: f.displayName,
+            avatar: f.avatar,
+            pinned: pinnedMap.get(f.uri) ?? false,
+          });
+        }
+      }
+
+      // Preserve the order from preferences
+      const orderMap = new Map(feedUris.map((uri, i) => [uri, i]));
+      allFeeds.sort((a, b) => (orderMap.get(a.uri) ?? 999) - (orderMap.get(b.uri) ?? 999));
+
+      return allFeeds;
+    },
+    enabled: !prefsLoading,
+    staleTime: 5 * 60_000,
+  });
+}
+
+export function useMyLists() {
+  const { data: prefs, isLoading: prefsLoading } = useBskyPreferences();
+
+  return useQuery({
+    queryKey: ["myLists", prefs?.savedFeeds],
     queryFn: async () => {
       const agent = getAgent();
       const did = agent.session?.did;
-      if (!did) return [] as SavedList[];
 
-      const res = await agent.app.bsky.graph.getLists({
-        actor: did,
-        limit: 50,
-      });
+      // Get self-created curate lists
+      const selfLists: SavedList[] = [];
+      if (did) {
+        const res = await agent.app.bsky.graph.getLists({
+          actor: did,
+          limit: 50,
+        });
+        for (const l of res.data.lists) {
+          if (l.purpose === "app.bsky.graph.defs#curatelist") {
+            selfLists.push({ uri: l.uri, name: l.name, avatar: l.avatar });
+          }
+        }
+      }
 
-      return res.data.lists
-        .filter((l) => l.purpose === "app.bsky.graph.defs#curatelist")
-        .map((l) => ({
-          uri: l.uri,
-          name: l.name,
-          avatar: l.avatar,
-        })) as SavedList[];
+      // Get lists saved in preferences (includes lists from other users)
+      const savedFeeds = prefs?.savedFeeds ?? [];
+      const savedListEntries = savedFeeds.filter((f) => f.type === "list");
+      const prefLists: SavedList[] = [];
+      for (const entry of savedListEntries) {
+        try {
+          const res = await agent.app.bsky.graph.getList({ list: entry.value, limit: 1 });
+          const list = res.data.list;
+          if (list.purpose === "app.bsky.graph.defs#curatelist") {
+            prefLists.push({ uri: list.uri, name: list.name, avatar: list.avatar });
+          }
+        } catch {
+          // Skip lists that no longer exist or are inaccessible
+        }
+      }
+
+      // Merge: preference-saved lists first, then self-created (deduplicated)
+      const seen = new Set<string>();
+      const result: SavedList[] = [];
+      for (const l of [...prefLists, ...selfLists]) {
+        if (!seen.has(l.uri)) {
+          seen.add(l.uri);
+          result.push(l);
+        }
+      }
+
+      return result;
     },
+    enabled: !prefsLoading,
     staleTime: 5 * 60_000,
   });
 }
