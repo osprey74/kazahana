@@ -124,8 +124,17 @@
     "hiddenByYou": "你隱藏的貼文"
   },
   "image": {
-    "addImages": "新增圖片（最多 {{max}} 張，1MB 以下）",
+    "addImages": "新增圖片（最多 {{max}} 張）",
     "dropHere": "將圖片拖放到此處",
+    "compressing": "正在壓縮圖片...",
+    "edit": "編輯",
+    "editImage": "編輯圖片",
+    "rotateLeft": "向左旋轉",
+    "rotateRight": "向右旋轉",
+    "cropFree": "自由",
+    "cropOriginal": "原始比例",
+    "cropSquare": "正方形",
+    "apply": "套用",
     "altPlaceholder": "ALT 替代文字",
     "imageLabel": "圖片 {{n}}",
     "noAlt": "未設定 ALT 替代文字"

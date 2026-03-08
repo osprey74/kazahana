@@ -134,8 +134,17 @@
     "hiddenByYou": "Post hidden by you"
   },
   "image": {
-    "addImages": "Add images (max {{max}}, under 1MB)",
+    "addImages": "Add images (max {{max}})",
     "dropHere": "Drop images here",
+    "compressing": "Compressing image...",
+    "edit": "Edit",
+    "editImage": "Edit Image",
+    "rotateLeft": "Rotate left",
+    "rotateRight": "Rotate right",
+    "cropFree": "Free",
+    "cropOriginal": "Original",
+    "cropSquare": "Square",
+    "apply": "Apply",
     "altPlaceholder": "ALT text",
     "imageLabel": "Image {{n}}",
     "noAlt": "No ALT text set"

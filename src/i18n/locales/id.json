@@ -124,8 +124,17 @@
     "hiddenByYou": "Postingan disembunyikan oleh Anda"
   },
   "image": {
-    "addImages": "Tambah gambar (maks. {{max}}, di bawah 1 MB)",
+    "addImages": "Tambah gambar (maks. {{max}})",
     "dropHere": "Letakkan gambar di sini",
+    "compressing": "Mengompresi gambar...",
+    "edit": "Edit",
+    "editImage": "Edit Gambar",
+    "rotateLeft": "Putar kiri",
+    "rotateRight": "Putar kanan",
+    "cropFree": "Bebas",
+    "cropOriginal": "Asli",
+    "cropSquare": "Persegi",
+    "apply": "Terapkan",
     "altPlaceholder": "Teks ALT",
     "imageLabel": "Gambar {{n}}",
     "noAlt": "Teks ALT belum diisi"

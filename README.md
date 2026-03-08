@@ -59,6 +59,7 @@ Kazahana is designed as a **lightweight, always-running companion app** — not 
 - [x] Configurable close button behavior (exit or minimize to tray)
 - [x] Image drag & drop onto compose modal (with auto-compression for large images)
 - [x] Clipboard image paste (screenshot paste with JPEG compression)
+- [x] Image editor (90° rotation, crop with free/original/square aspect ratio)
 - [x] Translate button in post menu (Google Translate integration)
 - [x] Notification action buttons (reply, repost, like directly from notifications)
 - [x] Color-coded notification icons (red heart for likes, green for reposts)

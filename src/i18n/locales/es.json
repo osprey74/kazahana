@@ -124,8 +124,17 @@
     "hiddenByYou": "Publicación ocultada por ti"
   },
   "image": {
-    "addImages": "Añadir imágenes (máx. {{max}}, menos de 1 MB)",
+    "addImages": "Añadir imágenes (máx. {{max}})",
     "dropHere": "Suelta las imágenes aquí",
+    "compressing": "Comprimiendo imagen...",
+    "edit": "Editar",
+    "editImage": "Editar imagen",
+    "rotateLeft": "Girar a la izquierda",
+    "rotateRight": "Girar a la derecha",
+    "cropFree": "Libre",
+    "cropOriginal": "Original",
+    "cropSquare": "Cuadrado",
+    "apply": "Aplicar",
     "altPlaceholder": "Texto ALT",
     "imageLabel": "Imagen {{n}}",
     "noAlt": "Sin texto ALT"

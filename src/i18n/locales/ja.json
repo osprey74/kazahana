@@ -134,8 +134,17 @@
     "hiddenByYou": "自分が非表示にした投稿"
   },
   "image": {
-    "addImages": "画像を追加（最大{{max}}枚、1MB以下）",
+    "addImages": "画像を追加（最大{{max}}枚）",
     "dropHere": "ここに画像をドロップ",
+    "compressing": "画像を圧縮中...",
+    "edit": "編集",
+    "editImage": "画像を編集",
+    "rotateLeft": "左に回転",
+    "rotateRight": "右に回転",
+    "cropFree": "自由",
+    "cropOriginal": "元の比率",
+    "cropSquare": "正方形",
+    "apply": "適用",
     "altPlaceholder": "ALT テキスト",
     "imageLabel": "画像{{n}}",
     "noAlt": "ALTテキスト設定なし"

@@ -124,8 +124,17 @@
     "hiddenByYou": "Von dir verborgener Beitrag"
   },
   "image": {
-    "addImages": "Bilder hinzufügen (max. {{max}}, unter 1 MB)",
+    "addImages": "Bilder hinzufügen (max. {{max}})",
     "dropHere": "Bilder hierher ziehen",
+    "compressing": "Bild wird komprimiert...",
+    "edit": "Bearbeiten",
+    "editImage": "Bild bearbeiten",
+    "rotateLeft": "Links drehen",
+    "rotateRight": "Rechts drehen",
+    "cropFree": "Frei",
+    "cropOriginal": "Original",
+    "cropSquare": "Quadrat",
+    "apply": "Anwenden",
     "altPlaceholder": "ALT-Text",
     "imageLabel": "Bild {{n}}",
     "noAlt": "Kein ALT-Text vorhanden"

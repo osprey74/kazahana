@@ -1,5 +1,6 @@
 import { useRef, useCallback, type DragEvent } from "react";
 import { useTranslation } from "react-i18next";
+import { Icon } from "../common/Icon";
 
 interface ImageFile {
   id: string;
@@ -13,23 +14,19 @@ interface ImageUploadProps {
   onAdd: (files: File[]) => void;
   onRemove: (id: string) => void;
   onUpdateAlt: (id: string, alt: string) => void;
+  onEdit?: (id: string) => void;
 }
 
 const MAX_IMAGES = 4;
-const MAX_SIZE = 1_000_000; // 1MB
 const ACCEPTED = ["image/jpeg", "image/png", "image/webp"];
 
-export function ImageUpload({ images, onAdd, onRemove, onUpdateAlt }: ImageUploadProps) {
+export function ImageUpload({ images, onAdd, onRemove, onUpdateAlt, onEdit }: ImageUploadProps) {
   const { t } = useTranslation();
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleFiles = useCallback(
     (fileList: FileList | File[]) => {
-      const files = Array.from(fileList).filter((f) => {
-        if (!ACCEPTED.includes(f.type)) return false;
-        if (f.size > MAX_SIZE) return false;
-        return true;
-      });
+      const files = Array.from(fileList).filter((f) => ACCEPTED.includes(f.type));
       const remaining = MAX_IMAGES - images.length;
       if (remaining > 0) {
         onAdd(files.slice(0, remaining));
@@ -63,6 +60,16 @@ export function ImageUpload({ images, onAdd, onRemove, onUpdateAlt }: ImageUploa
                   alt=""
                   className="w-full h-24 object-cover rounded"
                 />
+                {onEdit && (
+                  <button
+                    type="button"
+                    onClick={() => onEdit(img.id)}
+                    className="absolute top-1 left-1 w-5 h-5 bg-black/60 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                    title={t("image.edit")}
+                  >
+                    <Icon name="edit" size={12} />
+                  </button>
+                )}
                 <button
                   onClick={() => onRemove(img.id)}
                   className="absolute top-1 right-1 w-5 h-5 bg-black/60 text-white rounded-full text-xs flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"

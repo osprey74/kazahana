@@ -124,8 +124,17 @@
     "hiddenByYou": "你隐藏的帖子"
   },
   "image": {
-    "addImages": "添加图片（最多 {{max}} 张，每张不超过 1MB）",
+    "addImages": "添加图片（最多 {{max}} 张）",
     "dropHere": "将图片拖放到此处",
+    "compressing": "正在压缩图片...",
+    "edit": "编辑",
+    "editImage": "编辑图片",
+    "rotateLeft": "向左旋转",
+    "rotateRight": "向右旋转",
+    "cropFree": "自由",
+    "cropOriginal": "原始比例",
+    "cropSquare": "正方形",
+    "apply": "应用",
     "altPlaceholder": "ALT 文字",
     "imageLabel": "图片 {{n}}",
     "noAlt": "未设置 ALT 文字"

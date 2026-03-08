@@ -6,12 +6,13 @@ import { useOgp } from "../../hooks/useOgp";
 import { extractUrl } from "../../lib/ogp";
 import { useSearchActorsTypeahead } from "../../hooks/useSearch";
 import { ImageUpload, type ImageFile } from "./ImageUpload";
+import { ImageEditModal } from "./ImageEditModal";
 import { VideoUpload, type VideoFile } from "./VideoUpload";
 import { Avatar } from "../common/Avatar";
 import { Icon } from "../common/Icon";
 
 const MAX_GRAPHEMES = 300;
-const IMAGE_MAX_BYTES = 1_000_000; // 1MB — Bluesky image upload limit
+const IMAGE_MAX_BYTES = 1_000_000; // 1MB — Bluesky image upload limit (images exceeding this are auto-compressed)
 const IMAGE_MAX_WIDTH = 2048;
 const IMAGE_ACCEPTED = ["image/jpeg", "image/png", "image/webp"];
 
@@ -100,6 +101,8 @@ export function ComposeModal() {
   const [disableQuote, setDisableQuote] = useState(false);
   const [mentionIndex, setMentionIndex] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
+  const [isCompressing, setIsCompressing] = useState(false);
+  const [editingImageId, setEditingImageId] = useState<string | null>(null);
 
   // OGP link card (manual trigger)
   const { detectedUrl, ogp, isLoading: ogpLoading, fetchCard, fetchCardForUrl, dismiss: dismissOgp, reset: resetOgp } = useOgp(text);
@@ -168,6 +171,20 @@ export function ComposeModal() {
     setImages((prev) => [...prev, ...newImages]);
   }, []);
 
+  /** Compress files that exceed the upload limit and add them as images. */
+  const compressAndAddImages = useCallback(async (rawFiles: File[]) => {
+    setIsCompressing(true);
+    try {
+      const compressed: File[] = [];
+      for (const file of rawFiles) {
+        compressed.push(await compressImageFile(file));
+      }
+      if (compressed.length > 0) handleAddImages(compressed);
+    } finally {
+      setIsCompressing(false);
+    }
+  }, [handleAddImages]);
+
   const handlePaste = useCallback(async (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
     // Handle clipboard image paste (screenshots, copied images)
     if (!video && images.length < 4) {
@@ -176,13 +193,12 @@ export function ComposeModal() {
       );
       if (imageItems.length > 0) {
         e.preventDefault();
-        const files: File[] = [];
+        const rawFiles: File[] = [];
         for (const item of imageItems) {
           const raw = item.getAsFile();
-          if (!raw) continue;
-          files.push(await compressImageFile(raw));
+          if (raw) rawFiles.push(raw);
         }
-        if (files.length > 0) handleAddImages(files);
+        if (rawFiles.length > 0) compressAndAddImages(rawFiles);
         return;
       }
     }
@@ -195,7 +211,7 @@ export function ComposeModal() {
     // ogp/images/video/quote already present → skip
     if (ogp || images.length > 0 || video || quoteTo) return;
     fetchCardForUrl(url);
-  }, [fetchCardForUrl, ogp, images.length, video, quoteTo, handleAddImages]);
+  }, [fetchCardForUrl, ogp, images.length, video, quoteTo, compressAndAddImages]);
 
   const handleSelect = (e: React.SyntheticEvent<HTMLTextAreaElement>) => {
     setCursorPos((e.target as HTMLTextAreaElement).selectionStart);
@@ -258,6 +274,20 @@ export function ComposeModal() {
   const handleUpdateImageAlt = useCallback((id: string, alt: string) => {
     setImages((prev) => prev.map((img) => (img.id === id ? { ...img, alt } : img)));
   }, []);
+
+  const handleEditImage = useCallback((id: string) => {
+    setEditingImageId(id);
+  }, []);
+
+  const handleEditApply = useCallback(async (editedFile: File) => {
+    const compressed = await compressImageFile(editedFile);
+    setImages((prev) => prev.map((img) => {
+      if (img.id !== editingImageId) return img;
+      URL.revokeObjectURL(img.preview);
+      return { ...img, file: compressed, preview: URL.createObjectURL(compressed) };
+    }));
+    setEditingImageId(null);
+  }, [editingImageId]);
 
   const handleSelectVideo = useCallback(async (file: File) => {
     const preview = URL.createObjectURL(file);
@@ -329,10 +359,10 @@ export function ComposeModal() {
     setIsDragging(false);
     if (video || images.length >= 4) return;
     const files = Array.from(e.dataTransfer.files).filter(
-      (f) => IMAGE_ACCEPTED.includes(f.type) && f.size <= IMAGE_MAX_BYTES,
+      (f) => IMAGE_ACCEPTED.includes(f.type),
     );
-    if (files.length > 0) handleAddImages(files);
-  }, [video, images.length, handleAddImages]);
+    if (files.length > 0) compressAndAddImages(files);
+  }, [video, images.length, compressAndAddImages]);
 
   if (!isOpen) return null;
 
@@ -455,10 +485,22 @@ export function ComposeModal() {
           <div className="px-4 pb-3">
             <ImageUpload
               images={images}
-              onAdd={handleAddImages}
+              onAdd={compressAndAddImages}
               onRemove={handleRemoveImage}
               onUpdateAlt={handleUpdateImageAlt}
+              onEdit={handleEditImage}
             />
+          </div>
+        )}
+
+        {/* Image compression indicator */}
+        {isCompressing && (
+          <div className="px-4 pb-2 flex items-center gap-2 text-xs text-gray-500">
+            <svg className="animate-spin h-3.5 w-3.5 text-primary" viewBox="0 0 24 24" fill="none">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+            </svg>
+            <span>{t("image.compressing")}</span>
           </div>
         )}
 
@@ -601,6 +643,19 @@ export function ComposeModal() {
           </span>
         </div>
       </div>
+
+      {/* Image edit modal */}
+      {editingImageId && (() => {
+        const editingImage = images.find((img) => img.id === editingImageId);
+        if (!editingImage) return null;
+        return (
+          <ImageEditModal
+            file={editingImage.file}
+            onApply={handleEditApply}
+            onClose={() => setEditingImageId(null)}
+          />
+        );
+      })()}
     </div>
   );
 }
