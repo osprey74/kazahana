@@ -38,6 +38,7 @@ export function ImageUpload({ images, onAdd, onRemove, onUpdateAlt, onEdit }: Im
   const handleDrop = useCallback(
     (e: DragEvent) => {
       e.preventDefault();
+      e.stopPropagation();
       handleFiles(e.dataTransfer.files);
     },
     [handleFiles],
