@@ -146,6 +146,11 @@
     "cropSquare": "Square",
     "apply": "Apply",
     "altPlaceholder": "ALT text",
+    "addAlt": "Add ALT text",
+    "editAlt": "Edit ALT text",
+    "altGenerate": "Generate ALT text",
+    "altGenerating": "Generating...",
+    "altGenerateHint": "Register a Claude API key in Settings to enable AI-generated ALT text",
     "imageLabel": "Image {{n}}",
     "noAlt": "No ALT text set"
   },
@@ -263,7 +268,11 @@
       "hide": "Hide",
       "warn": "Warn",
       "ignore": "Show"
-    }
+    },
+    "claudeApi": "Claude API",
+    "claudeApiRegister": "Register",
+    "claudeApiDelete": "Delete",
+    "claudeApiHint": "Register a Claude API key to enable AI-generated ALT text for images"
   },
   "confirm": {
     "ok": "OK",

@@ -136,6 +136,11 @@
     "cropSquare": "正方形",
     "apply": "应用",
     "altPlaceholder": "ALT 文字",
+    "addAlt": "添加 ALT 文本",
+    "editAlt": "编辑 ALT 文本",
+    "altGenerate": "生成 ALT 文本",
+    "altGenerating": "生成中...",
+    "altGenerateHint": "在设置中注册 Claude API 密钥以启用 AI 生成 ALT 文本",
     "imageLabel": "图片 {{n}}",
     "noAlt": "未设置 ALT 文字"
   },
@@ -244,7 +249,11 @@
       "hide": "隐藏",
       "warn": "警告",
       "ignore": "显示"
-    }
+    },
+    "claudeApi": "Claude API",
+    "claudeApiRegister": "注册",
+    "claudeApiDelete": "删除",
+    "claudeApiHint": "注册 Claude API 密钥以启用 AI 自动生成图片 ALT 文本"
   },
   "confirm": {
     "ok": "确定",

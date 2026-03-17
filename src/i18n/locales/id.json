@@ -136,6 +136,11 @@
     "cropSquare": "Persegi",
     "apply": "Terapkan",
     "altPlaceholder": "Teks ALT",
+    "addAlt": "Tambahkan teks ALT",
+    "editAlt": "Edit teks ALT",
+    "altGenerate": "Buat teks ALT",
+    "altGenerating": "Membuat...",
+    "altGenerateHint": "Daftarkan kunci API Claude di Pengaturan untuk mengaktifkan teks ALT yang dibuat AI",
     "imageLabel": "Gambar {{n}}",
     "noAlt": "Teks ALT belum diisi"
   },
@@ -244,7 +249,11 @@
       "hide": "Sembunyikan",
       "warn": "Peringatkan",
       "ignore": "Tampilkan"
-    }
+    },
+    "claudeApi": "Claude API",
+    "claudeApiRegister": "Daftarkan",
+    "claudeApiDelete": "Hapus",
+    "claudeApiHint": "Daftarkan kunci API Claude untuk mengaktifkan teks ALT yang dibuat AI untuk gambar"
   },
   "confirm": {
     "ok": "OK",

@@ -182,7 +182,9 @@ export function ContextMenu() {
       const res = await tauriFetch(target.imageSrc);
       const blob = await res.blob();
       // Convert to PNG for clipboard compatibility
-      const pngBlob = blob.type === "image/png" ? blob : await convertToPng(blob);
+      const bytes = new Uint8Array(await blob.arrayBuffer());
+      const isPng = detectImageExtension(bytes) === "png";
+      const pngBlob = isPng ? blob : await convertToPng(blob);
       await navigator.clipboard.write([
         new ClipboardItem({ "image/png": pngBlob }),
       ]);
@@ -197,14 +199,14 @@ export function ContextMenu() {
     try {
       const res = await tauriFetch(target.imageSrc);
       const blob = await res.blob();
-      const ext = getImageExtension(blob.type);
+      const buffer = new Uint8Array(await blob.arrayBuffer());
+      const ext = detectImageExtension(buffer);
       const fileName = getImageFilename(target.imageSrc, ext);
       const filePath = await save({
         defaultPath: fileName,
         filters: [{ name: "Image", extensions: [ext] }],
       });
       if (!filePath) return;
-      const buffer = new Uint8Array(await blob.arrayBuffer());
       await writeFile(filePath, buffer);
     } catch (e) {
       console.error("Failed to save image:", e);
@@ -292,10 +294,19 @@ function getImageFilename(url: string, ext: string): string {
   return `image.${ext}`;
 }
 
-function getImageExtension(mimeType: string): string {
-  if (mimeType === "image/png") return "png";
-  if (mimeType === "image/gif") return "gif";
-  if (mimeType === "image/webp") return "webp";
+function detectImageExtension(buffer: Uint8Array): string {
+  // Check magic bytes to determine actual image format
+  if (buffer.length >= 4) {
+    // PNG: 89 50 4E 47
+    if (buffer[0] === 0x89 && buffer[1] === 0x50 && buffer[2] === 0x4E && buffer[3] === 0x47) return "png";
+    // GIF: 47 49 46 38
+    if (buffer[0] === 0x47 && buffer[1] === 0x49 && buffer[2] === 0x46 && buffer[3] === 0x38) return "gif";
+    // WEBP: 52 49 46 46 ... 57 45 42 50
+    if (buffer.length >= 12 && buffer[0] === 0x52 && buffer[1] === 0x49 && buffer[2] === 0x46 && buffer[3] === 0x46
+      && buffer[8] === 0x57 && buffer[9] === 0x45 && buffer[10] === 0x42 && buffer[11] === 0x50) return "webp";
+    // JPEG: FF D8 FF
+    if (buffer[0] === 0xFF && buffer[1] === 0xD8 && buffer[2] === 0xFF) return "jpg";
+  }
   return "jpg";
 }
 

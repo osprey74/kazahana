@@ -73,6 +73,7 @@ Kazahana is designed as a **lightweight, always-running companion app** — not 
 - [x] Drag & drop feed/list reordering in settings
 - [x] Chat message reactions (emoji stamps with quick picker)
 - [x] Notification image thumbnails (square-cropped previews in notification list)
+- [x] AI-generated ALT text for images (Claude API integration, configurable in settings)
 - [x] BSAF (Bluesky Structured Alert Feed) compatible client
 
 ### BSAF Support

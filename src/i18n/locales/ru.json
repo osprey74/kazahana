@@ -136,6 +136,11 @@
     "cropSquare": "Квадрат",
     "apply": "Применить",
     "altPlaceholder": "Текст ALT",
+    "addAlt": "Добавить ALT-текст",
+    "editAlt": "Редактировать ALT-текст",
+    "altGenerate": "Сгенерировать ALT-текст",
+    "altGenerating": "Генерация...",
+    "altGenerateHint": "Зарегистрируйте ключ API Claude в Настройках, чтобы использовать ИИ для генерации ALT-текста",
     "imageLabel": "Изображение {{n}}",
     "noAlt": "Текст ALT не задан"
   },
@@ -244,7 +249,11 @@
       "hide": "Скрыть",
       "warn": "Предупредить",
       "ignore": "Показать"
-    }
+    },
+    "claudeApi": "Claude API",
+    "claudeApiRegister": "Зарегистрировать",
+    "claudeApiDelete": "Удалить",
+    "claudeApiHint": "Зарегистрируйте ключ API Claude для автоматической генерации ALT-текста изображений с помощью ИИ"
   },
   "confirm": {
     "ok": "ОК",

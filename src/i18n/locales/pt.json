@@ -136,6 +136,11 @@
     "cropSquare": "Quadrado",
     "apply": "Aplicar",
     "altPlaceholder": "Texto ALT",
+    "addAlt": "Adicionar texto ALT",
+    "editAlt": "Editar texto ALT",
+    "altGenerate": "Gerar texto ALT",
+    "altGenerating": "Gerando...",
+    "altGenerateHint": "Registre uma chave de API do Claude nas Configurações para ativar texto ALT gerado por IA",
     "imageLabel": "Imagem {{n}}",
     "noAlt": "Texto ALT não definido"
   },
@@ -244,7 +249,11 @@
       "hide": "Ocultar",
       "warn": "Avisar",
       "ignore": "Mostrar"
-    }
+    },
+    "claudeApi": "Claude API",
+    "claudeApiRegister": "Registrar",
+    "claudeApiDelete": "Excluir",
+    "claudeApiHint": "Registre uma chave de API do Claude para ativar texto ALT gerado por IA para imagens"
   },
   "confirm": {
     "ok": "OK",

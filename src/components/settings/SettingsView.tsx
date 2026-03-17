@@ -24,9 +24,11 @@ export function SettingsView() {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { theme, setTheme, pollInterval, setPollInterval, desktopNotification, setDesktopNotification, autoStart, setAutoStart, videoVolume, setVideoVolume, showVia, setShowVia, closeAction, setCloseAction, imageOpenMode, setImageOpenMode } = useSettingsStore();
+  const { theme, setTheme, pollInterval, setPollInterval, desktopNotification, setDesktopNotification, autoStart, setAutoStart, videoVolume, setVideoVolume, showVia, setShowVia, closeAction, setCloseAction, imageOpenMode, setImageOpenMode, claudeApiKey, setClaudeApiKey } = useSettingsStore();
   const logout = useAuthStore((s) => s.logout);
   const { bsafEnabled, setBsafEnabled } = useBsafStore();
+  const [apiKeyInput, setApiKeyInput] = useState("");
+  const [apiKeyVisible, setApiKeyVisible] = useState(false);
 
   // Fetch current moderation preferences
   const { data: modPrefs } = useQuery({
@@ -227,6 +229,55 @@ export function SettingsView() {
             />
             <span className="text-sm text-text-light dark:text-text-dark">{t("settings.imageOpenModeExternal")}</span>
           </label>
+        </div>
+      </section>
+
+      {/* Claude API */}
+      <section className="mb-6">
+        <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t("settings.claudeApi")}</h3>
+        <div className="ml-4">
+          {claudeApiKey ? (
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-text-light dark:text-text-dark font-mono">
+                {apiKeyVisible ? claudeApiKey : `sk-ant-...${claudeApiKey.slice(-8)}`}
+              </span>
+              <button
+                onClick={() => setApiKeyVisible(!apiKeyVisible)}
+                className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
+                title={apiKeyVisible ? "Hide" : "Show"}
+              >
+                <Icon name={apiKeyVisible ? "visibility_off" : "visibility"} size={16} />
+              </button>
+              <button
+                onClick={() => { setClaudeApiKey(""); setApiKeyInput(""); setApiKeyVisible(false); }}
+                className="px-3 py-1 text-xs rounded-btn text-red-500 border border-red-300 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+              >
+                {t("settings.claudeApiDelete")}
+              </button>
+            </div>
+          ) : (
+            <div className="flex gap-2">
+              <input
+                type="password"
+                value={apiKeyInput}
+                onChange={(e) => setApiKeyInput(e.target.value)}
+                placeholder="sk-ant-api03-..."
+                className="flex-1 text-sm px-3 py-1.5 rounded border border-border-light dark:border-border-dark bg-transparent text-text-light dark:text-text-dark placeholder-gray-400 focus:outline-none focus:border-primary font-mono"
+              />
+              <button
+                onClick={() => { if (apiKeyInput.trim()) { setClaudeApiKey(apiKeyInput.trim()); setApiKeyInput(""); } }}
+                disabled={!apiKeyInput.trim()}
+                className={`px-3 py-1.5 text-xs rounded-btn transition-colors ${
+                  apiKeyInput.trim()
+                    ? "bg-primary text-white hover:opacity-90"
+                    : "bg-gray-200 dark:bg-gray-700 text-gray-400 cursor-not-allowed"
+                }`}
+              >
+                {t("settings.claudeApiRegister")}
+              </button>
+            </div>
+          )}
+          <p className="mt-1.5 text-[11px] text-gray-400">{t("settings.claudeApiHint")}</p>
         </div>
       </section>
 

@@ -15,6 +15,7 @@ interface SettingsState {
   showVia: boolean;
   closeAction: CloseAction;
   imageOpenMode: ImageOpenMode;
+  claudeApiKey: string;
   setTheme: (theme: Theme) => void;
   setPollInterval: (seconds: number) => void;
   setDesktopNotification: (enabled: boolean) => void;
@@ -23,6 +24,7 @@ interface SettingsState {
   setShowVia: (enabled: boolean) => void;
   setCloseAction: (action: CloseAction) => void;
   setImageOpenMode: (mode: ImageOpenMode) => void;
+  setClaudeApiKey: (key: string) => void;
   initAutoStart: () => void;
   initCloseAction: () => void;
 }
@@ -40,6 +42,7 @@ export const useSettingsStore = create<SettingsState>((set) => ({
   showVia: localStorage.getItem("kazahana-show-via") !== "false",
   closeAction: (localStorage.getItem("kazahana-close-action") as CloseAction) || "exit",
   imageOpenMode: (localStorage.getItem("kazahana-image-open-mode") as ImageOpenMode) || "app",
+  claudeApiKey: localStorage.getItem("kazahana-claude-api-key") || "",
 
   setTheme: (theme: Theme) => {
     localStorage.setItem("kazahana-theme", theme);
@@ -85,6 +88,15 @@ export const useSettingsStore = create<SettingsState>((set) => ({
   setImageOpenMode: (mode: ImageOpenMode) => {
     localStorage.setItem("kazahana-image-open-mode", mode);
     set({ imageOpenMode: mode });
+  },
+
+  setClaudeApiKey: (key: string) => {
+    if (key) {
+      localStorage.setItem("kazahana-claude-api-key", key);
+    } else {
+      localStorage.removeItem("kazahana-claude-api-key");
+    }
+    set({ claudeApiKey: key });
   },
 
   initAutoStart: () => {

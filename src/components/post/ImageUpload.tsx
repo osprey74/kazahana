@@ -1,6 +1,7 @@
-import { useRef, useCallback, type DragEvent } from "react";
+import { useRef, useCallback, useState, type DragEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { Icon } from "../common/Icon";
+import { AltTextDialog } from "./AltTextDialog";
 
 interface ImageFile {
   id: string;
@@ -23,6 +24,7 @@ const ACCEPTED = ["image/jpeg", "image/png", "image/webp"];
 export function ImageUpload({ images, onAdd, onRemove, onUpdateAlt, onEdit }: ImageUploadProps) {
   const { t } = useTranslation();
   const inputRef = useRef<HTMLInputElement>(null);
+  const [altDialogTarget, setAltDialogTarget] = useState<ImageFile | null>(null);
 
   const handleFiles = useCallback(
     (fileList: FileList | File[]) => {
@@ -78,13 +80,17 @@ export function ImageUpload({ images, onAdd, onRemove, onUpdateAlt, onEdit }: Im
                   x
                 </button>
               </div>
-              <input
-                type="text"
-                value={img.alt}
-                onChange={(e) => onUpdateAlt(img.id, e.target.value)}
-                placeholder={t("image.altPlaceholder")}
-                className="w-full text-[11px] px-1.5 py-1 rounded border border-border-light dark:border-border-dark bg-transparent text-text-light dark:text-text-dark placeholder-gray-400 focus:outline-none focus:border-primary"
-              />
+              <button
+                type="button"
+                onClick={() => setAltDialogTarget(img)}
+                className={`w-full text-[11px] px-1.5 py-1 rounded border truncate transition-colors ${
+                  img.alt
+                    ? "text-left border-primary/40 bg-primary/5 text-primary dark:text-blue-300"
+                    : "text-center border-border-light dark:border-border-dark bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:border-primary"
+                }`}
+              >
+                {img.alt ? `ALT: ${img.alt}` : t("image.addAlt")}
+              </button>
             </div>
           ))}
         </div>
@@ -111,6 +117,17 @@ export function ImageUpload({ images, onAdd, onRemove, onUpdateAlt, onEdit }: Im
             }}
           />
         </div>
+      )}
+
+      {/* ALT text dialog */}
+      {altDialogTarget && (
+        <AltTextDialog
+          imagePreview={altDialogTarget.preview}
+          imageFile={altDialogTarget.file}
+          alt={altDialogTarget.alt}
+          onSave={(newAlt) => onUpdateAlt(altDialogTarget.id, newAlt)}
+          onClose={() => setAltDialogTarget(null)}
+        />
       )}
     </div>
   );

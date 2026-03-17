@@ -146,6 +146,11 @@
     "cropSquare": "正方形",
     "apply": "適用",
     "altPlaceholder": "ALT テキスト",
+    "addAlt": "ALTテキストを追加",
+    "editAlt": "ALTテキストを編集",
+    "altGenerate": "ALTテキストを生成",
+    "altGenerating": "生成中...",
+    "altGenerateHint": "設定画面で Claude API キーを登録すると AI による ALT テキスト生成が利用できます",
     "imageLabel": "画像{{n}}",
     "noAlt": "ALTテキスト設定なし"
   },
@@ -263,7 +268,11 @@
       "hide": "非表示",
       "warn": "警告",
       "ignore": "表示"
-    }
+    },
+    "claudeApi": "Claude API",
+    "claudeApiRegister": "登録",
+    "claudeApiDelete": "削除",
+    "claudeApiHint": "Claude API キーを登録すると、画像の ALT テキストを AI で自動生成できます"
   },
   "confirm": {
     "ok": "OK",

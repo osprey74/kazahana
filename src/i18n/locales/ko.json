@@ -136,6 +136,11 @@
     "cropSquare": "정사각형",
     "apply": "적용",
     "altPlaceholder": "ALT 텍스트",
+    "addAlt": "ALT 텍스트 추가",
+    "editAlt": "ALT 텍스트 편집",
+    "altGenerate": "ALT 텍스트 생성",
+    "altGenerating": "생성 중...",
+    "altGenerateHint": "설정에서 Claude API 키를 등록하면 AI로 ALT 텍스트를 자동 생성할 수 있습니다",
     "imageLabel": "이미지 {{n}}",
     "noAlt": "ALT 텍스트가 설정되지 않았습니다"
   },
@@ -244,7 +249,11 @@
       "hide": "숨기기",
       "warn": "경고",
       "ignore": "표시"
-    }
+    },
+    "claudeApi": "Claude API",
+    "claudeApiRegister": "등록",
+    "claudeApiDelete": "삭제",
+    "claudeApiHint": "Claude API 키를 등록하면 이미지의 ALT 텍스트를 AI로 자동 생성할 수 있습니다"
   },
   "confirm": {
     "ok": "확인",

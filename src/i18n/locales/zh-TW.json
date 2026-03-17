@@ -136,6 +136,11 @@
     "cropSquare": "正方形",
     "apply": "套用",
     "altPlaceholder": "ALT 替代文字",
+    "addAlt": "新增 ALT 文字",
+    "editAlt": "編輯 ALT 文字",
+    "altGenerate": "產生 ALT 文字",
+    "altGenerating": "產生中...",
+    "altGenerateHint": "在設定中註冊 Claude API 金鑰以啟用 AI 產生 ALT 文字",
     "imageLabel": "圖片 {{n}}",
     "noAlt": "未設定 ALT 替代文字"
   },
@@ -244,7 +249,11 @@
       "hide": "隱藏",
       "warn": "警告",
       "ignore": "顯示"
-    }
+    },
+    "claudeApi": "Claude API",
+    "claudeApiRegister": "註冊",
+    "claudeApiDelete": "刪除",
+    "claudeApiHint": "註冊 Claude API 金鑰以啟用 AI 自動產生圖片 ALT 文字"
   },
   "confirm": {
     "ok": "確定",

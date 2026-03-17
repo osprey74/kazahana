@@ -20,6 +20,7 @@
     "autostart:default",
     "dialog:default",
     "fs:default",
+    "fs:allow-write-file",
     "deep-link:default"
   ]
 }
