@@ -1,8 +1,8 @@
 # Kazahana— Bluesky Desktop Client 仕様書
 
-**バージョン**: 1.5
+**バージョン**: 2.0
 **作成日**: 2026-02-21
-**最終更新**: 2026-03-17
+**最終更新**: 2026-03-18
 **プラットフォーム**: Windows 11 / macOS
 **フレームワーク**: Tauri v2 + React 19 + TypeScript 5.9
 
@@ -75,17 +75,26 @@ kazahanaは全機能を網羅するスタンドアロンアプリではなく、
 | `react-router-dom` | 7.13 | ルーティング |
 | `date-fns` | 4.1 | 日時フォーマット |
 | `react-virtuoso` | 4.18 | 仮想スクロール（パフォーマンス最適化） |
-| `react-i18next` / `i18next` | 16.5 / 25.8 | 多言語対応（日本語・英語） |
+| `react-i18next` / `i18next` | 16.5 / 25.8 | 多言語対応（11言語） |
 | `material-symbols` | 0.40 | Material Symbols Rounded アイコンフォント |
+| `hls.js` | 1.6 | HLS動画再生 |
+| `@dnd-kit/core` / `@dnd-kit/sortable` | 6.3 / 10.0 | ドラッグ&ドロップ（フィード並べ替え） |
 | `@tauri-apps/plugin-opener` | 2.5 | 外部URL・リンクをシステムブラウザで開く |
 
 ### 2.3 Tauri (Rust) プラグイン
 | プラグイン | 用途 | 状態 |
 |-----------|------|------|
 | `tauri-plugin-store` | セッション情報の暗号化永続保存 | ✅ 実装済 |
-| `@tauri-apps/plugin-opener` | 外部URLをブラウザで開く | ✅ 実装済 |
+| `tauri-plugin-opener` | 外部URLをブラウザで開く | ✅ 実装済 |
 | `tauri-plugin-notification` | OS通知連携（種別表示対応） | ✅ 実装済 |
 | `tauri-plugin-autostart` | OS起動時の自動起動（オプション） | ✅ 実装済 |
+| `tauri-plugin-http` | HTTP通信（OGPフェッチ等、CORS回避） | ✅ 実装済 |
+| `tauri-plugin-dialog` | ファイル選択ダイアログ | ✅ 実装済 |
+| `tauri-plugin-fs` | ファイルシステムアクセス | ✅ 実装済 |
+| `tauri-plugin-deep-link` | カスタムURLスキーム（`kazahana://`） | ✅ 実装済 |
+| `tauri-plugin-single-instance` | 多重起動防止 | ✅ 実装済 |
+| `tauri-plugin-window-state` | ウィンドウサイズ・位置の保存・復元 | ✅ 実装済 |
+| `tauri-plugin-log` | デバッグログ | ✅ 実装済 |
 | `tauri-plugin-updater` | アプリ自動更新 | 🔲 未実装 |
 
 ---
@@ -124,6 +133,7 @@ kazahanaは全機能を網羅するスタンドアロンアプリではなく、
 |------|------|
 | テキスト | 300文字（grapheme単位） |
 | 画像 | 最大4枚/投稿, 1MB/枚, JPEG/PNG/WebP |
+| 動画 | 最大1本/投稿, 100MB/本, MP4/WebM/MPEG/MOV |
 | Blob上限 | 50MB |
 
 ---
@@ -145,7 +155,7 @@ kazahanaは全機能を網羅するスタンドアロンアプリではなく、
 | ホームTL表示 | `app.bsky.feed.getTimeline` | ✅ |
 | 投稿カード | アバター、表示名、ハンドル、本文、画像、タイムスタンプ | ✅ |
 | 仮想スクロール | react-virtuoso + customScrollParent によるメモリ効率化 | ✅ |
-| 自動更新 | 設定可能なポーリング間隔（20〜120秒）で新着取得・先頭に追加 | ✅ |
+| 自動更新 | 設定可能なポーリング間隔（30〜120秒）で新着取得・先頭に追加 | ✅ |
 | 既読位置マーカー | 「↓ここまで読んだ↓」帯表示、スクロール位置に基づく読み逃し防止 | ✅ |
 | リンクカード | `app.bsky.embed.external` OGPプレビュー表示 | ✅ |
 | 引用投稿 | `app.bsky.embed.record` 引用元埋め込み表示 | ✅ |
@@ -156,13 +166,19 @@ kazahanaは全機能を網羅するスタンドアロンアプリではなく、
 ### 4.3 投稿作成
 | 機能 | 詳細 | 状態 |
 |------|------|------|
-| テキスト投稿 | 300文字制限、リアルタイム文字数カウンター | ✅ |
+| テキスト投稿 | 300文字制限（grapheme単位、Intl.Segmenter）、リアルタイム文字数カウンター | ✅ |
 | 画像添付 | 最大4枚、プレビュー表示、Altテキストダイアログ（画像プレビュー付き） | ✅ |
+| 画像ドラッグ&ドロップ / ペースト | ドラッグ&ドロップ・クリップボードペースト対応、自動圧縮（1MB以内） | ✅ |
+| 画像編集 | 90°回転、クロップ（フリー/オリジナル/正方形アスペクト比） | ✅ |
+| 動画添付 | 最大100MB、MP4/WebM/MPEG/MOV、トランスコード進捗表示、Altテキスト対応 | ✅ |
 | ALTテキストAI生成 | Claude Haiku 4.5でALTテキスト自動生成（アプリ言語に応じた言語で生成、APIキー必要） | ✅ |
 | リプライ | 返信先投稿を引用表示 | ✅ |
 | リッチテキスト入力 | メンション、URL、ハッシュタグの自動検出とファセット生成 | ✅ |
+| メンションオートコンプリート | `@` 入力で候補表示、↑↓キーで選択、Enter/Tabで確定 | ✅ |
+| OGPリンクカード | URL貼り付けで自動取得、手動トリガー、削除可能 | ✅ |
 | スレッドゲート | 返信制限設定（全員/メンション/フォロワー/フォロー中/不可） | ✅ |
 | ポストゲート | 引用制限設定（引用を許可しない） | ✅ |
+| キーボードショートカット | Alt+Enter で送信、Escape でキャンセル | ✅ |
 | 投稿確認 | 送信前プレビュー（オプション） | 🔲 |
 
 ### 4.4 インタラクション
@@ -174,6 +190,12 @@ kazahanaは全機能を網羅するスタンドアロンアプリではなく、
 | 投稿削除 | `agent.deletePost` (com.atproto.repo.deleteRecord) | ✅ |
 | 引用リポスト | 投稿作成 + `app.bsky.embed.record` | ✅ |
 | スレッド表示 | `app.bsky.feed.getPostThread` | ✅ |
+| ブックマーク | `app.bsky.feed.bookmark` | ✅ |
+| スレッドミュート | `app.bsky.feed.threadgate` | ✅ |
+| 翻訳 | Google翻訳（外部ブラウザで開く） | ✅ |
+| リンクコピー | 投稿URLのクリップボードコピー | ✅ |
+| いいね/リポスト/引用一覧 | モーダルでリスト表示 | ✅ |
+| 通報 | 投稿/ユーザーの通報（理由選択付き） | ✅ |
 
 ### 4.5 通知
 | 機能 | API | 状態 |
@@ -188,13 +210,23 @@ kazahanaは全機能を網羅するスタンドアロンアプリではなく、
 ### 4.6 プロフィール
 | 機能 | API | 状態 |
 |------|-----|------|
-| プロフィール表示 | `app.bsky.actor.getProfile` | ✅ |
+| プロフィール表示 | `app.bsky.actor.getProfile`（バナー・アバター・自己紹介） | ✅ |
 | ユーザー投稿一覧 | `app.bsky.feed.getAuthorFeed` | ✅ |
+| ユーザーリプライ一覧 | `app.bsky.feed.getAuthorFeed` (filter: posts_with_replies) | ✅ |
 | いいねした投稿一覧 | `app.bsky.feed.getActorLikes` | ✅ |
 | メディア投稿一覧 | `app.bsky.feed.getAuthorFeed` (filter: posts_with_media) | ✅ |
+| カスタムフィード一覧 | `app.bsky.feed.getActorFeeds` | ✅ |
+| リスト一覧 | `app.bsky.graph.getLists` | ✅ |
+| ブックマーク一覧 | 自分のプロフィールのみ表示 | ✅ |
+| スターターパック一覧 | `app.bsky.graph.getActorStarterPacks` | ✅ |
 | フォロー/フォロワー数表示 | `getProfile` レスポンス内 | ✅ |
 | フォロー/解除 | `com.atproto.repo.createRecord` / `deleteRecord` | ✅ |
+| フォロワー一覧ページ | `app.bsky.graph.getFollowers`（ページネーション付き） | ✅ |
+| フォロー中一覧ページ | `app.bsky.graph.getFollows`（ページネーション付き） | ✅ |
 | リプライ先コンテキスト | 親ポストをインラインで表示 | ✅ |
+| プロフィール内検索 | テキスト入力でタブ内の投稿を検索（デバウンス300ms） | ✅ |
+| ピン留め投稿 | ピン留めされた投稿の表示 | ✅ |
+| プロフィールタブ | 投稿/リプライ/いいね/メディア/フィード/リスト/ブックマーク/スターターパック（8タブ） | ✅ |
 
 ### 4.7 検索
 | 機能 | API | 状態 |
@@ -202,6 +234,7 @@ kazahanaは全機能を網羅するスタンドアロンアプリではなく、
 | ユーザー検索 | `app.bsky.actor.searchActors` | ✅ |
 | 投稿検索 | `app.bsky.feed.searchPosts` | ✅ |
 | プロフィール投稿検索 | `app.bsky.feed.searchPosts` (author パラメータ) | ✅ |
+| 検索履歴 | 過去の検索クエリ保存・表示（最大200件、Zustand + localStorage） | ✅ |
 
 ### 4.8 コンテンツモデレーション
 | 機能 | 詳細 | 状態 |
@@ -232,24 +265,44 @@ kazahanaは全機能を網羅するスタンドアロンアプリではなく、
 | 会話退出 | `chat.bsky.convo.leaveConvo` | ✅ |
 | メッセージリクエスト承認 | `chat.bsky.convo.acceptConvo` | ✅ |
 | ユーザー検索 (新規DM) | `searchActorsTypeahead` (デバウンス付き) | ✅ |
-| 自動更新 | メッセージ: 5秒ポーリング、未読: 30秒ポーリング | ✅ |
+| 自動更新 | メッセージ: 15秒ポーリング、未読: 30秒ポーリング | ✅ |
 | リアクション追加 | `chat.bsky.convo.addReaction` (絵文字クイックピッカー) | ✅ |
 | リアクション削除 | `chat.bsky.convo.removeReaction` (トグル操作) | ✅ |
 
-### 4.10 システム機能
+### 4.10 スターターパック
+| 機能 | API | 状態 |
+|------|-----|------|
+| スターターパック詳細 | `app.bsky.graph.getStarterPack` | ✅ |
+| スターターパック一覧（プロフィール） | `app.bsky.graph.getActorStarterPacks` | ✅ |
+
+### 4.11 リスト管理
+| 機能 | API | 状態 |
+|------|-----|------|
+| リストフィード閲覧 | `app.bsky.feed.getListFeed` | ✅ |
+| リスト所属管理 | `app.bsky.graph.listitem` の作成/削除（モーダルUI） | ✅ |
+
+### 4.12 システム機能
 | 機能 | 詳細 | 状態 |
 |------|------|------|
 | システムトレイ | 最小化時にトレイに常駐。左クリックでウィンドウ復元／最前面配置。右クリックメニュー: Open Window / Minimize / Exit | ✅ |
 | 閉じる動作 | ✕ボタンでアプリ終了（デフォルト）またはトレイに最小化（設定で変更可能） | ✅ |
 | ウィンドウ状態保存 | 終了時にウィンドウサイズと画面上の配置位置を保存し、次回起動時に復元（tauri-plugin-window-state） | ✅ |
 | 自動起動 | OS起動時の自動起動（オプション） | ✅ |
+| 多重起動防止 | tauri-plugin-single-instance により2回目の起動は既存ウィンドウを前面に表示 | ✅ |
+| ディープリンク | `kazahana://compose?title=...&url=...` でブラウザから投稿作成画面を直接起動 | ✅ |
 | フィード表示設定 | ホームタブに表示するフィード・リストの選択（チェックボックス切替、ドラッグ&ドロップ並べ替え） | ✅ |
 | クイックジャンプ表示設定 | ドロップダウンに全フィード表示/表示中のみ切替（設定画面チェックボックス） | ✅ |
 | テーマ | ライト/ダーク/システム連動 | ✅ |
-| 取得タイミング設定 | ポーリング間隔の変更（20〜120秒、デフォルト30秒） | ✅ |
-| 多言語対応 | 日本語/英語（react-i18next） | ✅ |
+| 取得タイミング設定 | ポーリング間隔の変更（30〜120秒、デフォルト30秒） | ✅ |
+| 動画音量設定 | 0〜100%スライダー | ✅ |
+| 画像表示モード | アプリ内ライトボックス / 外部ビューアで開く | ✅ |
+| 投稿元表示（via） | 投稿にクライアント名を表示するオン/オフ設定 | ✅ |
+| 多言語対応 | 11言語（ja, en, pt, de, zh-TW, zh-CN, fr, ko, es, ru, id）react-i18next + ブラウザ言語自動検出 | ✅ |
 | Ko-fi サポート | 設定画面にKo-fiサポートボタン | ✅ |
 | Claude APIキー管理 | 設定画面でAPIキー登録/削除、マスク表示、表示/非表示トグル（Zustand + localStorage永続化） | ✅ |
+| キーボードショートカット | F5: リロード、N: 新規投稿 | ✅ |
+| 右クリックメニュー | コピー、画像保存、リンクを開く等のコンテキストメニュー | ✅ |
+| ログイン履歴 | 過去に使用したハンドルを記憶・候補表示 | ✅ |
 | カスタムアプリアイコン | 独自デザインのアプリアイコン | ✅ |
 
 ---
@@ -311,19 +364,24 @@ kazahanaは全機能を網羅するスタンドアロンアプリではなく、
 ### 5.3 画面一覧
 | 画面 | パス | 内容 |
 |------|------|------|
-| ログイン | `/login` | ハンドル＋パスワード入力 |
+| ログイン | `/login` | ハンドル＋パスワード入力（ハンドル履歴付き） |
 | ホーム | `/` | ホームタイムライン |
-| 検索 | `/search` | ユーザー/投稿検索 |
+| 検索 | `/search` | ユーザー/投稿検索（検索履歴付き） |
 | 通知 | `/notifications` | 通知一覧 |
-| プロフィール | `/profile/:handle` | ユーザープロフィール |
-| スレッド | `/thread/:uri` | スレッド/投稿詳細 |
-| 投稿作成 | モーダル | 新規投稿/リプライ |
+| 自分のプロフィール | `/profile` | 自分のプロフィール（ブックマークタブ含む） |
+| プロフィール | `/profile/:handle` | ユーザープロフィール（8タブ） |
+| フォロワー | `/profile/:handle/followers` | フォロワー一覧 |
+| フォロー中 | `/profile/:handle/following` | フォロー中一覧 |
+| スレッド | `/post/:uri` | スレッド/投稿詳細 |
+| スターターパック | `/starter-pack/:uri` | スターターパック詳細 |
+| 投稿作成 | モーダル | 新規投稿/リプライ/引用 |
 | DM一覧 | `/messages` | 会話一覧 |
-| DMスレッド | `/messages/:convoId` | メッセージ送受信 |
+| DMスレッド | `/messages/:convoId` | メッセージ送受信（リアクション対応） |
 | 新規DM | モーダル | ユーザー検索→会話開始 |
-| 設定 | `/settings` | テーマ、言語、サポート等 |
+| 設定 | `/settings` | テーマ、言語、モデレーション、サポート等 |
 | 非表示の投稿 | `/settings/hidden-posts` | 非表示にした投稿一覧・解除 |
-| フィード表示設定 | `/settings/feed-visibility` | 表示するフィード・リストの選択 |
+| フィード表示設定 | `/settings/feed-visibility` | 表示するフィード・リストの選択・並べ替え |
+| BSAF設定 | `/settings/bsaf` | BSAFボット登録・フィルター設定 |
 | Readme | `/settings/readme` | アプリ説明・クレジット |
 | ライセンス | `/settings/license` | ライセンス情報 |
 
@@ -349,7 +407,7 @@ kazahana/
 ├── src-tauri/                    # Rust バックエンド
 │   ├── src/
 │   │   ├── main.rs              # エントリーポイント
-│   │   ├── lib.rs               # Tauriセットアップ
+│   │   ├── lib.rs               # Tauriセットアップ（プラグイン初期化、ディープリンク、クローズ動作）
 │   │   └── tray.rs              # システムトレイ
 │   ├── icons/                   # アプリアイコン（カスタム）
 │   ├── capabilities/
@@ -359,7 +417,7 @@ kazahana/
 │
 ├── src/                          # React フロントエンド
 │   ├── main.tsx                 # エントリーポイント
-│   ├── App.tsx                  # ルートコンポーネント + ルーティング
+│   ├── App.tsx                  # ルートコンポーネント + ルーティング + ディープリンクハンドラー
 │   │
 │   ├── components/              # UIコンポーネント
 │   │   ├── layout/
@@ -367,94 +425,159 @@ kazahana/
 │   │   │   ├── TabBar.tsx       # 上部タブナビゲーション（アイコンのみ）
 │   │   │   └── index.ts         # レイアウトエクスポート
 │   │   ├── timeline/
-│   │   │   ├── TimelineView.tsx # タイムライン全体
-│   │   │   ├── PostCard.tsx     # 投稿カード（親コンテキスト表示対応）
+│   │   │   ├── HomeView.tsx     # ホームフィードアウトレット
+│   │   │   ├── TimelineView.tsx # タイムライン全体（仮想スクロール）
+│   │   │   ├── FeedView.tsx     # カスタムフィード/リストフィード表示
+│   │   │   ├── FeedSelector.tsx # フィードクイックジャンプメニュー
+│   │   │   ├── PostCard.tsx     # 投稿カード（親コンテキスト表示・BSAF対応）
 │   │   │   ├── PostContent.tsx  # リッチテキスト表示
-│   │   │   └── PostActions.tsx  # いいね・リポスト・返信ボタン
+│   │   │   └── PostActions.tsx  # いいね・リポスト・返信・引用・メニューボタン
 │   │   ├── post/
-│   │   │   ├── ComposeModal.tsx # 投稿作成モーダル
-│   │   │   ├── ImageUpload.tsx  # 画像アップロード（Alt対応）
+│   │   │   ├── ComposeModal.tsx # 投稿作成モーダル（メンションオートコンプリート付き）
+│   │   │   ├── ImageUpload.tsx  # 画像アップロード（ドラッグ&ドロップ・ペースト・自動圧縮）
+│   │   │   ├── ImageEditModal.tsx # 画像編集（回転・クロップ）
+│   │   │   ├── VideoUpload.tsx  # 動画アップロード（トランスコード進捗付き）
 │   │   │   └── AltTextDialog.tsx # ALTテキスト編集ダイアログ（AI生成機能付き）
 │   │   ├── thread/
 │   │   │   └── ThreadView.tsx   # スレッド表示
 │   │   ├── profile/
-│   │   │   ├── ProfileView.tsx  # プロフィール画面
-│   │   │   └── ProfileHeader.tsx # プロフィールヘッダー
+│   │   │   ├── ProfileView.tsx  # プロフィール画面（8タブ: 投稿/リプライ/いいね/メディア/フィード/リスト/ブックマーク/スターターパック）
+│   │   │   ├── ProfileHeader.tsx # プロフィールヘッダー
+│   │   │   ├── ProfileDescription.tsx # 自己紹介・リンク表示
+│   │   │   ├── FollowersPage.tsx # フォロワー一覧ページ
+│   │   │   ├── FollowingPage.tsx # フォロー中一覧ページ
+│   │   │   ├── FollowersList.tsx # フォロワーリスト（ページネーション）
+│   │   │   ├── FollowingList.tsx # フォロー中リスト（ページネーション）
+│   │   │   ├── ActorFeedsList.tsx # ユーザーのカスタムフィード一覧
+│   │   │   ├── ActorListsList.tsx # ユーザーのリスト一覧
+│   │   │   ├── StarterPacksList.tsx # スターターパック一覧
+│   │   │   ├── StarterPackDetailView.tsx # スターターパック詳細
+│   │   │   ├── UserListItem.tsx # ユーザーリストアイテム
+│   │   │   └── ListMembershipModal.tsx # リスト所属管理モーダル
 │   │   ├── notification/
-│   │   │   ├── NotificationList.tsx  # 通知一覧
-│   │   │   └── NotificationItem.tsx  # 通知アイテム
+│   │   │   ├── NotificationList.tsx  # 通知一覧（仮想スクロール）
+│   │   │   └── NotificationItem.tsx  # 通知アイテム（アクションボタン付き）
 │   │   ├── search/
-│   │   │   └── SearchView.tsx   # 検索画面
+│   │   │   └── SearchView.tsx   # 検索画面（投稿/ユーザータブ・検索履歴）
 │   │   ├── auth/
-│   │   │   └── LoginForm.tsx    # ログインフォーム
+│   │   │   └── LoginForm.tsx    # ログインフォーム（ハンドル履歴付き）
 │   │   ├── messages/
 │   │   │   ├── DMListView.tsx   # DM会話一覧
-│   │   │   ├── DMThreadView.tsx # DMスレッド（メッセージ表示・送信）
+│   │   │   ├── DMThreadView.tsx # DMスレッド（メッセージ表示・送信・リアクション）
 │   │   │   ├── DMComposeModal.tsx # 新規DM作成モーダル
 │   │   │   ├── ConversationItem.tsx # 会話リストアイテム
-│   │   │   └── MessageBubble.tsx # メッセージバブル
+│   │   │   └── MessageBubble.tsx # メッセージバブル（リアクション表示）
 │   │   ├── settings/
-│   │   │   ├── SettingsView.tsx # 設定画面
+│   │   │   ├── SettingsView.tsx # 設定画面（テーマ・ポーリング・通知・音量・モデレーション等）
+│   │   │   ├── HiddenPostsView.tsx # 非表示投稿管理
+│   │   │   ├── FeedVisibilityView.tsx # フィード表示設定（ドラッグ&ドロップ並べ替え）
+│   │   │   ├── BsafBotsView.tsx # BSAFボット登録・フィルター設定
 │   │   │   ├── ReadmeView.tsx   # Readme表示
 │   │   │   └── LicenseView.tsx  # ライセンス表示
+│   │   ├── moderation/
+│   │   │   └── ReportModal.tsx  # 通報モーダル（投稿/ユーザー、理由選択）
 │   │   └── common/
 │   │       ├── Avatar.tsx       # アバター（リプライバッジ対応）
 │   │       ├── ContentWarning.tsx # モデレーション警告オーバーレイ
 │   │       ├── Icon.tsx         # Material Symbols Rounded アイコン
 │   │       ├── ImageGrid.tsx    # 画像グリッド表示
-│   │       ├── ImageLightbox.tsx # 画像ライトボックス
+│   │       ├── ImageLightbox.tsx # 画像ライトボックス（キーボード・スワイプ対応）
+│   │       ├── VideoPlayer.tsx  # HLS動画プレイヤー（音量コントロール付き）
+│   │       ├── LinkCard.tsx     # OGPリンクカードプレビュー
+│   │       ├── QuoteEmbed.tsx   # 引用投稿埋め込み表示
+│   │       ├── ConfirmDialog.tsx # 確認ダイアログモーダル
+│   │       ├── ContextMenu.tsx  # 右クリックコンテキストメニュー
+│   │       ├── PostListModal.tsx # 投稿リストモーダル（いいね/リポスト/引用一覧）
 │   │       └── LoadingSpinner.tsx # ローディング表示
 │   │
 │   ├── hooks/                   # カスタムフック
-│   │   ├── useTimeline.ts       # タイムライン取得
+│   │   ├── useTimeline.ts       # タイムライン取得（既読位置・プリペンド管理）
+│   │   ├── useFeed.ts           # カスタムフィード取得
+│   │   ├── useMyFeeds.ts        # 保存済みフィード・リスト取得
 │   │   ├── useNotifications.ts  # 通知取得・未読カウント
-│   │   ├── useProfile.ts        # プロフィール取得
-│   │   ├── usePost.ts           # 投稿作成/いいね/リポスト
+│   │   ├── useProfile.ts        # プロフィール・著者フィード・リプライ・いいね・メディア・フィード・リスト・ブックマーク・スターターパック
+│   │   ├── usePost.ts           # 投稿作成（テキスト・画像・動画・引用・リプライ）/いいね/リポスト
+│   │   ├── usePostLists.ts      # いいね/リポスト/引用一覧取得
 │   │   ├── useThread.ts         # スレッド取得
-│   │   ├── useSearch.ts         # 検索
+│   │   ├── useSearch.ts         # 検索（投稿・ユーザー・タイプアヘッド）
 │   │   ├── useModeration.ts     # モデレーション設定取得
+│   │   ├── useOgp.ts            # OGPメタデータ取得
 │   │   ├── useConversations.ts  # DM会話一覧取得
 │   │   ├── useMessages.ts       # DMメッセージ取得・送信・削除
-│   │   └── useUnreadDMs.ts      # DM未読数ポーリング
-│   │
+│   │   ├── useUnreadDMs.ts      # DM未読数ポーリング
+│   │   └── useBsafDuplicates.ts # BSAF重複投稿検出
 │   │
 │   ├── contexts/                # React Context
 │   │   └── ModerationContext.tsx # モデレーション設定配布
 │   │
 │   ├── stores/                  # 状態管理 (Zustand)
-│   │   ├── authStore.ts         # 認証状態
-│   │   ├── composeStore.ts      # 投稿作成状態
-│   │   ├── settingsStore.ts     # アプリ設定（テーマ、取得タイミング、言語等）
+│   │   ├── authStore.ts         # 認証状態（ログイン・ログアウト・プロフィール）
+│   │   ├── composeStore.ts      # 投稿作成状態（リプライ先・引用先・初期テキスト）
+│   │   ├── settingsStore.ts     # アプリ設定（テーマ、ポーリング間隔、通知、音量、via、閉じる動作、画像モード、Claude APIキー）
+│   │   ├── feedStore.ts         # フィード選択・非表示・並び順・クイックジャンプ設定
+│   │   ├── bsafStore.ts         # BSAF有効/無効・登録ボット・フィルター設定
 │   │   ├── lightboxStore.ts     # 画像ライトボックス状態
+│   │   ├── postListStore.ts     # 投稿リストモーダル状態（いいね/リポスト/引用）
+│   │   ├── reportStore.ts       # 通報モーダル状態
+│   │   ├── searchHistoryStore.ts # 検索履歴（最大200件）
+│   │   ├── listManagementStore.ts # リスト所属管理モーダル状態
 │   │   └── dmComposeStore.ts    # 新規DM作成モーダル状態
 │   │
 │   ├── lib/                     # ユーティリティ
-│   │   ├── agent.ts             # BskyAgent設定・管理
+│   │   ├── agent.ts             # BskyAgent設定・管理（セッションハンドラー）
 │   │   ├── chatAgent.ts         # Chat API用プロキシエージェント
 │   │   ├── richtext.ts          # リッチテキストヘルパー
+│   │   ├── ogp.ts               # OGPメタデータ取得・パース
 │   │   ├── notifications.ts     # OS デスクトップ通知送信（種別対応）
 │   │   ├── rateLimit.ts         # レート制限検出・リトライ遅延ユーティリティ
-│   │   ├── session.ts           # セッション永続化
+│   │   ├── session.ts           # セッション永続化（Tauri Store暗号化）
+│   │   ├── bsaf.ts              # BSAFバリデーション・パース・フィルタリング・重複検出
+│   │   ├── bsafUpdater.ts       # BSAF Bot Definition自動更新チェック
 │   │   ├── claudeApi.ts         # Claude API ヘルパー（ALTテキスト生成）
 │   │   └── constants.ts         # 定数定義
 │   │
+│   ├── types/                   # 型定義
+│   │   └── bsaf.ts              # BSAF TypeScriptインターフェース
+│   │
 │   ├── i18n/                    # 多言語対応
-│   │   ├── index.ts             # i18next 設定
+│   │   ├── index.ts             # i18next 設定（ブラウザ言語自動検出）
 │   │   └── locales/
-│   │       ├── ja.json          # 日本語翻訳
-│   │       └── en.json          # 英語翻訳
+│   │       ├── ja.json          # 日本語
+│   │       ├── en.json          # 英語
+│   │       ├── de.json          # ドイツ語
+│   │       ├── es.json          # スペイン語
+│   │       ├── fr.json          # フランス語
+│   │       ├── id.json          # インドネシア語
+│   │       ├── ko.json          # 韓国語
+│   │       ├── pt.json          # ポルトガル語
+│   │       ├── ru.json          # ロシア語
+│   │       ├── zh-CN.json       # 簡体字中国語
+│   │       └── zh-TW.json       # 繁体字中国語
 │   │
 │   ├── vite-env.d.ts             # __APP_VERSION__ 型定義
 │   │
 │   └── styles/
 │       └── globals.css          # TailwindCSS base + Material Symbols import
 │
+├── docs/                         # 公式ドキュメント（多言語）
+│   ├── en/                      # 英語マニュアル
+│   └── ja/                      # 日本語マニュアル
+│
+├── design/                       # 内部設計資料
+│   ├── kazahana-spec.md         # この仕様書
+│   └── remaining-work.md        # タスク管理
+│
+├── .github/
+│   └── workflows/
+│       └── release.yml          # CI/CD（タグプッシュでビルド＆リリースドラフト）
+│
 ├── package.json
 ├── tsconfig.json
 ├── vite.config.ts
+├── eslint.config.js
 ├── tailwind.config.js
 ├── postcss.config.js
-├── kazahana-spec.md             # この仕様書
+├── README.md                    # 英語README
 └── README.ja.md                 # 日本語README
 ```
 
@@ -469,14 +592,15 @@ kazahana/
 4. 多言語対応（react-i18next: 日本語/英語）
 5. カスタムアプリアイコン
 
-### Phase 2: コア機能 (一部完了)
+### Phase 2: コア機能 ✅ 完了
 | 項目 | 状態 |
 |------|------|
 | タイムライン表示（PostCard） | ✅ |
 | 投稿カードのリッチテキスト表示（メンション、リンク、ハッシュタグ） | ✅ |
 | 画像表示（ImageGrid） | ✅ |
 | 画像ライトボックス（ナビゲーション、Alt表示） | ✅ |
-| インタラクション（いいね、リポスト） | ✅ |
+| 動画再生（HLS.js、音量コントロール） | ✅ |
+| インタラクション（いいね、リポスト、ブックマーク） | ✅ |
 | リプライ先コンテキスト表示 | ✅ |
 | ユーザープロフィールへのリンク（アバター・名前クリック） | ✅ |
 | 仮想スクロール（react-virtuoso + customScrollParent） | ✅ |
@@ -484,33 +608,54 @@ kazahana/
 | 既読位置マーカー（読み逃し防止） | ✅ |
 | リンクカード（OGPプレビュー） | ✅ |
 | 引用投稿の埋め込み表示 | ✅ |
+| カスタムフィード・リストフィード表示 | ✅ |
+| フィードクイックジャンプメニュー | ✅ |
 
-### Phase 3: 投稿・通知 (一部完了)
+### Phase 3: 投稿・通知 ✅ 完了
 | 項目 | 状態 |
 |------|------|
 | 投稿作成（ComposeModal） | ✅ |
-| 画像添付（Alt テキスト対応） | ✅ |
+| 画像添付（Alt テキスト・ドラッグ&ドロップ・ペースト・自動圧縮対応） | ✅ |
+| 画像編集（回転・クロップ） | ✅ |
+| 動画添付（トランスコード進捗表示・Altテキスト対応） | ✅ |
 | リプライ機能 | ✅ |
+| 引用リポスト | ✅ |
+| メンションオートコンプリート | ✅ |
+| OGPリンクカード自動取得 | ✅ |
+| スレッドゲート・ポストゲート | ✅ |
 | スレッド表示 | ✅ |
 | 通知一覧 + 未読バッジ | ✅ |
 | リッチテキスト入力（ファセット自動生成） | ✅ |
+| ALTテキストAI生成（Claude API） | ✅ |
 
-### Phase 4: プロフィール・検索・仕上げ (一部完了)
+### Phase 4: プロフィール・検索・仕上げ ✅ 完了
 | 項目 | 状態 |
 |------|------|
-| プロフィール画面 | ✅ |
+| プロフィール画面（8タブ: 投稿/リプライ/いいね/メディア/フィード/リスト/ブックマーク/スターターパック） | ✅ |
 | フォロー/アンフォロー | ✅ |
-| 検索機能 | ✅ |
+| フォロワー/フォロー中一覧ページ | ✅ |
+| プロフィール内検索 | ✅ |
+| スターターパック閲覧 | ✅ |
+| リスト所属管理 | ✅ |
+| 検索機能（投稿/ユーザー・検索履歴） | ✅ |
 | システムトレイ | ✅ |
+| 多重起動防止 | ✅ |
+| ディープリンク（kazahana://compose） | ✅ |
 | ダーク/ライトテーマ | ✅ |
-| 設定画面 | ✅ |
+| 設定画面（テーマ・ポーリング・通知・音量・via・閉じる動作・画像モード・Claude APIキー・モデレーション・言語） | ✅ |
 | Material Symbols Rounded アイコン統一 | ✅ |
 | Ko-fi サポートボタン | ✅ |
 | コンテンツモデレーション（ラベル判定、フィルタ、ブラー、設定UI） | ✅ |
+| 通報機能（投稿/ユーザー） | ✅ |
 | OS通知（種別表示対応: いいね/リポスト/返信/メンション/フォロー/引用/リポストへのいいね/リポストのリポスト） | ✅ |
 | 自動起動 | ✅ |
+| ウィンドウ状態保存・復元 | ✅ |
+| キーボードショートカット（F5/N） | ✅ |
+| 右クリックコンテキストメニュー | ✅ |
+| 翻訳（Google翻訳連携） | ✅ |
+| いいね/リポスト/引用一覧モーダル | ✅ |
 
-### Phase 5: BSAF 対応クライアント
+### Phase 5: BSAF 対応クライアント ✅ 完了
 | 項目 | 状態 |
 |------|------|
 | BSAF マスタートグル（設定画面） | ✅ |
@@ -524,6 +669,19 @@ kazahana/
 | BSAFタグ表示（投稿本文下にタグバッジ） | ✅ |
 | Bot Definition JSON 自動更新チェック | ✅ |
 | 11 言語 i18n 対応 | ✅ |
+
+### Phase 6: DM・メッセージ ✅ 完了
+| 項目 | 状態 |
+|------|------|
+| 会話一覧 | ✅ |
+| メッセージ送受信 | ✅ |
+| メッセージ削除 | ✅ |
+| リアクション（絵文字クイックピッカー） | ✅ |
+| 新規会話作成 | ✅ |
+| 会話ミュート/退出 | ✅ |
+| メッセージリクエスト承認 | ✅ |
+| 未読バッジ | ✅ |
+| 自動更新ポーリング | ✅ |
 
 ---
 
@@ -584,7 +742,7 @@ npm run tauri build
 - GitHub Actions で Windows / macOS 両ビルドを自動化（`.github/workflows/release.yml`）
 - `tauri-apps/tauri-action@v0` によるクロスプラットフォームビルド
 - バージョンタグ push（`v*`）でドラフトリリース自動作成
-- ビルドマトリクス: Windows x64 / macOS Intel / macOS Apple Silicon
+- ビルドマトリクス: Windows x64 / macOS universal
 - GitHub Releases で配布
 
 ---
