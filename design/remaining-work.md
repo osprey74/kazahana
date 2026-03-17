@@ -245,3 +245,13 @@ Collaborator: よつぎnん / @yotsugin.bsky.social
 - [x] DMメッセージ内のURL文字列をクリッカブルにする — メッセージテキスト内のURLを検出しリンク化、クリックで外部ブラウザを開く
 - [x] DMメッセージ内のハッシュタグをクリッカブルにする — TLのポストと同様にハッシュタグを検出しリンク化、クリックでそのハッシュタグの検索結果を表示
 - [x] デモページへのリンクを日本語README・日本語ドキュメントに設置 — `README.ja.md` と `docs/ja/guide/index.html` からデモページへたどれるようリンクを追加
+
+## Improvements (2026-03-17) — v2.2.1
+
+- [x] 画像保存フォーマット検出修正 — Bluesky CDNが返す画像のContent-Typeヘッダー・URL拡張子が実際のフォーマットと一致しない問題を修正。マジックバイト検出（PNG/GIF/WebP/JPEG）に切り替え、正しい拡張子で保存ダイアログを表示
+- [x] 画像保存が実行されない問題の修正 — Tauri v2の`fs:default`パーミッションに書き込み権限が含まれていないため、`fs:allow-write-file`を`capabilities/default.json`に追加
+- [x] 画像コピー時のPNG判定もマジックバイト検出に統一 — `blob.type`ではなく実バイナリからフォーマットを判定
+- [x] ALTテキスト編集ダイアログ — 画像添付のインラインALT入力をダイアログ形式に変更。画像プレビュー付きテキストエリアで視認性向上
+- [x] Claude API によるALTテキスト自動生成 — Claude Haiku 4.5を使用して添付画像のALTテキストをAI生成。アプリの言語設定に応じた言語で生成。APIキー未設定時はボタン無効化
+- [x] Claude APIキー管理（設定画面） — 設定画面にClaude APIキー登録/削除セクションを追加。マスク表示（`sk-ant-...{末尾8文字}`）、表示/非表示トグル、Zustand + localStorage永続化
+- [x] 全11言語i18n対応 — ALTテキスト関連・Claude API設定の翻訳キーを全ロケールに追加
