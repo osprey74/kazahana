@@ -8,8 +8,10 @@ import { useSearchActorsTypeahead } from "../../hooks/useSearch";
 import { ImageUpload, type ImageFile } from "./ImageUpload";
 import { ImageEditModal } from "./ImageEditModal";
 import { VideoUpload, type VideoFile } from "./VideoUpload";
+import { DraftListModal } from "./DraftListModal";
 import { Avatar } from "../common/Avatar";
 import { Icon } from "../common/Icon";
+import { useDraftStore, compressForDraft, dataUrlToFile, type PostDraft } from "../../stores/draftStore";
 
 const MAX_GRAPHEMES = 300;
 const IMAGE_MAX_BYTES = 1_000_000; // 1MB — Bluesky image upload limit (images exceeding this are auto-compressed)
@@ -103,6 +105,8 @@ export function ComposeModal() {
   const [isDragging, setIsDragging] = useState(false);
   const [isCompressing, setIsCompressing] = useState(false);
   const [editingImageId, setEditingImageId] = useState<string | null>(null);
+  const [showDraftList, setShowDraftList] = useState(false);
+  const saveDraft = useDraftStore((s) => s.saveDraft);
 
   // OGP link card (manual trigger)
   const { detectedUrl, ogp, isLoading: ogpLoading, fetchCard, fetchCardForUrl, dismiss: dismissOgp, reset: resetOgp } = useOgp(text);
@@ -141,6 +145,7 @@ export function ComposeModal() {
       setReplyGate("everyone");
       setDisableQuote(false);
       setMentionIndex(0);
+      setShowDraftList(false);
       createPost.reset();
       resetOgp();
       // Auto-fetch OGP card for deep-link URLs
@@ -307,6 +312,50 @@ export function ComposeModal() {
     setVideo((prev) => prev ? { ...prev, alt } : null);
   }, []);
 
+  const handleSaveDraft = async () => {
+    const draftImages = await Promise.all(
+      images.map(async (img) => ({
+        dataUrl: await compressForDraft(img.file),
+        alt: img.alt,
+      })),
+    );
+    saveDraft({
+      text,
+      images: draftImages,
+      replyTo: replyTo,
+      quoteTo: quoteTo,
+      ogpUrl: ogp?.url ?? null,
+      threadgate: replyGate,
+      disableQuote,
+    });
+    images.forEach((img) => URL.revokeObjectURL(img.preview));
+    if (video) URL.revokeObjectURL(video.preview);
+    close();
+  };
+
+  const handleLoadDraft = (draft: PostDraft) => {
+    setText(draft.text);
+    // Restore images from draft thumbnails
+    const restored: ImageFile[] = draft.images.map((di) => {
+      const file = dataUrlToFile(di.dataUrl);
+      return {
+        id: crypto.randomUUID(),
+        file,
+        preview: URL.createObjectURL(file),
+        alt: di.alt,
+      };
+    });
+    setImages(restored);
+    setVideo(null);
+    setVideoAspectRatio(undefined);
+    setReplyGate(draft.threadgate);
+    setDisableQuote(draft.disableQuote);
+    if (draft.ogpUrl) fetchCardForUrl(draft.ogpUrl);
+    setShowDraftList(false);
+    // Delete used draft
+    useDraftStore.getState().deleteDraft(draft.id);
+  };
+
   const handleSubmit = async () => {
     if (!canPost) return;
 
@@ -385,20 +434,39 @@ export function ComposeModal() {
         )}
         {/* Header */}
         <div className="flex items-center justify-between px-4 py-3 border-b border-border-light dark:border-border-dark">
-          <button
-            onClick={close}
-            disabled={createPost.isPending}
-            className="text-sm text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 disabled:opacity-50"
-          >
-            {t("compose.cancel")}
-          </button>
-          <button
-            onClick={handleSubmit}
-            disabled={!canPost}
-            className="px-4 py-1.5 bg-primary text-white text-sm font-medium rounded-btn hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {createPost.isPending ? t("compose.posting") : t("compose.post")}
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={close}
+              disabled={createPost.isPending}
+              className="text-sm text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 disabled:opacity-50"
+            >
+              {t("compose.cancel")}
+            </button>
+            <button
+              onClick={() => setShowDraftList(true)}
+              disabled={createPost.isPending}
+              className="text-gray-400 hover:text-primary disabled:opacity-50"
+              title={t("draft.title")}
+            >
+              <Icon name="note_alt" size={20} />
+            </button>
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handleSaveDraft}
+              disabled={createPost.isPending || (text.trim().length === 0 && images.length === 0)}
+              className="px-3 py-1.5 text-sm text-primary border border-primary rounded-btn hover:bg-blue-50 dark:hover:bg-blue-900/20 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {t("draft.save")}
+            </button>
+            <button
+              onClick={handleSubmit}
+              disabled={!canPost}
+              className="px-4 py-1.5 bg-primary text-white text-sm font-medium rounded-btn hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {createPost.isPending ? t("compose.posting") : t("compose.post")}
+            </button>
+          </div>
         </div>
 
         {/* Reply indicator */}
@@ -656,6 +724,14 @@ export function ComposeModal() {
           />
         );
       })()}
+
+      {/* Draft list modal */}
+      {showDraftList && (
+        <DraftListModal
+          onLoad={handleLoadDraft}
+          onClose={() => setShowDraftList(false)}
+        />
+      )}
     </div>
   );
 }

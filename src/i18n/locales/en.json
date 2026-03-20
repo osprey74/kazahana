@@ -375,5 +375,13 @@
     "leaveConfirm": "Leave this conversation?",
     "accept": "Accept",
     "requests": "Message requests"
+  },
+  "draft": {
+    "title": "Drafts",
+    "save": "Save draft",
+    "empty": "No drafts",
+    "imageOnly": "(Images only)",
+    "clearAll": "Clear all",
+    "clearAllConfirm": "Delete all drafts?"
   }
 }

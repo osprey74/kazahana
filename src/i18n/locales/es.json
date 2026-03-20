@@ -356,5 +356,13 @@
     "leaveConfirm": "¿Abandonar esta conversación?",
     "accept": "Aceptar",
     "requests": "Solicitudes de mensajes"
+  },
+  "draft": {
+    "title": "Borradores",
+    "save": "Guardar borrador",
+    "empty": "Sin borradores",
+    "imageOnly": "(Solo imágenes)",
+    "clearAll": "Eliminar todos",
+    "clearAllConfirm": "¿Eliminar todos los borradores?"
   }
 }

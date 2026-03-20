@@ -356,5 +356,13 @@
     "leaveConfirm": "Tinggalkan percakapan ini?",
     "accept": "Terima",
     "requests": "Permintaan pesan"
+  },
+  "draft": {
+    "title": "Draf",
+    "save": "Simpan draf",
+    "empty": "Tidak ada draf",
+    "imageOnly": "(Hanya gambar)",
+    "clearAll": "Hapus semua",
+    "clearAllConfirm": "Hapus semua draf?"
   }
 }

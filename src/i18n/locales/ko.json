@@ -356,5 +356,13 @@
     "leaveConfirm": "이 대화에서 나가시겠습니까?",
     "accept": "수락",
     "requests": "메시지 요청"
+  },
+  "draft": {
+    "title": "임시 저장",
+    "save": "임시 저장",
+    "empty": "임시 저장된 글이 없습니다",
+    "imageOnly": "(이미지만)",
+    "clearAll": "모두 삭제",
+    "clearAllConfirm": "모든 임시 저장 글을 삭제하시겠습니까?"
   }
 }

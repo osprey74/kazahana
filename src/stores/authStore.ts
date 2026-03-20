@@ -4,6 +4,7 @@ import type { AtpSessionData, AtpSessionEvent } from "@atproto/api";
 import { getAgent, resetAgent, setSessionHandler } from "../lib/agent";
 import { loadSession, clearSession, saveSession, addHandleHistory } from "../lib/session";
 import { isRateLimitError, getRateLimitDelay } from "../lib/rateLimit";
+import { syncLanguageFromBluesky } from "../lib/languageSync";
 
 interface AuthState {
   isLoggedIn: boolean;
@@ -31,6 +32,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       addHandleHistory(identifier);
       set({ isLoggedIn: true, isLoading: false });
       get().fetchProfile();
+      syncLanguageFromBluesky();
     } catch (e) {
       if (isRateLimitError(e)) {
         const delay = getRateLimitDelay(e);
@@ -62,6 +64,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       await agent.resumeSession(session);
       set({ isLoggedIn: true, isLoading: false });
       get().fetchProfile();
+      syncLanguageFromBluesky();
     } catch {
       await clearSession();
       resetAgent();

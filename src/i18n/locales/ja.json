@@ -375,5 +375,13 @@
     "leaveConfirm": "この会話から退出しますか？",
     "accept": "承認",
     "requests": "メッセージリクエスト"
+  },
+  "draft": {
+    "title": "下書き",
+    "save": "下書き保存",
+    "empty": "下書きはありません",
+    "imageOnly": "（画像のみ）",
+    "clearAll": "すべて削除",
+    "clearAllConfirm": "すべての下書きを削除しますか？"
   }
 }

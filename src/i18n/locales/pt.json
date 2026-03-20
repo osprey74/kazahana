@@ -356,5 +356,13 @@
     "leaveConfirm": "Sair desta conversa?",
     "accept": "Aceitar",
     "requests": "Solicitações de mensagens"
+  },
+  "draft": {
+    "title": "Rascunhos",
+    "save": "Salvar rascunho",
+    "empty": "Nenhum rascunho",
+    "imageOnly": "(Apenas imagens)",
+    "clearAll": "Excluir todos",
+    "clearAllConfirm": "Excluir todos os rascunhos?"
   }
 }

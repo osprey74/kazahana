@@ -356,5 +356,13 @@
     "leaveConfirm": "离开此对话？",
     "accept": "接受",
     "requests": "消息请求"
+  },
+  "draft": {
+    "title": "草稿",
+    "save": "保存草稿",
+    "empty": "没有草稿",
+    "imageOnly": "（仅图片）",
+    "clearAll": "全部删除",
+    "clearAllConfirm": "删除所有草稿？"
   }
 }

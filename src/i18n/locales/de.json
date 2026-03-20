@@ -356,5 +356,13 @@
     "leaveConfirm": "Diese Unterhaltung verlassen?",
     "accept": "Akzeptieren",
     "requests": "Nachrichtenanfragen"
+  },
+  "draft": {
+    "title": "Entwürfe",
+    "save": "Entwurf speichern",
+    "empty": "Keine Entwürfe",
+    "imageOnly": "(Nur Bilder)",
+    "clearAll": "Alle löschen",
+    "clearAllConfirm": "Alle Entwürfe löschen?"
   }
 }

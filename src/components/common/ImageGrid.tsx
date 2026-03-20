@@ -44,6 +44,10 @@ export function ImageGrid({ images }: ImageGridProps) {
   // For multiple images: show all images' alt status
   const hasAnyAlt = images.some((img) => img.alt);
 
+  const ALT_TRUNCATE_LENGTH = 128;
+  const truncateAlt = (alt: string) =>
+    alt.length > ALT_TRUNCATE_LENGTH ? alt.slice(0, ALT_TRUNCATE_LENGTH) + "…" : alt;
+
   return (
     <div className="mt-2">
       <div className={`grid ${gridClass} gap-0.5 rounded-card overflow-hidden`}>
@@ -71,7 +75,7 @@ export function ImageGrid({ images }: ImageGridProps) {
       {count === 1 && images[0].alt ? (
         <div className="mt-1">
           <p className="text-[11px] text-gray-500 dark:text-gray-400 leading-snug">
-            {images[0].alt}
+            {truncateAlt(images[0].alt)}
           </p>
         </div>
       ) : count > 1 && hasAnyAlt ? (
@@ -79,7 +83,7 @@ export function ImageGrid({ images }: ImageGridProps) {
           {images.map((img, i) => (
             <p key={i} className="text-[11px] text-gray-500 dark:text-gray-400 leading-snug">
               <span className="text-gray-400 dark:text-gray-500 mr-1">[{t("image.imageLabel", { n: i + 1 })}]</span>
-              {img.alt || <span className="italic">{t("image.noAlt")}</span>}
+              {img.alt ? truncateAlt(img.alt) : <span className="italic">{t("image.noAlt")}</span>}
             </p>
           ))}
         </div>

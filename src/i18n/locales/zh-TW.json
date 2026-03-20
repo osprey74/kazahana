@@ -356,5 +356,13 @@
     "leaveConfirm": "離開此對話？",
     "accept": "接受",
     "requests": "訊息請求"
+  },
+  "draft": {
+    "title": "草稿",
+    "save": "儲存草稿",
+    "empty": "沒有草稿",
+    "imageOnly": "（僅圖片）",
+    "clearAll": "全部刪除",
+    "clearAllConfirm": "刪除所有草稿？"
   }
 }

@@ -74,6 +74,9 @@ Kazahana is designed as a **lightweight, always-running companion app** — not 
 - [x] Chat message reactions (emoji stamps with quick picker)
 - [x] Notification image thumbnails (square-cropped previews in notification list)
 - [x] AI-generated ALT text for images (Claude API integration, configurable in settings)
+- [x] ALT text display on post cards (truncated to 128 chars, full text in lightbox)
+- [x] Language sync from Bluesky (detect language from user's posts, fallback to device locale)
+- [x] Post drafts (save up to 20 drafts with text and image thumbnails)
 - [x] BSAF (Bluesky Structured Alert Feed) compatible client
 
 ### BSAF Support
