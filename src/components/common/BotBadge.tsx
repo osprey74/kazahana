@@ -30,7 +30,7 @@ export function BotBadge({ size = 14 }: BotBadgeProps) {
       }}
       onMouseLeave={() => setShowTooltip(false)}
     >
-      <Icon name="smart_toy" size={size} className="text-gray-400" filled />
+      <Icon name="smart_toy" size={size} className="text-gray-400" />
       {showTooltip && (
         <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-2 py-1 text-[11px] text-white bg-gray-800 dark:bg-gray-600 rounded whitespace-nowrap z-50">
           {t("bot.label")}
