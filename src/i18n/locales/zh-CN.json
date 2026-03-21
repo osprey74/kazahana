@@ -364,5 +364,8 @@
     "imageOnly": "（仅图片）",
     "clearAll": "全部删除",
     "clearAllConfirm": "删除所有草稿？"
+  },
+  "bot": {
+    "label": "此账户已自动化"
   }
 }

@@ -11,6 +11,7 @@ import { getAgent } from "../../lib/agent";
 import { useComposeStore } from "../../stores/composeStore";
 import { useSubjectPost } from "../../hooks/useNotifications";
 import { Avatar } from "../common/Avatar";
+import { BotBadge, isBotAccount } from "../common/BotBadge";
 import { Icon } from "../common/Icon";
 
 interface NotificationItemProps {
@@ -123,6 +124,7 @@ export function NotificationItem({ notification }: NotificationItemProps) {
           <button onClick={handleProfileClick} className="font-bold text-text-light dark:text-text-dark truncate hover:underline">
             {author.displayName || author.handle}
           </button>
+          {isBotAccount(author) && <BotBadge size={13} />}
           <span className="text-gray-700 dark:text-gray-300 flex-shrink-0">{label}</span>
         </div>
         {displayText && (

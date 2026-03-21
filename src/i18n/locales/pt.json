@@ -364,5 +364,8 @@
     "imageOnly": "(Apenas imagens)",
     "clearAll": "Excluir todos",
     "clearAllConfirm": "Excluir todos os rascunhos?"
+  },
+  "bot": {
+    "label": "Esta conta é automatizada"
   }
 }

@@ -364,5 +364,8 @@
     "imageOnly": "(이미지만)",
     "clearAll": "모두 삭제",
     "clearAllConfirm": "모든 임시 저장 글을 삭제하시겠습니까?"
+  },
+  "bot": {
+    "label": "이 계정은 자동화되어 있습니다"
   }
 }

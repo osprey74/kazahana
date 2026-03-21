@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import type { RichText } from "@atproto/api";
 import type { ViewImage } from "@atproto/api/dist/client/types/app/bsky/embed/images";
 import { Avatar } from "./Avatar";
+import { BotBadge, isBotAccount } from "./BotBadge";
 import { ImageGrid } from "./ImageGrid";
 import { PostContent } from "../timeline/PostContent";
 import { Icon } from "./Icon";
@@ -10,7 +11,7 @@ import { Icon } from "./Icon";
 interface QuoteRecord {
   $type?: string;
   uri?: string;
-  author?: { handle?: string; displayName?: string; avatar?: string };
+  author?: { handle?: string; displayName?: string; avatar?: string; did?: string; labels?: { val: string; src: string }[] };
   value?: { text?: string; facets?: RichText["facets"]; createdAt?: string };
   embeds?: unknown[];
   notFound?: boolean;
@@ -82,6 +83,7 @@ export function QuoteEmbed({ record }: QuoteEmbedProps) {
         <span className="font-bold text-xs text-text-light dark:text-text-dark truncate">
           {author.displayName || author.handle}
         </span>
+        {author.did && isBotAccount({ did: author.did, labels: author.labels }) && <BotBadge size={12} />}
         <span className="text-xs text-gray-500 truncate">
           @{author.handle}
         </span>

@@ -383,5 +383,8 @@
     "imageOnly": "(Images only)",
     "clearAll": "Clear all",
     "clearAllConfirm": "Delete all drafts?"
+  },
+  "bot": {
+    "label": "This account is automated"
   }
 }

@@ -15,6 +15,7 @@ import { VideoPlayer } from "../common/VideoPlayer";
 import { ContentWarning } from "../common/ContentWarning";
 import { PostContent } from "./PostContent";
 import { PostActions } from "./PostActions";
+import { BotBadge, isBotAccount } from "../common/BotBadge";
 import { useModerationOpts } from "../../contexts/ModerationContext";
 import { useSettingsStore } from "../../stores/settingsStore";
 import { useBsafStore } from "../../stores/bsafStore";
@@ -131,10 +132,11 @@ export function PostCard({ feedItem, showParentContext, bsafDuplicateInfo }: Pos
         <div className="flex-1 min-w-0">
           {/* Author info */}
           <div className="flex items-baseline gap-1">
-            <button onClick={() => navigate(`/profile/${author.handle}`)} className="flex items-baseline gap-1 min-w-0 hover:underline">
+            <button onClick={() => navigate(`/profile/${author.handle}`)} className="flex items-center gap-1 min-w-0 hover:underline">
               <span className="font-bold text-sm text-text-light dark:text-text-dark truncate">
                 {author.displayName || author.handle}
               </span>
+              {isBotAccount(author) && <BotBadge size={14} />}
               <span className="text-xs text-gray-500 truncate">
                 @{author.handle}
               </span>

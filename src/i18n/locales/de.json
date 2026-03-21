@@ -364,5 +364,8 @@
     "imageOnly": "(Nur Bilder)",
     "clearAll": "Alle löschen",
     "clearAllConfirm": "Alle Entwürfe löschen?"
+  },
+  "bot": {
+    "label": "Dieses Konto ist automatisiert"
   }
 }

@@ -77,6 +77,7 @@ Kazahana is designed as a **lightweight, always-running companion app** — not 
 - [x] ALT text display on post cards (truncated to 128 chars, full text in lightbox)
 - [x] Language sync from Bluesky (detect language from user's posts, fallback to device locale)
 - [x] Post drafts (save up to 20 drafts with text and image thumbnails)
+- [x] Bot automation label badge (robot icon for self-labeled bot accounts)
 - [x] BSAF (Bluesky Structured Alert Feed) compatible client
 
 ### BSAF Support

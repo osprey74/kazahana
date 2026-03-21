@@ -364,5 +364,8 @@
     "imageOnly": "(Hanya gambar)",
     "clearAll": "Hapus semua",
     "clearAllConfirm": "Hapus semua draf?"
+  },
+  "bot": {
+    "label": "Akun ini otomatis"
   }
 }

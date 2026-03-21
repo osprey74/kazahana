@@ -364,5 +364,8 @@
     "imageOnly": "(Solo imágenes)",
     "clearAll": "Eliminar todos",
     "clearAllConfirm": "¿Eliminar todos los borradores?"
+  },
+  "bot": {
+    "label": "Esta cuenta está automatizada"
   }
 }

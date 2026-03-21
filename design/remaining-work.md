@@ -256,6 +256,10 @@ Collaborator: よつぎnん / @yotsugin.bsky.social
 - [x] Claude APIキー管理（設定画面） — 設定画面にClaude APIキー登録/削除セクションを追加。マスク表示（`sk-ant-...{末尾8文字}`）、表示/非表示トグル、Zustand + localStorage永続化
 - [x] 全11言語i18n対応 — ALTテキスト関連・Claude API設定の翻訳キーを全ロケールに追加
 
+## Improvements (2026-03-21)
+
+- [x] Bot自動化ラベル（Bot Badge）表示 — Bluesky公式の自動化ラベル（`val: "bot"` セルフラベル）に対応。投稿カード・プロフィールヘッダー・ユーザーリスト・引用埋め込み・通知に表示名横にロボットアイコンを表示。ツールチップ付き。全11言語i18n対応
+
 ## Upcoming Features
 
 - [ ] LANG設定の取得元変更 — PC環境の言語設定ではなくBlueskyの言語設定（ユーザーアカウント設定）から取得するよう変更。Blueskyで言語設定がされていない場合は端末ロケールからフォールバック

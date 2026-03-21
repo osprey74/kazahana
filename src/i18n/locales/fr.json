@@ -364,5 +364,8 @@
     "imageOnly": "(Images uniquement)",
     "clearAll": "Tout supprimer",
     "clearAllConfirm": "Supprimer tous les brouillons ?"
+  },
+  "bot": {
+    "label": "Ce compte est automatisé"
   }
 }
