@@ -13,6 +13,11 @@ import { useSubjectPost } from "../../hooks/useNotifications";
 import { Avatar } from "../common/Avatar";
 import { BotBadge, isBotAccount } from "../common/BotBadge";
 import { Icon } from "../common/Icon";
+import { ImageGrid } from "../common/ImageGrid";
+import { VideoPlayer } from "../common/VideoPlayer";
+import { LinkCard } from "../common/LinkCard";
+import { QuoteEmbed } from "../common/QuoteEmbed";
+import { PostContent } from "../timeline/PostContent";
 
 interface NotificationItemProps {
   notification: Notification;
@@ -55,6 +60,65 @@ function getPostImages(post?: PostView): ViewImage[] {
   return [];
 }
 
+interface ExternalEmbed {
+  uri: string;
+  title: string;
+  description: string;
+  thumb?: string;
+}
+
+function getExternalEmbed(post?: PostView): ExternalEmbed | null {
+  const embed = post?.embed;
+  if (!embed) return null;
+  if (embed.$type === "app.bsky.embed.external#view") {
+    return (embed as { external?: ExternalEmbed }).external ?? null;
+  }
+  if (embed.$type === "app.bsky.embed.recordWithMedia#view") {
+    const media = (embed as { media?: { $type?: string; external?: ExternalEmbed } }).media;
+    if (media?.$type === "app.bsky.embed.external#view") {
+      return media.external ?? null;
+    }
+  }
+  return null;
+}
+
+interface VideoEmbed {
+  playlist: string;
+  thumbnail?: string;
+  alt?: string;
+  aspectRatio?: { width: number; height: number };
+  presentation?: string;
+}
+
+function getVideoEmbed(post?: PostView): VideoEmbed | null {
+  const embed = post?.embed;
+  if (!embed) return null;
+  if (embed.$type === "app.bsky.embed.video#view") {
+    return embed as unknown as VideoEmbed;
+  }
+  if (embed.$type === "app.bsky.embed.recordWithMedia#view") {
+    const media = (embed as { media?: { $type?: string } }).media;
+    if (media?.$type === "app.bsky.embed.video#view") {
+      return media as unknown as VideoEmbed;
+    }
+  }
+  return null;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function getQuoteEmbed(post?: PostView): Record<string, any> | null {
+  const embed = post?.embed;
+  if (!embed) return null;
+  if (embed.$type === "app.bsky.embed.record#view") {
+    return (embed as { record?: Record<string, unknown> }).record ?? null;
+  }
+  if (embed.$type === "app.bsky.embed.recordWithMedia#view") {
+    const rec = (embed as { record?: { record?: Record<string, unknown> } }).record;
+    return rec?.record ?? null;
+  }
+  return null;
+}
+
 export function NotificationItem({ notification }: NotificationItemProps) {
   const subjectPost = useSubjectPost(notification);
   const { t, i18n } = useTranslation();
@@ -70,17 +134,13 @@ export function NotificationItem({ notification }: NotificationItemProps) {
     addSuffix: false,
   });
 
-  const record = notification.record as { text?: string } | undefined;
   const subjectUri = notification.reasonSubject;
 
   const handleClick = () => {
     if (reason === "follow") return;
-    // For reply/mention/quote, navigate to the notification's own post (the reply itself).
-    // For like/repost, navigate to the subject post (the post that was liked/reposted).
     let targetUri = (reason === "reply" || reason === "mention" || reason === "quote")
       ? notification.uri
       : subjectUri || notification.uri;
-    // If the subject is a repost record URI, use the resolved original post URI
     if (targetUri?.includes("/app.bsky.feed.repost/") && subjectPost?.uri) {
       targetUri = subjectPost.uri;
     }
@@ -94,69 +154,82 @@ export function NotificationItem({ notification }: NotificationItemProps) {
     navigate(`/profile/${author.handle}`);
   };
 
-  // For reply/mention/quote: show the notification's own record text
-  // For like/repost: show the subject post's text
-  const displayText =
-    (reason === "reply" || reason === "mention" || reason === "quote")
-      ? record?.text
-      : (reason === "like" || reason === "repost" || reason === "like-via-repost" || reason === "repost-via-repost")
-        ? (subjectPost?.record as { text?: string } | undefined)?.text
-        : undefined;
+  // Determine which post to display content from
+  const displayPost = subjectPost;
+  const displayRecord = displayPost?.record as { text?: string; facets?: unknown[]; createdAt?: string } | undefined;
+  // For reply/mention/quote without subjectPost, fall back to notification record text
+  const fallbackText = (reason === "reply" || reason === "mention" || reason === "quote")
+    ? (notification.record as { text?: string } | undefined)?.text
+    : undefined;
 
-  // The post to show action buttons for
-  const actionPost = subjectPost;
-
-  const images = getPostImages(subjectPost);
+  const images = getPostImages(displayPost);
+  const videoEmbed = getVideoEmbed(displayPost);
+  const externalEmbed = getExternalEmbed(displayPost);
+  const quoteEmbed = getQuoteEmbed(displayPost);
 
   return (
     <div
       onClick={handleClick}
-      className={`flex gap-3 px-4 py-3 border-b border-border-light dark:border-border-dark transition-colors cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 ${
+      className={`px-4 py-3 border-b border-border-light dark:border-border-dark transition-colors cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 ${
         !isRead ? "bg-blue-50/50 dark:bg-blue-900/20" : ""
       }`}
     >
-      <button onClick={handleProfileClick} className="self-start hover:opacity-80">
-        <Avatar src={author.avatar} size="sm" />
-      </button>
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-1 text-sm">
-          <Icon name={icon} size={16} className={`flex-shrink-0 ${reason === "like" || reason === "like-via-repost" ? "text-red-500" : reason === "repost" || reason === "repost-via-repost" ? "text-green-500" : "text-gray-500"}`} filled={reason === "like" || reason === "like-via-repost"} />
+      {/* Notification reason header */}
+      <div className="flex items-center gap-2 mb-2">
+        <Icon name={icon} size={16} className={`flex-shrink-0 ${reason === "like" || reason === "like-via-repost" ? "text-red-500" : reason === "repost" || reason === "repost-via-repost" ? "text-green-500" : "text-gray-500"}`} filled={reason === "like" || reason === "like-via-repost"} />
+        <button onClick={handleProfileClick} className="self-start hover:opacity-80 flex-shrink-0">
+          <Avatar src={author.avatar} size="sm" />
+        </button>
+        <div className="flex items-center gap-1 min-w-0 text-sm">
           <button onClick={handleProfileClick} className="font-bold text-text-light dark:text-text-dark truncate hover:underline">
             {author.displayName || author.handle}
           </button>
           {isBotAccount(author) && <BotBadge size={13} />}
           <span className="text-gray-700 dark:text-gray-300 flex-shrink-0">{label}</span>
         </div>
-        {displayText && (
-          <p className="text-xs text-gray-600 dark:text-gray-300 mt-0.5 line-clamp-2">
-            {displayText}
-          </p>
-        )}
-        <div className="flex items-center gap-1 mt-0.5">
-          <span className="text-xs text-gray-400">{timeAgo}</span>
-          {actionPost && reason !== "follow" && (
-            <NotificationActions post={actionPost} />
-          )}
-        </div>
+        <span className="text-xs text-gray-400 flex-shrink-0 ml-auto">{timeAgo}</span>
       </div>
-      {images.length > 0 && (
-        <div className="flex gap-0.5 self-start flex-shrink-0">
-          {images.map((img, i) => (
-            <img
-              key={i}
-              src={img.thumb}
-              alt={img.alt || ""}
-              className="w-8 h-8 rounded object-cover"
-              loading="lazy"
-            />
-          ))}
+
+      {/* Post content - full size like timeline */}
+      {displayPost ? (
+        <div className="ml-6">
+          {displayRecord?.text && (
+            <div className="mt-1">
+              <PostContent
+                text={displayRecord.text}
+                facets={displayRecord.facets as Parameters<typeof PostContent>[0]["facets"]}
+              />
+            </div>
+          )}
+          {images.length > 0 && <ImageGrid images={images} />}
+          {videoEmbed && (
+            <>
+              <VideoPlayer {...videoEmbed} />
+              {videoEmbed.alt && (
+                <p className="text-[11px] text-gray-500 dark:text-gray-400 leading-snug mt-1">{videoEmbed.alt}</p>
+              )}
+            </>
+          )}
+          {externalEmbed && <LinkCard external={externalEmbed} />}
+          {quoteEmbed && <QuoteEmbed record={quoteEmbed} />}
+
+          {/* Action buttons */}
+          <div className="mt-2">
+            <NotificationActions post={displayPost} />
+          </div>
         </div>
-      )}
+      ) : fallbackText ? (
+        <div className="ml-6">
+          <p className="text-sm text-text-light dark:text-text-dark whitespace-pre-wrap break-words leading-relaxed">
+            {fallbackText}
+          </p>
+        </div>
+      ) : null}
     </div>
   );
 }
 
-/** Compact action buttons (reply, repost, like) for a notification's post */
+/** Action buttons (reply, repost, like) for a notification's post */
 function NotificationActions({ post }: { post: PostView }) {
   const openCompose = useComposeStore((s) => s.open);
   const [liked, setLiked] = useState(!!post.viewer?.like);
@@ -208,15 +281,15 @@ function NotificationActions({ post }: { post: PostView }) {
   };
 
   return (
-    <div className="flex items-center gap-3 ml-auto" onClick={(e) => e.stopPropagation()}>
+    <div className="flex items-center gap-4" onClick={(e) => e.stopPropagation()}>
       <button onClick={handleReply} title="Reply" className="text-gray-400 hover:text-primary transition-colors">
-        <Icon name="chat_bubble_outline" size={14} />
+        <Icon name="chat_bubble_outline" size={18} />
       </button>
       <button onClick={handleRepost} title="Repost" className={`transition-colors ${reposted ? "text-green-600" : "text-gray-400 hover:text-green-600"}`}>
-        <Icon name="repeat" size={14} filled={reposted} />
+        <Icon name="repeat" size={18} filled={reposted} />
       </button>
       <button onClick={handleLike} title="Like" className={`transition-colors ${liked ? "text-red-500" : "text-gray-400 hover:text-red-500"}`}>
-        <Icon name={liked ? "favorite" : "favorite_border"} size={14} filled={liked} />
+        <Icon name={liked ? "favorite" : "favorite_border"} size={18} filled={liked} />
       </button>
     </div>
   );
