@@ -1,6 +1,6 @@
 # kazahana Platform Feature Matrix
 
-> **Last updated:** 2026-03-24 (bookmark feature added to iOS)
+> **Last updated:** 2026-03-24 (bookmark feature completed on iOS)
 > **Source:** Compiled from the following repositories  
 > - Desktop (Win/macOS): https://github.com/osprey74/kazahana  
 > - iOS: https://github.com/osprey74/kazahana-ios  
@@ -268,7 +268,6 @@
 | 機能 | Android | iOS |
 |------|:-------:|:---:|
 | 既読位置マーカー | ⬜ | ⬜ |
-| ブックマーク | — | ⬜ |
 | スティッキーフィードタブヘッダー | ⬜ | — |
 | ピン留め投稿表示 | ⬜ | — |
 | 翻訳ボタン | ⬜ | — |
