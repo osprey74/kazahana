@@ -1,6 +1,6 @@
 # kazahana Platform Feature Matrix
 
-> **Last updated:** 2026-03-24
+> **Last updated:** 2026-03-24 (bookmark feature added to iOS)
 > **Source:** Compiled from the following repositories  
 > - Desktop (Win/macOS): https://github.com/osprey74/kazahana  
 > - iOS: https://github.com/osprey74/kazahana-ios  
@@ -73,7 +73,7 @@
 | 引用リポスト | ✅ | ✅ | ✅ | ✅ | |
 | リプライ | ✅ | ✅ | ✅ | ✅ | |
 | 投稿削除 | ✅ | ✅ | ✅ | ✅ | |
-| ブックマーク | ✅ | ✅ | ✅ | ⬜ | iOS: API なし、設計要検討 |
+| ブックマーク | ✅ | ✅ | ✅ | ✅ | |
 | スレッドゲート（返信制限） | ✅ | ✅ | ✅ | ✅ | |
 | ポストゲート（引用制限） | ✅ | ✅ | ✅ | ✅ | |
 | 投稿非表示（preferences hiddenPosts） | ✅ | ✅ | ⬜ | ❓ | |
