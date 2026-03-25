@@ -1,6 +1,6 @@
 # kazahana Platform Feature Matrix
 
-> **Last updated:** 2026-03-24
+> **Last updated:** 2026-03-25
 > **Source:** Compiled from the following repositories  
 > - Desktop (Win/macOS): https://github.com/osprey74/kazahana  
 > - iOS: https://github.com/osprey74/kazahana-ios  
@@ -76,8 +76,8 @@
 | ブックマーク | ✅ | ✅ | ✅ | ✅ | |
 | スレッドゲート（返信制限） | ✅ | ✅ | ✅ | ✅ | |
 | ポストゲート（引用制限） | ✅ | ✅ | ✅ | ✅ | |
-| 投稿非表示（preferences hiddenPosts） | ✅ | ✅ | ⬜ | ⬜ | |
-| スレッド通知ミュート | ✅ | ✅ | ⬜ | ⬜ | |
+| 投稿非表示（preferences hiddenPosts） | ✅ | ✅ | ✅ | ⬜ | |
+| スレッド通知ミュート | ✅ | ✅ | ✅ | ⬜ | |
 | リンクコピー | ✅ | ✅ | ✅ | ✅ | |
 | 外部ブラウザで開く | ✅ | ✅ | ✅ | ✅ | |
 
@@ -280,8 +280,6 @@
 | フィード一覧タブ（プロフィール） | ⬜ | — |
 | リスト一覧タブ（プロフィール） | ⬜ | — |
 | スターターパックタブ | ⬜ | — |
-| 投稿非表示 | ⬜ | ⬜ |
-| スレッド通知ミュート | ⬜ | ⬜ |
 | ミュート / ブロック | ⬜ | ⬜ |
 | Claude API キー管理 | ⬜ | — |
 | スティッキー検索ヘッダー | ⬜ | ⬜ |
