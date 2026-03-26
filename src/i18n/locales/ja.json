@@ -51,6 +51,8 @@
     "unmuteThread": "スレッド通知のミュートを解除",
     "muteUser": "このユーザーをミュート",
     "unmuteUser": "このユーザーのミュートを解除",
+    "blockUser": "このユーザーをブロック",
+    "unblockUser": "このユーザーのブロックを解除",
     "quotePost": "引用して投稿",
     "viewQuotes": "引用一覧を見る"
   },

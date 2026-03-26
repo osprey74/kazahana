@@ -51,6 +51,8 @@
     "unmuteThread": "Unmute thread notifications",
     "muteUser": "Mute this user",
     "unmuteUser": "Unmute this user",
+    "blockUser": "Block this user",
+    "unblockUser": "Unblock this user",
     "quotePost": "Quote post",
     "viewQuotes": "View quotes"
   },

@@ -7,7 +7,7 @@ import { useComposeStore } from "../../stores/composeStore";
 import { usePostListStore } from "../../stores/postListStore";
 import { useReportStore } from "../../stores/reportStore";
 import { useDeletePost } from "../../hooks/usePost";
-import { useMuteActor, useUnmuteActor } from "../../hooks/useProfile";
+import { useMuteActor, useUnmuteActor, useBlockActor, useUnblockActor } from "../../hooks/useProfile";
 import { openUrl } from "@tauri-apps/plugin-opener";
 import { Icon } from "../common/Icon";
 
@@ -216,15 +216,22 @@ function PostMenu({ post, isOwnPost }: { post: PostView; isOwnPost: boolean }) {
   const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
   const [confirming, setConfirming] = useState(false);
+  const [confirmingBlock, setConfirmingBlock] = useState(false);
   const [threadMuted, setThreadMuted] = useState(!!post.viewer?.threadMuted);
   const deletePost = useDeletePost();
   const muteActor = useMuteActor();
   const unmuteActor = useUnmuteActor();
+  const blockActor = useBlockActor();
+  const unblockActor = useUnblockActor();
   const [userMuted, setUserMuted] = useState(!!post.author.viewer?.muted);
+  const [userBlocking, setUserBlocking] = useState(!!post.author.viewer?.blocking);
+  const [blockUri, setBlockUri] = useState(post.author.viewer?.blocking ?? "");
 
   useEffect(() => {
     setUserMuted(!!post.author.viewer?.muted);
-  }, [post.author.viewer?.muted]);
+    setUserBlocking(!!post.author.viewer?.blocking);
+    setBlockUri(post.author.viewer?.blocking ?? "");
+  }, [post.author.viewer?.muted, post.author.viewer?.blocking]);
 
   const handleDelete = () => {
     setOpen(false);
@@ -278,6 +285,30 @@ function PostMenu({ post, isOwnPost }: { post: PostView; isOwnPost: boolean }) {
       } else {
         await muteActor.mutateAsync({ did: post.author.did });
         setUserMuted(true);
+      }
+    } catch {
+      // silently fail
+    }
+  };
+
+  const handleBlockClick = () => {
+    setOpen(false);
+    setConfirmingBlock(true);
+  };
+
+  const confirmBlock = async () => {
+    setConfirmingBlock(false);
+    try {
+      if (userBlocking) {
+        if (blockUri) {
+          await unblockActor.mutateAsync({ blockUri });
+        }
+        setUserBlocking(false);
+        setBlockUri("");
+      } else {
+        const res = await blockActor.mutateAsync({ did: post.author.did });
+        setUserBlocking(true);
+        setBlockUri(res.uri);
       }
     } catch {
       // silently fail
@@ -351,13 +382,29 @@ function PostMenu({ post, isOwnPost }: { post: PostView; isOwnPost: boolean }) {
                 <span>{threadMuted ? t("post.unmuteThread") : t("post.muteThread")}</span>
               </button>
               {!isOwnPost && (
-                <button
-                  onClick={handleToggleMuteUser}
-                  className="w-full flex items-center gap-2 px-3 py-2 text-sm text-text-light dark:text-text-dark hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-                >
-                  <Icon name={userMuted ? "volume_up" : "volume_off"} size={16} />
-                  <span>{userMuted ? t("post.unmuteUser") : t("post.muteUser")}</span>
-                </button>
+                <>
+                  <button
+                    onClick={handleToggleMuteUser}
+                    className="w-full flex items-center gap-2 px-3 py-2 text-sm text-text-light dark:text-text-dark hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                  >
+                    <Icon name={userMuted ? "volume_up" : "volume_off"} size={16} />
+                    <span>{userMuted ? t("post.unmuteUser") : t("post.muteUser")}</span>
+                  </button>
+                  <button
+                    onClick={handleBlockClick}
+                    className={`w-full flex items-center gap-2 px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors ${userBlocking ? "text-red-500" : "text-text-light dark:text-text-dark"}`}
+                  >
+                    <Icon name="block" size={16} />
+                    <span>{userBlocking ? t("post.unblockUser") : t("post.blockUser")}</span>
+                  </button>
+                  <button
+                    onClick={() => { setOpen(false); useReportStore.getState().open({ type: "user", did: post.author.did }); }}
+                    className="w-full flex items-center gap-2 px-3 py-2 text-sm text-text-light dark:text-text-dark hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                  >
+                    <Icon name="person_alert" size={16} />
+                    <span>{t("report.reportUser")}</span>
+                  </button>
+                </>
               )}
             </div>
           </>
@@ -381,6 +428,33 @@ function PostMenu({ post, isOwnPost }: { post: PostView; isOwnPost: boolean }) {
                 className="flex-1 py-2 text-sm font-medium rounded-lg bg-red-500 text-white hover:bg-red-600 transition-colors"
               >
                 {t("post.deleteAction")}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Block confirmation modal */}
+      {confirmingBlock && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" onClick={(e) => { e.stopPropagation(); setConfirmingBlock(false); }}>
+          <div className="bg-white dark:bg-bg-dark border border-border-light dark:border-border-dark rounded-xl shadow-xl p-5 mx-4 max-w-[280px] w-full" onClick={(e) => e.stopPropagation()}>
+            <p className="text-sm text-text-light dark:text-text-dark text-center mb-4">
+              {userBlocking
+                ? t("confirm.unblock", { name: post.author.displayName || post.author.handle })
+                : t("confirm.block", { name: post.author.displayName || post.author.handle })}
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setConfirmingBlock(false)}
+                className="flex-1 py-2 text-sm font-medium rounded-lg border border-border-light dark:border-border-dark text-text-light dark:text-text-dark hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              >
+                {t("post.deleteCancel")}
+              </button>
+              <button
+                onClick={confirmBlock}
+                className={`flex-1 py-2 text-sm font-medium rounded-lg text-white transition-colors ${userBlocking ? "bg-blue-500 hover:bg-blue-600" : "bg-red-500 hover:bg-red-600"}`}
+              >
+                {userBlocking ? t("confirm.unblock_btn") : t("confirm.block_btn")}
               </button>
             </div>
           </div>
