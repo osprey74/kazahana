@@ -52,7 +52,7 @@ Kazahana is designed as a **lightweight, always-running companion app** — not 
 - [x] Auto-start on OS boot (optional)
 - [x] Bookmarks
 - [x] Quote post
-- [x] Direct messages
+- [x] Direct messages (with recipient history for quick compose)
 - [x] Bookmarklet & custom URI protocol (`kazahana://compose`) for quick sharing from browser
 - [x] Window size & position persistence (save on exit, restore on launch)
 - [x] System tray: left-click to restore, right-click menu (Open Window / Minimize / Exit)

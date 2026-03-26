@@ -244,7 +244,7 @@ export function ProfileView() {
       {/* Tabs */}
       <div ref={tabsRef} className="sticky top-0 z-20 bg-white dark:bg-bg-dark flex border-b border-border-light dark:border-border-dark">
         {(isOwnProfile
-          ? (["posts", "replies", "likes", "media", "bookmarks", "starterPacks"] as const)
+          ? (["posts", "replies", "media", "likes", "bookmarks", "starterPacks"] as const)
           : (["posts", "replies", "media", "starterPacks"] as const)
         ).map((tabKey) => (
           <button
