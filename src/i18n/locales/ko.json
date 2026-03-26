@@ -355,7 +355,8 @@
     "leave": "대화 나가기",
     "leaveConfirm": "이 대화에서 나가시겠습니까?",
     "accept": "수락",
-    "requests": "메시지 요청"
+    "requests": "메시지 요청",
+    "recentRecipients": "최근"
   },
   "draft": {
     "title": "임시 저장",

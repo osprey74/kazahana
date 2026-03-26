@@ -355,7 +355,8 @@
     "leave": "Sair da conversa",
     "leaveConfirm": "Sair desta conversa?",
     "accept": "Aceitar",
-    "requests": "Solicitações de mensagens"
+    "requests": "Solicitações de mensagens",
+    "recentRecipients": "Recentes"
   },
   "draft": {
     "title": "Rascunhos",

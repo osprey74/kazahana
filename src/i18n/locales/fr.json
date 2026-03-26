@@ -355,7 +355,8 @@
     "leave": "Quitter la conversation",
     "leaveConfirm": "Quitter cette conversation ?",
     "accept": "Accepter",
-    "requests": "Demandes de messages"
+    "requests": "Demandes de messages",
+    "recentRecipients": "Récents"
   },
   "draft": {
     "title": "Brouillons",

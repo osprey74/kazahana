@@ -374,7 +374,8 @@
     "leave": "会話から退出",
     "leaveConfirm": "この会話から退出しますか？",
     "accept": "承認",
-    "requests": "メッセージリクエスト"
+    "requests": "メッセージリクエスト",
+    "recentRecipients": "最近の宛先"
   },
   "draft": {
     "title": "下書き",

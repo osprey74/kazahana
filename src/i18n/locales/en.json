@@ -374,7 +374,8 @@
     "leave": "Leave conversation",
     "leaveConfirm": "Leave this conversation?",
     "accept": "Accept",
-    "requests": "Message requests"
+    "requests": "Message requests",
+    "recentRecipients": "Recent"
   },
   "draft": {
     "title": "Drafts",

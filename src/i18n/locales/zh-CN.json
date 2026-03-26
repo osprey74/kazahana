@@ -355,7 +355,8 @@
     "leave": "离开对话",
     "leaveConfirm": "离开此对话？",
     "accept": "接受",
-    "requests": "消息请求"
+    "requests": "消息请求",
+    "recentRecipients": "最近"
   },
   "draft": {
     "title": "草稿",

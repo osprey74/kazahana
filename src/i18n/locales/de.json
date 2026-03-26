@@ -355,7 +355,8 @@
     "leave": "Unterhaltung verlassen",
     "leaveConfirm": "Diese Unterhaltung verlassen?",
     "accept": "Akzeptieren",
-    "requests": "Nachrichtenanfragen"
+    "requests": "Nachrichtenanfragen",
+    "recentRecipients": "Zuletzt"
   },
   "draft": {
     "title": "Entwürfe",

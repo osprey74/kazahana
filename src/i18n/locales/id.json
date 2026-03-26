@@ -355,7 +355,8 @@
     "leave": "Tinggalkan percakapan",
     "leaveConfirm": "Tinggalkan percakapan ini?",
     "accept": "Terima",
-    "requests": "Permintaan pesan"
+    "requests": "Permintaan pesan",
+    "recentRecipients": "Terbaru"
   },
   "draft": {
     "title": "Draf",

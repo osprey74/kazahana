@@ -355,7 +355,8 @@
     "leave": "Abandonar conversación",
     "leaveConfirm": "¿Abandonar esta conversación?",
     "accept": "Aceptar",
-    "requests": "Solicitudes de mensajes"
+    "requests": "Solicitudes de mensajes",
+    "recentRecipients": "Recientes"
   },
   "draft": {
     "title": "Borradores",

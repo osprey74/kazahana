@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useDMComposeStore } from "../../stores/dmComposeStore";
+import { useDMRecipientHistoryStore } from "../../stores/dmRecipientHistoryStore";
 import { getAgent } from "../../lib/agent";
 import { getChatAgent } from "../../lib/chatAgent";
 import { Avatar } from "../common/Avatar";
@@ -10,6 +11,7 @@ import type { ProfileViewBasic } from "@atproto/api/dist/client/types/app/bsky/a
 
 export function DMComposeModal() {
   const { isOpen, recipientDid, close } = useDMComposeStore();
+  const { history: recipientHistory, addRecipient, removeRecipient } = useDMRecipientHistoryStore();
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
@@ -70,8 +72,14 @@ export function DMComposeModal() {
   }, [close, navigate]);
 
   const handleSelect = useCallback(async (user: ProfileViewBasic) => {
+    addRecipient({
+      did: user.did,
+      handle: user.handle,
+      displayName: user.displayName,
+      avatar: user.avatar,
+    });
     await handleSelectByDid(user.did);
-  }, [handleSelectByDid]);
+  }, [handleSelectByDid, addRecipient]);
 
   if (!isOpen) return null;
 
@@ -103,7 +111,7 @@ export function DMComposeModal() {
           />
         </div>
 
-        {/* Results */}
+        {/* Results / History */}
         <div className="max-h-64 overflow-y-auto scrollbar-thin">
           {creating && (
             <div className="flex items-center justify-center py-8">
@@ -115,7 +123,8 @@ export function DMComposeModal() {
               <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary" />
             </div>
           )}
-          {!creating && !searching && results.map((user) => (
+          {/* Search results */}
+          {!creating && !searching && query && results.map((user) => (
             <button
               key={user.did}
               onClick={() => handleSelect(user)}
@@ -132,6 +141,37 @@ export function DMComposeModal() {
           ))}
           {!creating && !searching && query && results.length === 0 && (
             <p className="text-center text-xs text-gray-400 py-4">{t("search.noResults")}</p>
+          )}
+          {/* Recent recipients history */}
+          {!creating && !searching && !query && recipientHistory.length > 0 && (
+            <>
+              <div className="px-4 py-1.5 text-xs text-gray-400 font-medium">
+                {t("messages.recentRecipients")}
+              </div>
+              {recipientHistory.map((r) => (
+                <div key={r.did} className="flex items-center group">
+                  <button
+                    onClick={() => handleSelect({ did: r.did, handle: r.handle, displayName: r.displayName, avatar: r.avatar })}
+                    className="flex-1 flex items-center gap-3 px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-800/50 text-left min-w-0"
+                  >
+                    <Avatar src={r.avatar} alt={r.displayName || r.handle} size="sm" />
+                    <div className="min-w-0">
+                      <p className="text-sm font-medium text-text-light dark:text-text-dark truncate">
+                        {r.displayName || r.handle}
+                      </p>
+                      <p className="text-xs text-gray-400 truncate">@{r.handle}</p>
+                    </div>
+                  </button>
+                  <button
+                    onClick={() => removeRecipient(r.did)}
+                    className="px-3 py-2 text-gray-300 hover:text-gray-500 dark:text-gray-600 dark:hover:text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity"
+                    title={t("common.delete")}
+                  >
+                    <Icon name="close" size={14} />
+                  </button>
+                </div>
+              ))}
+            </>
           )}
         </div>
       </div>
