@@ -337,24 +337,6 @@ function PostMenu({ post, isOwnPost }: { post: PostView; isOwnPost: boolean }) {
                   <span>{t("post.delete")}</span>
                 </button>
               )}
-              {!isOwnPost && (
-                <>
-                  <button
-                    onClick={handleHidePost}
-                    className="w-full flex items-center gap-2 px-3 py-2 text-sm text-text-light dark:text-text-dark hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-                  >
-                    <Icon name="visibility_off" size={16} />
-                    <span>{t("post.hidePost")}</span>
-                  </button>
-                  <button
-                    onClick={() => { setOpen(false); useReportStore.getState().open({ type: "post", uri: post.uri, cid: post.cid }); }}
-                    className="w-full flex items-center gap-2 px-3 py-2 text-sm text-text-light dark:text-text-dark hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-                  >
-                    <Icon name="flag" size={16} />
-                    <span>{t("report.reportPost")}</span>
-                  </button>
-                </>
-              )}
               <button
                 onClick={handleCopyLink}
                 className="w-full flex items-center gap-2 px-3 py-2 text-sm text-text-light dark:text-text-dark hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
@@ -374,15 +356,31 @@ function PostMenu({ post, isOwnPost }: { post: PostView; isOwnPost: boolean }) {
                 <Icon name="translate" size={16} />
                 <span>{t("post.translate")}</span>
               </button>
-              <button
-                onClick={handleToggleMuteThread}
-                className="w-full flex items-center gap-2 px-3 py-2 text-sm text-text-light dark:text-text-dark hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-              >
-                <Icon name={threadMuted ? "notifications_active" : "notifications_off"} size={16} />
-                <span>{threadMuted ? t("post.unmuteThread") : t("post.muteThread")}</span>
-              </button>
               {!isOwnPost && (
                 <>
+                  <div className="my-1 border-t border-border-light dark:border-border-dark" />
+                  <button
+                    onClick={handleHidePost}
+                    className="w-full flex items-center gap-2 px-3 py-2 text-sm text-text-light dark:text-text-dark hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                  >
+                    <Icon name="visibility_off" size={16} />
+                    <span>{t("post.hidePost")}</span>
+                  </button>
+                  <button
+                    onClick={() => { setOpen(false); useReportStore.getState().open({ type: "post", uri: post.uri, cid: post.cid }); }}
+                    className="w-full flex items-center gap-2 px-3 py-2 text-sm text-text-light dark:text-text-dark hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                  >
+                    <Icon name="flag" size={16} />
+                    <span>{t("report.reportPost")}</span>
+                  </button>
+                  <button
+                    onClick={handleToggleMuteThread}
+                    className="w-full flex items-center gap-2 px-3 py-2 text-sm text-text-light dark:text-text-dark hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                  >
+                    <Icon name={threadMuted ? "notifications_active" : "notifications_off"} size={16} />
+                    <span>{threadMuted ? t("post.unmuteThread") : t("post.muteThread")}</span>
+                  </button>
+                  <div className="my-1 border-t border-border-light dark:border-border-dark" />
                   <button
                     onClick={handleToggleMuteUser}
                     className="w-full flex items-center gap-2 px-3 py-2 text-sm text-text-light dark:text-text-dark hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"

@@ -170,6 +170,7 @@ export function ProfileHeader({ profile, isOwnProfile }: ProfileHeaderProps) {
                         <Icon name="list" size={16} />
                         <span>{t("profile.manageList")}</span>
                       </button>
+                      <div className="my-1 border-t border-border-light dark:border-border-dark" />
                       <button
                         onClick={handleToggleMute}
                         className="w-full flex items-center gap-2 px-3 py-2 text-sm text-text-light dark:text-text-dark hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
