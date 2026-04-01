@@ -1,6 +1,6 @@
 # kazahana Platform Feature Matrix
 
-> **Last updated:** 2026-04-01 (iOS: 通知グルーピング・画像動画一括保存・投稿言語Bluesky設定優先を実装。動画保存は getBlob API 経由、保存中ローディングオーバーレイ実装)
+> **Last updated:** 2026-04-02 (Desktop v2.3.0: 通知グルーピング・画像動画一括保存を実装。iOS/Android: 通知グルーピング・画像動画一括保存・投稿言語Bluesky設定優先を実装)
 > **Source:** Compiled from the following repositories
 > - Desktop (Win/macOS): https://github.com/osprey74/kazahana
 > - iOS: https://github.com/osprey74/kazahana-ios
@@ -80,7 +80,11 @@
 | スレッド通知ミュート | ✅ | ✅ | ✅ | ✅ | |
 | リンクコピー | ✅ | ✅ | ✅ | ✅ | |
 | 外部ブラウザで開く | ✅ | ✅ | ✅ | ✅ | |
-| 画像・動画一括保存 | ⬜ | ⬜ | ⬜ | ✅ | iOS: 画像は PHAssetCreationRequest + addResource(data:) / 動画は com.atproto.sync.getBlob で PDS から直接取得（AVAssetExportSession による HLS→MP4 変換は iOS 制限により不可）/ 保存中は全画面ローディングオーバーレイ表示 |
+<<<<<<< HEAD
+| 画像・動画一括保存 | ✅ | ✅ | ⬜ | ✅ | Desktop: 三点メニューから一括保存、getBlob API経由。iOS: PHAssetCreationRequest + addResource(data:) / 動画は com.atproto.sync.getBlob で PDS から直接取得 / 保存中は全画面ローディングオーバーレイ表示 |
+=======
+| 画像・動画の一括保存 | ⬜ | ⬜ | ✅ | ⬜ | ポストの三点メニューから全メディアを端末に保存 |
+>>>>>>> d7b5179 (Update PLATFORM_MATRIX.md for Android new features (2026-04-01))
 
 ---
 
@@ -119,8 +123,9 @@
 | like-via-repost / repost-via-repost | ✅ | ✅ | ✅ | ✅ | |
 | 通知アクションボタン（返信/RT/いいね） | ✅ | ✅ | ✅ | ✅ | |
 | 通知画像サムネイル | ✅ | ✅ | ✅ | ✅ | |
-| 通知グルーピング表示（同種アクションまとめ） | ⬜ | ⬜ | ⬜ | ✅ | 「〇〇ほかN人が…」形式・複数アバター表示 |
+| 通知グルーピング表示（同種アクションまとめ） | ✅ | ✅ | ⬜ | ✅ | 「〇〇ほかN人が…」形式・複数アバター表示 |
 | OS ネイティブ通知（バックグラウンド） | ✅ | ✅ | ✅ | ✅ | Desktop: tauri-plugin-notification / iOS: BGAppRefreshTask + UNUserNotificationCenter / Android: WorkManager |
+| 通知グルーピング表示 | ⬜ | ⬜ | ✅ | ⬜ | 同一ポストへの同種アクションをまとめて表示 |
 
 ---
 
@@ -209,7 +214,11 @@
 | Claude API キー管理 | ✅ | ✅ | ✅ | ✅ | |
 | 自動更新間隔設定（30/60/90/120秒） | ✅ | ✅ | ✅ | ✅ | |
 | VIA 表示設定 | ✅ | ✅ | ✅ | ✅ | |
+<<<<<<< HEAD
 | 投稿言語（Bluesky アカウント設定から優先取得） | ⬜ | ⬜ | ⬜ | ✅ | iOS: getPreferences → postLanguages → 端末ロケールの優先順 |
+=======
+| 投稿言語の取得元（Bluesky設定優先） | ⬜ | ⬜ | ✅ | ⬜ | アプリ設定 → Bluesky設定 → 端末ロケールの3段階フォールバック |
+>>>>>>> d7b5179 (Update PLATFORM_MATRIX.md for Android new features (2026-04-01))
 | ログインハンドル履歴（オートコンプリート） | ✅ | ✅ | N/A | N/A | |
 
 ---
@@ -269,8 +278,8 @@
 
 | 機能 | Windows | macOS | Android |
 |------|:-------:|:-----:|:-------:|
-| 通知グルーピング表示 | ⬜ | ⬜ | ⬜ |
-| 画像・動画一括保存 | ⬜ | ⬜ | ⬜ |
+| 通知グルーピング表示 | ✅ | ✅ | ⬜ |
+| 画像・動画一括保存 | ✅ | ✅ | ⬜ |
 | 投稿言語（Bluesky アカウント設定から優先取得） | ⬜ | ⬜ | ⬜ |
 
 ### Mobile → Desktop 未実装
@@ -278,6 +287,14 @@
 | 機能 | Desktop |
 |------|:-------:|
 | 自動更新（tauri-plugin-updater） | ⬜ |
+
+### Android → Desktop / iOS 未実装
+
+| 機能 | Desktop | iOS | 備考 |
+|------|:-------:|:---:|------|
+| 投稿言語の取得元（Bluesky設定優先） | ⬜ | ✅ | iOS は実装済み |
+| 通知グルーピング表示 | ✅ | ✅ | Desktop/iOS 実装済み |
+| 画像・動画の一括保存 | ✅ | ✅ | Desktop/iOS 実装済み |
 
 ### 全プラットフォーム未実装
 
