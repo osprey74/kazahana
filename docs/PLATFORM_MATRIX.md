@@ -1,6 +1,6 @@
 # kazahana Platform Feature Matrix
 
-> **Last updated:** 2026-04-01 (iOS: 通知グルーピング・画像動画一括保存・投稿言語Bluesky設定優先を実装)
+> **Last updated:** 2026-04-01 (iOS: 通知グルーピング・画像動画一括保存・投稿言語Bluesky設定優先を実装。動画保存は getBlob API 経由、保存中ローディングオーバーレイ実装)
 > **Source:** Compiled from the following repositories
 > - Desktop (Win/macOS): https://github.com/osprey74/kazahana
 > - iOS: https://github.com/osprey74/kazahana-ios
@@ -80,7 +80,7 @@
 | スレッド通知ミュート | ✅ | ✅ | ✅ | ✅ | |
 | リンクコピー | ✅ | ✅ | ✅ | ✅ | |
 | 外部ブラウザで開く | ✅ | ✅ | ✅ | ✅ | |
-| 画像・動画一括保存 | ⬜ | ⬜ | ⬜ | ✅ | iOS: Photos フレームワーク / 動画は playlist → video.mp4 変換 |
+| 画像・動画一括保存 | ⬜ | ⬜ | ⬜ | ✅ | iOS: 画像は PHAssetCreationRequest + addResource(data:) / 動画は com.atproto.sync.getBlob で PDS から直接取得（AVAssetExportSession による HLS→MP4 変換は iOS 制限により不可）/ 保存中は全画面ローディングオーバーレイ表示 |
 
 ---
 
