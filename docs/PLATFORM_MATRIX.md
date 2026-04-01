@@ -1,6 +1,6 @@
 # kazahana Platform Feature Matrix
 
-> **Last updated:** 2026-03-26 (Android: 棚卸し — 実装済み14機能を ⬜→✅ に更新、差異サマリー整理)
+> **Last updated:** 2026-04-01 (iOS: 通知グルーピング・画像動画一括保存・投稿言語Bluesky設定優先を実装)
 > **Source:** Compiled from the following repositories
 > - Desktop (Win/macOS): https://github.com/osprey74/kazahana
 > - iOS: https://github.com/osprey74/kazahana-ios
@@ -80,6 +80,7 @@
 | スレッド通知ミュート | ✅ | ✅ | ✅ | ✅ | |
 | リンクコピー | ✅ | ✅ | ✅ | ✅ | |
 | 外部ブラウザで開く | ✅ | ✅ | ✅ | ✅ | |
+| 画像・動画一括保存 | ⬜ | ⬜ | ⬜ | ✅ | iOS: Photos フレームワーク / 動画は playlist → video.mp4 変換 |
 
 ---
 
@@ -118,6 +119,7 @@
 | like-via-repost / repost-via-repost | ✅ | ✅ | ✅ | ✅ | |
 | 通知アクションボタン（返信/RT/いいね） | ✅ | ✅ | ✅ | ✅ | |
 | 通知画像サムネイル | ✅ | ✅ | ✅ | ✅ | |
+| 通知グルーピング表示（同種アクションまとめ） | ⬜ | ⬜ | ⬜ | ✅ | 「〇〇ほかN人が…」形式・複数アバター表示 |
 | OS ネイティブ通知（バックグラウンド） | ✅ | ✅ | ✅ | ✅ | Desktop: tauri-plugin-notification / iOS: BGAppRefreshTask + UNUserNotificationCenter / Android: WorkManager |
 
 ---
@@ -207,6 +209,7 @@
 | Claude API キー管理 | ✅ | ✅ | ✅ | ✅ | |
 | 自動更新間隔設定（30/60/90/120秒） | ✅ | ✅ | ✅ | ✅ | |
 | VIA 表示設定 | ✅ | ✅ | ✅ | ✅ | |
+| 投稿言語（Bluesky アカウント設定から優先取得） | ⬜ | ⬜ | ⬜ | ✅ | iOS: getPreferences → postLanguages → 端末ロケールの優先順 |
 | ログインハンドル履歴（オートコンプリート） | ✅ | ✅ | N/A | N/A | |
 
 ---
@@ -261,6 +264,14 @@
 ---
 
 ## 差異サマリー（要対応）
+
+### iOS 先行実装（他プラットフォーム未実装）
+
+| 機能 | Windows | macOS | Android |
+|------|:-------:|:-----:|:-------:|
+| 通知グルーピング表示 | ⬜ | ⬜ | ⬜ |
+| 画像・動画一括保存 | ⬜ | ⬜ | ⬜ |
+| 投稿言語（Bluesky アカウント設定から優先取得） | ⬜ | ⬜ | ⬜ |
 
 ### Mobile → Desktop 未実装
 
