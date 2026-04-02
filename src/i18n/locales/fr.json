@@ -242,11 +242,14 @@
     "viewPost": "Voir la publication",
     "moderation": "Modération du contenu",
     "adultContent": "Activer le contenu pour adultes",
+    "adultContentSection": "Contenu pour adultes",
+    "graphicContent": "Contenu graphique",
     "label": {
       "nudity": "Nudité",
       "sexual": "Contenu suggestif",
       "porn": "Pornographie",
-      "graphic-media": "Contenu explicite"
+      "graphic-media": "Contenu explicite",
+      "gore": "Violence"
     },
     "pref": {
       "hide": "Masquer",

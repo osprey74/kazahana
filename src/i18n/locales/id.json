@@ -242,11 +242,14 @@
     "viewPost": "Lihat postingan",
     "moderation": "Moderasi Konten",
     "adultContent": "Aktifkan konten dewasa",
+    "adultContentSection": "Konten dewasa",
+    "graphicContent": "Konten grafis",
     "label": {
       "nudity": "Ketelanjangan",
       "sexual": "Konten Sugestif Seksual",
       "porn": "Pornografi",
-      "graphic-media": "Media Grafis"
+      "graphic-media": "Media Grafis",
+      "gore": "Kekerasan"
     },
     "pref": {
       "hide": "Sembunyikan",

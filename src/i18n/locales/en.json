@@ -257,11 +257,14 @@
     "viewPost": "View post",
     "moderation": "Content Moderation",
     "adultContent": "Enable adult content",
+    "adultContentSection": "Adult content",
+    "graphicContent": "Graphic content",
     "label": {
       "nudity": "Nudity",
       "sexual": "Sexually Suggestive",
       "porn": "Pornography",
-      "graphic-media": "Graphic Media"
+      "graphic-media": "Graphic Media",
+      "gore": "Violence"
     },
     "closeAction": "Close Button",
     "closeActionExit": "Exit the application",

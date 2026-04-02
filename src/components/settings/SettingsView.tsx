@@ -11,12 +11,18 @@ import { Icon } from "../common/Icon";
 
 type LabelPref = "hide" | "warn" | "ignore";
 
-const CONTENT_LABELS = [
-  { id: "nudity", adultOnly: false },
-  { id: "sexual", adultOnly: true },
-  { id: "porn", adultOnly: true },
-  { id: "graphic-media", adultOnly: false },
+const ADULT_LABELS = [
+  { id: "porn" },
+  { id: "sexual" },
+  { id: "nudity" },
 ] as const;
+
+const GRAPHIC_LABELS = [
+  { id: "graphic-media" },
+  { id: "gore" },
+] as const;
+
+const ALL_LABEL_IDS = [...ADULT_LABELS, ...GRAPHIC_LABELS].map((l) => l.id);
 
 const isMac = /Macintosh|Mac OS X/i.test(navigator.userAgent);
 
@@ -47,9 +53,9 @@ export function SettingsView() {
     if (modPrefs) {
       setAdultContent(modPrefs.adultContentEnabled);
       const prefs: Record<string, LabelPref> = {};
-      for (const label of CONTENT_LABELS) {
-        const visibility = modPrefs.labels[label.id];
-        prefs[label.id] = (visibility as LabelPref) ?? "warn";
+      for (const id of ALL_LABEL_IDS) {
+        const visibility = modPrefs.labels[id];
+        prefs[id] = (visibility as LabelPref) ?? "warn";
       }
       setLabelPrefs(prefs);
     }
@@ -341,7 +347,8 @@ export function SettingsView() {
         <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">{t("settings.moderation")}</h3>
 
         <div className="ml-4">
-          {/* Adult content toggle */}
+          {/* Adult content section */}
+          <h4 className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-2">{t("settings.adultContentSection")}</h4>
           <label className="flex items-center gap-2 mb-3 cursor-pointer">
             <input
               type="checkbox"
@@ -352,10 +359,40 @@ export function SettingsView() {
             <span className="text-sm text-text-light dark:text-text-dark">{t("settings.adultContent")}</span>
           </label>
 
-          {/* Label preferences */}
+          {adultContent && (
+            <div className="space-y-2 mb-4">
+              {ADULT_LABELS.map((label) => {
+                const currentPref = labelPrefs[label.id] ?? "warn";
+                return (
+                  <div key={label.id} className="flex items-center justify-between">
+                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                      {t(`settings.label.${label.id}`)}
+                    </span>
+                    <div className="flex gap-1">
+                      {(["hide", "warn", "ignore"] as const).map((pref) => (
+                        <button
+                          key={pref}
+                          onClick={() => handleLabelPref(label.id, pref)}
+                          className={`px-3 py-1 text-xs rounded-btn transition-colors ${
+                            currentPref === pref
+                              ? "bg-primary text-white"
+                              : "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600"
+                          }`}
+                        >
+                          {t(`settings.pref.${pref}`)}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
+          {/* Graphic content section */}
+          <h4 className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-2">{t("settings.graphicContent")}</h4>
           <div className="space-y-2">
-            {CONTENT_LABELS.map((label) => {
-              if (label.adultOnly && !adultContent) return null;
+            {GRAPHIC_LABELS.map((label) => {
               const currentPref = labelPrefs[label.id] ?? "warn";
               return (
                 <div key={label.id} className="flex items-center justify-between">

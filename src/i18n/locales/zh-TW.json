@@ -242,11 +242,14 @@
     "viewPost": "查看貼文",
     "moderation": "內容審核",
     "adultContent": "啟用成人內容",
+    "adultContentSection": "成人內容",
+    "graphicContent": "過激內容",
     "label": {
       "nudity": "裸露",
       "sexual": "性暗示",
       "porn": "色情內容",
-      "graphic-media": "血腥媒體"
+      "graphic-media": "血腥媒體",
+      "gore": "暴力"
     },
     "pref": {
       "hide": "隱藏",

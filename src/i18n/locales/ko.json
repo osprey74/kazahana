@@ -242,11 +242,14 @@
     "viewPost": "게시물 보기",
     "moderation": "콘텐츠 관리",
     "adultContent": "성인 콘텐츠 허용",
+    "adultContentSection": "성인 콘텐츠",
+    "graphicContent": "과격한 콘텐츠",
     "label": {
       "nudity": "노출",
       "sexual": "선정적 콘텐츠",
       "porn": "포르노",
-      "graphic-media": "폭력적 미디어"
+      "graphic-media": "폭력적 미디어",
+      "gore": "폭력"
     },
     "pref": {
       "hide": "숨기기",

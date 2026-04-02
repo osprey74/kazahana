@@ -242,11 +242,14 @@
     "viewPost": "Beitrag ansehen",
     "moderation": "Inhaltsmoderation",
     "adultContent": "Inhalte für Erwachsene aktivieren",
+    "adultContentSection": "Erwachseneninhalte",
+    "graphicContent": "Grafische Inhalte",
     "label": {
       "nudity": "Nacktheit",
       "sexual": "Sexuell anzüglich",
       "porn": "Pornografie",
-      "graphic-media": "Drastische Medien"
+      "graphic-media": "Drastische Medien",
+      "gore": "Gewalt"
     },
     "pref": {
       "hide": "Ausblenden",

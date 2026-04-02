@@ -242,11 +242,14 @@
     "viewPost": "查看帖子",
     "moderation": "内容审核",
     "adultContent": "启用成人内容",
+    "adultContentSection": "成人内容",
+    "graphicContent": "过激内容",
     "label": {
       "nudity": "裸露",
       "sexual": "性暗示",
       "porn": "色情内容",
-      "graphic-media": "血腥媒体"
+      "graphic-media": "血腥媒体",
+      "gore": "暴力"
     },
     "pref": {
       "hide": "隐藏",

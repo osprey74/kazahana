@@ -257,11 +257,14 @@
     "viewPost": "投稿を見る",
     "moderation": "コンテンツモデレーション",
     "adultContent": "成人向けコンテンツを有効にする",
+    "adultContentSection": "成人向けコンテンツ",
+    "graphicContent": "過激コンテンツ",
     "label": {
       "nudity": "ヌード",
       "sexual": "性的示唆",
       "porn": "ポルノ",
-      "graphic-media": "過激なメディア"
+      "graphic-media": "過激なメディア",
+      "gore": "暴力"
     },
     "closeAction": "閉じるボタンの動作",
     "closeActionExit": "アプリを終了する",
