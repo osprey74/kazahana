@@ -1,8 +1,52 @@
 import { useInfiniteQuery, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Notification } from "@atproto/api/dist/client/types/app/bsky/notification/listNotifications";
+import type { PostView } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
 import { getAgent } from "../lib/agent";
 import { sendNotification, type NotificationReasonCounts } from "../lib/notifications";
+
+/** A group of notifications with the same reason targeting the same post */
+export interface NotificationGroup {
+  id: string;
+  reason: string;
+  reasonSubject?: string;
+  notifications: Notification[];
+  isRead: boolean;
+  indexedAt: string;
+}
+
+const GROUPABLE_REASONS = new Set(["like", "repost", "like-via-repost", "repost-via-repost"]);
+
+/** Group flat notifications by reason + reasonSubject (like/repost only) */
+export function groupNotifications(notifications: Notification[]): NotificationGroup[] {
+  const groups: NotificationGroup[] = [];
+  const keyToIndex: Record<string, number> = {};
+
+  for (const notif of notifications) {
+    let groupKey: string | null = null;
+    if (GROUPABLE_REASONS.has(notif.reason) && notif.reasonSubject) {
+      groupKey = `${notif.reason}:${notif.reasonSubject}`;
+    }
+
+    if (groupKey && groupKey in keyToIndex) {
+      const idx = keyToIndex[groupKey];
+      groups[idx].notifications.push(notif);
+      if (!notif.isRead) groups[idx].isRead = false;
+    } else {
+      const id = groupKey ?? notif.uri;
+      keyToIndex[id] = groups.length;
+      groups.push({
+        id,
+        reason: notif.reason,
+        reasonSubject: notif.reasonSubject,
+        notifications: [notif],
+        isRead: notif.isRead,
+        indexedAt: notif.indexedAt,
+      });
+    }
+  }
+  return groups;
+}
 
 export function useNotifications() {
   return useInfiniteQuery({
@@ -112,6 +156,110 @@ export function useSubjectPost(notification: Notification) {
   });
 
   return data ?? undefined;
+}
+
+/** Resolve a post URI, handling repost record URIs */
+async function resolvePostUri(uri: string): Promise<string | null> {
+  if (!uri.includes("/app.bsky.feed.repost/")) return uri;
+  const match = uri.match(/^at:\/\/([^/]+)\/app\.bsky\.feed\.repost\/(.+)$/);
+  if (!match) return null;
+  try {
+    const agent = getAgent();
+    const res = await agent.com.atproto.repo.getRecord({
+      repo: match[1],
+      collection: "app.bsky.feed.repost",
+      rkey: match[2],
+    });
+    return (res.data.value as { subject?: { uri: string } }).subject?.uri ?? null;
+  } catch {
+    return null;
+  }
+}
+
+/** Get the subject post URI for a notification group */
+function getSubjectUri(group: NotificationGroup): string | null {
+  const notif = group.notifications[0];
+  const { reason } = notif;
+  if (reason === "reply" || reason === "mention" || reason === "quote") return notif.uri;
+  if (GROUPABLE_REASONS.has(reason) && notif.reasonSubject) return notif.reasonSubject;
+  return null;
+}
+
+/** Batch-load subject posts for grouped notifications, 10 groups at a time */
+export function useBatchSubjectPosts(groups: NotificationGroup[]) {
+  const [subjectPosts, setSubjectPosts] = useState<Record<string, PostView>>({});
+  const [loadedBatch, setLoadedBatch] = useState(0);
+  const prevGroupsRef = useRef<string>("");
+
+  // Reset when groups change (new data loaded)
+  const groupsKey = groups.map((g) => g.id).join(",");
+  useEffect(() => {
+    if (groupsKey !== prevGroupsRef.current) {
+      prevGroupsRef.current = groupsKey;
+      setSubjectPosts({});
+      setLoadedBatch(0);
+    }
+  }, [groupsKey]);
+
+  // Load posts in batches of 10 groups
+  useEffect(() => {
+    if (groups.length === 0) return;
+    const BATCH_SIZE = 10;
+    const start = loadedBatch * BATCH_SIZE;
+    if (start >= groups.length) return;
+    const batch = groups.slice(start, start + BATCH_SIZE);
+
+    let cancelled = false;
+    (async () => {
+      const agent = getAgent();
+      // Collect URIs for this batch, resolving repost URIs in parallel
+      const uriEntries = await Promise.all(
+        batch.map(async (group) => {
+          const rawUri = getSubjectUri(group);
+          if (!rawUri) return null;
+          const resolved = await resolvePostUri(rawUri);
+          return resolved ? { groupId: group.id, rawUri, resolved } : null;
+        })
+      );
+
+      const validEntries = uriEntries.filter((e): e is NonNullable<typeof e> => e !== null);
+      // Deduplicate resolved URIs
+      const uniqueUris = [...new Set(validEntries.map((e) => e.resolved))];
+      if (uniqueUris.length === 0 || cancelled) return;
+
+      // Fetch posts in chunks of 25 (API limit)
+      const fetched: Record<string, PostView> = {};
+      for (let i = 0; i < uniqueUris.length; i += 25) {
+        const chunk = uniqueUris.slice(i, i + 25);
+        try {
+          const res = await agent.getPosts({ uris: chunk });
+          for (const post of res.data.posts) {
+            fetched[post.uri] = post;
+          }
+        } catch {
+          // continue with partial results
+        }
+      }
+
+      if (cancelled) return;
+
+      // Map posts back to group IDs and raw URIs
+      const newPosts: Record<string, PostView> = {};
+      for (const entry of validEntries) {
+        const post = fetched[entry.resolved];
+        if (post) {
+          newPosts[entry.rawUri] = post;
+        }
+      }
+
+      setSubjectPosts((prev) => ({ ...prev, ...newPosts }));
+      setLoadedBatch((prev) => prev + 1);
+    })();
+
+    return () => { cancelled = true; };
+  }, [groups, loadedBatch]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  return subjectPosts;
 }
 
 export function useMarkAsRead() {

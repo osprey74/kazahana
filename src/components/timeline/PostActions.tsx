@@ -9,13 +9,17 @@ import { useReportStore } from "../../stores/reportStore";
 import { useDeletePost } from "../../hooks/usePost";
 import { useMuteActor, useUnmuteActor, useBlockActor, useUnblockActor } from "../../hooks/useProfile";
 import { openUrl } from "@tauri-apps/plugin-opener";
+import { fetch as tauriFetch } from "@tauri-apps/plugin-http";
+import { save } from "@tauri-apps/plugin-dialog";
+import { writeFile } from "@tauri-apps/plugin-fs";
 import { Icon } from "../common/Icon";
 
 interface PostActionsProps {
   post: PostView;
+  onSavingMediaChange?: (saving: boolean) => void;
 }
 
-export function PostActions({ post }: PostActionsProps) {
+export function PostActions({ post, onSavingMediaChange }: PostActionsProps) {
   const { t } = useTranslation();
   const [liked, setLiked] = useState(!!post.viewer?.like);
   const [likeCount, setLikeCount] = useState(post.likeCount ?? 0);
@@ -206,17 +210,69 @@ export function PostActions({ post }: PostActionsProps) {
         activeColor="text-amber-500"
         onClick={handleBookmark}
       />
-      <PostMenu post={post} isOwnPost={isOwnPost} />
+      <PostMenu post={post} isOwnPost={isOwnPost} onSavingMediaChange={onSavingMediaChange} />
     </div>
   );
 }
 
-function PostMenu({ post, isOwnPost }: { post: PostView; isOwnPost: boolean }) {
+function hasMediaInPost(post: PostView): boolean {
+  const embed = post.embed;
+  if (!embed) return false;
+  if (embed.$type === "app.bsky.embed.images#view") return true;
+  if (embed.$type === "app.bsky.embed.video#view") return true;
+  if (embed.$type === "app.bsky.embed.recordWithMedia#view") {
+    const media = (embed as { media?: { $type?: string } }).media;
+    return media?.$type === "app.bsky.embed.images#view" || media?.$type === "app.bsky.embed.video#view";
+  }
+  return false;
+}
+
+interface MediaImage { fullsize: string; thumb: string; alt?: string }
+interface MediaVideo { playlist: string; thumbnail?: string }
+
+function getMediaImages(post: PostView): MediaImage[] {
+  const embed = post.embed;
+  if (!embed) return [];
+  if (embed.$type === "app.bsky.embed.images#view") {
+    return (embed as { images?: MediaImage[] }).images ?? [];
+  }
+  if (embed.$type === "app.bsky.embed.recordWithMedia#view") {
+    const media = (embed as { media?: { $type?: string; images?: MediaImage[] } }).media;
+    if (media?.$type === "app.bsky.embed.images#view") return media.images ?? [];
+  }
+  return [];
+}
+
+function getMediaVideo(post: PostView): MediaVideo | null {
+  const embed = post.embed;
+  if (!embed) return null;
+  if (embed.$type === "app.bsky.embed.video#view") return embed as unknown as MediaVideo;
+  if (embed.$type === "app.bsky.embed.recordWithMedia#view") {
+    const media = (embed as { media?: { $type?: string } }).media;
+    if (media?.$type === "app.bsky.embed.video#view") return media as unknown as MediaVideo;
+  }
+  return null;
+}
+
+function detectImageExt(buffer: Uint8Array): string {
+  if (buffer.length >= 4) {
+    if (buffer[0] === 0x89 && buffer[1] === 0x50 && buffer[2] === 0x4E && buffer[3] === 0x47) return "png";
+    if (buffer[0] === 0x47 && buffer[1] === 0x49 && buffer[2] === 0x46 && buffer[3] === 0x38) return "gif";
+    if (buffer.length >= 12 && buffer[0] === 0x52 && buffer[1] === 0x49 && buffer[2] === 0x46 && buffer[3] === 0x46
+      && buffer[8] === 0x57 && buffer[9] === 0x45 && buffer[10] === 0x42 && buffer[11] === 0x50) return "webp";
+    if (buffer[0] === 0xFF && buffer[1] === 0xD8 && buffer[2] === 0xFF) return "jpg";
+  }
+  return "jpg";
+}
+
+
+function PostMenu({ post, isOwnPost, onSavingMediaChange }: { post: PostView; isOwnPost: boolean; onSavingMediaChange?: (saving: boolean) => void }) {
   const { t, i18n } = useTranslation();
   const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
   const [confirming, setConfirming] = useState(false);
   const [confirmingBlock, setConfirmingBlock] = useState(false);
+  const [savingMedia, setSavingMedia] = useState(false);
   const [threadMuted, setThreadMuted] = useState(!!post.viewer?.threadMuted);
   const deletePost = useDeletePost();
   const muteActor = useMuteActor();
@@ -258,6 +314,87 @@ function PostMenu({ post, isOwnPost }: { post: PostView; isOwnPost: boolean }) {
     const rkey = post.uri.split("/").pop();
     const url = `https://bsky.app/profile/${post.author.handle}/post/${rkey}`;
     navigator.clipboard.writeText(url);
+  };
+
+  const handleSaveMedia = async () => {
+    setOpen(false);
+    setSavingMedia(true);
+    onSavingMediaChange?.(true);
+    try {
+      // Save images
+      const images = getMediaImages(post);
+      for (const img of images) {
+        try {
+          const res = await tauriFetch(img.fullsize);
+          const blob = await res.blob();
+          const buffer = new Uint8Array(await blob.arrayBuffer());
+          const ext = detectImageExt(buffer);
+          const pathname = new URL(img.fullsize).pathname;
+          const baseName = pathname.split("/").pop()?.split("@")[0] || "image";
+          const fileName = `${baseName}.${ext}`;
+          const filePath = await save({
+            defaultPath: fileName,
+            filters: [{ name: "Image", extensions: [ext] }],
+          });
+          if (filePath) await writeFile(filePath, buffer);
+        } catch { /* continue with next */ }
+      }
+      // Save video via AT Protocol getBlob (direct PDS access)
+      const video = getMediaVideo(post);
+      if (video?.playlist) {
+        try {
+          // Extract DID and CID from playlist URL: https://video.bsky.app/watch/{did}/{cid}/playlist.m3u8
+          const parts = decodeURIComponent(new URL(video.playlist).pathname).split("/");
+          if (parts.length >= 5) {
+            const did = parts[2];
+            const cid = parts[3];
+
+            // Resolve the author's PDS URL from DID document
+            let pdsUrl: string | null = null;
+            if (did.startsWith("did:plc:")) {
+              const plcRes = await tauriFetch(`https://plc.directory/${did}`);
+              const plcText = await plcRes.text();
+              const plcJson = JSON.parse(plcText);
+              const services = Array.isArray(plcJson.service) ? plcJson.service : [];
+              for (const svc of services) {
+                if (svc.type === "AtprotoPersonalDataServer" && svc.serviceEndpoint) {
+                  pdsUrl = svc.serviceEndpoint;
+                  break;
+                }
+              }
+            } else if (did.startsWith("did:web:")) {
+              pdsUrl = `https://${did.slice("did:web:".length)}`;
+            }
+
+            if (!pdsUrl) {
+              console.error("[MediaSave] Failed to resolve PDS for:", did);
+            } else {
+              // Download blob from author's PDS
+              const blobUrl = `${pdsUrl}/xrpc/com.atproto.sync.getBlob?did=${encodeURIComponent(did)}&cid=${encodeURIComponent(cid)}`;
+              console.log("[MediaSave] Downloading video from:", blobUrl);
+              const blobRes = await tauriFetch(blobUrl);
+              if (!blobRes.ok) {
+                console.error("[MediaSave] Blob fetch failed:", blobRes.status, await blobRes.text().catch(() => ""));
+              } else {
+                const blob = await blobRes.blob();
+                const buffer = new Uint8Array(await blob.arrayBuffer());
+                console.log("[MediaSave] Video downloaded:", buffer.length, "bytes");
+                const contentType = blobRes.headers.get("content-type") ?? "";
+                const ext = contentType.includes("quicktime") ? "mov" : "mp4";
+                const filePath = await save({
+                  defaultPath: `video_${cid.slice(0, 8)}.${ext}`,
+                  filters: [{ name: "Video", extensions: [ext] }],
+                });
+                if (filePath) await writeFile(filePath, buffer);
+              }
+            }
+          }
+        } catch (e) { console.error("[MediaSave] Video save error:", e); }
+      }
+    } finally {
+      setSavingMedia(false);
+      onSavingMediaChange?.(false);
+    }
   };
 
   const handleToggleMuteThread = async () => {
@@ -356,6 +493,16 @@ function PostMenu({ post, isOwnPost }: { post: PostView; isOwnPost: boolean }) {
                 <Icon name="translate" size={16} />
                 <span>{t("post.translate")}</span>
               </button>
+              {hasMediaInPost(post) && (
+                <button
+                  onClick={handleSaveMedia}
+                  disabled={savingMedia}
+                  className="w-full flex items-center gap-2 px-3 py-2 text-sm text-text-light dark:text-text-dark hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors disabled:opacity-50"
+                >
+                  <Icon name="download" size={16} />
+                  <span>{savingMedia ? t("post.savingMedia") : t("post.saveMedia")}</span>
+                </button>
+              )}
               {!isOwnPost && (
                 <>
                   <div className="my-1 border-t border-border-light dark:border-border-dark" />

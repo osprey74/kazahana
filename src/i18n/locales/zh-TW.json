@@ -44,6 +44,8 @@
     "muteThread": "靜音此話題通知",
     "copyLink": "複製連結",
     "translate": "翻譯",
+    "saveMedia": "儲存媒體",
+    "savingMedia": "儲存中...",
     "unmuteThread": "取消靜音此話題通知",
     "muteUser": "靜音此使用者",
     "unmuteUser": "取消靜音此使用者"
@@ -55,6 +57,7 @@
     "mentioned": "提及了你",
     "replied": "回覆了你的貼文",
     "quoted": "引用了你的貼文",
+    "grouped": "{{name}}等{{count}}人{{action}}",
     "empty": "沒有通知",
     "loadFailed": "無法載入通知",
     "osBody": "您有 {{count}} 則新通知",

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { moderatePost } from "@atproto/api";
@@ -31,6 +32,7 @@ interface PostCardProps {
 export function PostCard({ feedItem, showParentContext, bsafDuplicateInfo }: PostCardProps) {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
+  const [savingMedia, setSavingMedia] = useState(false);
   const moderationOpts = useModerationOpts();
   const showVia = useSettingsStore((s) => s.showVia);
   const bsafEnabled = useBsafStore((s) => s.bsafEnabled);
@@ -74,7 +76,7 @@ export function PostCard({ feedItem, showParentContext, bsafDuplicateInfo }: Pos
 
   return (
     <article
-      className="px-4 py-3 border-b border-border-light dark:border-border-dark hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors cursor-pointer"
+      className="relative px-4 py-3 border-b border-border-light dark:border-border-dark hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors cursor-pointer"
       style={bsafBorderColor ? { borderLeft: `5px solid ${bsafBorderColor}`, marginTop: 10, marginBottom: 10 } : undefined}
       onClick={(e) => {
         // Don't navigate if clicking on interactive elements
@@ -268,7 +270,7 @@ export function PostCard({ feedItem, showParentContext, bsafDuplicateInfo }: Pos
 
           {/* Actions + Moderation label */}
           <div className="flex items-center justify-between mt-2">
-            <PostActions post={post} />
+            <PostActions post={post} onSavingMediaChange={setSavingMedia} />
             <div className="flex items-center gap-2">
               {record.langs && record.langs.length > 0 && (
                 <span className="text-[10px] text-gray-400">langs: {record.langs.join(", ")}</span>
@@ -288,6 +290,15 @@ export function PostCard({ feedItem, showParentContext, bsafDuplicateInfo }: Pos
           </div>
         </div>
       </div>
+      {/* Media saving overlay */}
+      {savingMedia && (
+        <div className="absolute inset-0 z-30 flex items-center justify-center bg-black/45 transition-opacity">
+          <svg className="animate-spin h-8 w-8 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+          </svg>
+        </div>
+      )}
     </article>
   );
 }

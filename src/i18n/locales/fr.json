@@ -44,6 +44,8 @@
     "muteThread": "Couper les notifications du fil",
     "copyLink": "Copier le lien",
     "translate": "Traduire",
+    "saveMedia": "Enregistrer les médias",
+    "savingMedia": "Enregistrement...",
     "unmuteThread": "Réactiver les notifications du fil",
     "muteUser": "Masquer cet utilisateur",
     "unmuteUser": "Ne plus masquer cet utilisateur"
@@ -55,6 +57,7 @@
     "mentioned": "vous a mentionné",
     "replied": "a répondu à votre publication",
     "quoted": "a cité votre publication",
+    "grouped": "{{name}} et {{count}} autres {{action}}",
     "empty": "Aucune notification",
     "loadFailed": "Échec du chargement des notifications",
     "osBody": "Vous avez {{count}} nouvelle(s) notification(s)",

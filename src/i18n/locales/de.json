@@ -44,6 +44,8 @@
     "muteThread": "Thread-Benachrichtigungen stummschalten",
     "copyLink": "Link kopieren",
     "translate": "Übersetzen",
+    "saveMedia": "Medien speichern",
+    "savingMedia": "Wird gespeichert...",
     "unmuteThread": "Thread-Benachrichtigungen aktivieren",
     "muteUser": "Benutzer stummschalten",
     "unmuteUser": "Stummschaltung des Benutzers aufheben"
@@ -55,6 +57,7 @@
     "mentioned": "hat dich erwähnt",
     "replied": "hat auf deinen Beitrag geantwortet",
     "quoted": "hat deinen Beitrag zitiert",
+    "grouped": "{{name}} und {{count}} weitere {{action}}",
     "empty": "Keine Benachrichtigungen",
     "loadFailed": "Benachrichtigungen konnten nicht geladen werden",
     "osBody": "Sie haben {{count}} neue Benachrichtigung(en)",

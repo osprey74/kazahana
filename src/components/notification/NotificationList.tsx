@@ -2,11 +2,10 @@ import { useCallback, useEffect, useLayoutEffect, useMemo, useState } from "reac
 import { useTranslation } from "react-i18next";
 import { Virtuoso } from "react-virtuoso";
 import { moderateProfile } from "@atproto/api";
-import { useNotifications, useMarkAsRead } from "../../hooks/useNotifications";
+import { useNotifications, useMarkAsRead, groupNotifications, useBatchSubjectPosts, type NotificationGroup } from "../../hooks/useNotifications";
 import { useModerationOpts } from "../../contexts/ModerationContext";
-import { NotificationItem } from "./NotificationItem";
+import { GroupedNotificationItem } from "./GroupedNotificationItem";
 import { LoadingSpinner } from "../common/LoadingSpinner";
-import type { Notification } from "@atproto/api/dist/client/types/app/bsky/notification/listNotifications";
 
 export function NotificationList() {
   const { t } = useTranslation();
@@ -39,15 +38,21 @@ export function NotificationList() {
     return () => window.removeEventListener("kazahana:refresh", handler);
   }, [refetch]);
 
-  const items = useMemo(() => {
+  // Flatten, filter, and group notifications
+  const groups = useMemo(() => {
     if (!data?.pages) return [];
     const all = data.pages.flatMap((page) => page.notifications);
-    if (!moderationOpts) return all;
-    return all.filter((notification) => {
-      const decision = moderateProfile(notification.author, moderationOpts);
-      return !decision.ui("profileList").filter;
-    });
+    const filtered = moderationOpts
+      ? all.filter((notification) => {
+          const decision = moderateProfile(notification.author, moderationOpts);
+          return !decision.ui("profileList").filter;
+        })
+      : all;
+    return groupNotifications(filtered);
   }, [data, moderationOpts]);
+
+  // Batch-load subject posts for grouped notifications
+  const subjectPosts = useBatchSubjectPosts(groups);
 
   const loadMore = useCallback(() => {
     if (hasNextPage && !isFetchingNextPage) {
@@ -71,7 +76,7 @@ export function NotificationList() {
     );
   }
 
-  if (items.length === 0) {
+  if (groups.length === 0) {
     return (
       <div className="flex items-center justify-center py-12 text-gray-400">
         <p>{t("notification.empty")}</p>
@@ -84,11 +89,11 @@ export function NotificationList() {
   return (
     <Virtuoso
       customScrollParent={scrollParent}
-      data={items}
+      data={groups}
       endReached={loadMore}
       overscan={200}
-      itemContent={(_index, item: Notification) => (
-        <NotificationItem notification={item} />
+      itemContent={(_index, group: NotificationGroup) => (
+        <GroupedNotificationItem group={group} subjectPosts={subjectPosts} />
       )}
       components={{
         Footer: () => (isFetchingNextPage ? <LoadingSpinner /> : null),

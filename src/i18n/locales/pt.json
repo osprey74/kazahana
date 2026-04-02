@@ -44,6 +44,8 @@
     "muteThread": "Silenciar notificações da conversa",
     "copyLink": "Copiar link",
     "translate": "Traduzir",
+    "saveMedia": "Salvar mídia",
+    "savingMedia": "Salvando...",
     "unmuteThread": "Ativar notificações da conversa",
     "muteUser": "Silenciar este usuário",
     "unmuteUser": "Deixar de silenciar este usuário"
@@ -55,6 +57,7 @@
     "mentioned": "mencionou você",
     "replied": "respondeu à sua publicação",
     "quoted": "citou sua publicação",
+    "grouped": "{{name}} e {{count}} outros {{action}}",
     "empty": "Nenhuma notificação",
     "loadFailed": "Falha ao carregar notificações",
     "osBody": "Você tem {{count}} nova(s) notificação(ões)",

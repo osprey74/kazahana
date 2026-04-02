@@ -44,6 +44,8 @@
     "muteThread": "Bisukan notifikasi utas",
     "copyLink": "Salin tautan",
     "translate": "Terjemahkan",
+    "saveMedia": "Simpan media",
+    "savingMedia": "Menyimpan...",
     "unmuteThread": "Bunyikan notifikasi utas",
     "muteUser": "Bisukan pengguna ini",
     "unmuteUser": "Batalkan bisukan pengguna ini"
@@ -55,6 +57,7 @@
     "mentioned": "menyebut Anda",
     "replied": "membalas postingan Anda",
     "quoted": "mengutip postingan Anda",
+    "grouped": "{{name}} dan {{count}} lainnya {{action}}",
     "empty": "Tidak ada notifikasi",
     "loadFailed": "Gagal memuat notifikasi",
     "osBody": "Anda memiliki {{count}} notifikasi baru",

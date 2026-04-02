@@ -262,21 +262,9 @@ Collaborator: よつぎnん / @yotsugin.bsky.social
 
 ## Upcoming Features
 
-- [ ] LANG設定の取得元変更 — PC環境の言語設定ではなくBlueskyの言語設定（ユーザーアカウント設定）から取得するよう変更。Blueskyで言語設定がされていない場合は端末ロケールからフォールバック
-  - **iOS実装済み参考**: `app.bsky.actor.getPreferences` で `bsky:system:preferences:postLanguages` を取得し、配列が空でなければ先頭値を使用。空の場合は端末ロケール（`Locale.current`）にフォールバック。ログイン直後にも実行（新規ログイン時にセッション確立後すぐ反映）
-- [ ] 通知タブのグルーピング表示 — 同一ポストへの同種アクション（いいね・リポスト等）をまとめて「〇〇ほかN人がいいねしました」形式で表示（Bluesky公式アプリ準拠）。クライアントサイドでreasonSubject+reasonをキーにグルーピング、複数アバター表示、i18n対応
-  - **iOS実装済み参考**: `reason + reasonSubject` をキーにグループ化。対象 reason: `like` / `repost` / `like-via-repost` / `repost-via-repost`。その他（`reply` / `mention` / `quote` / `follow` 等）は1件ずつ表示。グループ内最新通知を代表として表示。複数の場合: アバターを重ねて最大3個表示（白枠ボーダー＋負のHStack間隔）。ラベル: 「〇〇ほかN人が…」形式（全11言語i18n対応）
-- [x] 画像・動画の一括保存メニュー（iOS版） — iOS実装済み。Android版は未実装
-  - **配置**: タイムライン投稿カードの三点メニュー・スレッド表示のフォーカス投稿三点メニュー（メディアが存在するポストのみ表示）
-  - **画像保存**: Bluesky CDN の fullsize URL（`https://cdn.bsky.app/img/feed_fullsize/...@jpeg`）から URLSession でダウンロード → `PHAssetCreationRequest.forAsset()` + `addResource(with: .photo, data:, options:)` でフォトライブラリに保存（`PHAssetChangeRequest.creationRequestForAsset(from: UIImage)` は非推奨）
-  - **動画保存**: `AVAssetExportSession` は iOS の制限により HLS → MP4 変換不可。代わりに以下の手順で取得:
-    1. playlist URL（`https://video.bsky.app/watch/{did}/{cid}/playlist.m3u8`）から DID・CID を抽出
-    2. `https://plc.directory/{did}` で DID ドキュメントを解決し PDS URL を取得（`did:web:` の場合はホスト名から直接）
-    3. `{pds}/xrpc/com.atproto.sync.getBlob?did={did}&cid={cid}` でオリジナル動画ファイル（MP4）をダウンロード
-    4. 一時ファイル経由で `PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL:)` で保存
-  - **権限**: `PHPhotoLibrary.requestAuthorization(for: .addOnly)` — 初回のみシステムダイアログ表示
-  - **UX**: 保存処理中は全画面オーバーレイ（半透明黒 + 白スピナー、フェードアニメーション）を表示。完了後にトースト（成功: "写真に保存しました" / 失敗: "保存に失敗しました"）を2秒表示。動画はダウンロードに数秒かかるためローディング表示が重要
-- [ ] 画像・動画の一括保存メニュー（Android版） — iOS 実装を参考に Android で実装。`MediaStore` API 経由でギャラリーに保存
+- [x] LANG設定の取得元変更 — 現状の優先順位（1.ユーザー手動設定 → 2.Bluesky投稿言語推定 → 3.ブラウザ/OS言語 → 4.フォールバック英語）で適切と判断し対応完了
+- [x] 通知タブのグルーピング表示 — 同一ポストへの同種アクション（いいね・リポスト等）をreasonSubject+reasonでグルーピング、「〇〇ほかN人がいいねしました」形式で表示、複数アバター重ね表示、10グループずつバッチ読み込み、画像64pxサムネイル・動画サムネイルのみ表示、全11言語i18n対応
+- [x] 画像・動画の一括保存メニュー — 画像／動画を含むポストの三点メニュー「翻訳する」の下に「画像・動画を保存」を追加。画像はマジックバイト検出で正しい拡張子で保存、動画はAT Protocol getBlob API経由でPDSから取得・保存。保存中はポスト全体にローディングオーバーレイ表示。タイムライン表示・スレッド表示の両方に対応。全11言語i18n対応
 - [x] 投稿カードへのALTテキスト表示 — 画像にALTテキストがある場合、投稿カード上に先頭128文字までを表示。128文字を超過する場合は画像タップ後の詳細画面で全文を表示
 - [x] 下書き機能（20件） — 投稿の下書きを最大20件まで保存・管理できる機能を実装
 - [x] DM新規会話作成履歴 — 新規メッセージ作成時の宛先履歴を最大20件保存、検索未入力時に「最近の宛先」として表示、個別削除対応（dmRecipientHistoryStore）
