@@ -92,8 +92,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     try {
       const session = await loadSessionForDID(did);
       if (session) {
-        const pdsHost = session.pdsHost ?? "https://bsky.social";
-        await fetch(`${pdsHost}/xrpc/com.atproto.server.deleteSession`, {
+        await fetch(`https://bsky.social/xrpc/com.atproto.server.deleteSession`, {
           method: "POST",
           headers: { Authorization: `Bearer ${session.refreshJwt}` },
         });

@@ -32,7 +32,7 @@ export function SettingsView() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { theme, setTheme, pollInterval, setPollInterval, desktopNotification, setDesktopNotification, autoStart, setAutoStart, videoVolume, setVideoVolume, showVia, setShowVia, closeAction, setCloseAction, imageOpenMode, setImageOpenMode, claudeApiKey, setClaudeApiKey } = useSettingsStore();
-  const { logout, savedAccounts, activeAccountDID, switchAccount, removeAccount } = useAuthStore();
+  const { savedAccounts, activeAccountDID, switchAccount, removeAccount } = useAuthStore();
   const { bsafEnabled, setBsafEnabled } = useBsafStore();
   const [showAddAccount, setShowAddAccount] = useState(false);
   const [confirmRemoveDID, setConfirmRemoveDID] = useState<string | null>(null);
