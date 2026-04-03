@@ -1,6 +1,6 @@
 # kazahana Platform Feature Matrix
 
-> **Last updated:** 2026-04-03 (iOS v1.1.0: マルチアカウント実装完了。Desktop: マルチアカウント実装中)
+> **Last updated:** 2026-04-03 (Desktop v2.4.0: マルチアカウント実装完了。iOS v1.1.0: マルチアカウント実装完了)
 > **Source:** Compiled from the following repositories
 > - Desktop (Win/macOS): https://github.com/osprey74/kazahana
 > - iOS: https://github.com/osprey74/kazahana-ios
@@ -121,7 +121,7 @@
 | 通知画像サムネイル | ✅ | ✅ | ✅ | ✅ | |
 | 通知グルーピング表示（同種アクションまとめ） | ✅ | ✅ | ✅ | ✅ | 「〇〇ほかN人が…」形式・複数アバター表示 |
 | OS ネイティブ通知（バックグラウンド） | ✅ | ✅ | ✅ | ✅ | Desktop: tauri-plugin-notification / iOS: BGAppRefreshTask + UNUserNotificationCenter / Android: WorkManager |
-| 通知ポスト内容プログレッシブ読み込み | ✅ | ✅ | ✅ | ⬜ | 10件ずつバッチ分割＋バッチ内via-repost並列解決でUI段階描画 |
+| 通知ポスト内容プログレッシブ読み込み | ✅ | ✅ | ✅ | ✅ | 10件ずつバッチ分割＋バッチ内via-repost並列解決でUI段階描画 |
 
 ---
 
@@ -261,18 +261,17 @@
 | ログイン（アプリパスワード） | ✅ | ✅ | ✅ | ✅ | |
 | セッション永続化・自動リフレッシュ | ✅ | ✅ | ✅ | ✅ | |
 | レート制限ハンドリング（429 バックオフ） | ✅ | ✅ | ✅ | ✅ | |
-| マルチアカウント | 🚧 | 🚧 | ⬜ | ✅ | iOS v1.1.0 で実装完了。Desktop: 実装中 |
+| マルチアカウント | ✅ | ✅ | ⬜ | ✅ | Desktop v2.4.0 / iOS v1.1.0 で実装完了 |
 
 ---
 
 ## 差異サマリー（要対応）
 
-### iOS 先行実装（他プラットフォーム未実装）
+### iOS / Android 先行実装（Desktop 未実装）
 
-| 機能 | Windows | macOS | Android |
-|------|:-------:|:-----:|:-------:|
-| マルチアカウント | 🚧 | 🚧 | ⬜ |
-| 投稿言語（Bluesky アカウント設定から優先取得） | ⬜ | ⬜ | ✅ |
+| 機能 | Windows | macOS | 備考 |
+|------|:-------:|:-----:|------|
+| 投稿言語（Bluesky アカウント設定から優先取得） | ⬜ | ⬜ | iOS / Android 実装済み |
 
 ### Desktop 未実装
 
@@ -281,17 +280,11 @@
 | 自動更新（tauri-plugin-updater） | ⬜ |
 | 投稿言語（Bluesky アカウント設定から優先取得） | ⬜ |
 
-### Android → Desktop / iOS 未実装
+### Android 未実装
 
-| 機能 | Desktop | iOS | 備考 |
-|------|:-------:|:---:|------|
-| 通知ポスト内容プログレッシブ読み込み | ✅ | ⬜ | Desktop 実装済み（10件バッチ） |
-
-### Desktop / Android 未実装
-
-| 機能 | Desktop | Android | 備考 |
-|------|:-------:|:-------:|------|
-| マルチアカウント | 🚧 | ⬜ | iOS v1.1.0 で実装完了。Desktop: 実装中 |
+| 機能 | Android | 備考 |
+|------|:-------:|------|
+| マルチアカウント | ⬜ | Desktop v2.4.0 / iOS v1.1.0 で実装完了 |
 
 ---
 

@@ -62,73 +62,29 @@
 - [x] Russian (ru)
 - [x] Indonesian (id)
 
-## Multi-Account Support
-> iOS v1.1.0 で先行実装完了。引き継ぎ資料: `kazahana-ios/Documentation/HANDOFF-multi-account.md`, `HANDOFF-v1.1.0.md`
+## Multi-Account Support (v2.4.0 で実装完了)
+> iOS v1.1.0 で先行実装完了 → Desktop v2.4.0 で横展開完了
 > Note: OAuth対応は後日。現段階ではアプリパスワード方式でのマルチアカウント
 
 ### データ層
-- [ ] `constants.ts`: 新ストアキー追加（`ACCOUNTS_KEY`, `ACTIVE_ACCOUNT_DID_KEY`）
-- [ ] `session.ts`: 複数セッション対応（`session:{did}` キー形式、`saveSession` / `loadAllSessions` / `deleteSession(did)` / `migrateFromSingleSession`）
-- [ ] `agent.ts`: セッション入替メソッド追加（切替時に `agent.resumeSession(newSession)`、chatAgent リセット連動）
+- [x] `constants.ts`: 新ストアキー追加（`ACCOUNTS_KEY`, `ACTIVE_ACCOUNT_DID_KEY`）
+- [x] `session.ts`: 複数セッション対応（DIDキー付き保存・全件取得・個別削除・旧形式マイグレーション）
+- [x] `agent.ts`: セッション入替（`agent.resumeSession(newSession)`、chatAgent リセット連動）
 
 ### 状態管理
-- [ ] `authStore.ts`: マルチアカウント状態管理（`savedAccounts[]`, `activeAccountDID`, `switchAccount(did)`, `removeAccount(did)`, `logout` → `removeAccount` に統合）
-- [ ] `feedStore.ts`: DID スコープ化（フィード順序・非表示設定をアカウントごとに保持）
-- [ ] `searchHistoryStore.ts`: DID スコープ化（検索履歴をアカウントごとに保持）
+- [x] `authStore.ts`: マルチアカウント状態管理（`savedAccounts[]`, `activeAccountDID`, `switchAccount(did)`, `removeAccount(did)`）
+- [x] `feedStore.ts`: DID スコープ化（フィード順序・非表示設定をアカウントごとに保持）
+- [x] `searchHistoryStore.ts`: DID スコープ化（検索履歴をアカウントごとに保持）
 
 ### UI
-- [ ] `AccountPickerView.tsx`（新規）: 起動時アカウント選択画面（ロゴ + アカウントリスト + 追加/削除ボタン）
-- [ ] `App.tsx`: 3ウェイ分岐（ログイン済み → ホーム / 保存アカウントあり → AccountPicker / なし → LoginForm）+ `key={activeAccountDID}` で全子コンポーネント再生成
-- [ ] `LoginForm.tsx`: 追加ログインフロー対応 + パスワード表示切替（目のアイコン）
-- [ ] `AppLayout.tsx`: ヘッダーに `@handle` 表示 + クリックでアカウント切替ドロップダウン
-- [ ] `SettingsView.tsx`: アカウント管理セクション追加（一覧表示・アクティブマーク・切替・削除・追加ボタン）
+- [x] `AccountPickerView.tsx`（新規）: 起動時アカウント選択画面
+- [x] `App.tsx`: 3ウェイ分岐 + `key={activeAccountDID}` で全子コンポーネント再生成 + `queryClient.clear()`
+- [x] `LoginForm.tsx`: 追加ログインフロー対応 + パスワード表示切替
+- [x] `AppLayout.tsx`: ヘッダーに `@handle` 表示 + クリックでアカウント切替ドロップダウン
+- [x] `SettingsView.tsx`: アカウント管理セクション（一覧・切替・削除・追加）
 
 ### i18n
-- [ ] 全11言語に翻訳キー追加（`auth.accountPicker.*`, `settings.accounts`, `settings.addAccount`）
-
-### 設計検討結果 (2026-03-01)
-
-#### 現状分析
-- `AtpAgent` はシングルトン (`src/lib/agent.ts`)、`getAgent()` で取得
-- セッションは Tauri Store (`kazahana-store.json`) に単一キー `"session"` で保存 (`src/lib/session.ts`)
-- authStore (`src/stores/authStore.ts`) は単一 `profile` / `isLoggedIn` のみ
-- React Query キー（30+種）にアカウント識別子なし
-- `getAgent()` を直接呼ぶファイル: 14フック + 10コンポーネント = 24ファイル
-
-#### 設計判断
-
-**1. Agent管理: シングルトン維持（`Map<did, AtpAgent>` は不採用）**
-- 単一 `AtpAgent` を維持し、アカウント切替時にセッションを差し替える
-- 理由: Map方式は並行セッションリフレッシュ管理が複雑。シングルトン維持なら24ファイルへの変更不要
-- バックグラウンド通知ポーリング（非アクティブアカウント）は v2 で軽量 fetch ベースで対応可能
-
-**2. Query Cache: 切替時にクリア（キープレフィックス方式は不採用）**
-- `queryClient.clear()` をアカウント切替時に実行（1行で完結）
-- 理由: キープレフィックス方式は14フックファイル全てに変更が必要で変更量大・リグレッションリスク高
-- 切替後のデータ再取得は1-2秒（アプリ起動時と同等UX）
-
-**3. 設定スコープ**
-- グローバル（変更不要）: theme, language, pollInterval, desktopNotification, autoStart, videoVolume, showVia, closeAction, imageOpenMode → `settingsStore.ts` 変更不要
-- アカウント別（DIDスコープ化）: feedStore (currentFeed, hiddenFeeds, feedOrder, showAllInQuickJump), searchHistoryStore (history)
-
-**4. 通知ポーリング: アクティブアカウントのみ（v1）**
-
-#### 変更ファイル一覧
-- 新規作成 (2): `src/lib/queryClient.ts`, `src/components/account/AccountSwitcher.tsx`
-- 大幅変更 (3): `src/stores/authStore.ts`, `src/lib/session.ts`, `src/components/settings/SettingsView.tsx`
-- 中程度 (5): `src/stores/feedStore.ts`, `src/stores/searchHistoryStore.ts`, `src/components/layout/AppLayout.tsx`, `src/components/auth/LoginForm.tsx`, `src/App.tsx`
-- 軽微 (3): `src/lib/agent.ts`, `src/lib/constants.ts`, `src/hooks/useTimeline.ts`
-- i18n (11): 全ロケールファイル
-- 変更不要: 14フック, 10コンポーネント, `chatAgent.ts`（既存DID不一致チェックが切替を自動処理）, `settingsStore.ts`
-
-#### エッジケース対応方針
-- 既存ユーザーアップグレード: `migrateFromSingleSession()` で旧 `"session"` キーから新形式へ自動移行
-- 非アクティブアカウントのセッション期限切れ: `switchAccount()` で `resumeSession` 失敗時にエラー表示＋削除→再ログイン促進
-- 同一アカウント二重追加: DID重複チェックでブロック
-- 切替時: `/` に遷移、composeModal を閉じる、タイムラインモジュールステートをリセット
-
-#### 詳細設計書
-- `C:\Users\ospre\.claude\plans\modular-jumping-curry.md` に Phase 1-9 の詳細実装計画を記載
+- [x] 全11言語に翻訳キー追加（`auth.accountPicker.*`, `settings.accounts`, `settings.addAccount`）
 
 ## BSAF Reference Client Integration
 - [x] Bot Definition JSON import (parse, validate schema, auto-follow bot account)
