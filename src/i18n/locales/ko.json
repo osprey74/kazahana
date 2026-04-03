@@ -18,7 +18,15 @@
     "login": "로그인",
     "loggingIn": "로그인 중…",
     "helpText": "Bluesky 설정에서 앱 비밀번호를 생성할 수 있습니다",
-    "loginFailed": "로그인 실패"
+    "loginFailed": "로그인 실패",
+    "switchAccount": "계정 전환",
+    "accountPicker": {
+      "title": "계정 선택",
+      "addAccount": "다른 계정 추가",
+      "removeAccount": "계정 삭제",
+      "removeConfirmTitle": "이 계정을 삭제하시겠습니까?",
+      "removeConfirmMessage": "이 기기에서 계정 정보가 삭제됩니다. 다시 로그인하면 추가할 수 있습니다."
+    }
   },
   "compose": {
     "cancel": "취소",
@@ -259,7 +267,10 @@
     "claudeApi": "Claude API",
     "claudeApiRegister": "등록",
     "claudeApiDelete": "삭제",
-    "claudeApiHint": "Claude API 키를 등록하면 이미지의 ALT 텍스트를 AI로 자동 생성할 수 있습니다"
+    "claudeApiHint": "Claude API 키를 등록하면 이미지의 ALT 텍스트를 AI로 자동 생성할 수 있습니다",
+    "accounts": "계정",
+    "addAccount": "계정 추가",
+    "activeAccount": "사용 중"
   },
   "confirm": {
     "ok": "확인",

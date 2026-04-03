@@ -4,10 +4,16 @@ import { useAuthStore } from "../../stores/authStore";
 import { loadHandleHistory, removeHandleHistory } from "../../lib/session";
 import { Icon } from "../common/Icon";
 
-export function LoginForm() {
+interface LoginFormProps {
+  onBack?: () => void;
+  isAddAccount?: boolean;
+}
+
+export function LoginForm({ onBack, isAddAccount }: LoginFormProps) {
   const { t } = useTranslation();
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const { login, isLoading, error } = useAuthStore();
 
   const [handleHistory, setHandleHistory] = useState<string[]>([]);
@@ -107,15 +113,26 @@ export function LoginForm() {
             >
               {t("auth.appPassword")}
             </label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder={t("auth.appPasswordPlaceholder")}
-              className="w-full px-3 py-2 border border-border-light dark:border-border-dark rounded-btn text-sm bg-transparent text-text-light dark:text-text-dark placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-              disabled={isLoading}
-            />
+            <div className="relative">
+              <input
+                id="password"
+                type={isPasswordVisible ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder={t("auth.appPasswordPlaceholder")}
+                className="w-full px-3 py-2 pr-10 border border-border-light dark:border-border-dark rounded-btn text-sm bg-transparent text-text-light dark:text-text-dark placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                disabled={isLoading}
+              />
+              <button
+                type="button"
+                onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+                tabIndex={-1}
+                title={isPasswordVisible ? "Hide password" : "Show password"}
+              >
+                <Icon name={isPasswordVisible ? "visibility" : "visibility_off"} size={18} />
+              </button>
+            </div>
           </div>
 
           {error && (
@@ -143,6 +160,17 @@ export function LoginForm() {
             {isLoading ? t("auth.loggingIn") : t("auth.login")}
           </button>
         </form>
+
+        {/* Back button for add-account mode */}
+        {isAddAccount && onBack && (
+          <button
+            type="button"
+            onClick={onBack}
+            className="w-full mt-3 py-2 text-sm text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
+          >
+            {t("compose.cancel")}
+          </button>
+        )}
 
         <p className="text-xs text-gray-400 text-center mt-6">
           {t("auth.helpText")}

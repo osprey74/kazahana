@@ -14,11 +14,18 @@ interface FeedState {
   setFeedOrder: (order: string[]) => void;
   showAllInQuickJump: boolean;
   setShowAllInQuickJump: (value: boolean) => void;
+  initForAccount: (did: string) => void;
+}
+
+let activeDID: string | null = null;
+
+function scopedKey(base: string): string {
+  return activeDID ? `${base}:${activeDID}` : base;
 }
 
 function loadFeed(): FeedSource {
   try {
-    const raw = localStorage.getItem("kazahana-feed");
+    const raw = localStorage.getItem(scopedKey("kazahana-feed"));
     if (raw) return JSON.parse(raw) as FeedSource;
   } catch {
     // ignore
@@ -28,7 +35,7 @@ function loadFeed(): FeedSource {
 
 function loadHiddenFeeds(): string[] {
   try {
-    const raw = localStorage.getItem("kazahana-hidden-feeds");
+    const raw = localStorage.getItem(scopedKey("kazahana-hidden-feeds"));
     if (raw) return JSON.parse(raw) as string[];
   } catch {
     // ignore
@@ -38,7 +45,7 @@ function loadHiddenFeeds(): string[] {
 
 function loadFeedOrder(): string[] {
   try {
-    const raw = localStorage.getItem("kazahana-feed-order");
+    const raw = localStorage.getItem(scopedKey("kazahana-feed-order"));
     if (raw) return JSON.parse(raw) as string[];
   } catch {
     // ignore
@@ -50,7 +57,7 @@ export const useFeedStore = create<FeedState>((set, get) => ({
   currentFeed: loadFeed(),
 
   setCurrentFeed: (feed) => {
-    localStorage.setItem("kazahana-feed", JSON.stringify(feed));
+    localStorage.setItem(scopedKey("kazahana-feed"), JSON.stringify(feed));
     set({ currentFeed: feed });
   },
 
@@ -61,14 +68,14 @@ export const useFeedStore = create<FeedState>((set, get) => ({
     const next = current.includes(uri)
       ? current.filter((u) => u !== uri)
       : [...current, uri];
-    localStorage.setItem("kazahana-hidden-feeds", JSON.stringify(next));
+    localStorage.setItem(scopedKey("kazahana-hidden-feeds"), JSON.stringify(next));
     set({ hiddenFeeds: next });
   },
 
   feedOrder: loadFeedOrder(),
 
   setFeedOrder: (order) => {
-    localStorage.setItem("kazahana-feed-order", JSON.stringify(order));
+    localStorage.setItem(scopedKey("kazahana-feed-order"), JSON.stringify(order));
     set({ feedOrder: order });
   },
 
@@ -77,5 +84,14 @@ export const useFeedStore = create<FeedState>((set, get) => ({
   setShowAllInQuickJump: (value) => {
     localStorage.setItem("kazahana-quickjump-show-all", String(value));
     set({ showAllInQuickJump: value });
+  },
+
+  initForAccount: (did: string) => {
+    activeDID = did;
+    set({
+      currentFeed: loadFeed(),
+      hiddenFeeds: loadHiddenFeeds(),
+      feedOrder: loadFeedOrder(),
+    });
   },
 }));

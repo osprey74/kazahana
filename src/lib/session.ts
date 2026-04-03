@@ -1,6 +1,6 @@
 import { load } from "@tauri-apps/plugin-store";
 import type { AtpSessionData } from "@atproto/api";
-import { SESSION_STORE_KEY, HANDLE_HISTORY_KEY, STORE_FILE } from "./constants";
+import { SESSION_STORE_KEY, ACCOUNTS_KEY, ACTIVE_ACCOUNT_DID_KEY, HANDLE_HISTORY_KEY, STORE_FILE } from "./constants";
 
 let storeInstance: Awaited<ReturnType<typeof load>> | null = null;
 
@@ -11,21 +11,120 @@ async function getStore() {
   return storeInstance;
 }
 
-export async function saveSession(session: AtpSessionData): Promise<void> {
-  const store = await getStore();
-  await store.set(SESSION_STORE_KEY, session);
+// --- Multi-account session management ---
+
+interface AccountsData {
+  sessions: Record<string, AtpSessionData>; // keyed by DID
+  order: string[]; // DID order (insertion order preserved)
 }
 
-export async function loadSession(): Promise<AtpSessionData | null> {
+async function loadAccountsData(): Promise<AccountsData> {
   const store = await getStore();
-  const session = await store.get<AtpSessionData>(SESSION_STORE_KEY);
-  return session ?? null;
+  const data = await store.get<AccountsData>(ACCOUNTS_KEY);
+  return data ?? { sessions: {}, order: [] };
 }
 
-export async function clearSession(): Promise<void> {
+async function saveAccountsData(data: AccountsData): Promise<void> {
   const store = await getStore();
+  await store.set(ACCOUNTS_KEY, data);
+}
+
+/** Migrate from single-session format (v1) to multi-account format. */
+export async function migrateFromSingleSession(): Promise<void> {
+  const store = await getStore();
+  const data = await store.get<AccountsData>(ACCOUNTS_KEY);
+  if (data && data.order.length > 0) return; // already migrated
+
+  const oldSession = await store.get<AtpSessionData>(SESSION_STORE_KEY);
+  if (!oldSession?.did) return;
+
+  const migrated: AccountsData = {
+    sessions: { [oldSession.did]: oldSession },
+    order: [oldSession.did],
+  };
+  await store.set(ACCOUNTS_KEY, migrated);
+  await store.set(ACTIVE_ACCOUNT_DID_KEY, oldSession.did);
   await store.delete(SESSION_STORE_KEY);
 }
+
+/** Save or update a session for an account. */
+export async function saveSession(session: AtpSessionData): Promise<void> {
+  const data = await loadAccountsData();
+  data.sessions[session.did] = session;
+  if (!data.order.includes(session.did)) {
+    data.order.push(session.did);
+  }
+  await saveAccountsData(data);
+  // Also set as active
+  const store = await getStore();
+  await store.set(ACTIVE_ACCOUNT_DID_KEY, session.did);
+}
+
+/** Load the active session. */
+export async function loadSession(): Promise<AtpSessionData | null> {
+  const store = await getStore();
+  const activeDid = await store.get<string>(ACTIVE_ACCOUNT_DID_KEY);
+  if (!activeDid) return null;
+  const data = await loadAccountsData();
+  return data.sessions[activeDid] ?? null;
+}
+
+/** Load all saved sessions in order. */
+export async function loadAllSessions(): Promise<AtpSessionData[]> {
+  const data = await loadAccountsData();
+  return data.order
+    .map((did) => data.sessions[did])
+    .filter((s): s is AtpSessionData => !!s);
+}
+
+/** Get the active account DID. */
+export async function getActiveAccountDID(): Promise<string | null> {
+  const store = await getStore();
+  return (await store.get<string>(ACTIVE_ACCOUNT_DID_KEY)) ?? null;
+}
+
+/** Set the active account DID. */
+export async function setActiveAccountDID(did: string): Promise<void> {
+  const store = await getStore();
+  await store.set(ACTIVE_ACCOUNT_DID_KEY, did);
+}
+
+/** Load a session for a specific DID. */
+export async function loadSessionForDID(did: string): Promise<AtpSessionData | null> {
+  const data = await loadAccountsData();
+  return data.sessions[did] ?? null;
+}
+
+/** Delete a session by DID. Returns the DID of the next account to activate, or null. */
+export async function deleteSessionForDID(did: string): Promise<string | null> {
+  const data = await loadAccountsData();
+  delete data.sessions[did];
+  data.order = data.order.filter((d) => d !== did);
+  await saveAccountsData(data);
+
+  const store = await getStore();
+  const activeDid = await store.get<string>(ACTIVE_ACCOUNT_DID_KEY);
+  if (activeDid === did) {
+    const nextDid = data.order[0] ?? null;
+    if (nextDid) {
+      await store.set(ACTIVE_ACCOUNT_DID_KEY, nextDid);
+    } else {
+      await store.delete(ACTIVE_ACCOUNT_DID_KEY);
+    }
+    return nextDid;
+  }
+  return activeDid ?? null;
+}
+
+/** Clear all sessions (full reset). */
+export async function clearSession(): Promise<void> {
+  const store = await getStore();
+  await store.delete(ACCOUNTS_KEY);
+  await store.delete(ACTIVE_ACCOUNT_DID_KEY);
+  await store.delete(SESSION_STORE_KEY); // clean up legacy key too
+}
+
+// --- Handle history (unchanged) ---
 
 export async function loadHandleHistory(): Promise<string[]> {
   const store = await getStore();

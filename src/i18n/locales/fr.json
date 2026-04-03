@@ -18,7 +18,15 @@
     "login": "Se connecter",
     "loggingIn": "Connexion en cours…",
     "helpText": "Vous pouvez générer un mot de passe d'application depuis les paramètres de Bluesky",
-    "loginFailed": "Échec de la connexion"
+    "loginFailed": "Échec de la connexion",
+    "switchAccount": "Changer de compte",
+    "accountPicker": {
+      "title": "Sélectionner un compte",
+      "addAccount": "Ajouter un autre compte",
+      "removeAccount": "Supprimer le compte",
+      "removeConfirmTitle": "Supprimer ce compte ?",
+      "removeConfirmMessage": "Les données du compte seront supprimées de cet appareil. Vous pourrez le rajouter en vous reconnectant."
+    }
   },
   "compose": {
     "cancel": "Annuler",
@@ -259,7 +267,10 @@
     "claudeApi": "Claude API",
     "claudeApiRegister": "Enregistrer",
     "claudeApiDelete": "Supprimer",
-    "claudeApiHint": "Enregistrez une clé API Claude pour activer la génération de texte ALT par IA pour les images"
+    "claudeApiHint": "Enregistrez une clé API Claude pour activer la génération de texte ALT par IA pour les images",
+    "accounts": "Comptes",
+    "addAccount": "Ajouter un compte",
+    "activeAccount": "Actif"
   },
   "confirm": {
     "ok": "OK",

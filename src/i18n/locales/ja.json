@@ -21,7 +21,15 @@
     "loginFailed": "ログインに失敗しました",
     "rateLimit": "レート制限に達しました。しばらく待ってから再試行してください。通常、５分程度で制限は解除されます。",
     "rateLimitWithTime": "レート制限に達しました。{{seconds}}秒後に再試行してください。",
-    "deleteHandle": "削除"
+    "deleteHandle": "削除",
+    "switchAccount": "アカウントを切り替え",
+    "accountPicker": {
+      "title": "アカウントを選択",
+      "addAccount": "別のアカウントを追加",
+      "removeAccount": "アカウントを削除",
+      "removeConfirmTitle": "アカウントを削除しますか？",
+      "removeConfirmMessage": "このデバイスからアカウント情報が削除されます。再度ログインすることで追加できます。"
+    }
   },
   "compose": {
     "cancel": "キャンセル",
@@ -280,7 +288,10 @@
     "claudeApi": "Claude API",
     "claudeApiRegister": "登録",
     "claudeApiDelete": "削除",
-    "claudeApiHint": "Claude API キーを登録すると、画像の ALT テキストを AI で自動生成できます"
+    "claudeApiHint": "Claude API キーを登録すると、画像の ALT テキストを AI で自動生成できます",
+    "accounts": "アカウント",
+    "addAccount": "アカウントを追加",
+    "activeAccount": "使用中"
   },
   "confirm": {
     "ok": "OK",

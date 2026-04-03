@@ -63,15 +63,28 @@
 - [x] Indonesian (id)
 
 ## Multi-Account Support
-- [ ] Session store refactor: single session → multi-account array (`accounts[]` + `currentDid`)
-- [ ] Agent management: シングルトン維持＋セッション差し替え方式（下記設計検討結果参照）
-- [ ] authStore redesign: `accounts[]`, `switchAccount(did)`, `addAccount()`, `removeAccount(did)`
-- [ ] Account switcher UI in AppLayout header
-- [ ] Settings: account management section (add/remove/switch)
-- [ ] Login form: "Add Account" flow after initial login
-- [ ] Query cache isolation per account (invalidate on switch)
-- [ ] i18n strings for account management (ja/en + 全11ロケール)
-- Note: OAuth対応は後日。現段階ではアプリパスワード方式でのマルチアカウント
+> iOS v1.1.0 で先行実装完了。引き継ぎ資料: `kazahana-ios/Documentation/HANDOFF-multi-account.md`, `HANDOFF-v1.1.0.md`
+> Note: OAuth対応は後日。現段階ではアプリパスワード方式でのマルチアカウント
+
+### データ層
+- [ ] `constants.ts`: 新ストアキー追加（`ACCOUNTS_KEY`, `ACTIVE_ACCOUNT_DID_KEY`）
+- [ ] `session.ts`: 複数セッション対応（`session:{did}` キー形式、`saveSession` / `loadAllSessions` / `deleteSession(did)` / `migrateFromSingleSession`）
+- [ ] `agent.ts`: セッション入替メソッド追加（切替時に `agent.resumeSession(newSession)`、chatAgent リセット連動）
+
+### 状態管理
+- [ ] `authStore.ts`: マルチアカウント状態管理（`savedAccounts[]`, `activeAccountDID`, `switchAccount(did)`, `removeAccount(did)`, `logout` → `removeAccount` に統合）
+- [ ] `feedStore.ts`: DID スコープ化（フィード順序・非表示設定をアカウントごとに保持）
+- [ ] `searchHistoryStore.ts`: DID スコープ化（検索履歴をアカウントごとに保持）
+
+### UI
+- [ ] `AccountPickerView.tsx`（新規）: 起動時アカウント選択画面（ロゴ + アカウントリスト + 追加/削除ボタン）
+- [ ] `App.tsx`: 3ウェイ分岐（ログイン済み → ホーム / 保存アカウントあり → AccountPicker / なし → LoginForm）+ `key={activeAccountDID}` で全子コンポーネント再生成
+- [ ] `LoginForm.tsx`: 追加ログインフロー対応 + パスワード表示切替（目のアイコン）
+- [ ] `AppLayout.tsx`: ヘッダーに `@handle` 表示 + クリックでアカウント切替ドロップダウン
+- [ ] `SettingsView.tsx`: アカウント管理セクション追加（一覧表示・アクティブマーク・切替・削除・追加ボタン）
+
+### i18n
+- [ ] 全11言語に翻訳キー追加（`auth.accountPicker.*`, `settings.accounts`, `settings.addAccount`）
 
 ### 設計検討結果 (2026-03-01)
 

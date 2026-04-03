@@ -18,7 +18,15 @@
     "login": "Anmelden",
     "loggingIn": "Anmeldung läuft...",
     "helpText": "Du kannst ein App-Passwort in den Bluesky-Einstellungen erstellen",
-    "loginFailed": "Anmeldung fehlgeschlagen"
+    "loginFailed": "Anmeldung fehlgeschlagen",
+    "switchAccount": "Konto wechseln",
+    "accountPicker": {
+      "title": "Konto auswählen",
+      "addAccount": "Weiteres Konto hinzufügen",
+      "removeAccount": "Konto entfernen",
+      "removeConfirmTitle": "Dieses Konto entfernen?",
+      "removeConfirmMessage": "Kontodaten werden von diesem Gerät entfernt. Sie können es durch erneutes Anmelden wieder hinzufügen."
+    }
   },
   "compose": {
     "cancel": "Abbrechen",
@@ -259,7 +267,10 @@
     "claudeApi": "Claude API",
     "claudeApiRegister": "Registrieren",
     "claudeApiDelete": "Löschen",
-    "claudeApiHint": "Registrieren Sie einen Claude API-Schlüssel, um KI-generierte ALT-Texte für Bilder zu aktivieren"
+    "claudeApiHint": "Registrieren Sie einen Claude API-Schlüssel, um KI-generierte ALT-Texte für Bilder zu aktivieren",
+    "accounts": "Konten",
+    "addAccount": "Konto hinzufügen",
+    "activeAccount": "Aktiv"
   },
   "confirm": {
     "ok": "OK",

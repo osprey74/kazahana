@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { onOpenUrl, getCurrent as getCurrentDeepLink } from "@tauri-apps/plugin-deep-link";
 import { AppLayout } from "./components/layout";
 import { LoginForm } from "./components/auth/LoginForm";
+import { AccountPickerView } from "./components/auth/AccountPickerView";
 import { HomeView } from "./components/timeline/HomeView";
 import { ThreadView } from "./components/thread/ThreadView";
 import { NotificationList } from "./components/notification/NotificationList";
@@ -92,7 +93,7 @@ function handleDeepLinkUrls(urls: string[]) {
 }
 
 function AuthGate() {
-  const { isLoggedIn, isLoading, restoreSession } = useAuthStore();
+  const { isLoggedIn, isLoading, restoreSession, savedAccounts, activeAccountDID } = useAuthStore();
   const theme = useSettingsStore((s) => s.theme);
 
   const initAutoStart = useSettingsStore((s) => s.initAutoStart);
@@ -142,6 +143,13 @@ function AuthGate() {
     return () => { unlisten?.(); };
   }, [isLoggedIn]);
 
+  // Clear query cache on account switch
+  useEffect(() => {
+    if (activeAccountDID) {
+      queryClient.clear();
+    }
+  }, [activeAccountDID]);
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -150,37 +158,42 @@ function AuthGate() {
     );
   }
 
-  if (!isLoggedIn) {
-    return <LoginForm />;
+  // 3-way branching (matches iOS implementation)
+  if (isLoggedIn) {
+    return (
+      <BrowserRouter key={activeAccountDID ?? "default"}>
+        <ModerationProvider>
+          <Routes>
+            <Route element={<AppLayout />}>
+              <Route path="/" element={<HomeView />} />
+              <Route path="/search" element={<SearchView />} />
+              <Route path="/notifications" element={<NotificationList />} />
+              <Route path="/messages" element={<DMListView />} />
+              <Route path="/messages/:convoId" element={<DMThreadView />} />
+              <Route path="/profile" element={<ProfileView />} />
+              <Route path="/profile/:handle" element={<ProfileView />} />
+              <Route path="/profile/:handle/followers" element={<FollowersPage />} />
+              <Route path="/profile/:handle/following" element={<FollowingPage />} />
+              <Route path="/post/:uri" element={<ThreadView />} />
+              <Route path="/starter-pack/:uri" element={<StarterPackDetailView />} />
+              <Route path="/settings" element={<SettingsView />} />
+              <Route path="/settings/license" element={<LicenseView />} />
+              <Route path="/settings/readme" element={<ReadmeView />} />
+              <Route path="/settings/hidden-posts" element={<HiddenPostsView />} />
+              <Route path="/settings/feed-visibility" element={<FeedVisibilityView />} />
+              <Route path="/settings/bsaf" element={<BsafBotsView />} />
+            </Route>
+          </Routes>
+        </ModerationProvider>
+      </BrowserRouter>
+    );
   }
 
-  return (
-    <BrowserRouter>
-      <ModerationProvider>
-        <Routes>
-          <Route element={<AppLayout />}>
-            <Route path="/" element={<HomeView />} />
-            <Route path="/search" element={<SearchView />} />
-            <Route path="/notifications" element={<NotificationList />} />
-            <Route path="/messages" element={<DMListView />} />
-            <Route path="/messages/:convoId" element={<DMThreadView />} />
-            <Route path="/profile" element={<ProfileView />} />
-            <Route path="/profile/:handle" element={<ProfileView />} />
-            <Route path="/profile/:handle/followers" element={<FollowersPage />} />
-            <Route path="/profile/:handle/following" element={<FollowingPage />} />
-            <Route path="/post/:uri" element={<ThreadView />} />
-            <Route path="/starter-pack/:uri" element={<StarterPackDetailView />} />
-            <Route path="/settings" element={<SettingsView />} />
-            <Route path="/settings/license" element={<LicenseView />} />
-            <Route path="/settings/readme" element={<ReadmeView />} />
-            <Route path="/settings/hidden-posts" element={<HiddenPostsView />} />
-            <Route path="/settings/feed-visibility" element={<FeedVisibilityView />} />
-            <Route path="/settings/bsaf" element={<BsafBotsView />} />
-          </Route>
-        </Routes>
-      </ModerationProvider>
-    </BrowserRouter>
-  );
+  if (savedAccounts.length > 0) {
+    return <AccountPickerView />;
+  }
+
+  return <LoginForm />;
 }
 
 function App() {

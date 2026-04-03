@@ -1,18 +1,25 @@
 import { create } from "zustand";
 
-const STORAGE_KEY = "kazahana-search-history";
+const BASE_KEY = "kazahana-search-history";
 const MAX_ENTRIES = 200;
+
+let activeDID: string | null = null;
+
+function storageKey(): string {
+  return activeDID ? `${BASE_KEY}:${activeDID}` : BASE_KEY;
+}
 
 interface SearchHistoryState {
   history: string[];
   addQuery: (query: string) => void;
   removeQuery: (query: string) => void;
   clearAll: () => void;
+  initForAccount: (did: string) => void;
 }
 
 function loadHistory(): string[] {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const raw = localStorage.getItem(storageKey());
     if (raw) return JSON.parse(raw) as string[];
   } catch {
     // ignore
@@ -21,7 +28,7 @@ function loadHistory(): string[] {
 }
 
 function saveHistory(history: string[]) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
+  localStorage.setItem(storageKey(), JSON.stringify(history));
 }
 
 export const useSearchHistoryStore = create<SearchHistoryState>((set, get) => ({
@@ -45,5 +52,10 @@ export const useSearchHistoryStore = create<SearchHistoryState>((set, get) => ({
   clearAll: () => {
     saveHistory([]);
     set({ history: [] });
+  },
+
+  initForAccount: (did: string) => {
+    activeDID = did;
+    set({ history: loadHistory() });
   },
 }));

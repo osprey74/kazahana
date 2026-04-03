@@ -18,7 +18,15 @@
     "login": "登录",
     "loggingIn": "正在登录…",
     "helpText": "您可以在 Bluesky 设置中生成应用专用密码",
-    "loginFailed": "登录失败"
+    "loginFailed": "登录失败",
+    "switchAccount": "切换账号",
+    "accountPicker": {
+      "title": "选择账号",
+      "addAccount": "添加其他账号",
+      "removeAccount": "删除账号",
+      "removeConfirmTitle": "删除此账号？",
+      "removeConfirmMessage": "账号信息将从此设备中删除。您可以通过重新登录来添加。"
+    }
   },
   "compose": {
     "cancel": "取消",
@@ -259,7 +267,10 @@
     "claudeApi": "Claude API",
     "claudeApiRegister": "注册",
     "claudeApiDelete": "删除",
-    "claudeApiHint": "注册 Claude API 密钥以启用 AI 自动生成图片 ALT 文本"
+    "claudeApiHint": "注册 Claude API 密钥以启用 AI 自动生成图片 ALT 文本",
+    "accounts": "账号",
+    "addAccount": "添加账号",
+    "activeAccount": "使用中"
   },
   "confirm": {
     "ok": "确定",

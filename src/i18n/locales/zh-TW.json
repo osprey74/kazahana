@@ -18,7 +18,15 @@
     "login": "登入",
     "loggingIn": "登入中...",
     "helpText": "您可以在 Bluesky 設定中產生應用程式密碼",
-    "loginFailed": "登入失敗"
+    "loginFailed": "登入失敗",
+    "switchAccount": "切換帳號",
+    "accountPicker": {
+      "title": "選擇帳號",
+      "addAccount": "新增其他帳號",
+      "removeAccount": "刪除帳號",
+      "removeConfirmTitle": "刪除此帳號？",
+      "removeConfirmMessage": "帳號資料將從此裝置中刪除。您可以透過重新登入來新增。"
+    }
   },
   "compose": {
     "cancel": "取消",
@@ -259,7 +267,10 @@
     "claudeApi": "Claude API",
     "claudeApiRegister": "註冊",
     "claudeApiDelete": "刪除",
-    "claudeApiHint": "註冊 Claude API 金鑰以啟用 AI 自動產生圖片 ALT 文字"
+    "claudeApiHint": "註冊 Claude API 金鑰以啟用 AI 自動產生圖片 ALT 文字",
+    "accounts": "帳號",
+    "addAccount": "新增帳號",
+    "activeAccount": "使用中"
   },
   "confirm": {
     "ok": "確定",

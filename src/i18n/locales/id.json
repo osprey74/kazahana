@@ -18,7 +18,15 @@
     "login": "Masuk",
     "loggingIn": "Sedang masuk...",
     "helpText": "Anda dapat membuat kata sandi aplikasi dari pengaturan Bluesky",
-    "loginFailed": "Gagal masuk"
+    "loginFailed": "Gagal masuk",
+    "switchAccount": "Ganti Akun",
+    "accountPicker": {
+      "title": "Pilih Akun",
+      "addAccount": "Tambah Akun Lain",
+      "removeAccount": "Hapus Akun",
+      "removeConfirmTitle": "Hapus akun ini?",
+      "removeConfirmMessage": "Data akun akan dihapus dari perangkat ini. Anda dapat menambahkannya kembali dengan masuk."
+    }
   },
   "compose": {
     "cancel": "Batal",
@@ -259,7 +267,10 @@
     "claudeApi": "Claude API",
     "claudeApiRegister": "Daftarkan",
     "claudeApiDelete": "Hapus",
-    "claudeApiHint": "Daftarkan kunci API Claude untuk mengaktifkan teks ALT yang dibuat AI untuk gambar"
+    "claudeApiHint": "Daftarkan kunci API Claude untuk mengaktifkan teks ALT yang dibuat AI untuk gambar",
+    "accounts": "Akun",
+    "addAccount": "Tambah Akun",
+    "activeAccount": "Aktif"
   },
   "confirm": {
     "ok": "OK",

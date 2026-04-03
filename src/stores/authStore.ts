@@ -2,20 +2,37 @@ import { create } from "zustand";
 import type { ProfileViewDetailed } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
 import type { AtpSessionData, AtpSessionEvent } from "@atproto/api";
 import { getAgent, resetAgent, setSessionHandler } from "../lib/agent";
-import { loadSession, clearSession, saveSession, addHandleHistory } from "../lib/session";
+import {
+  loadSession,
+  loadAllSessions,
+  saveSession,
+  deleteSessionForDID,
+  setActiveAccountDID,
+  loadSessionForDID,
+  clearSession,
+  addHandleHistory,
+  migrateFromSingleSession,
+} from "../lib/session";
 import { isRateLimitError, getRateLimitDelay } from "../lib/rateLimit";
 import { syncLanguageFromBluesky } from "../lib/languageSync";
+import { useFeedStore } from "./feedStore";
+import { useSearchHistoryStore } from "./searchHistoryStore";
 
 interface AuthState {
   isLoggedIn: boolean;
   isLoading: boolean;
   profile: ProfileViewDetailed | null;
   error: string | null;
+  savedAccounts: AtpSessionData[];
+  activeAccountDID: string | null;
 
   login: (identifier: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   restoreSession: () => Promise<void>;
   fetchProfile: () => Promise<void>;
+  switchAccount: (did: string) => Promise<void>;
+  removeAccount: (did: string) => Promise<void>;
+  reloadAccounts: () => Promise<void>;
 }
 
 export const useAuthStore = create<AuthState>((set, get) => ({
@@ -23,6 +40,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   isLoading: true,
   profile: null,
   error: null,
+  savedAccounts: [],
+  activeAccountDID: null,
 
   login: async (identifier: string, password: string) => {
     set({ isLoading: true, error: null });
@@ -30,7 +49,19 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       const agent = getAgent();
       await agent.login({ identifier, password });
       addHandleHistory(identifier);
-      set({ isLoggedIn: true, isLoading: false });
+      // Explicitly save the session before reading all sessions.
+      // The persistSession callback fires saveSession() without awaiting,
+      // so loadAllSessions() could race and miss the new session.
+      if (agent.session) {
+        await saveSession(agent.session);
+      }
+      const did = agent.session?.did ?? null;
+      const accounts = await loadAllSessions();
+      set({ isLoggedIn: true, isLoading: false, savedAccounts: accounts, activeAccountDID: did });
+      if (did) {
+        useFeedStore.getState().initForAccount(did);
+        useSearchHistoryStore.getState().initForAccount(did);
+      }
       get().fetchProfile();
       syncLanguageFromBluesky();
     } catch (e) {
@@ -39,37 +70,126 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         const seconds = delay ? Math.ceil(delay / 1000) : null;
         set({ isLoggedIn: false, isLoading: false, error: `rate_limit:${seconds ?? ""}` });
       } else {
-        const message =
-          e instanceof Error ? e.message : "Login failed";
+        const message = e instanceof Error ? e.message : "Login failed";
         set({ isLoggedIn: false, isLoading: false, error: message });
       }
     }
   },
 
   logout: async () => {
-    await clearSession();
-    resetAgent();
-    set({ isLoggedIn: false, profile: null, error: null });
+    const did = get().activeAccountDID;
+    if (did) {
+      await get().removeAccount(did);
+    } else {
+      await clearSession();
+      resetAgent();
+      set({ isLoggedIn: false, profile: null, error: null, savedAccounts: [], activeAccountDID: null });
+    }
+  },
+
+  removeAccount: async (did: string) => {
+    // Best-effort server-side session deletion
+    try {
+      const session = await loadSessionForDID(did);
+      if (session) {
+        const pdsHost = session.pdsHost ?? "https://bsky.social";
+        await fetch(`${pdsHost}/xrpc/com.atproto.server.deleteSession`, {
+          method: "POST",
+          headers: { Authorization: `Bearer ${session.refreshJwt}` },
+        });
+      }
+    } catch {
+      // best-effort
+    }
+
+    const nextDid = await deleteSessionForDID(did);
+    const accounts = await loadAllSessions();
+
+    if (nextDid && did === get().activeAccountDID) {
+      // Switch to next account
+      await get().switchAccount(nextDid);
+      set({ savedAccounts: accounts });
+    } else if (!nextDid) {
+      // No accounts left
+      resetAgent();
+      set({ isLoggedIn: false, profile: null, error: null, savedAccounts: [], activeAccountDID: null });
+    } else {
+      // Removed a non-active account
+      set({ savedAccounts: accounts });
+    }
+  },
+
+  switchAccount: async (did: string) => {
+    set({ isLoading: true, error: null });
+    try {
+      // Set active DID first (race condition prevention, per iOS handoff)
+      await setActiveAccountDID(did);
+      const session = await loadSessionForDID(did);
+      if (!session) {
+        set({ isLoading: false, error: "session_not_found" });
+        return;
+      }
+      const agent = getAgent();
+      await agent.resumeSession(session);
+      // Ensure refreshed session is persisted before reading all sessions
+      if (agent.session) {
+        await saveSession(agent.session);
+      }
+      const accounts = await loadAllSessions();
+      set({ isLoggedIn: true, isLoading: false, activeAccountDID: did, savedAccounts: accounts, profile: null });
+      useFeedStore.getState().initForAccount(did);
+      useSearchHistoryStore.getState().initForAccount(did);
+      get().fetchProfile();
+    } catch {
+      // Session expired for this account — remove it and show error
+      await deleteSessionForDID(did);
+      const accounts = await loadAllSessions();
+      set({
+        isLoading: false,
+        savedAccounts: accounts,
+        error: "session_expired",
+      });
+    }
   },
 
   restoreSession: async () => {
     set({ isLoading: true });
     try {
-      const session = await loadSession();
-      if (!session) {
+      // Migrate from single-session format if needed
+      await migrateFromSingleSession();
+
+      const accounts = await loadAllSessions();
+      set({ savedAccounts: accounts });
+
+      if (accounts.length === 0) {
         set({ isLoading: false });
         return;
       }
+
+      const session = await loadSession();
+      if (!session) {
+        // Accounts exist but no active — show picker
+        set({ isLoading: false });
+        return;
+      }
+
       const agent = getAgent();
       await agent.resumeSession(session);
-      set({ isLoggedIn: true, isLoading: false });
+      set({ isLoggedIn: true, isLoading: false, activeAccountDID: session.did });
+      useFeedStore.getState().initForAccount(session.did);
+      useSearchHistoryStore.getState().initForAccount(session.did);
       get().fetchProfile();
       syncLanguageFromBluesky();
     } catch {
-      await clearSession();
+      // Active session failed — don't clear all accounts, just reset login state
       resetAgent();
       set({ isLoggedIn: false, isLoading: false });
     }
+  },
+
+  reloadAccounts: async () => {
+    const accounts = await loadAllSessions();
+    set({ savedAccounts: accounts });
   },
 
   fetchProfile: async () => {
@@ -88,16 +208,32 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 function handleSessionEvent(evt: AtpSessionEvent, session?: AtpSessionData) {
   if (evt === "update" || evt === "create") {
     if (session) {
-      saveSession(session);
+      // Save and update savedAccounts so UI stays in sync
+      saveSession(session).then(() => {
+        loadAllSessions().then((accounts) => {
+          useAuthStore.setState({ savedAccounts: accounts });
+        });
+      });
     }
   } else if (evt === "expired") {
-    clearSession();
-    resetAgent();
-    useAuthStore.setState({
-      isLoggedIn: false,
-      profile: null,
-      error: "session_expired",
-    });
+    const { activeAccountDID, savedAccounts } = useAuthStore.getState();
+    if (savedAccounts.length <= 1) {
+      // Single or no account — go to login
+      clearSession();
+      resetAgent();
+      useAuthStore.setState({
+        isLoggedIn: false,
+        profile: null,
+        error: "session_expired",
+        savedAccounts: [],
+        activeAccountDID: null,
+      });
+    } else {
+      // Multi-account: remove expired account, switch to next
+      if (activeAccountDID) {
+        useAuthStore.getState().removeAccount(activeAccountDID);
+      }
+    }
   }
   // "create-failed" and "network-error" are intentionally ignored:
   // - create-failed: handled by login() catch block

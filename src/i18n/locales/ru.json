@@ -18,7 +18,15 @@
     "login": "Войти",
     "loggingIn": "Вход...",
     "helpText": "Пароль приложения можно сгенерировать в настройках Bluesky",
-    "loginFailed": "Не удалось войти"
+    "loginFailed": "Не удалось войти",
+    "switchAccount": "Сменить аккаунт",
+    "accountPicker": {
+      "title": "Выберите аккаунт",
+      "addAccount": "Добавить другой аккаунт",
+      "removeAccount": "Удалить аккаунт",
+      "removeConfirmTitle": "Удалить этот аккаунт?",
+      "removeConfirmMessage": "Данные аккаунта будут удалены с этого устройства. Вы можете добавить его снова, войдя в систему."
+    }
   },
   "compose": {
     "cancel": "Отмена",
@@ -259,7 +267,10 @@
     "claudeApi": "Claude API",
     "claudeApiRegister": "Зарегистрировать",
     "claudeApiDelete": "Удалить",
-    "claudeApiHint": "Зарегистрируйте ключ API Claude для автоматической генерации ALT-текста изображений с помощью ИИ"
+    "claudeApiHint": "Зарегистрируйте ключ API Claude для автоматической генерации ALT-текста изображений с помощью ИИ",
+    "accounts": "Аккаунты",
+    "addAccount": "Добавить аккаунт",
+    "activeAccount": "Активный"
   },
   "confirm": {
     "ok": "ОК",

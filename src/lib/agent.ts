@@ -1,5 +1,6 @@
 import { AtpAgent, type AtpSessionData, type AtpSessionEvent } from "@atproto/api";
 import { DEFAULT_PDS_HOST } from "./constants";
+import { resetChatAgent } from "./chatAgent";
 
 let agent: AtpAgent | null = null;
 let sessionHandler: ((evt: AtpSessionEvent, session?: AtpSessionData) => void) | null = null;
@@ -22,4 +23,5 @@ export function getAgent(): AtpAgent {
 
 export function resetAgent(): void {
   agent = null;
+  resetChatAgent();
 }

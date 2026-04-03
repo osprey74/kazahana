@@ -78,6 +78,9 @@ Kazahana is designed as a **lightweight, always-running companion app** — not 
 - [x] Language sync from Bluesky (detect language from user's posts, fallback to device locale)
 - [x] Post drafts (save up to 20 drafts with text and image thumbnails)
 - [x] Bot automation label badge (robot icon for self-labeled bot accounts)
+- [x] Notification grouping (batch same-type actions, multi-avatar display)
+- [x] Bulk save images & videos from posts
+- [x] Multi-account support (add, switch, remove accounts with per-account feed/search settings)
 - [x] BSAF (Bluesky Structured Alert Feed) compatible client
 
 ### BSAF Support

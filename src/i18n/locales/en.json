@@ -21,7 +21,15 @@
     "loginFailed": "Login failed",
     "rateLimit": "Rate limit exceeded. Please wait and try again. The limit is usually lifted after about 5 minutes.",
     "rateLimitWithTime": "Rate limit exceeded. Please wait {{seconds}} seconds and try again.",
-    "deleteHandle": "Delete"
+    "deleteHandle": "Delete",
+    "switchAccount": "Switch Account",
+    "accountPicker": {
+      "title": "Select Account",
+      "addAccount": "Add Another Account",
+      "removeAccount": "Remove Account",
+      "removeConfirmTitle": "Remove this account?",
+      "removeConfirmMessage": "Account data will be removed from this device. You can add it again by logging in."
+    }
   },
   "compose": {
     "cancel": "Cancel",
@@ -280,7 +288,10 @@
     "claudeApi": "Claude API",
     "claudeApiRegister": "Register",
     "claudeApiDelete": "Delete",
-    "claudeApiHint": "Register a Claude API key to enable AI-generated ALT text for images"
+    "claudeApiHint": "Register a Claude API key to enable AI-generated ALT text for images",
+    "accounts": "Accounts",
+    "addAccount": "Add Account",
+    "activeAccount": "Active"
   },
   "confirm": {
     "ok": "OK",

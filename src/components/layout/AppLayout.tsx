@@ -12,6 +12,7 @@ import { DMComposeModal } from "../messages/DMComposeModal";
 import { useComposeStore } from "../../stores/composeStore";
 import { useDMComposeStore } from "../../stores/dmComposeStore";
 import { useAuthStore } from "../../stores/authStore";
+import type { AtpSessionData } from "@atproto/api";
 import { useFeedStore, type FeedSource } from "../../stores/feedStore";
 import { useSavedFeeds, useMyLists } from "../../hooks/useMyFeeds";
 import { Icon } from "../common/Icon";
@@ -24,12 +25,13 @@ export function AppLayout() {
   const navigate = useNavigate();
   const openCompose = useComposeStore((s) => s.open);
   const openDMCompose = useDMComposeStore((s) => s.open);
-  const profile = useAuthStore((s) => s.profile);
+  const { profile, savedAccounts, activeAccountDID, switchAccount } = useAuthStore();
   const isSettings = location.pathname.startsWith("/settings");
   const isMessages = location.pathname.startsWith("/messages");
   const mainRef = useRef<HTMLElement>(null);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [feedMenuOpen, setFeedMenuOpen] = useState(false);
+  const [accountMenuOpen, setAccountMenuOpen] = useState(false);
   const { setCurrentFeed, feedOrder, hiddenFeeds, showAllInQuickJump } = useFeedStore();
   const { data: savedFeeds } = useSavedFeeds();
   const { data: myLists } = useMyLists();
@@ -94,7 +96,25 @@ export function AppLayout() {
         ) : (
           <span className="w-5" />
         )}
-        <h1 className="text-sm font-medium text-gray-500 dark:text-gray-400 flex-1 text-center">@{profile?.handle ?? "..."}</h1>
+        <div className="flex-1 text-center relative">
+          <button
+            type="button"
+            onClick={() => { if (savedAccounts.length > 1) setAccountMenuOpen((v) => !v); }}
+            className={`text-sm font-medium text-gray-500 dark:text-gray-400 ${savedAccounts.length > 1 ? "hover:text-gray-700 dark:hover:text-gray-200 cursor-pointer" : "cursor-default"}`}
+            title={savedAccounts.length > 1 ? t("auth.switchAccount") : undefined}
+          >
+            @{profile?.handle ?? "..."}
+            {savedAccounts.length > 1 && <Icon name="expand_more" size={16} className="inline ml-0.5 align-middle" />}
+          </button>
+          {accountMenuOpen && savedAccounts.length > 1 && (
+            <AccountSwitcherMenu
+              accounts={savedAccounts}
+              activeAccountDID={activeAccountDID}
+              onSelect={(did) => { setAccountMenuOpen(false); if (did !== activeAccountDID) { switchAccount(did); navigate("/"); } }}
+              onClose={() => setAccountMenuOpen(false)}
+            />
+          )}
+        </div>
         <div className="flex items-center gap-2">
           <div className="relative">
             <button onClick={() => setFeedMenuOpen((v) => !v)} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" title={t("feed.feeds")}>
@@ -188,6 +208,42 @@ export function AppLayout() {
       {/* Context Menu */}
       <ContextMenu />
     </div>
+  );
+}
+
+/** Account switcher dropdown */
+function AccountSwitcherMenu({
+  accounts,
+  activeAccountDID,
+  onSelect,
+  onClose,
+}: {
+  accounts: AtpSessionData[];
+  activeAccountDID: string | null;
+  onSelect: (did: string) => void;
+  onClose: () => void;
+}) {
+  return (
+    <>
+      <div className="fixed inset-0 z-40" onClick={(e) => { e.stopPropagation(); onClose(); }} />
+      <div className="absolute left-1/2 -translate-x-1/2 top-8 z-50 bg-white dark:bg-bg-dark border border-border-light dark:border-border-dark rounded-lg shadow-lg py-1 min-w-[200px] max-h-[60vh] overflow-y-auto whitespace-nowrap">
+        {accounts.map((account) => (
+          <button
+            key={account.did}
+            type="button"
+            onClick={() => onSelect(account.did)}
+            className="w-full flex items-center gap-2 px-3 py-2 text-sm text-text-light dark:text-text-dark hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+          >
+            {account.did === activeAccountDID ? (
+              <Icon name="check" size={16} className="text-primary shrink-0" />
+            ) : (
+              <span className="w-4 shrink-0" />
+            )}
+            <span className="truncate">@{account.handle}</span>
+          </button>
+        ))}
+      </div>
+    </>
   );
 }
 

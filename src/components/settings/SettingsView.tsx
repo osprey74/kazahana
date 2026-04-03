@@ -7,6 +7,7 @@ import { useSettingsStore } from "../../stores/settingsStore";
 import { useBsafStore } from "../../stores/bsafStore";
 import { useAuthStore } from "../../stores/authStore";
 import { getAgent } from "../../lib/agent";
+import { LoginForm } from "../auth/LoginForm";
 import { Icon } from "../common/Icon";
 
 type LabelPref = "hide" | "warn" | "ignore";
@@ -31,8 +32,10 @@ export function SettingsView() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { theme, setTheme, pollInterval, setPollInterval, desktopNotification, setDesktopNotification, autoStart, setAutoStart, videoVolume, setVideoVolume, showVia, setShowVia, closeAction, setCloseAction, imageOpenMode, setImageOpenMode, claudeApiKey, setClaudeApiKey } = useSettingsStore();
-  const logout = useAuthStore((s) => s.logout);
+  const { logout, savedAccounts, activeAccountDID, switchAccount, removeAccount } = useAuthStore();
   const { bsafEnabled, setBsafEnabled } = useBsafStore();
+  const [showAddAccount, setShowAddAccount] = useState(false);
+  const [confirmRemoveDID, setConfirmRemoveDID] = useState<string | null>(null);
   const [apiKeyInput, setApiKeyInput] = useState("");
   const [apiKeyVisible, setApiKeyVisible] = useState(false);
 
@@ -78,9 +81,14 @@ export function SettingsView() {
     queryClient.invalidateQueries({ queryKey: ["moderationPrefs"] });
   };
 
-  const handleLogout = async () => {
-    await logout();
+  const handleRemoveAccount = async (did: string) => {
+    setConfirmRemoveDID(null);
+    await removeAccount(did);
   };
+
+  if (showAddAccount) {
+    return <LoginForm onBack={() => setShowAddAccount(false)} isAddAccount />;
+  }
 
   const handleLanguageChange = (lang: string) => {
     i18n.changeLanguage(lang);
@@ -457,14 +465,78 @@ export function SettingsView() {
 
       <hr className="border-border-light dark:border-border-dark mb-6" />
 
-      {/* Logout */}
-      <section className="mb-6 ml-4">
-        <button
-          onClick={handleLogout}
-          className="px-4 py-2 text-sm font-medium text-red-500 border border-red-300 rounded-btn hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
-        >
-          {t("settings.logout")}
-        </button>
+      {/* Accounts */}
+      <section className="mb-6">
+        <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t("settings.accounts")}</h3>
+        <div className="ml-4 space-y-2">
+          {savedAccounts.map((account) => (
+            <div key={account.did}>
+              <div className="flex items-center justify-between py-2">
+                <button
+                  type="button"
+                  onClick={() => { if (account.did !== activeAccountDID) switchAccount(account.did); }}
+                  className="flex items-center gap-2 min-w-0 text-left"
+                >
+                  {account.did === activeAccountDID && (
+                    <Icon name="check" size={16} className="text-primary shrink-0" />
+                  )}
+                  <span className={`text-sm truncate ${account.did === activeAccountDID ? "font-medium text-text-light dark:text-text-dark" : "text-gray-600 dark:text-gray-400 hover:text-text-light dark:hover:text-text-dark"}`}>
+                    @{account.handle}
+                  </span>
+                  {account.did === activeAccountDID && (
+                    <span className="text-[10px] text-primary shrink-0">{t("settings.activeAccount")}</span>
+                  )}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setConfirmRemoveDID(account.did)}
+                  className="text-gray-300 hover:text-red-500 transition-colors shrink-0 ml-2"
+                  title={t("auth.accountPicker.removeAccount")}
+                >
+                  <Icon name="close" size={16} />
+                </button>
+              </div>
+
+              {/* Remove confirmation */}
+              {confirmRemoveDID === account.did && (
+                <div className="p-3 rounded-btn bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 mb-2">
+                  <p className="text-sm font-medium text-red-700 dark:text-red-300 mb-1">
+                    {t("auth.accountPicker.removeConfirmTitle")}
+                  </p>
+                  <p className="text-xs text-red-600 dark:text-red-400 mb-3">
+                    {t("auth.accountPicker.removeConfirmMessage")}
+                  </p>
+                  <div className="flex gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setConfirmRemoveDID(null)}
+                      className="px-3 py-1.5 text-xs rounded-btn border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                    >
+                      {t("post.deleteCancel")}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveAccount(account.did)}
+                      className="px-3 py-1.5 text-xs rounded-btn bg-red-500 text-white hover:bg-red-600 transition-colors"
+                    >
+                      {t("auth.accountPicker.removeAccount")}
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
+
+          {/* Add account */}
+          <button
+            type="button"
+            onClick={() => setShowAddAccount(true)}
+            className="flex items-center gap-2 text-sm text-primary hover:underline mt-2"
+          >
+            <Icon name="person_add" size={16} />
+            {t("settings.addAccount")}
+          </button>
+        </div>
       </section>
 
       <hr className="border-border-light dark:border-border-dark mb-6" />

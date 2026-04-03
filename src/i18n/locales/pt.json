@@ -18,7 +18,15 @@
     "login": "Entrar",
     "loggingIn": "Entrando...",
     "helpText": "Você pode gerar uma senha de app nas configurações do Bluesky",
-    "loginFailed": "Falha ao entrar"
+    "loginFailed": "Falha ao entrar",
+    "switchAccount": "Trocar conta",
+    "accountPicker": {
+      "title": "Selecionar conta",
+      "addAccount": "Adicionar outra conta",
+      "removeAccount": "Remover conta",
+      "removeConfirmTitle": "Remover esta conta?",
+      "removeConfirmMessage": "Os dados da conta serão removidos deste dispositivo. Você pode adicioná-la novamente fazendo login."
+    }
   },
   "compose": {
     "cancel": "Cancelar",
@@ -259,7 +267,10 @@
     "claudeApi": "Claude API",
     "claudeApiRegister": "Registrar",
     "claudeApiDelete": "Excluir",
-    "claudeApiHint": "Registre uma chave de API do Claude para ativar texto ALT gerado por IA para imagens"
+    "claudeApiHint": "Registre uma chave de API do Claude para ativar texto ALT gerado por IA para imagens",
+    "accounts": "Contas",
+    "addAccount": "Adicionar conta",
+    "activeAccount": "Ativa"
   },
   "confirm": {
     "ok": "OK",
