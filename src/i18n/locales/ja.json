@@ -426,12 +426,14 @@
     "posBottomCenter": "中央下",
     "posBottomRight": "右下",
     "opacity": "不透明度",
-    "fontSize": "文字サイズ",
+    "fontSize": "文字サイズ（文字の最小サイズは画像幅から自動設定されます）",
     "confirmBeforePost": "投稿前にウォーターマークの合成結果を確認する",
     "skipVideo": "動画には適用しない",
     "hint": "ウォーターマークは投稿前に画像へ合成されます。AI学習拒否の文言は意思表示としての効果です。",
     "confirmTitle": "ウォーターマーク確認",
     "confirmMessage": "ウォーターマークが合成された画像を確認してください。",
-    "postWithout": "WMなしで投稿"
+    "postWithout": "WMなしで投稿",
+    "preview": "プレビュー",
+    "textColor": "文字色"
   }
 }

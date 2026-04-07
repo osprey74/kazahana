@@ -81,7 +81,7 @@ Kazahana is designed as a **lightweight, always-running companion app** — not 
 - [x] Notification grouping (batch same-type actions, multi-avatar display)
 - [x] Bulk save images & videos from posts
 - [x] Multi-account support (add, switch, remove accounts with per-account feed/search settings)
-- [x] Image watermark (copyright / no-AI-training text overlay with position, opacity, and font size settings)
+- [x] Image watermark (copyright / no-AI-training text overlay with position, opacity, font size, and text color settings; live preview in settings)
 - [x] BSAF (Bluesky Structured Alert Feed) compatible client
 
 ### BSAF Support

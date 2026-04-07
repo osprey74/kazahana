@@ -8,6 +8,7 @@ export interface WatermarkSettings {
   position: WatermarkPosition;
   opacity: number;
   fontSize: number;
+  textColor: string;
   skipVideo: boolean;
   confirmBeforePost: boolean;
 }
@@ -19,6 +20,7 @@ export const DEFAULT_WATERMARK_SETTINGS: WatermarkSettings = {
   position: "br",
   opacity: 70,
   fontSize: 12,
+  textColor: "#FFFFFF",
   skipVideo: true,
   confirmBeforePost: true,
 };

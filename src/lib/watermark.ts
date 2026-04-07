@@ -27,24 +27,32 @@ function resolveCustomLines(settings: WatermarkSettings, handle: string): string
   return lines.length > 0 ? lines : [`© @${handle}`];
 }
 
-export async function applyWatermark(
-  file: File,
+function hexToRgb(hex: string): { r: number; g: number; b: number } {
+  const h = hex.replace("#", "");
+  if (h.length !== 6) return { r: 255, g: 255, b: 255 };
+  const n = parseInt(h, 16);
+  if (isNaN(n)) return { r: 255, g: 255, b: 255 };
+  return { r: (n >> 16) & 255, g: (n >> 8) & 255, b: n & 255 };
+}
+
+/**
+ * Draw watermark directly onto a canvas context.
+ * Shared between actual compositing (applyWatermark) and settings preview.
+ */
+export function drawWatermark(
+  ctx: OffscreenCanvasRenderingContext2D | CanvasRenderingContext2D,
+  imgWidth: number,
+  imgHeight: number,
   settings: WatermarkSettings,
   handle: string,
-): Promise<File> {
-  const img = await createImageBitmap(file);
-  const canvas = new OffscreenCanvas(img.width, img.height);
-  const ctx = canvas.getContext("2d")!;
-  ctx.drawImage(img, 0, 0);
-
-  const fontSize = Math.max(settings.fontSize, Math.round(img.width * 0.022));
+): void {
+  const fontSize = Math.max(settings.fontSize, Math.round(imgWidth * 0.022));
   ctx.font = `bold ${fontSize}px sans-serif`;
 
   const padX = Math.round(fontSize * 1.0);
-  const margin = Math.round(img.width * 0.015);
-  const maxAvailableWidth = img.width - margin * 2 - padX * 2;
+  const margin = Math.round(imgWidth * 0.015);
+  const maxAvailableWidth = imgWidth - margin * 2 - padX * 2;
 
-  // Determine lines: preset tries single first, falls back to multi if too wide
   let lines: string[];
   const preset = resolvePresetText(settings, handle);
   if (preset) {
@@ -60,21 +68,35 @@ export async function applyWatermark(
   const boxW = maxLineWidth + padX * 2;
   const boxH = fontSize * lines.length + lineGap * (lines.length - 1) + padY * 2;
 
-  const x = calcX(settings.position, img.width, boxW, margin);
-  const y = calcY(settings.position, img.height, boxH, margin);
+  const x = calcX(settings.position, imgWidth, boxW, margin);
+  const y = calcY(settings.position, imgHeight, boxH, margin);
 
   ctx.fillStyle = `rgba(0,0,0,${(settings.opacity / 100 * 0.6).toFixed(2)})`;
   ctx.beginPath();
   ctx.roundRect(x, y, boxW, boxH, 4);
   ctx.fill();
 
-  ctx.fillStyle = `rgba(255,255,255,${(settings.opacity / 100).toFixed(2)})`;
+  const rgb = hexToRgb(settings.textColor ?? "#FFFFFF");
+  ctx.fillStyle = `rgba(${rgb.r},${rgb.g},${rgb.b},${(settings.opacity / 100).toFixed(2)})`;
   ctx.textBaseline = "top";
   ctx.textAlign = "left";
   for (let i = 0; i < lines.length; i++) {
     const ly = y + padY + i * (fontSize + lineGap);
     ctx.fillText(lines[i], x + padX, ly);
   }
+}
+
+export async function applyWatermark(
+  file: File,
+  settings: WatermarkSettings,
+  handle: string,
+): Promise<File> {
+  const img = await createImageBitmap(file);
+  const canvas = new OffscreenCanvas(img.width, img.height);
+  const ctx = canvas.getContext("2d")!;
+  ctx.drawImage(img, 0, 0);
+
+  drawWatermark(ctx, img.width, img.height, settings, handle);
 
   img.close();
 

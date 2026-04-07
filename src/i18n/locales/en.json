@@ -426,12 +426,14 @@
     "posBottomCenter": "Bottom Center",
     "posBottomRight": "Bottom Right",
     "opacity": "Opacity",
-    "fontSize": "Font Size",
+    "fontSize": "Font Size (minimum size is automatically set based on image width)",
     "confirmBeforePost": "Preview watermark before posting",
     "skipVideo": "Do not apply to videos",
     "hint": "Watermarks are composited onto images before posting. AI training opt-out text serves as a declaration of intent.",
     "confirmTitle": "Watermark Preview",
     "confirmMessage": "Please confirm the watermarked images before posting.",
-    "postWithout": "Post without WM"
+    "postWithout": "Post without WM",
+    "preview": "Preview",
+    "textColor": "Text Color"
   }
 }
