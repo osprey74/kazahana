@@ -16,6 +16,7 @@ interface SettingsState {
   closeAction: CloseAction;
   imageOpenMode: ImageOpenMode;
   claudeApiKey: string;
+  confirmDraftImageQuality: boolean;
   setTheme: (theme: Theme) => void;
   setPollInterval: (seconds: number) => void;
   setDesktopNotification: (enabled: boolean) => void;
@@ -25,6 +26,7 @@ interface SettingsState {
   setCloseAction: (action: CloseAction) => void;
   setImageOpenMode: (mode: ImageOpenMode) => void;
   setClaudeApiKey: (key: string) => void;
+  setConfirmDraftImageQuality: (enabled: boolean) => void;
   initAutoStart: () => void;
   initCloseAction: () => void;
 }
@@ -43,6 +45,7 @@ export const useSettingsStore = create<SettingsState>((set) => ({
   closeAction: (localStorage.getItem("kazahana-close-action") as CloseAction) || "exit",
   imageOpenMode: (localStorage.getItem("kazahana-image-open-mode") as ImageOpenMode) || "app",
   claudeApiKey: localStorage.getItem("kazahana-claude-api-key") || "",
+  confirmDraftImageQuality: localStorage.getItem("kazahana-confirm-draft-image-quality") !== "false",
 
   setTheme: (theme: Theme) => {
     localStorage.setItem("kazahana-theme", theme);
@@ -97,6 +100,11 @@ export const useSettingsStore = create<SettingsState>((set) => ({
       localStorage.removeItem("kazahana-claude-api-key");
     }
     set({ claudeApiKey: key });
+  },
+
+  setConfirmDraftImageQuality: (enabled: boolean) => {
+    localStorage.setItem("kazahana-confirm-draft-image-quality", String(enabled));
+    set({ confirmDraftImageQuality: enabled });
   },
 
   initAutoStart: () => {

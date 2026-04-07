@@ -291,7 +291,9 @@
     "claudeApiHint": "Claude API キーを登録すると、画像の ALT テキストを AI で自動生成できます",
     "accounts": "アカウント",
     "addAccount": "アカウントを追加",
-    "activeAccount": "使用中"
+    "activeAccount": "使用中",
+    "draftImageWarning": "下書き保存時の確認",
+    "enableDraftImageWarning": "画像を含む下書きの保存前に警告を表示する"
   },
   "confirm": {
     "ok": "OK",
@@ -402,7 +404,10 @@
     "empty": "下書きはありません",
     "imageOnly": "（画像のみ）",
     "clearAll": "すべて削除",
-    "clearAllConfirm": "すべての下書きを削除しますか？"
+    "clearAllConfirm": "すべての下書きを削除しますか？",
+    "imageWarningTitle": "画像品質に関する注意",
+    "imageWarningMessage": "画像を含むポストを下書きに保存した場合、画像品質が著しく低下します。予めご了承ください。",
+    "saveAnyway": "下書きを保存する"
   },
   "bot": {
     "label": "このアカウントは自動化されています"

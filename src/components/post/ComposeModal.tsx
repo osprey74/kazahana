@@ -6,6 +6,7 @@ import { useOgp } from "../../hooks/useOgp";
 import { extractUrl } from "../../lib/ogp";
 import { useSearchActorsTypeahead } from "../../hooks/useSearch";
 import { useAuthStore } from "../../stores/authStore";
+import { useSettingsStore } from "../../stores/settingsStore";
 import { useWatermarkStore } from "../../stores/watermarkStore";
 import { applyWatermark } from "../../lib/watermark";
 import { WatermarkConfirmModal } from "../WatermarkConfirmModal";
@@ -110,12 +111,14 @@ export function ComposeModal() {
   const [isCompressing, setIsCompressing] = useState(false);
   const [editingImageId, setEditingImageId] = useState<string | null>(null);
   const [showDraftList, setShowDraftList] = useState(false);
+  const [showDraftImageWarning, setShowDraftImageWarning] = useState(false);
   const [showWatermarkConfirm, setShowWatermarkConfirm] = useState(false);
   const [watermarkedPreviews, setWatermarkedPreviews] = useState<string[]>([]);
   const [watermarkedImages, setWatermarkedImages] = useState<ImageFile[]>([]);
   const saveDraft = useDraftStore((s) => s.saveDraft);
   const wmSettings = useWatermarkStore((s) => s.settings);
   const handle = useAuthStore((s) => s.profile?.handle ?? "");
+  const confirmDraftImageQuality = useSettingsStore((s) => s.confirmDraftImageQuality);
 
   // OGP link card (manual trigger)
   const { detectedUrl, ogp, isLoading: ogpLoading, fetchCard, fetchCardForUrl, dismiss: dismissOgp, reset: resetOgp } = useOgp(text);
@@ -321,7 +324,7 @@ export function ComposeModal() {
     setVideo((prev) => prev ? { ...prev, alt } : null);
   }, []);
 
-  const handleSaveDraft = async () => {
+  const executeSaveDraft = async () => {
     const draftImages = await Promise.all(
       images.map(async (img) => ({
         dataUrl: await compressForDraft(img.file),
@@ -340,6 +343,14 @@ export function ComposeModal() {
     images.forEach((img) => URL.revokeObjectURL(img.preview));
     if (video) URL.revokeObjectURL(video.preview);
     close();
+  };
+
+  const handleSaveDraft = () => {
+    if (images.length > 0 && confirmDraftImageQuality) {
+      setShowDraftImageWarning(true);
+      return;
+    }
+    executeSaveDraft();
   };
 
   const handleLoadDraft = (draft: PostDraft) => {
@@ -804,6 +815,38 @@ export function ComposeModal() {
           onPostWithoutWatermark={handlePostWithoutWatermark}
           onCancel={handleWatermarkCancel}
         />
+      )}
+
+      {/* Draft image quality warning */}
+      {showDraftImageWarning && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50">
+          <div className="bg-white dark:bg-bg-dark rounded-card w-full max-w-sm mx-4 shadow-xl">
+            <div className="px-4 py-3 border-b border-border-light dark:border-border-dark">
+              <h3 className="text-sm font-medium text-text-light dark:text-text-dark">
+                {t("draft.imageWarningTitle")}
+              </h3>
+            </div>
+            <div className="px-4 py-3">
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                {t("draft.imageWarningMessage")}
+              </p>
+            </div>
+            <div className="flex justify-end gap-2 px-4 py-3 border-t border-border-light dark:border-border-dark">
+              <button
+                onClick={() => setShowDraftImageWarning(false)}
+                className="px-4 py-1.5 text-sm text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+              >
+                {t("compose.cancel")}
+              </button>
+              <button
+                onClick={() => { setShowDraftImageWarning(false); executeSaveDraft(); }}
+                className="px-4 py-1.5 bg-primary text-white text-sm font-medium rounded-btn hover:bg-blue-600"
+              >
+                {t("draft.saveAnyway")}
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

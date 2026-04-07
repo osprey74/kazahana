@@ -291,7 +291,9 @@
     "claudeApiHint": "Register a Claude API key to enable AI-generated ALT text for images",
     "accounts": "Accounts",
     "addAccount": "Add Account",
-    "activeAccount": "Active"
+    "activeAccount": "Active",
+    "draftImageWarning": "Draft Save Confirmation",
+    "enableDraftImageWarning": "Show warning before saving drafts with images"
   },
   "confirm": {
     "ok": "OK",
@@ -402,7 +404,10 @@
     "empty": "No drafts",
     "imageOnly": "(Images only)",
     "clearAll": "Clear all",
-    "clearAllConfirm": "Delete all drafts?"
+    "clearAllConfirm": "Delete all drafts?",
+    "imageWarningTitle": "Image Quality Notice",
+    "imageWarningMessage": "Saving a post with images as a draft will significantly reduce image quality. Please be aware of this before proceeding.",
+    "saveAnyway": "Save draft"
   },
   "bot": {
     "label": "This account is automated"

@@ -32,7 +32,7 @@ export function SettingsView() {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { theme, setTheme, pollInterval, setPollInterval, desktopNotification, setDesktopNotification, autoStart, setAutoStart, videoVolume, setVideoVolume, showVia, setShowVia, closeAction, setCloseAction, imageOpenMode, setImageOpenMode, claudeApiKey, setClaudeApiKey } = useSettingsStore();
+  const { theme, setTheme, pollInterval, setPollInterval, desktopNotification, setDesktopNotification, autoStart, setAutoStart, videoVolume, setVideoVolume, showVia, setShowVia, closeAction, setCloseAction, imageOpenMode, setImageOpenMode, claudeApiKey, setClaudeApiKey, confirmDraftImageQuality, setConfirmDraftImageQuality } = useSettingsStore();
   const { savedAccounts, activeAccountDID, switchAccount, removeAccount } = useAuthStore();
   const { bsafEnabled, setBsafEnabled } = useBsafStore();
   const [showAddAccount, setShowAddAccount] = useState(false);
@@ -328,6 +328,20 @@ export function SettingsView() {
             className="w-4 h-4 rounded accent-primary"
           />
           <span className="text-sm text-text-light dark:text-text-dark">{t("settings.enableShowVia")}</span>
+        </label>
+      </section>
+
+      {/* Draft image quality warning */}
+      <section className="mb-6">
+        <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t("settings.draftImageWarning")}</h3>
+        <label className="flex items-center gap-2 cursor-pointer ml-4">
+          <input
+            type="checkbox"
+            checked={confirmDraftImageQuality}
+            onChange={(e) => setConfirmDraftImageQuality(e.target.checked)}
+            className="w-4 h-4 rounded accent-primary"
+          />
+          <span className="text-sm text-text-light dark:text-text-dark">{t("settings.enableDraftImageWarning")}</span>
         </label>
       </section>
 
