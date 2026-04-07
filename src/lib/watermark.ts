@@ -1,17 +1,30 @@
 import type { WatermarkSettings, WatermarkPosition } from "../types/watermark";
 
-export function resolveWatermarkLines(settings: WatermarkSettings, handle: string): string[] {
+interface PresetText {
+  single: string;
+  multi: string[];
+}
+
+function resolvePresetText(settings: WatermarkSettings, handle: string): PresetText | null {
   const h = `© @${handle}`;
-  const map: Record<string, string[]> = {
-    copyright: [h, "無断転載禁止"],
-    ai_ja:     [h, "AI学習・転載禁止"],
-    ai_en:     [h, "No AI Training"],
-    ai_both:   [h, "No AI Training / 無断転載禁止"],
-    photo:     [h, "撮影・編集"],
-    custom:    settings.customText.split("\n").filter((l) => l.length > 0),
+  const map: Record<string, { label: string }> = {
+    copyright: { label: "無断転載禁止" },
+    ai_ja:     { label: "AI学習・転載禁止" },
+    ai_en:     { label: "No AI Training" },
+    ai_both:   { label: "No AI Training / 無断転載禁止" },
+    photo:     { label: "撮影・編集" },
   };
-  const lines = map[settings.preset] ?? map.copyright;
-  return lines.length > 0 ? lines : [h];
+  const entry = map[settings.preset];
+  if (!entry) return null;
+  return {
+    single: `${h}\u3000${entry.label}`,
+    multi: [h, entry.label],
+  };
+}
+
+function resolveCustomLines(settings: WatermarkSettings, handle: string): string[] {
+  const lines = settings.customText.split("\n").filter((l) => l.length > 0);
+  return lines.length > 0 ? lines : [`© @${handle}`];
 }
 
 export async function applyWatermark(
@@ -24,17 +37,28 @@ export async function applyWatermark(
   const ctx = canvas.getContext("2d")!;
   ctx.drawImage(img, 0, 0);
 
-  const lines = resolveWatermarkLines(settings, handle);
   const fontSize = Math.max(settings.fontSize, Math.round(img.width * 0.022));
   ctx.font = `bold ${fontSize}px sans-serif`;
 
+  const padX = Math.round(fontSize * 1.0);
+  const margin = Math.round(img.width * 0.015);
+  const maxAvailableWidth = img.width - margin * 2 - padX * 2;
+
+  // Determine lines: preset tries single first, falls back to multi if too wide
+  let lines: string[];
+  const preset = resolvePresetText(settings, handle);
+  if (preset) {
+    const singleWidth = ctx.measureText(preset.single).width;
+    lines = singleWidth <= maxAvailableWidth ? [preset.single] : preset.multi;
+  } else {
+    lines = resolveCustomLines(settings, handle);
+  }
+
   const lineGap = Math.round(fontSize * 0.3);
   const maxLineWidth = Math.max(...lines.map((l) => ctx.measureText(l).width));
-  const padX = Math.round(fontSize * 1.0);
   const padY = Math.round(fontSize * 0.7);
   const boxW = maxLineWidth + padX * 2;
   const boxH = fontSize * lines.length + lineGap * (lines.length - 1) + padY * 2;
-  const margin = Math.round(img.width * 0.015);
 
   const x = calcX(settings.position, img.width, boxW, margin);
   const y = calcY(settings.position, img.height, boxH, margin);

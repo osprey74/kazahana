@@ -407,7 +407,7 @@ export function ComposeModal() {
     if (wmSettings.enabled && images.length > 0 && handle) {
       const wmImages: ImageFile[] = await Promise.all(
         images.map(async (img) => {
-          const wmFile = await applyWatermark(img.file, wmSettings, handle);
+          const wmFile = await compressImageFile(await applyWatermark(img.file, wmSettings, handle));
           return { ...img, file: wmFile, preview: URL.createObjectURL(wmFile) };
         }),
       );
