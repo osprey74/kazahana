@@ -1,16 +1,17 @@
 import type { WatermarkSettings, WatermarkPosition } from "../types/watermark";
 
-export function resolveWatermarkText(settings: WatermarkSettings, handle: string): string {
-  const h = `@${handle}`;
-  const map: Record<string, string> = {
-    copyright: `© ${h}\u3000無断転載禁止`,
-    ai_ja:     `© ${h}\u3000AI学習・転載禁止`,
-    ai_en:     `© ${h}\u3000No AI Training`,
-    ai_both:   `© ${h}\u3000No AI Training / 無断転載禁止`,
-    photo:     `© ${h}\u3000撮影・編集`,
-    custom:    settings.customText,
+export function resolveWatermarkLines(settings: WatermarkSettings, handle: string): string[] {
+  const h = `© @${handle}`;
+  const map: Record<string, string[]> = {
+    copyright: [h, "無断転載禁止"],
+    ai_ja:     [h, "AI学習・転載禁止"],
+    ai_en:     [h, "No AI Training"],
+    ai_both:   [h, "No AI Training / 無断転載禁止"],
+    photo:     [h, "撮影・編集"],
+    custom:    settings.customText.split("\n").filter((l) => l.length > 0),
   };
-  return map[settings.preset] ?? map.copyright;
+  const lines = map[settings.preset] ?? map.copyright;
+  return lines.length > 0 ? lines : [h];
 }
 
 export async function applyWatermark(
@@ -23,15 +24,16 @@ export async function applyWatermark(
   const ctx = canvas.getContext("2d")!;
   ctx.drawImage(img, 0, 0);
 
-  const text = resolveWatermarkText(settings, handle);
+  const lines = resolveWatermarkLines(settings, handle);
   const fontSize = Math.max(settings.fontSize, Math.round(img.width * 0.022));
   ctx.font = `bold ${fontSize}px sans-serif`;
 
-  const textWidth = ctx.measureText(text).width;
+  const lineGap = Math.round(fontSize * 0.3);
+  const maxLineWidth = Math.max(...lines.map((l) => ctx.measureText(l).width));
   const padX = Math.round(fontSize * 1.0);
   const padY = Math.round(fontSize * 0.7);
-  const boxW = textWidth + padX * 2;
-  const boxH = fontSize + padY * 2;
+  const boxW = maxLineWidth + padX * 2;
+  const boxH = fontSize * lines.length + lineGap * (lines.length - 1) + padY * 2;
   const margin = Math.round(img.width * 0.015);
 
   const x = calcX(settings.position, img.width, boxW, margin);
@@ -45,7 +47,10 @@ export async function applyWatermark(
   ctx.fillStyle = `rgba(255,255,255,${(settings.opacity / 100).toFixed(2)})`;
   ctx.textBaseline = "top";
   ctx.textAlign = "left";
-  ctx.fillText(text, x + padX, y + padY);
+  for (let i = 0; i < lines.length; i++) {
+    const ly = y + padY + i * (fontSize + lineGap);
+    ctx.fillText(lines[i], x + padX, ly);
+  }
 
   img.close();
 

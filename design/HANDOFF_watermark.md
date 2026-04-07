@@ -53,7 +53,7 @@
 |-----------|-----|------|------|
 | `enabled` | bool | — | 機能の ON/OFF |
 | `preset` | string | 上表 6 種 | 使用するプリセット ID |
-| `customText` | string | 0–50 文字 | `custom` 選択時の文言 |
+| `customText` | string | 0–50 文字 | `custom` 選択時の文言（改行を含むことができる） |
 | `position` | string | `tl/tc/tr/bl/bc/br` | 表示位置 |
 | `opacity` | int | 20–100（step 5） | テキスト不透明度（%） |
 | `fontSize` | int | 8–20（step 1） | 基準フォントサイズ（px 相当） |
@@ -62,14 +62,20 @@
 
 ### 合成ルール
 
-- テキストは半透明の角丸背景（角丸半径 4px）の上に白文字で描画する
+- テキストは **複数行** で描画する（半透明の角丸背景の上に白文字）
+- 改行ルール:
+  - **定型文**: `© @{handle}` と続きの文言で2行に分割（例: `["© @handle", "無断転載禁止"]`）
+  - **カスタム**: テキスト内の改行文字 (`\n`) で分割。設定画面は textarea で改行入力可能
 - フォント: `bold {fontSize}px sans-serif`
 - フォントサイズは `max(fontSize設定値, 画像幅 × 0.022)` で最低サイズを保証する（小さい画像でも読めるように）
-- 背景色 alpha = `opacity / 100 × 0.6`（黒背景）
+- 背景色 alpha = `opacity / 100 × 0.6`（黒背景）、角丸半径 4px
 - テキスト alpha = `opacity / 100`（白文字）
 - パディング: X方向 = `fontSize × 1.0`、Y方向 = `fontSize × 0.7`
+- 行間 (lineGap) = `fontSize × 0.3`
+- 背景ボックス幅 = 最長行の幅 + パディング
+- 背景ボックス高さ = `fontSize × 行数 + lineGap × (行数 - 1)` + パディング
 - マージン（端からの余白）= `画像幅 × 0.015`
-- テキスト描画: `textBaseline = "top"`, `textAlign = "left"`
+- テキスト描画: `textBaseline = "top"`, `textAlign = "left"`、Y座標を行ごとにずらして描画
 
 ### 投稿フロー
 
@@ -211,17 +217,18 @@ export const useWatermarkStore = create<WatermarkState>((set, get) => ({
 ```typescript
 import type { WatermarkSettings, WatermarkPosition } from "../types/watermark";
 
-export function resolveWatermarkText(settings: WatermarkSettings, handle: string): string {
-  const h = `@${handle}`;
-  const map: Record<string, string> = {
-    copyright: `© ${h}\u3000無断転載禁止`,
-    ai_ja:     `© ${h}\u3000AI学習・転載禁止`,
-    ai_en:     `© ${h}\u3000No AI Training`,
-    ai_both:   `© ${h}\u3000No AI Training / 無断転載禁止`,
-    photo:     `© ${h}\u3000撮影・編集`,
-    custom:    settings.customText,
+export function resolveWatermarkLines(settings: WatermarkSettings, handle: string): string[] {
+  const h = `© @${handle}`;
+  const map: Record<string, string[]> = {
+    copyright: [h, "無断転載禁止"],
+    ai_ja:     [h, "AI学習・転載禁止"],
+    ai_en:     [h, "No AI Training"],
+    ai_both:   [h, "No AI Training / 無断転載禁止"],
+    photo:     [h, "撮影・編集"],
+    custom:    settings.customText.split("\n").filter((l) => l.length > 0),
   };
-  return map[settings.preset] ?? map.copyright;
+  const lines = map[settings.preset] ?? map.copyright;
+  return lines.length > 0 ? lines : [h];
 }
 
 export async function applyWatermark(
@@ -234,15 +241,16 @@ export async function applyWatermark(
   const ctx = canvas.getContext("2d")!;
   ctx.drawImage(img, 0, 0);
 
-  const text = resolveWatermarkText(settings, handle);
+  const lines = resolveWatermarkLines(settings, handle);
   const fontSize = Math.max(settings.fontSize, Math.round(img.width * 0.022));
   ctx.font = `bold ${fontSize}px sans-serif`;
 
-  const textWidth = ctx.measureText(text).width;
+  const lineGap = Math.round(fontSize * 0.3);
+  const maxLineWidth = Math.max(...lines.map((l) => ctx.measureText(l).width));
   const padX = Math.round(fontSize * 1.0);
   const padY = Math.round(fontSize * 0.7);
-  const boxW = textWidth + padX * 2;
-  const boxH = fontSize + padY * 2;
+  const boxW = maxLineWidth + padX * 2;
+  const boxH = fontSize * lines.length + lineGap * (lines.length - 1) + padY * 2;
   const margin = Math.round(img.width * 0.015);
 
   const x = calcX(settings.position, img.width, boxW, margin);
@@ -256,7 +264,10 @@ export async function applyWatermark(
   ctx.fillStyle = `rgba(255,255,255,${(settings.opacity / 100).toFixed(2)})`;
   ctx.textBaseline = "top";
   ctx.textAlign = "left";
-  ctx.fillText(text, x + padX, y + padY);
+  for (let i = 0; i < lines.length; i++) {
+    const ly = y + padY + i * (fontSize + lineGap);
+    ctx.fillText(lines[i], x + padX, ly);
+  }
 
   img.close();
 
@@ -423,20 +434,22 @@ import UIKit
 
 struct WatermarkService {
 
-    static func resolveText(settings: WatermarkSettings, handle: String) -> String {
-        let h = "@\(handle)"
+    static func resolveLines(settings: WatermarkSettings, handle: String) -> [String] {
+        let h = "© @\(handle)"
         switch settings.preset {
-        case .copyright: return "© \(h)\u{3000}無断転載禁止"
-        case .ai_ja:     return "© \(h)\u{3000}AI学習・転載禁止"
-        case .ai_en:     return "© \(h)\u{3000}No AI Training"
-        case .ai_both:   return "© \(h)\u{3000}No AI Training / 無断転載禁止"
-        case .photo:     return "© \(h)\u{3000}撮影・編集"
-        case .custom:    return settings.customText
+        case .copyright: return [h, "無断転載禁止"]
+        case .ai_ja:     return [h, "AI学習・転載禁止"]
+        case .ai_en:     return [h, "No AI Training"]
+        case .ai_both:   return [h, "No AI Training / 無断転載禁止"]
+        case .photo:     return [h, "撮影・編集"]
+        case .custom:
+            let lines = settings.customText.components(separatedBy: "\n").filter { !$0.isEmpty }
+            return lines.isEmpty ? [h] : lines
         }
     }
 
     static func apply(to image: UIImage, settings: WatermarkSettings, handle: String) -> UIImage {
-        let text = resolveText(settings: settings, handle: handle)
+        let lines = resolveLines(settings: settings, handle: handle)
         let size = image.size
 
         let renderer = UIGraphicsImageRenderer(size: size)
@@ -447,16 +460,17 @@ struct WatermarkService {
             let font = UIFont.boldSystemFont(ofSize: baseFontSize)
             let textAlpha = settings.opacity / 100.0
             let bgAlpha   = textAlpha * 0.6
+            let lineGap   = baseFontSize * 0.3
 
             let attrs: [NSAttributedString.Key: Any] = [
                 .font: font,
                 .foregroundColor: UIColor.white.withAlphaComponent(textAlpha)
             ]
-            let textSize = (text as NSString).size(withAttributes: attrs)
+            let maxLineWidth = lines.map { ($0 as NSString).size(withAttributes: attrs).width }.max() ?? 0
             let padX = baseFontSize * 1.0
             let padY = baseFontSize * 0.7
-            let boxW = textSize.width + padX * 2
-            let boxH = baseFontSize + padY * 2
+            let boxW = maxLineWidth + padX * 2
+            let boxH = baseFontSize * CGFloat(lines.count) + lineGap * CGFloat(lines.count - 1) + padY * 2
             let margin = size.width * 0.015
 
             let origin = calcOrigin(pos: settings.position, imgSize: size,
@@ -467,8 +481,10 @@ struct WatermarkService {
             UIColor.black.withAlphaComponent(bgAlpha).setFill()
             bgPath.fill()
 
-            let textOrigin = CGPoint(x: origin.x + padX, y: origin.y + padY)
-            (text as NSString).draw(at: textOrigin, withAttributes: attrs)
+            for (i, line) in lines.enumerated() {
+                let ly = origin.y + padY + CGFloat(i) * (baseFontSize + lineGap)
+                (line as NSString).draw(at: CGPoint(x: origin.x + padX, y: ly), withAttributes: attrs)
+            }
         }
     }
 
@@ -587,26 +603,30 @@ import kotlin.math.roundToInt
 
 object WatermarkService {
 
-    fun resolveText(settings: WatermarkSettings, handle: String): String {
-        val h = "@$handle"
+    fun resolveLines(settings: WatermarkSettings, handle: String): List<String> {
+        val h = "© @$handle"
         return when (settings.preset) {
-            WatermarkPreset.COPYRIGHT -> "© $h\u3000無断転載禁止"
-            WatermarkPreset.AI_JA    -> "© $h\u3000AI学習・転載禁止"
-            WatermarkPreset.AI_EN    -> "© $h\u3000No AI Training"
-            WatermarkPreset.AI_BOTH  -> "© $h\u3000No AI Training / 無断転載禁止"
-            WatermarkPreset.PHOTO    -> "© $h\u3000撮影・編集"
-            WatermarkPreset.CUSTOM   -> settings.customText
+            WatermarkPreset.COPYRIGHT -> listOf(h, "無断転載禁止")
+            WatermarkPreset.AI_JA    -> listOf(h, "AI学習・転載禁止")
+            WatermarkPreset.AI_EN    -> listOf(h, "No AI Training")
+            WatermarkPreset.AI_BOTH  -> listOf(h, "No AI Training / 無断転載禁止")
+            WatermarkPreset.PHOTO    -> listOf(h, "撮影・編集")
+            WatermarkPreset.CUSTOM   -> {
+                val lines = settings.customText.split("\n").filter { it.isNotEmpty() }
+                if (lines.isEmpty()) listOf(h) else lines
+            }
         }
     }
 
     fun apply(source: Bitmap, settings: WatermarkSettings, handle: String): Bitmap {
         val result = source.copy(Bitmap.Config.ARGB_8888, true)
         val canvas = Canvas(result)
-        val text = resolveText(settings, handle)
+        val lines = resolveLines(settings, handle)
 
         val baseFontSize = max(settings.fontSize, source.width * 0.022f)
         val textAlpha = (settings.opacity / 100f * 255).roundToInt()
         val bgAlpha   = (settings.opacity / 100f * 0.6f * 255).roundToInt()
+        val lineGap   = baseFontSize * 0.3f
         val margin = (source.width * 0.015f).roundToInt()
 
         val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
@@ -616,12 +636,15 @@ object WatermarkService {
             typeface = Typeface.DEFAULT_BOLD
         }
 
-        val textBounds = Rect()
-        textPaint.getTextBounds(text, 0, text.length, textBounds)
+        val maxLineWidth = lines.maxOf { line ->
+            val bounds = Rect()
+            textPaint.getTextBounds(line, 0, line.length, bounds)
+            bounds.width().toFloat()
+        }
         val padX = baseFontSize * 1.0f
         val padY = baseFontSize * 0.7f
-        val boxW = textBounds.width() + padX * 2
-        val boxH = baseFontSize + padY * 2
+        val boxW = maxLineWidth + padX * 2
+        val boxH = baseFontSize * lines.size + lineGap * (lines.size - 1) + padY * 2
 
         val (boxX, boxY) = calcOrigin(
             settings.position,
@@ -636,7 +659,10 @@ object WatermarkService {
         canvas.drawRoundRect(
             RectF(boxX, boxY, boxX + boxW, boxY + boxH), 4f, 4f, bgPaint
         )
-        canvas.drawText(text, boxX + padX, boxY + boxH - padY, textPaint)
+        for ((i, line) in lines.withIndex()) {
+            val ly = boxY + padY + baseFontSize + i * (baseFontSize + lineGap)
+            canvas.drawText(line, boxX + padX, ly, textPaint)
+        }
 
         return result
     }
@@ -729,6 +755,8 @@ fun prepareImageForUpload(bitmap: Bitmap): Bitmap {
 - [x] `confirmBeforePost: true` のとき確認モーダルが表示されるか（Desktop 確認済み）
 - [x] 確認モーダルの「WMなしで投稿」が元画像で投稿されるか（Desktop 確認済み）
 - [x] 投稿画面ヘッダーの「WMなしで投稿」が元画像で投稿されるか（Desktop 確認済み）
+- [x] 定型文がハンドル名と文言で2行に分割されるか（Desktop 確認済み）
+- [x] カスタムテキストで改行を含む場合に複数行で描画されるか（Desktop 確認済み）
 - [ ] opacity / fontSize のスライダーがリアルタイムにプレビューへ反映されるか
 - [ ] 設定が再起動後も保持されているか
 - [ ] 横長・縦長・正方形など複数アスペクト比で文字が欠けないか

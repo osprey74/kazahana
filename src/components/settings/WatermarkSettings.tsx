@@ -64,13 +64,13 @@ export function WatermarkSettings() {
           {/* Custom text input */}
           {settings.preset === "custom" && (
             <div>
-              <input
-                type="text"
+              <textarea
                 value={settings.customText}
                 onChange={(e) => update({ customText: e.target.value.slice(0, 50) })}
                 placeholder={t("watermark.customPlaceholder")}
                 maxLength={50}
-                className="w-full text-sm px-3 py-1.5 rounded border border-border-light dark:border-border-dark bg-transparent text-text-light dark:text-text-dark placeholder-gray-400 focus:outline-none focus:border-primary"
+                rows={3}
+                className="w-full text-sm px-3 py-1.5 rounded border border-border-light dark:border-border-dark bg-transparent text-text-light dark:text-text-dark placeholder-gray-400 focus:outline-none focus:border-primary resize-none"
               />
               <p className="text-[11px] text-gray-400 mt-1">{settings.customText.length}/50</p>
             </div>
