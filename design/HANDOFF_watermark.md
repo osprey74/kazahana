@@ -373,7 +373,7 @@ const wmImages: ImageFile[] = await Promise.all(
 
 ---
 
-## Platform B — iOS（Swift / SwiftUI）
+## Platform B — iOS（Swift / SwiftUI）— 実装済み v2.1.0
 
 ### リポジトリ
 `github.com/osprey74/kazahana-ios`
@@ -381,18 +381,22 @@ const wmImages: ImageFile[] = await Promise.all(
 ### 実装ファイル構成
 
 ```
-Kazahana/
-├── Models/WatermarkSettings.swift
-├── Services/WatermarkService.swift
-├── Views/Settings/WatermarkSettingsView.swift
-└── Views/Post/PostView.swift  ← 既存ファイルに追記
+kazahana-ios/
+├── Models/WatermarkSettings.swift           ← 新規
+├── Services/WatermarkService.swift          ← 新規
+├── Services/AppSettings.swift               ← confirmDraftImageQuality 追加
+├── Views/Settings/WatermarkSettingsView.swift ← 新規
+├── Views/Settings/SettingsView.swift        ← ウォーターマークセクション + 下書き警告設定追加
+├── Views/Compose/ComposeView.swift          ← WM合成フロー + 下書き警告ダイアログ追加
+├── Assets.xcassets/watermark-preview.imageset ← プレビュー用サンプル画像アセット（新規）
+└── Localizable.xcstrings                    ← watermark.* / draft.* キー追加
 ```
 
 ### 設計ポイント（Desktop 実装からの知見）
 
 > **重要**: 設定の状態管理は **グローバルに共有される仕組み** を使うこと。
 > Desktop では React hook（useState）を使って設定画面と投稿画面で状態が分離する問題が発生した。
-> iOS では `@Published` を持つ `ObservableObject` をシングルトンまたは `@EnvironmentObject` で共有する方式を推奨。
+> iOS では `@Observable` クラスのシングルトン（`AppSettings.shared`）を `@Environment` で全 View に伝播させる方式を採用。
 
 ### モデル `Models/WatermarkSettings.swift`
 
@@ -407,7 +411,8 @@ enum WatermarkPosition: String, CaseIterable, Codable {
     case tl, tc, tr, bl, bc, br
 }
 
-struct WatermarkSettings: Codable {
+// Equatable は SwiftUI の .task(id:) でリアルタイムプレビューを更新するために必要
+struct WatermarkSettings: Codable, Equatable {
     var enabled: Bool = false
     var preset: WatermarkPreset = .copyright
     var customText: String = ""
@@ -464,10 +469,14 @@ struct WatermarkService {
         return UIColor(red: r, green: g, blue: b, alpha: alpha)
     }
 
+    // UIGraphicsImageRenderer はメインスレッド必須のため @MainActor を付与
+    @MainActor
     static func apply(to image: UIImage, settings: WatermarkSettings, handle: String) -> UIImage {
         let size = image.size
-        let renderer = UIGraphicsImageRenderer(size: size)
-        return renderer.image { ctx in
+        let format = UIGraphicsImageRendererFormat()
+        format.scale = image.scale  // Retina 解像度を保持
+        let renderer = UIGraphicsImageRenderer(size: size, format: format)
+        return renderer.image { _ in
             image.draw(at: .zero)
 
             let baseFontSize = max(settings.fontSize, size.width * 0.022)
@@ -521,12 +530,101 @@ struct WatermarkService {
 }
 ```
 
+### 設定画面の実装詳細
+
+#### リアルタイムプレビュー
+
+- `Assets.xcassets` に `watermark-preview.imageset` を追加し、サンプル画像（横長JPEG推奨）を配置
+- `WatermarkSettings: Equatable` が必須。SwiftUI の `.task(id:)` modifier で設定値変更を検知してプレビューを再生成する
+
+```swift
+// WatermarkSettingsView.swift の要点
+@State private var previewImage: UIImage? = nil
+@Environment(AuthViewModel.self) private var authVM
+
+// プレビューセクション（ウォーターマーク有効時のみ表示）
+Section(String(localized: "watermark.preview")) {
+    if let preview = previewImage {
+        Image(uiImage: preview).resizable().scaledToFit()
+            .clipShape(RoundedRectangle(cornerRadius: 8))
+    }
+}
+// 設定変更のたびに自動再生成（Equatable があるため差分検知可能）
+.task(id: settings.watermarkSettings) {
+    await updatePreview(wm: settings.watermarkSettings)
+}
+
+@MainActor
+private func updatePreview(wm: WatermarkSettings) async {
+    guard let base = UIImage(named: "watermark-preview") else { return }
+    // ログイン中のハンドルを使用。未ログイン時は example.bsky.social にフォールバック
+    let handle = authVM.client.currentSession?.handle ?? "example.bsky.social"
+    previewImage = WatermarkService.apply(to: base, settings: wm, handle: handle)
+}
+```
+
+#### 文字色パレット・HEX 入力
+
+- W3C 16色パレットは `LazyVGrid`（8列×2行）で実装
+- HEX 入力は **ローカル state** で管理し、6桁確定時のみ `watermarkSettings.textColor` に書き込む
+  （途中入力で設定を更新するとプレビューが無限更新サイクルに入るため）
+
+```swift
+@State private var hexInput: String = ""
+
+TextField("FFFFFF", text: $hexInput)
+    .onChange(of: hexInput) { _, new in
+        let cleaned = new.uppercased().filter { $0.isHexDigit }.prefix(6)
+        let val = String(cleaned)
+        if val.count == 6 {
+            settings.watermarkSettings.textColor = "#\(val)"  // 6桁確定時のみ更新
+        }
+        if hexInput != val { hexInput = val }
+    }
+// Color(hex:) 拡張は WatermarkSettingsView.swift 内に private extension として実装
+```
+
+### `confirmDraftImageQuality` iOS 実装
+
+Desktop 版 `settingsStore.ts` の `confirmDraftImageQuality` に相当する設定を `AppSettings.swift` に追加済み。
+
+```swift
+// AppSettings.swift
+var confirmDraftImageQuality: Bool {
+    didSet { defaults.set(confirmDraftImageQuality, forKey: "confirmDraftImageQuality") }
+}
+// init() で: self.confirmDraftImageQuality = d.object(forKey: "confirmDraftImageQuality") as? Bool ?? true
+```
+
+`ComposeView.swift` の「下書きを保存」ボタンアクションでチェック:
+
+```swift
+Button("下書きを保存") {
+    if !selectedImages.isEmpty && appSettings.confirmDraftImageQuality {
+        showDraftImageWarning = true  // 警告アラートを表示
+    } else {
+        saveDraft(); dismiss()
+    }
+}
+// .alert で「下書きを保存する」/ 「キャンセル」
+```
+
+`SettingsView.swift` にウォーターマークセクションの直後に下書き警告設定セクションを追加:
+
+```swift
+Section(String(localized: "settings.draftImageWarning")) {
+    Toggle(String(localized: "settings.enableDraftImageWarning"),
+           isOn: $settings.confirmDraftImageQuality)
+}
+```
+
 ### iOS 実装時の注意
 
-- `UIGraphicsImageRenderer` はスレッドセーフではないため、合成処理はメインスレッドまたは専用シリアルキューで実行すること
+- `UIGraphicsImageRenderer` はスレッドセーフではないため、`apply()` に `@MainActor` を付与すること
+- `UIGraphicsImageRendererFormat.scale = image.scale` を設定して Retina 解像度の画像を正しく処理すること
 - 「WMなしで投稿」ボタンと確認モーダルの実装は Desktop と同じフローに従うこと
-- 出力は JPEG 0.92 で統一。合成後に 1MB 超過時は品質を下げて圧縮すること
-- 設定画面にリアルタイムプレビューと文字色パレットを実装すること
+- 出力は既存の `compressImage()` で 950KB 以内に圧縮（デスクトップ版の `compressImageFile()` に相当）
+- プレビュー画像は `Assets.xcassets` に `watermark-preview` という名前で格納すること
 
 ---
 
@@ -731,6 +829,14 @@ object WatermarkService {
 | `watermark.confirmTitle` | ウォーターマーク確認 | Watermark Preview |
 | `watermark.confirmMessage` | ウォーターマークが合成された画像を確認してください。 | Please confirm the watermarked images before posting. |
 | `watermark.postWithout` | WMなしで投稿 | Post without WM |
+| `watermark.customHint` | 改行で複数行入力できます。 | You can enter multiple lines of text. |
+| `watermark.fontSizeHint` | 文字の最小サイズは画像幅から自動設定されます。 | Minimum size is automatically set based on image width. |
+| `watermark.statusOn` | ON | ON |
+| `settings.draftImageWarning` | 下書き保存時の確認 | Draft Save Confirmation |
+| `settings.enableDraftImageWarning` | 画像を含む下書きの保存前に警告を表示する | Warn before saving drafts with images |
+| `draft.imageWarningTitle` | 画像品質に関する注意 | Image Quality Notice |
+| `draft.imageWarningMessage` | 画像を含むポストを下書きに保存した場合、画像品質が著しく低下します。予めご了承ください。 | When saving a post with images as a draft, image quality may significantly decrease. Please be aware of this. |
+| `draft.saveAnyway` | 下書きを保存する | Save Draft Anyway |
 
 ---
 
