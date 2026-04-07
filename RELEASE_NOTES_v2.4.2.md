@@ -8,6 +8,12 @@
   - Preset text renders as a single line when it fits the image width; automatically wraps at the handle boundary only when the text would overflow
   - Custom text supports newlines — input field changed to textarea for multi-line entry
   - Background box automatically adapts to the number of lines and the longest line width
+- **Watermark settings live preview**
+  - Real-time preview canvas in settings page showing watermark on a sample image
+  - All settings (preset, position, opacity, font size, text color) update the preview instantly
+- **Text color picker**
+  - W3C 16 basic color palette with visual swatches
+  - Hex color code direct input field
 
 ### Bug Fixes
 
@@ -23,6 +29,12 @@
   - 定型文は画像幅に収まる場合は1行で表示、はみ出す場合のみハンドル名で自動改行
   - カスタムテキストで改行入力に対応（入力欄を textarea に変更）
   - 背景ボックスが行数と最長行の幅に合わせて自動調整
+- **ウォーターマーク設定のリアルタイムプレビュー**
+  - 設定画面でサンプル画像にウォーターマークを合成したプレビューを表示
+  - プリセット・位置・不透明度・文字サイズ・文字色の変更が即座に反映
+- **文字色設定**
+  - W3C 基本16色のカラーパレット
+  - HEX カラーコードの直接入力
 
 ### バグ修正
 
