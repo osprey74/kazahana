@@ -14,6 +14,9 @@
 - **Text color picker**
   - W3C 16 basic color palette with visual swatches
   - Hex color code direct input field
+- **Draft image quality warning**
+  - Confirmation dialog when saving drafts with images, warning about significant quality loss
+  - Option to disable this warning in settings
 
 ### Bug Fixes
 
@@ -35,6 +38,9 @@
 - **文字色設定**
   - W3C 基本16色のカラーパレット
   - HEX カラーコードの直接入力
+- **下書き保存時の画像品質警告**
+  - 画像を含むポストの下書き保存時に品質低下の確認ダイアログを表示
+  - 設定画面で警告の表示/非表示を切り替え可能
 
 ### バグ修正
 
