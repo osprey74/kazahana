@@ -30,9 +30,9 @@
 | `ai_en` | `© @{handle}　No AI Training` | EN |
 | `ai_both` | `© @{handle}　No AI Training / 無断転載禁止` | AI+JP |
 | `photo` | `© @{handle}　撮影・編集` | 写真 |
-| `custom` | ユーザー任意入力（最大 50 文字） | 自由 |
+| `custom` | ユーザー任意入力（最大 50 文字、改行可） | 自由 |
 
-> **注**: `　`（U+3000 全角スペース）を `©` とプリセット文言の間に使用すること。
+> **注**: `　`（U+3000 全角スペース）は1行表示時のみ使用。改行時はハンドルと文言を別行にする。
 
 ### 設定スキーマ（JSON 表現・プラットフォーム間で共通）
 
@@ -44,6 +44,7 @@
   "position": "br",
   "opacity": 70,
   "fontSize": 12,
+  "textColor": "#FFFFFF",
   "skipVideo": true,
   "confirmBeforePost": true
 }
@@ -53,23 +54,27 @@
 |-----------|-----|------|------|
 | `enabled` | bool | — | 機能の ON/OFF |
 | `preset` | string | 上表 6 種 | 使用するプリセット ID |
-| `customText` | string | 0–50 文字 | `custom` 選択時の文言（改行を含むことができる） |
+| `customText` | string | 0–50 文字 | `custom` 選択時の文言（改行を含むことができる）。設定画面は textarea |
 | `position` | string | `tl/tc/tr/bl/bc/br` | 表示位置 |
 | `opacity` | int | 20–100（step 5） | テキスト不透明度（%） |
 | `fontSize` | int | 8–20（step 1） | 基準フォントサイズ（px 相当） |
+| `textColor` | string | `#RRGGBB` | テキスト色（デフォルト `#FFFFFF`） |
 | `skipVideo` | bool | — | 動画本体への適用をスキップ |
 | `confirmBeforePost` | bool | — | 投稿前に合成結果を確認するモーダルを表示 |
 
 ### 合成ルール
 
-- テキストは **複数行** で描画する（半透明の角丸背景の上に白文字）
-- 改行ルール:
-  - **定型文**: `© @{handle}` と続きの文言で2行に分割（例: `["© @handle", "無断転載禁止"]`）
-  - **カスタム**: テキスト内の改行文字 (`\n`) で分割。設定画面は textarea で改行入力可能
+#### テキスト解決（スマート改行）
+
+- **定型文**: まず1行版（`© @{handle}　{ラベル}`）のテキスト幅を測定し、画像幅（マージン・パディング差引後）に収まれば1行で描画。はみ出す場合のみ2行に分割（`["© @{handle}", "{ラベル}"]`）
+- **カスタム**: テキスト内の改行文字 (`\n`) で分割。空行はスキップ。テキストが空なら `© @{handle}` にフォールバック
+
+#### 描画パラメータ
+
 - フォント: `bold {fontSize}px sans-serif`
 - フォントサイズは `max(fontSize設定値, 画像幅 × 0.022)` で最低サイズを保証する（小さい画像でも読めるように）
-- 背景色 alpha = `opacity / 100 × 0.6`（黒背景）、角丸半径 4px
-- テキスト alpha = `opacity / 100`（白文字）
+- 背景色: `rgba(0,0,0, opacity/100 × 0.6)`（黒半透明）、角丸半径 4px
+- テキスト色: `rgba({textColor の R},{G},{B}, opacity/100)`
 - パディング: X方向 = `fontSize × 1.0`、Y方向 = `fontSize × 0.7`
 - 行間 (lineGap) = `fontSize × 0.3`
 - 背景ボックス幅 = 最長行の幅 + パディング
@@ -77,13 +82,41 @@
 - マージン（端からの余白）= `画像幅 × 0.015`
 - テキスト描画: `textBaseline = "top"`, `textAlign = "left"`、Y座標を行ごとにずらして描画
 
+#### 合成後の圧縮
+
+ウォーターマーク合成後の画像が Bluesky の 1MB アップロード制限を超える場合があるため、合成後に圧縮処理を適用すること。Desktop では既存の `compressImageFile()` を通し、品質を段階的に下げて 1MB 以内に収める。
+
+### 設定画面仕様
+
+#### リアルタイムプレビュー
+
+- 設定画面の上部にサンプル画像を `<canvas>` で表示
+- 全設定項目（プリセット、位置、不透明度、文字サイズ、文字色）の変更がリアルタイムに反映
+- サンプル画像はビルドに含めるアセットファイル（`src/assets/watermark-preview.jpg`）
+- canvas はコンテナ幅に合わせてアスペクト比を保ったまま拡縮
+- 合成描画ロジック (`drawWatermark()`) を投稿時とプレビューで共有すること
+
+#### 文字色設定
+
+- W3C 基本16色のカラーパレット（8列 × 2行の丸ボタン）
+- HEX カラーコード直接入力欄（`#RRGGBB` 形式、バリデーション付き）
+- 入力中はローカル state で管理し、有効な hex 確定時のみストアに保存（途中入力でストア更新しない）
+
+W3C 基本16色:
+
+| white `#FFFFFF` | silver `#C0C0C0` | gray `#808080` | black `#000000` |
+|---|---|---|---|
+| red `#FF0000` | maroon `#800000` | yellow `#FFFF00` | olive `#808000` |
+| lime `#00FF00` | green `#008000` | aqua `#00FFFF` | teal `#008080` |
+| blue `#0000FF` | navy `#000080` | fuchsia `#FF00FF` | purple `#800080` |
+
 ### 投稿フロー
 
 ```
 ユーザーが「投稿」をクリック
   ↓
 ウォーターマーク有効 && 画像あり？
-  ├─ YES → 全画像に applyWatermark() を実行
+  ├─ YES → 全画像に applyWatermark() → compressImageFile() を実行
   │        ├─ confirmBeforePost: true → 確認モーダル表示
   │        │    ├─「投稿」→ WM 付き画像で投稿
   │        │    ├─「WMなしで投稿」→ 元画像で投稿
@@ -111,7 +144,7 @@
 
 ---
 
-## Platform A — Desktop（Tauri v2 + React + TypeScript）— 実装済み v2.4.1
+## Platform A — Desktop（Tauri v2 + React + TypeScript）— 実装済み v2.4.2
 
 ### リポジトリ
 `github.com/osprey74/kazahana`
@@ -122,22 +155,23 @@
 src/
 ├── types/watermark.ts              ← 型定義 + デフォルト設定
 ├── stores/watermarkStore.ts        ← Zustand ストア（設定の状態管理 + 永続化）
-├── lib/watermark.ts                ← Canvas API 合成ロジック
+├── lib/watermark.ts                ← drawWatermark() 共有関数 + applyWatermark()
+├── assets/watermark-preview.jpg    ← 設定プレビュー用サンプル画像
 └── components/
-    ├── settings/WatermarkSettings.tsx  ← 設定 UI パネル
+    ├── settings/WatermarkSettings.tsx  ← 設定 UI（プレビュー + カラーピッカー含む）
     ├── WatermarkConfirmModal.tsx       ← 投稿前確認モーダル
     └── post/ComposeModal.tsx          ← 既存ファイルに追記（投稿フロー統合）
 
 変更済み既存ファイル:
 ├── App.tsx                         ← watermarkStore.init() 呼び出し追加
-├── components/settings/SettingsView.tsx ← ウォーターマーク設定セクション追加
-└── i18n/locales/{ja,en}.json       ← watermark.* キー追加
+├── stores/settingsStore.ts         ← confirmDraftImageQuality 設定追加
+├── components/settings/SettingsView.tsx ← ウォーターマーク設定セクション + 下書き警告設定追加
+└── i18n/locales/{ja,en}.json       ← watermark.* / draft.* キー追加
 ```
 
 ### 依存（追加インストール不要）
 
-Desktop では以下が既にインストール済み:
-- `@tauri-apps/plugin-store` (npm) — v2.4.2
+- `@tauri-apps/plugin-store` (npm) — v2.7.0
 - `tauri-plugin-store` (Cargo) — v2
 
 ### 型定義 `src/types/watermark.ts`
@@ -153,6 +187,7 @@ export interface WatermarkSettings {
   position: WatermarkPosition;
   opacity: number;
   fontSize: number;
+  textColor: string;
   skipVideo: boolean;
   confirmBeforePost: boolean;
 }
@@ -164,6 +199,7 @@ export const DEFAULT_WATERMARK_SETTINGS: WatermarkSettings = {
   position: "br",
   opacity: 70,
   fontSize: 12,
+  textColor: "#FFFFFF",
   skipVideo: true,
   confirmBeforePost: true,
 };
@@ -194,7 +230,7 @@ export const useWatermarkStore = create<WatermarkState>((set, get) => ({
   loaded: false,
 
   init: async () => {
-    const store = await load(STORE_FILE, { autoSave: true });
+    const store = await load(STORE_FILE, { defaults: {}, autoSave: true });
     const saved = await store.get<WatermarkSettings>(STORE_KEY);
     if (saved) {
       set({ settings: { ...DEFAULT_WATERMARK_SETTINGS, ...saved }, loaded: true });
@@ -206,7 +242,7 @@ export const useWatermarkStore = create<WatermarkState>((set, get) => ({
   update: async (patch: Partial<WatermarkSettings>) => {
     const next = { ...get().settings, ...patch };
     set({ settings: next });
-    const store = await load(STORE_FILE, { autoSave: true });
+    const store = await load(STORE_FILE, { defaults: {}, autoSave: true });
     await store.set(STORE_KEY, next);
   },
 }));
@@ -217,18 +253,91 @@ export const useWatermarkStore = create<WatermarkState>((set, get) => ({
 ```typescript
 import type { WatermarkSettings, WatermarkPosition } from "../types/watermark";
 
-export function resolveWatermarkLines(settings: WatermarkSettings, handle: string): string[] {
+interface PresetText {
+  single: string;
+  multi: string[];
+}
+
+function resolvePresetText(settings: WatermarkSettings, handle: string): PresetText | null {
   const h = `© @${handle}`;
-  const map: Record<string, string[]> = {
-    copyright: [h, "無断転載禁止"],
-    ai_ja:     [h, "AI学習・転載禁止"],
-    ai_en:     [h, "No AI Training"],
-    ai_both:   [h, "No AI Training / 無断転載禁止"],
-    photo:     [h, "撮影・編集"],
-    custom:    settings.customText.split("\n").filter((l) => l.length > 0),
+  const map: Record<string, { label: string }> = {
+    copyright: { label: "無断転載禁止" },
+    ai_ja:     { label: "AI学習・転載禁止" },
+    ai_en:     { label: "No AI Training" },
+    ai_both:   { label: "No AI Training / 無断転載禁止" },
+    photo:     { label: "撮影・編集" },
   };
-  const lines = map[settings.preset] ?? map.copyright;
-  return lines.length > 0 ? lines : [h];
+  const entry = map[settings.preset];
+  if (!entry) return null;
+  return {
+    single: `${h}\u3000${entry.label}`,
+    multi: [h, entry.label],
+  };
+}
+
+function resolveCustomLines(settings: WatermarkSettings, handle: string): string[] {
+  const lines = settings.customText.split("\n").filter((l) => l.length > 0);
+  return lines.length > 0 ? lines : [`© @${handle}`];
+}
+
+function hexToRgb(hex: string): { r: number; g: number; b: number } {
+  const h = hex.replace("#", "");
+  if (h.length !== 6) return { r: 255, g: 255, b: 255 };
+  const n = parseInt(h, 16);
+  if (isNaN(n)) return { r: 255, g: 255, b: 255 };
+  return { r: (n >> 16) & 255, g: (n >> 8) & 255, b: n & 255 };
+}
+
+/**
+ * Draw watermark directly onto a canvas context.
+ * Shared between actual compositing (applyWatermark) and settings preview.
+ */
+export function drawWatermark(
+  ctx: OffscreenCanvasRenderingContext2D | CanvasRenderingContext2D,
+  imgWidth: number,
+  imgHeight: number,
+  settings: WatermarkSettings,
+  handle: string,
+): void {
+  const fontSize = Math.max(settings.fontSize, Math.round(imgWidth * 0.022));
+  ctx.font = `bold ${fontSize}px sans-serif`;
+
+  const padX = Math.round(fontSize * 1.0);
+  const margin = Math.round(imgWidth * 0.015);
+  const maxAvailableWidth = imgWidth - margin * 2 - padX * 2;
+
+  // Smart line break: single line if fits, multi-line if overflows
+  let lines: string[];
+  const preset = resolvePresetText(settings, handle);
+  if (preset) {
+    const singleWidth = ctx.measureText(preset.single).width;
+    lines = singleWidth <= maxAvailableWidth ? [preset.single] : preset.multi;
+  } else {
+    lines = resolveCustomLines(settings, handle);
+  }
+
+  const lineGap = Math.round(fontSize * 0.3);
+  const maxLineWidth = Math.max(...lines.map((l) => ctx.measureText(l).width));
+  const padY = Math.round(fontSize * 0.7);
+  const boxW = maxLineWidth + padX * 2;
+  const boxH = fontSize * lines.length + lineGap * (lines.length - 1) + padY * 2;
+
+  const x = calcX(settings.position, imgWidth, boxW, margin);
+  const y = calcY(settings.position, imgHeight, boxH, margin);
+
+  ctx.fillStyle = `rgba(0,0,0,${(settings.opacity / 100 * 0.6).toFixed(2)})`;
+  ctx.beginPath();
+  ctx.roundRect(x, y, boxW, boxH, 4);
+  ctx.fill();
+
+  const rgb = hexToRgb(settings.textColor ?? "#FFFFFF");
+  ctx.fillStyle = `rgba(${rgb.r},${rgb.g},${rgb.b},${(settings.opacity / 100).toFixed(2)})`;
+  ctx.textBaseline = "top";
+  ctx.textAlign = "left";
+  for (let i = 0; i < lines.length; i++) {
+    const ly = y + padY + i * (fontSize + lineGap);
+    ctx.fillText(lines[i], x + padX, ly);
+  }
 }
 
 export async function applyWatermark(
@@ -241,122 +350,25 @@ export async function applyWatermark(
   const ctx = canvas.getContext("2d")!;
   ctx.drawImage(img, 0, 0);
 
-  const lines = resolveWatermarkLines(settings, handle);
-  const fontSize = Math.max(settings.fontSize, Math.round(img.width * 0.022));
-  ctx.font = `bold ${fontSize}px sans-serif`;
-
-  const lineGap = Math.round(fontSize * 0.3);
-  const maxLineWidth = Math.max(...lines.map((l) => ctx.measureText(l).width));
-  const padX = Math.round(fontSize * 1.0);
-  const padY = Math.round(fontSize * 0.7);
-  const boxW = maxLineWidth + padX * 2;
-  const boxH = fontSize * lines.length + lineGap * (lines.length - 1) + padY * 2;
-  const margin = Math.round(img.width * 0.015);
-
-  const x = calcX(settings.position, img.width, boxW, margin);
-  const y = calcY(settings.position, img.height, boxH, margin);
-
-  ctx.fillStyle = `rgba(0,0,0,${(settings.opacity / 100 * 0.6).toFixed(2)})`;
-  ctx.beginPath();
-  ctx.roundRect(x, y, boxW, boxH, 4);
-  ctx.fill();
-
-  ctx.fillStyle = `rgba(255,255,255,${(settings.opacity / 100).toFixed(2)})`;
-  ctx.textBaseline = "top";
-  ctx.textAlign = "left";
-  for (let i = 0; i < lines.length; i++) {
-    const ly = y + padY + i * (fontSize + lineGap);
-    ctx.fillText(lines[i], x + padX, ly);
-  }
+  drawWatermark(ctx, img.width, img.height, settings, handle);
 
   img.close();
 
   const blob = await canvas.convertToBlob({ type: "image/jpeg", quality: 0.92 });
   return new File([blob], file.name.replace(/\.[^.]+$/, ".jpg"), { type: "image/jpeg" });
 }
-
-function calcX(pos: WatermarkPosition, w: number, bw: number, m: number): number {
-  if (pos.endsWith("l")) return m;
-  if (pos.endsWith("c")) return Math.round((w - bw) / 2);
-  return w - bw - m;
-}
-
-function calcY(pos: WatermarkPosition, h: number, bh: number, m: number): number {
-  if (pos.startsWith("t")) return m;
-  return h - bh - m;
-}
 ```
 
 ### ComposeModal への組み込み（抜粋）
 
 ```typescript
-// --- インポート ---
-import { useAuthStore } from "../../stores/authStore";
-import { useWatermarkStore } from "../../stores/watermarkStore";
-import { applyWatermark } from "../../lib/watermark";
-import { WatermarkConfirmModal } from "../WatermarkConfirmModal";
-
-// --- state ---
-const [showWatermarkConfirm, setShowWatermarkConfirm] = useState(false);
-const [watermarkedPreviews, setWatermarkedPreviews] = useState<string[]>([]);
-const [watermarkedImages, setWatermarkedImages] = useState<ImageFile[]>([]);
-const wmSettings = useWatermarkStore((s) => s.settings);
-const handle = useAuthStore((s) => s.profile?.handle ?? "");
-
-// --- 投稿処理（元画像 or WM画像を受け取る共通関数） ---
-const submitPost = async (finalImages: ImageFile[]) => {
-  const imageData = await Promise.all(
-    finalImages.map(async (img) => {
-      const buf = await img.file.arrayBuffer();
-      return { data: new Uint8Array(buf), mimeType: img.file.type, alt: img.alt };
-    }),
-  );
-  createPost.mutate({ text, images: imageData.length > 0 ? imageData : undefined, ... });
-};
-
-// --- 「投稿」ボタン → WM 合成 → 確認 or 直接投稿 ---
-const handleSubmit = async () => {
-  if (!canPost) return;
-  if (wmSettings.enabled && images.length > 0 && handle) {
-    const wmImages = await Promise.all(
-      images.map(async (img) => {
-        const wmFile = await applyWatermark(img.file, wmSettings, handle);
-        return { ...img, file: wmFile, preview: URL.createObjectURL(wmFile) };
-      }),
-    );
-    if (wmSettings.confirmBeforePost) {
-      setWatermarkedImages(wmImages);
-      setWatermarkedPreviews(wmImages.map((img) => img.preview));
-      setShowWatermarkConfirm(true);
-      return;
-    }
-    submitPost(wmImages);
-    return;
-  }
-  submitPost(images);
-};
-
-// --- 「WMなしで投稿」→ 元画像で直接投稿 ---
-const handlePostWithoutWatermark = () => {
-  watermarkedPreviews.forEach((url) => URL.revokeObjectURL(url));
-  setWatermarkedPreviews([]);
-  setWatermarkedImages([]);
-  setShowWatermarkConfirm(false);
-  submitPost(images);
-};
-```
-
-### App.tsx 初期化
-
-```typescript
-import { useWatermarkStore } from "./stores/watermarkStore";
-
-// AuthGate 内
-const initWatermark = useWatermarkStore((s) => s.init);
-useEffect(() => {
-  // ... 他の初期化と並列
-  initWatermark();
-}, [/* ... */, initWatermark]);
+// WM 合成後に compressImageFile で 1MB 制限内に圧縮
+const wmImages: ImageFile[] = await Promise.all(
+  images.map(async (img) => {
+    const wmFile = await compressImageFile(await applyWatermark(img.file, wmSettings, handle));
+    return { ...img, file: wmFile, preview: URL.createObjectURL(wmFile) };
+  }),
+);
 ```
 
 ---
@@ -402,28 +414,11 @@ struct WatermarkSettings: Codable {
     var position: WatermarkPosition = .br
     var opacity: Double = 70       // 20–100
     var fontSize: Double = 12      // 8–20
+    var textColor: String = "#FFFFFF"
     var skipVideo: Bool = true
     var confirmBeforePost: Bool = true
 
     static let defaultsKey = "watermarkSettings"
-}
-```
-
-### 設定永続化
-
-```swift
-extension WatermarkSettings {
-    static func load() -> WatermarkSettings {
-        guard let data = UserDefaults.standard.data(forKey: defaultsKey),
-              let settings = try? JSONDecoder().decode(WatermarkSettings.self, from: data)
-        else { return WatermarkSettings() }
-        return settings
-    }
-
-    func save() {
-        guard let data = try? JSONEncoder().encode(self) else { return }
-        UserDefaults.standard.set(data, forKey: WatermarkSettings.defaultsKey)
-    }
 }
 ```
 
@@ -434,24 +429,43 @@ import UIKit
 
 struct WatermarkService {
 
-    static func resolveLines(settings: WatermarkSettings, handle: String) -> [String] {
+    static func resolveLines(settings: WatermarkSettings, handle: String, maxWidth: CGFloat, font: UIFont) -> [String] {
         let h = "© @\(handle)"
-        switch settings.preset {
-        case .copyright: return [h, "無断転載禁止"]
-        case .ai_ja:     return [h, "AI学習・転載禁止"]
-        case .ai_en:     return [h, "No AI Training"]
-        case .ai_both:   return [h, "No AI Training / 無断転載禁止"]
-        case .photo:     return [h, "撮影・編集"]
-        case .custom:
+
+        if settings.preset == .custom {
             let lines = settings.customText.components(separatedBy: "\n").filter { !$0.isEmpty }
             return lines.isEmpty ? [h] : lines
         }
+
+        let labelMap: [WatermarkPreset: String] = [
+            .copyright: "無断転載禁止",
+            .ai_ja: "AI学習・転載禁止",
+            .ai_en: "No AI Training",
+            .ai_both: "No AI Training / 無断転載禁止",
+            .photo: "撮影・編集",
+        ]
+        guard let label = labelMap[settings.preset] else { return [h] }
+
+        // Try single line first
+        let single = "\(h)\u{3000}\(label)"
+        let attrs: [NSAttributedString.Key: Any] = [.font: font]
+        let singleWidth = (single as NSString).size(withAttributes: attrs).width
+        return singleWidth <= maxWidth ? [single] : [h, label]
+    }
+
+    static func hexToUIColor(_ hex: String, alpha: CGFloat) -> UIColor {
+        var h = hex.hasPrefix("#") ? String(hex.dropFirst()) : hex
+        guard h.count == 6, let n = UInt64(h, radix: 16) else {
+            return UIColor.white.withAlphaComponent(alpha)
+        }
+        let r = CGFloat((n >> 16) & 0xFF) / 255.0
+        let g = CGFloat((n >> 8) & 0xFF) / 255.0
+        let b = CGFloat(n & 0xFF) / 255.0
+        return UIColor(red: r, green: g, blue: b, alpha: alpha)
     }
 
     static func apply(to image: UIImage, settings: WatermarkSettings, handle: String) -> UIImage {
-        let lines = resolveLines(settings: settings, handle: handle)
         let size = image.size
-
         let renderer = UIGraphicsImageRenderer(size: size)
         return renderer.image { ctx in
             image.draw(at: .zero)
@@ -461,17 +475,20 @@ struct WatermarkService {
             let textAlpha = settings.opacity / 100.0
             let bgAlpha   = textAlpha * 0.6
             let lineGap   = baseFontSize * 0.3
+            let padX = baseFontSize * 1.0
+            let padY = baseFontSize * 0.7
+            let margin = size.width * 0.015
+            let maxAvailableWidth = size.width - margin * 2 - padX * 2
+
+            let lines = resolveLines(settings: settings, handle: handle, maxWidth: maxAvailableWidth, font: font)
 
             let attrs: [NSAttributedString.Key: Any] = [
                 .font: font,
-                .foregroundColor: UIColor.white.withAlphaComponent(textAlpha)
+                .foregroundColor: hexToUIColor(settings.textColor, alpha: textAlpha)
             ]
             let maxLineWidth = lines.map { ($0 as NSString).size(withAttributes: attrs).width }.max() ?? 0
-            let padX = baseFontSize * 1.0
-            let padY = baseFontSize * 0.7
             let boxW = maxLineWidth + padX * 2
             let boxH = baseFontSize * CGFloat(lines.count) + lineGap * CGFloat(lines.count - 1) + padY * 2
-            let margin = size.width * 0.015
 
             let origin = calcOrigin(pos: settings.position, imgSize: size,
                                     boxSize: CGSize(width: boxW, height: boxH), margin: margin)
@@ -490,28 +507,17 @@ struct WatermarkService {
 
     private static func calcOrigin(pos: WatermarkPosition, imgSize: CGSize,
                                    boxSize: CGSize, margin: CGFloat) -> CGPoint {
-        let x: CGFloat
-        let y: CGFloat
+        let x: CGFloat; let y: CGFloat
         switch pos {
-        case .tl: x = margin;                                    y = margin
-        case .tc: x = (imgSize.width - boxSize.width) / 2;     y = margin
-        case .tr: x = imgSize.width - boxSize.width - margin;   y = margin
-        case .bl: x = margin;                                    y = imgSize.height - boxSize.height - margin
-        case .bc: x = (imgSize.width - boxSize.width) / 2;     y = imgSize.height - boxSize.height - margin
-        case .br: x = imgSize.width - boxSize.width - margin;   y = imgSize.height - boxSize.height - margin
+        case .tl: x = margin;                                  y = margin
+        case .tc: x = (imgSize.width - boxSize.width) / 2;    y = margin
+        case .tr: x = imgSize.width - boxSize.width - margin;  y = margin
+        case .bl: x = margin;                                  y = imgSize.height - boxSize.height - margin
+        case .bc: x = (imgSize.width - boxSize.width) / 2;    y = imgSize.height - boxSize.height - margin
+        case .br: x = imgSize.width - boxSize.width - margin;  y = imgSize.height - boxSize.height - margin
         }
         return CGPoint(x: x, y: y)
     }
-}
-```
-
-### PostView への組み込み（抜粋）
-
-```swift
-// 投稿処理の画像アップロード直前
-func prepareImageForUpload(_ uiImage: UIImage) -> UIImage {
-    guard settings.enabled else { return uiImage }
-    return WatermarkService.apply(to: uiImage, settings: settings, handle: currentHandle)
 }
 ```
 
@@ -519,7 +525,8 @@ func prepareImageForUpload(_ uiImage: UIImage) -> UIImage {
 
 - `UIGraphicsImageRenderer` はスレッドセーフではないため、合成処理はメインスレッドまたは専用シリアルキューで実行すること
 - 「WMなしで投稿」ボタンと確認モーダルの実装は Desktop と同じフローに従うこと
-- 出力は JPEG 0.92 で統一（`renderer.jpegData(compressionQuality: 0.92)`）
+- 出力は JPEG 0.92 で統一。合成後に 1MB 超過時は品質を下げて圧縮すること
+- 設定画面にリアルタイムプレビューと文字色パレットを実装すること
 
 ---
 
@@ -559,39 +566,10 @@ data class WatermarkSettings(
     val position: WatermarkPosition = WatermarkPosition.BR,
     val opacity: Float = 70f,       // 20–100
     val fontSize: Float = 12f,      // 8–20
+    val textColor: String = "#FFFFFF",
     val skipVideo: Boolean = true,
     val confirmBeforePost: Boolean = true
 )
-```
-
-### 設定永続化 `data/WatermarkRepository.kt`
-
-DataStore を使用。
-
-```kotlin
-import android.content.Context
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringPreferencesKey
-import androidx.datastore.preferences.preferencesDataStore
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
-import kotlinx.serialization.json.Json
-
-val Context.dataStore by preferencesDataStore(name = "kazahana_settings")
-
-class WatermarkRepository(private val context: Context) {
-    private val KEY = stringPreferencesKey("watermark_settings")
-
-    val settings: Flow<WatermarkSettings> = context.dataStore.data.map { prefs ->
-        prefs[KEY]?.let { Json.decodeFromString(it) } ?: WatermarkSettings()
-    }
-
-    suspend fun save(settings: WatermarkSettings) {
-        context.dataStore.edit { prefs ->
-            prefs[KEY] = Json.encodeToString(settings)
-        }
-    }
-}
 ```
 
 ### 合成ロジック
@@ -603,25 +581,39 @@ import kotlin.math.roundToInt
 
 object WatermarkService {
 
-    fun resolveLines(settings: WatermarkSettings, handle: String): List<String> {
-        val h = "© @$handle"
-        return when (settings.preset) {
-            WatermarkPreset.COPYRIGHT -> listOf(h, "無断転載禁止")
-            WatermarkPreset.AI_JA    -> listOf(h, "AI学習・転載禁止")
-            WatermarkPreset.AI_EN    -> listOf(h, "No AI Training")
-            WatermarkPreset.AI_BOTH  -> listOf(h, "No AI Training / 無断転載禁止")
-            WatermarkPreset.PHOTO    -> listOf(h, "撮影・編集")
-            WatermarkPreset.CUSTOM   -> {
-                val lines = settings.customText.split("\n").filter { it.isNotEmpty() }
-                if (lines.isEmpty()) listOf(h) else lines
-            }
+    fun hexToColor(hex: String): Int {
+        return try {
+            Color.parseColor(hex)
+        } catch (e: Exception) {
+            Color.WHITE
         }
+    }
+
+    fun resolveLines(settings: WatermarkSettings, handle: String,
+                     maxWidth: Float, paint: Paint): List<String> {
+        val h = "© @$handle"
+
+        if (settings.preset == WatermarkPreset.CUSTOM) {
+            val lines = settings.customText.split("\n").filter { it.isNotEmpty() }
+            return if (lines.isEmpty()) listOf(h) else lines
+        }
+
+        val labelMap = mapOf(
+            WatermarkPreset.COPYRIGHT to "無断転載禁止",
+            WatermarkPreset.AI_JA to "AI学習・転載禁止",
+            WatermarkPreset.AI_EN to "No AI Training",
+            WatermarkPreset.AI_BOTH to "No AI Training / 無断転載禁止",
+            WatermarkPreset.PHOTO to "撮影・編集",
+        )
+        val label = labelMap[settings.preset] ?: return listOf(h)
+
+        val single = "$h\u3000$label"
+        return if (paint.measureText(single) <= maxWidth) listOf(single) else listOf(h, label)
     }
 
     fun apply(source: Bitmap, settings: WatermarkSettings, handle: String): Bitmap {
         val result = source.copy(Bitmap.Config.ARGB_8888, true)
         val canvas = Canvas(result)
-        val lines = resolveLines(settings, handle)
 
         val baseFontSize = max(settings.fontSize, source.width * 0.022f)
         val textAlpha = (settings.opacity / 100f * 255).roundToInt()
@@ -629,19 +621,19 @@ object WatermarkService {
         val lineGap   = baseFontSize * 0.3f
         val margin = (source.width * 0.015f).roundToInt()
 
+        val textColor = hexToColor(settings.textColor)
         val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            color = Color.WHITE
+            color = textColor
             alpha = textAlpha
             textSize = baseFontSize
             typeface = Typeface.DEFAULT_BOLD
         }
 
-        val maxLineWidth = lines.maxOf { line ->
-            val bounds = Rect()
-            textPaint.getTextBounds(line, 0, line.length, bounds)
-            bounds.width().toFloat()
-        }
         val padX = baseFontSize * 1.0f
+        val maxAvailableWidth = source.width - margin * 2 - padX * 2
+        val lines = resolveLines(settings, handle, maxAvailableWidth, textPaint)
+
+        val maxLineWidth = lines.maxOf { textPaint.measureText(it) }
         val padY = baseFontSize * 0.7f
         val boxW = maxLineWidth + padX * 2
         val boxH = baseFontSize * lines.size + lineGap * (lines.size - 1) + padY * 2
@@ -687,20 +679,12 @@ object WatermarkService {
 }
 ```
 
-### PostViewModel への組み込み（抜粋）
-
-```kotlin
-fun prepareImageForUpload(bitmap: Bitmap): Bitmap {
-    val s = _watermarkSettings.value
-    return if (s.enabled) WatermarkService.apply(bitmap, s, currentHandle) else bitmap
-}
-```
-
 ### Android 実装時の注意
 
 - 大きな画像（4K 以上）を処理する場合は OOM に注意。必要に応じて Bitmap を縮小してから合成し、アップロード前にリサイズすること
 - 「WMなしで投稿」ボタンと確認モーダルの実装は Desktop と同じフローに従うこと
-- 出力は JPEG 0.92 で統一（`bitmap.compress(Bitmap.CompressFormat.JPEG, 92, outputStream)`）
+- 出力は JPEG 0.92 で統一。合成後に 1MB 超過時は品質を下げて圧縮すること
+- 設定画面にリアルタイムプレビューと文字色パレットを実装すること
 
 ---
 
@@ -708,7 +692,7 @@ fun prepareImageForUpload(bitmap: Bitmap): Bitmap {
 
 | Phase | 内容 | 対象 |
 |-------|------|------|
-| Phase 1 | 画像合成 + プリセット6種 + 位置・不透明度・文字サイズ設定 + 確認モーダル + WMなし投稿 | Desktop ✅ / iOS / Android |
+| Phase 1 | 画像合成 + プリセット6種 + 位置・不透明度・文字サイズ・文字色設定 + スマート改行 + 確認モーダル + WMなし投稿 + プレビュー + 合成後圧縮 | Desktop ✅ / iOS / Android |
 | Phase 2 | 動画サムネイルへのウォーターマーク適用 | Desktop 優先 |
 | Phase 3 | 動画本体への合成（FFmpeg 検討） | 別途 HANDOFF 作成 |
 
@@ -722,6 +706,7 @@ fun prepareImageForUpload(bitmap: Bitmap): Bitmap {
 |------|--------|---------|
 | `watermark.title` | ウォーターマーク | Watermark |
 | `watermark.enable` | 画像にウォーターマークを自動合成する | Automatically add watermark to images |
+| `watermark.preview` | プレビュー | Preview |
 | `watermark.preset` | 文言プリセット | Text Preset |
 | `watermark.presetCopyright` | 無断転載禁止 | No Repost |
 | `watermark.presetAiJa` | AI学習・転載禁止 | AI/Repost Ban (JP) |
@@ -738,7 +723,8 @@ fun prepareImageForUpload(bitmap: Bitmap): Bitmap {
 | `watermark.posBottomCenter` | 中央下 | Bottom Center |
 | `watermark.posBottomRight` | 右下 | Bottom Right |
 | `watermark.opacity` | 不透明度 | Opacity |
-| `watermark.fontSize` | 文字サイズ | Font Size |
+| `watermark.fontSize` | 文字サイズ（文字の最小サイズは画像幅から自動設定されます） | Font Size (minimum size is automatically set based on image width) |
+| `watermark.textColor` | 文字色 | Text Color |
 | `watermark.confirmBeforePost` | 投稿前にウォーターマークの合成結果を確認する | Preview watermark before posting |
 | `watermark.skipVideo` | 動画には適用しない | Do not apply to videos |
 | `watermark.hint` | ウォーターマークは投稿前に画像へ合成されます。AI学習拒否の文言は意思表示としての効果です。 | Watermarks are composited onto images before posting. AI training opt-out text serves as a declaration of intent. |
@@ -755,9 +741,11 @@ fun prepareImageForUpload(bitmap: Bitmap): Bitmap {
 - [x] `confirmBeforePost: true` のとき確認モーダルが表示されるか（Desktop 確認済み）
 - [x] 確認モーダルの「WMなしで投稿」が元画像で投稿されるか（Desktop 確認済み）
 - [x] 投稿画面ヘッダーの「WMなしで投稿」が元画像で投稿されるか（Desktop 確認済み）
-- [x] 定型文がハンドル名と文言で2行に分割されるか（Desktop 確認済み）
+- [x] 定型文が画像幅に収まれば1行、はみ出す場合のみ2行に分割されるか（Desktop 確認済み）
 - [x] カスタムテキストで改行を含む場合に複数行で描画されるか（Desktop 確認済み）
-- [ ] opacity / fontSize のスライダーがリアルタイムにプレビューへ反映されるか
+- [x] 設定画面のプレビューが設定変更にリアルタイムで反映されるか（Desktop 確認済み）
+- [x] 文字色パレット選択・HEXコード入力がプレビューと合成結果に反映されるか（Desktop 確認済み）
+- [x] 合成後に 1MB を超える画像が自動圧縮されるか（Desktop 確認済み）
 - [ ] 設定が再起動後も保持されているか
 - [ ] 横長・縦長・正方形など複数アスペクト比で文字が欠けないか
 - [ ] 動画ファイル選択時に `skipVideo: true` なら合成がスキップされるか
@@ -771,3 +759,5 @@ fun prepareImageForUpload(bitmap: Bitmap): Bitmap {
 - iOS の `UIGraphicsImageRenderer` はスレッドセーフではないため、合成処理はメインスレッドまたは専用シリアルキューで実行すること
 - Android で大きな画像（4K 以上）を処理する場合は OOM に注意。必要に応じて Bitmap を縮小してから合成し、アップロード前にリサイズすること
 - **設定の状態管理は必ずグローバル共有方式を採用すること**（Desktop の Zustand ストア / iOS の ObservableObject シングルトン / Android の ViewModel + Repository）。コンポーネントローカルの state では設定画面と投稿画面間で同期されない
+- **hex → RGB 変換**: `parseInt("000000", 16)` は `0` を返すため、`|| defaultValue` パターンではなくビットシフト `(n >> 16) & 255` を使用すること（Desktop で black が white になるバグあり、修正済み）
+- **HEX カラーコード入力**: 途中入力（例: `#FF`）でストアを更新するとレンダリングサイクルで入力が消える。ローカル state で入力値を管理し、有効な hex 確定時のみストアに保存すること
