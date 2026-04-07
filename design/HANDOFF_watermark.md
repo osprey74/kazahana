@@ -55,7 +55,7 @@
 | `enabled` | bool | — | 機能の ON/OFF |
 | `preset` | string | 上表 6 種 | 使用するプリセット ID |
 | `customText` | string | 0–50 文字 | `custom` 選択時の文言（改行を含むことができる）。設定画面は textarea |
-| `position` | string | `tl/tc/tr/bl/bc/br` | 表示位置 |
+| `position` | string | `tl/tc/tr/bl/bc/br/random/tile` | 表示位置 |
 | `opacity` | int | 20–100（step 5） | テキスト不透明度（%） |
 | `fontSize` | int | 8–20（step 1） | 基準フォントサイズ（px 相当） |
 | `textColor` | string | `#RRGGBB` | テキスト色（デフォルト `#FFFFFF`） |
@@ -81,6 +81,27 @@
 - 背景ボックス高さ = `fontSize × 行数 + lineGap × (行数 - 1)` + パディング
 - マージン（端からの余白）= `画像幅 × 0.015`
 - テキスト描画: `textBaseline = "top"`, `textAlign = "left"`、Y座標を行ごとにずらして描画
+
+#### 配置モード
+
+8種類の配置モードに対応:
+
+**固定6方向** (`tl/tc/tr/bl/bc/br`):
+- マージン内の指定位置にウォーターマークボックスを1つ配置
+
+**ランダム** (`random`):
+- ウォーターマークボックスが画像からはみ出ない範囲でランダムな座標に1つ配置
+- `x = margin + random() × (imgWidth - boxW - margin×2)`
+- `y = margin + random() × (imgHeight - boxH - margin×2)`
+- 毎回座標が変わるため、`confirmBeforePost: true` での確認が推奨
+
+**タイリング** (`tile`):
+- 被覆率 ~20% の市松模様で画像全体にウォーターマークを繰り返し配置
+- 各タイルは背景ボックス付き、-30° 回転で描画
+- **中央アンカー方式**: グリッドの起点を画像中央に設定し、中央のタイルが必ず画像内に完全に収まるようにする（途切れず読めるウォーターマークが最低1つ保証される）
+- 間隔計算: `spacing = sqrt(boxW × boxH / 0.2)`
+- 奇数行は半間隔ずらして市松配置
+- 画像端からはみ出るタイルはそのまま描画（canvas が自動クリップ）
 
 #### 合成後の圧縮
 
@@ -790,7 +811,7 @@ object WatermarkService {
 
 | Phase | 内容 | 対象 |
 |-------|------|------|
-| Phase 1 | 画像合成 + プリセット6種 + 位置・不透明度・文字サイズ・文字色設定 + スマート改行 + 確認モーダル + WMなし投稿 + プレビュー + 合成後圧縮 | Desktop ✅ / iOS / Android |
+| Phase 1 | 画像合成 + プリセット6種 + 位置（6方向+ランダム+タイリング）・不透明度・文字サイズ・文字色設定 + スマート改行 + 確認モーダル + WMなし投稿 + プレビュー + 合成後圧縮 | Desktop ✅ / iOS / Android |
 | Phase 2 | 動画サムネイルへのウォーターマーク適用 | Desktop 優先 |
 | Phase 3 | 動画本体への合成（FFmpeg 検討） | 別途 HANDOFF 作成 |
 
@@ -820,6 +841,8 @@ object WatermarkService {
 | `watermark.posBottomLeft` | 左下 | Bottom Left |
 | `watermark.posBottomCenter` | 中央下 | Bottom Center |
 | `watermark.posBottomRight` | 右下 | Bottom Right |
+| `watermark.posRandom` | ランダム | Random |
+| `watermark.posTile` | タイリング | Tiling |
 | `watermark.opacity` | 不透明度 | Opacity |
 | `watermark.fontSize` | 文字サイズ（文字の最小サイズは画像幅から自動設定されます） | Font Size (minimum size is automatically set based on image width) |
 | `watermark.textColor` | 文字色 | Text Color |
@@ -852,6 +875,8 @@ object WatermarkService {
 - [x] 設定画面のプレビューが設定変更にリアルタイムで反映されるか（Desktop 確認済み）
 - [x] 文字色パレット選択・HEXコード入力がプレビューと合成結果に反映されるか（Desktop 確認済み）
 - [x] 合成後に 1MB を超える画像が自動圧縮されるか（Desktop 確認済み）
+- [x] ランダム配置で画像からはみ出ずに描画されるか（Desktop 確認済み）
+- [x] タイリング配置で市松模様に描画され、中央タイルが途切れないか（Desktop 確認済み）
 - [ ] 設定が再起動後も保持されているか
 - [ ] 横長・縦長・正方形など複数アスペクト比で文字が欠けないか
 - [ ] 動画ファイル選択時に `skipVideo: true` なら合成がスキップされるか

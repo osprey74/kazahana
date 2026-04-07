@@ -26,7 +26,10 @@
       "removeAccount": "Supprimer le compte",
       "removeConfirmTitle": "Supprimer ce compte ?",
       "removeConfirmMessage": "Les données du compte seront supprimées de cet appareil. Vous pourrez le rajouter en vous reconnectant."
-    }
+    },
+    "rateLimit": "Limite de requêtes dépassée. Veuillez patienter et réessayer. La limite est généralement levée après environ 5 minutes.",
+    "rateLimitWithTime": "Limite de requêtes dépassée. Veuillez patienter {{seconds}} secondes et réessayer.",
+    "deleteHandle": "Supprimer"
   },
   "compose": {
     "cancel": "Annuler",
@@ -37,7 +40,8 @@
     "postFailed": "Échec de la publication",
     "newPost": "Créer une publication",
     "fetchingLink": "Récupération des infos du lien…",
-    "generateLinkCard": "Générer un aperçu du lien"
+    "generateLinkCard": "Générer un aperçu du lien",
+    "quotePlaceholder": "Ajouter un commentaire..."
   },
   "post": {
     "reposted": "a republié",
@@ -56,7 +60,11 @@
     "savingMedia": "Enregistrement...",
     "unmuteThread": "Réactiver les notifications du fil",
     "muteUser": "Masquer cet utilisateur",
-    "unmuteUser": "Ne plus masquer cet utilisateur"
+    "unmuteUser": "Ne plus masquer cet utilisateur",
+    "blockUser": "Bloquer cet utilisateur",
+    "unblockUser": "Débloquer cet utilisateur",
+    "quotePost": "Citer la publication",
+    "viewQuotes": "Voir les citations"
   },
   "notification": {
     "liked": "a aimé votre publication",
@@ -65,6 +73,8 @@
     "mentioned": "vous a mentionné",
     "replied": "a répondu à votre publication",
     "quoted": "a cité votre publication",
+    "likedViaRepost": "a aimé votre repost",
+    "repostedViaRepost": "a reposté votre repost",
     "grouped": "{{name}} et {{count}} autres {{action}}",
     "empty": "Aucune notification",
     "loadFailed": "Échec du chargement des notifications",
@@ -76,7 +86,9 @@
       "follow": "{{count}} abonné(s)",
       "mention": "{{count}} mention(s)",
       "reply": "{{count}} réponse(s)",
-      "quote": "{{count}} citation(s)"
+      "quote": "{{count}} citation(s)",
+      "like-via-repost": "{{count}} j'aime(s) sur le repost",
+      "repost-via-repost": "{{count}} repost(s) du repost"
     }
   },
   "timeline": {
@@ -270,7 +282,15 @@
     "claudeApiHint": "Enregistrez une clé API Claude pour activer la génération de texte ALT par IA pour les images",
     "accounts": "Comptes",
     "addAccount": "Ajouter un compte",
-    "activeAccount": "Actif"
+    "activeAccount": "Actif",
+    "closeAction": "Bouton fermer",
+    "closeActionExit": "Quitter l'application",
+    "closeActionMinimize": "Réduire dans la barre des tâches",
+    "closeActionMinimize_macos": "Réduire dans le Dock",
+    "closeActionMinimizeHint": "Lorsque réduit dans la barre des tâches, faites un clic droit sur l'icône et sélectionnez \"Quitter\" pour fermer le programme.",
+    "closeActionMinimizeHint_macos": "Lorsque réduit dans le Dock, faites un clic droit sur l'icône du Dock et sélectionnez \"Quitter\" pour fermer le programme.",
+    "draftImageWarning": "Confirmation de sauvegarde du brouillon",
+    "enableDraftImageWarning": "Afficher un avertissement avant d'enregistrer des brouillons avec des images"
   },
   "confirm": {
     "ok": "OK",
@@ -381,9 +401,48 @@
     "empty": "Aucun brouillon",
     "imageOnly": "(Images uniquement)",
     "clearAll": "Tout supprimer",
-    "clearAllConfirm": "Supprimer tous les brouillons ?"
+    "clearAllConfirm": "Supprimer tous les brouillons ?",
+    "imageWarningTitle": "Avis sur la qualité d'image",
+    "imageWarningMessage": "L'enregistrement d'une publication avec des images en tant que brouillon réduira considérablement la qualité des images. Veuillez en tenir compte.",
+    "saveAnyway": "Enregistrer le brouillon"
   },
   "bot": {
     "label": "Ce compte est automatisé"
+  },
+  "watermark": {
+    "title": "Filigrane",
+    "enable": "Ajouter automatiquement un filigrane aux images",
+    "preview": "Aperçu",
+    "preset": "Modèle de texte",
+    "presetCopyright": "Repost interdit",
+    "presetAiJa": "IA/Repost interdit (JP)",
+    "presetAiEn": "No AI Training",
+    "presetAiBoth": "IA + Repost interdit",
+    "presetPhoto": "Photo/Édition",
+    "presetCustom": "Personnalisé",
+    "customPlaceholder": "Saisir un texte personnalisé (50 caractères max.)",
+    "position": "Position",
+    "posTopLeft": "Haut gauche",
+    "posTopCenter": "Haut centre",
+    "posTopRight": "Haut droite",
+    "posBottomLeft": "Bas gauche",
+    "posBottomCenter": "Bas centre",
+    "posBottomRight": "Bas droite",
+    "posRandom": "Aléatoire",
+    "posTile": "Mosaïque",
+    "opacity": "Opacité",
+    "fontSize": "Taille de police (la taille minimale est automatiquement définie en fonction de la largeur de l'image)",
+    "textColor": "Couleur du texte",
+    "confirmBeforePost": "Aperçu du filigrane avant de publier",
+    "skipVideo": "Ne pas appliquer aux vidéos",
+    "hint": "Les filigranes sont appliqués aux images avant la publication. Le texte de refus d'entraînement IA sert de déclaration d'intention.",
+    "confirmTitle": "Aperçu du filigrane",
+    "confirmMessage": "Veuillez confirmer les images avec filigrane avant de publier.",
+    "postWithout": "Publier sans filigrane",
+    "stampCopyright": "Tous droits réservés",
+    "stampAiJa": "Entraînement IA interdit",
+    "stampAiEn": "No AI Training",
+    "stampAiBoth": "No AI Training / Tous droits réservés",
+    "stampPhoto": "Photo / Édition"
   }
 }

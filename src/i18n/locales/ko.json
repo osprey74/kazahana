@@ -20,6 +20,9 @@
     "helpText": "Bluesky 설정에서 앱 비밀번호를 생성할 수 있습니다",
     "loginFailed": "로그인 실패",
     "switchAccount": "계정 전환",
+    "rateLimit": "요청 제한을 초과했습니다. 잠시 후 다시 시도해 주세요. 제한은 보통 약 5분 후에 해제됩니다.",
+    "rateLimitWithTime": "요청 제한을 초과했습니다. {{seconds}}초 후 다시 시도해 주세요.",
+    "deleteHandle": "삭제",
     "accountPicker": {
       "title": "계정 선택",
       "addAccount": "다른 계정 추가",
@@ -37,7 +40,8 @@
     "postFailed": "게시 실패",
     "newPost": "새 게시물 작성",
     "fetchingLink": "링크 정보를 가져오는 중…",
-    "generateLinkCard": "링크 카드 생성"
+    "generateLinkCard": "링크 카드 생성",
+    "quotePlaceholder": "댓글 추가..."
   },
   "post": {
     "reposted": "님이 리포스트함",
@@ -56,7 +60,11 @@
     "savingMedia": "저장 중...",
     "unmuteThread": "스레드 알림 음소거 해제",
     "muteUser": "이 사용자 뮤트",
-    "unmuteUser": "이 사용자 뮤트 해제"
+    "unmuteUser": "이 사용자 뮤트 해제",
+    "blockUser": "이 사용자 차단",
+    "unblockUser": "차단 해제",
+    "quotePost": "게시물 인용",
+    "viewQuotes": "인용 보기"
   },
   "notification": {
     "liked": "님이 게시물을 좋아합니다",
@@ -65,6 +73,8 @@
     "mentioned": "님이 회원님을 언급했습니다",
     "replied": "님이 게시물에 답글을 남겼습니다",
     "quoted": "님이 게시물을 인용했습니다",
+    "likedViaRepost": "리포스트에 좋아요를 눌렀습니다",
+    "repostedViaRepost": "리포스트를 리포스트했습니다",
     "grouped": "{{name}} 외 {{count}}명이 {{action}}",
     "empty": "알림이 없습니다",
     "loadFailed": "알림을 불러오지 못했습니다",
@@ -76,7 +86,9 @@
       "follow": "팔로우 {{count}}개",
       "mention": "멘션 {{count}}개",
       "reply": "답글 {{count}}개",
-      "quote": "인용 {{count}}개"
+      "quote": "인용 {{count}}개",
+      "like-via-repost": "리포스트에 좋아요 {{count}}개",
+      "repost-via-repost": "리포스트의 리포스트 {{count}}개"
     }
   },
   "timeline": {
@@ -158,6 +170,7 @@
   "video": {
     "addVideo": "동영상 추가 (최대 100MB)",
     "altPlaceholder": "동영상 설명 (ALT)",
+    "processing": "동영상 처리 중...",
     "uploading": "동영상 업로드 중...",
     "error": {
       "notAuthenticated": "로그인이 필요합니다",
@@ -270,7 +283,15 @@
     "claudeApiHint": "Claude API 키를 등록하면 이미지의 ALT 텍스트를 AI로 자동 생성할 수 있습니다",
     "accounts": "계정",
     "addAccount": "계정 추가",
-    "activeAccount": "사용 중"
+    "activeAccount": "사용 중",
+    "closeAction": "닫기 버튼",
+    "closeActionExit": "앱 종료",
+    "closeActionMinimize": "시스템 트레이로 최소화",
+    "closeActionMinimize_macos": "Dock으로 최소화",
+    "closeActionMinimizeHint": "시스템 트레이로 최소화된 경우, 트레이 아이콘을 마우스 오른쪽 클릭하고 \"종료\"를 선택하여 프로그램을 종료하세요.",
+    "closeActionMinimizeHint_macos": "Dock으로 최소화된 경우, Dock 아이콘을 마우스 오른쪽 클릭하고 \"종료\"를 선택하여 프로그램을 종료하세요.",
+    "draftImageWarning": "임시저장 확인",
+    "enableDraftImageWarning": "이미지가 포함된 임시저장 전 경고 표시"
   },
   "confirm": {
     "ok": "확인",
@@ -381,7 +402,46 @@
     "empty": "임시 저장된 글이 없습니다",
     "imageOnly": "(이미지만)",
     "clearAll": "모두 삭제",
-    "clearAllConfirm": "모든 임시 저장 글을 삭제하시겠습니까?"
+    "clearAllConfirm": "모든 임시 저장 글을 삭제하시겠습니까?",
+    "imageWarningTitle": "이미지 품질 안내",
+    "imageWarningMessage": "이미지가 포함된 게시물을 임시저장하면 이미지 품질이 크게 저하됩니다. 이 점을 유의해 주세요.",
+    "saveAnyway": "임시저장"
+  },
+  "watermark": {
+    "title": "워터마크",
+    "enable": "이미지에 워터마크 자동 추가",
+    "preview": "미리보기",
+    "preset": "텍스트 프리셋",
+    "presetCopyright": "무단 전재 금지",
+    "presetAiJa": "AI/전재 금지 (JP)",
+    "presetAiEn": "No AI Training",
+    "presetAiBoth": "AI + 무단 전재 금지",
+    "presetPhoto": "촬영/편집",
+    "presetCustom": "사용자 정의",
+    "customPlaceholder": "사용자 정의 텍스트 입력 (최대 50자)",
+    "position": "위치",
+    "posTopLeft": "왼쪽 상단",
+    "posTopCenter": "중앙 상단",
+    "posTopRight": "오른쪽 상단",
+    "posBottomLeft": "왼쪽 하단",
+    "posBottomCenter": "중앙 하단",
+    "posBottomRight": "오른쪽 하단",
+    "posRandom": "랜덤",
+    "posTile": "타일링",
+    "opacity": "불투명도",
+    "fontSize": "글꼴 크기 (최소 크기는 이미지 너비에 따라 자동 설정됩니다)",
+    "textColor": "텍스트 색상",
+    "confirmBeforePost": "게시 전 워터마크 미리보기",
+    "skipVideo": "동영상에 적용하지 않음",
+    "hint": "워터마크는 게시 전에 이미지에 합성됩니다. AI 학습 거부 텍스트는 의사 표시로서의 효과입니다.",
+    "confirmTitle": "워터마크 미리보기",
+    "confirmMessage": "게시 전에 워터마크가 적용된 이미지를 확인해 주세요.",
+    "postWithout": "WM 없이 게시",
+    "stampCopyright": "무단 전재 금지",
+    "stampAiJa": "AI 학습 금지",
+    "stampAiEn": "No AI Training",
+    "stampAiBoth": "No AI Training / 무단 전재 금지",
+    "stampPhoto": "촬영 / 편집"
   },
   "bot": {
     "label": "이 계정은 자동화되어 있습니다"

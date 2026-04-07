@@ -19,6 +19,9 @@
     "loggingIn": "Anmeldung läuft...",
     "helpText": "Du kannst ein App-Passwort in den Bluesky-Einstellungen erstellen",
     "loginFailed": "Anmeldung fehlgeschlagen",
+    "rateLimit": "Ratenlimit überschritten. Bitte warten Sie und versuchen Sie es erneut. Das Limit wird normalerweise nach etwa 5 Minuten aufgehoben.",
+    "rateLimitWithTime": "Ratenlimit überschritten. Bitte warten Sie {{seconds}} Sekunden und versuchen Sie es erneut.",
+    "deleteHandle": "Löschen",
     "switchAccount": "Konto wechseln",
     "accountPicker": {
       "title": "Konto auswählen",
@@ -37,7 +40,8 @@
     "postFailed": "Posten fehlgeschlagen",
     "newPost": "Neuen Beitrag erstellen",
     "fetchingLink": "Link-Informationen werden abgerufen...",
-    "generateLinkCard": "Linkkarte erstellen"
+    "generateLinkCard": "Linkkarte erstellen",
+    "quotePlaceholder": "Kommentar hinzufügen..."
   },
   "post": {
     "reposted": "hat geteilt",
@@ -56,7 +60,11 @@
     "savingMedia": "Wird gespeichert...",
     "unmuteThread": "Thread-Benachrichtigungen aktivieren",
     "muteUser": "Benutzer stummschalten",
-    "unmuteUser": "Stummschaltung des Benutzers aufheben"
+    "unmuteUser": "Stummschaltung des Benutzers aufheben",
+    "blockUser": "Diesen Benutzer blockieren",
+    "unblockUser": "Blockierung aufheben",
+    "quotePost": "Beitrag zitieren",
+    "viewQuotes": "Zitate anzeigen"
   },
   "notification": {
     "liked": "gefällt dein Beitrag",
@@ -65,6 +73,8 @@
     "mentioned": "hat dich erwähnt",
     "replied": "hat auf deinen Beitrag geantwortet",
     "quoted": "hat deinen Beitrag zitiert",
+    "likedViaRepost": "hat deinen Repost geliked",
+    "repostedViaRepost": "hat deinen Repost repostet",
     "grouped": "{{name}} und {{count}} weitere {{action}}",
     "empty": "Keine Benachrichtigungen",
     "loadFailed": "Benachrichtigungen konnten nicht geladen werden",
@@ -76,7 +86,9 @@
       "follow": "{{count}} Follower",
       "mention": "{{count}} Erwähnung(en)",
       "reply": "{{count}} Antwort(en)",
-      "quote": "{{count}} Zitat(e)"
+      "quote": "{{count}} Zitat(e)",
+      "like-via-repost": "{{count}} Like(s) auf Repost",
+      "repost-via-repost": "{{count}} Repost(s) von Repost"
     }
   },
   "timeline": {
@@ -270,7 +282,15 @@
     "claudeApiHint": "Registrieren Sie einen Claude API-Schlüssel, um KI-generierte ALT-Texte für Bilder zu aktivieren",
     "accounts": "Konten",
     "addAccount": "Konto hinzufügen",
-    "activeAccount": "Aktiv"
+    "activeAccount": "Aktiv",
+    "closeAction": "Schließen-Taste",
+    "closeActionExit": "Anwendung beenden",
+    "closeActionMinimize": "In die Taskleiste minimieren",
+    "closeActionMinimize_macos": "Ins Dock minimieren",
+    "closeActionMinimizeHint": "Wenn in die Taskleiste minimiert, klicken Sie mit der rechten Maustaste auf das Taskleistensymbol und wählen Sie \"Beenden\", um das Programm zu schließen.",
+    "closeActionMinimizeHint_macos": "Wenn ins Dock minimiert, klicken Sie mit der rechten Maustaste auf das Dock-Symbol und wählen Sie \"Beenden\", um das Programm zu schließen.",
+    "draftImageWarning": "Entwurf-Speicherbestätigung",
+    "enableDraftImageWarning": "Warnung vor dem Speichern von Entwürfen mit Bildern anzeigen"
   },
   "confirm": {
     "ok": "OK",
@@ -381,7 +401,46 @@
     "empty": "Keine Entwürfe",
     "imageOnly": "(Nur Bilder)",
     "clearAll": "Alle löschen",
-    "clearAllConfirm": "Alle Entwürfe löschen?"
+    "clearAllConfirm": "Alle Entwürfe löschen?",
+    "imageWarningTitle": "Hinweis zur Bildqualität",
+    "imageWarningMessage": "Das Speichern eines Beitrags mit Bildern als Entwurf reduziert die Bildqualität erheblich. Bitte beachten Sie dies.",
+    "saveAnyway": "Entwurf speichern"
+  },
+  "watermark": {
+    "title": "Wasserzeichen",
+    "enable": "Wasserzeichen automatisch zu Bildern hinzufügen",
+    "preview": "Vorschau",
+    "preset": "Textvorlage",
+    "presetCopyright": "Unerlaubtes Reposten verboten",
+    "presetAiJa": "AI-Training/Repost verboten",
+    "presetAiEn": "No AI Training",
+    "presetAiBoth": "AI + Repost verboten",
+    "presetPhoto": "Foto/Bearbeitung",
+    "presetCustom": "Benutzerdefiniert",
+    "customPlaceholder": "Eigenen Text eingeben (max. 50 Zeichen)",
+    "position": "Position",
+    "posTopLeft": "Oben links",
+    "posTopCenter": "Oben Mitte",
+    "posTopRight": "Oben rechts",
+    "posBottomLeft": "Unten links",
+    "posBottomCenter": "Unten Mitte",
+    "posBottomRight": "Unten rechts",
+    "posRandom": "Zufällig",
+    "posTile": "Kacheleffekt",
+    "opacity": "Deckkraft",
+    "fontSize": "Schriftgröße (Mindestgröße wird automatisch basierend auf der Bildbreite festgelegt)",
+    "textColor": "Textfarbe",
+    "confirmBeforePost": "Wasserzeichen vor dem Posten in der Vorschau anzeigen",
+    "skipVideo": "Nicht auf Videos anwenden",
+    "hint": "Wasserzeichen werden vor dem Posten auf Bilder angewendet. Der AI-Training-Opt-out-Text dient als Absichtserklärung.",
+    "confirmTitle": "Wasserzeichen-Vorschau",
+    "confirmMessage": "Bitte bestätigen Sie die Bilder mit Wasserzeichen vor dem Posten.",
+    "postWithout": "Ohne WZ posten",
+    "stampCopyright": "Alle Rechte vorbehalten",
+    "stampAiJa": "Kein KI-Training",
+    "stampAiEn": "No AI Training",
+    "stampAiBoth": "No AI Training / Alle Rechte vorbehalten",
+    "stampPhoto": "Foto / Bearbeitung"
   },
   "bot": {
     "label": "Dieses Konto ist automatisiert"

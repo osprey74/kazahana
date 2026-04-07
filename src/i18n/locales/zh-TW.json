@@ -20,6 +20,9 @@
     "helpText": "您可以在 Bluesky 設定中產生應用程式密碼",
     "loginFailed": "登入失敗",
     "switchAccount": "切換帳號",
+    "rateLimit": "請求頻率超限。請稍候重試。限制通常在約5分鐘後解除。",
+    "rateLimitWithTime": "請求頻率超限。請等待 {{seconds}} 秒後重試。",
+    "deleteHandle": "刪除",
     "accountPicker": {
       "title": "選擇帳號",
       "addAccount": "新增其他帳號",
@@ -37,7 +40,8 @@
     "postFailed": "發佈失敗",
     "newPost": "建立新貼文",
     "fetchingLink": "正在取得連結資訊...",
-    "generateLinkCard": "產生連結卡片"
+    "generateLinkCard": "產生連結卡片",
+    "quotePlaceholder": "新增留言..."
   },
   "post": {
     "reposted": "轉發了",
@@ -56,7 +60,11 @@
     "savingMedia": "儲存中...",
     "unmuteThread": "取消靜音此話題通知",
     "muteUser": "靜音此使用者",
-    "unmuteUser": "取消靜音此使用者"
+    "unmuteUser": "取消靜音此使用者",
+    "blockUser": "封鎖此使用者",
+    "unblockUser": "解除封鎖",
+    "quotePost": "引用貼文",
+    "viewQuotes": "查看引用"
   },
   "notification": {
     "liked": "對你的貼文按讚",
@@ -65,6 +73,8 @@
     "mentioned": "提及了你",
     "replied": "回覆了你的貼文",
     "quoted": "引用了你的貼文",
+    "likedViaRepost": "對你的轉發按讚",
+    "repostedViaRepost": "轉發了你的轉發",
     "grouped": "{{name}}等{{count}}人{{action}}",
     "empty": "沒有通知",
     "loadFailed": "無法載入通知",
@@ -76,7 +86,9 @@
       "follow": "{{count}} 個追蹤",
       "mention": "{{count}} 則提及",
       "reply": "{{count}} 則回覆",
-      "quote": "{{count}} 則引用"
+      "quote": "{{count}} 則引用",
+      "like-via-repost": "轉發獲得 {{count}} 個讚",
+      "repost-via-repost": "轉發被轉發 {{count}} 次"
     }
   },
   "timeline": {
@@ -159,6 +171,7 @@
     "addVideo": "新增影片（最大 100MB）",
     "altPlaceholder": "影片描述（ALT）",
     "uploading": "影片上傳中...",
+    "processing": "正在處理影片...",
     "error": {
       "notAuthenticated": "需要登入",
       "limitReached": "已達每日影片上傳上限",
@@ -270,7 +283,15 @@
     "claudeApiHint": "註冊 Claude API 金鑰以啟用 AI 自動產生圖片 ALT 文字",
     "accounts": "帳號",
     "addAccount": "新增帳號",
-    "activeAccount": "使用中"
+    "activeAccount": "使用中",
+    "closeAction": "關閉按鈕",
+    "closeActionExit": "結束應用程式",
+    "closeActionMinimize": "最小化至系統匣",
+    "closeActionMinimize_macos": "最小化至 Dock",
+    "closeActionMinimizeHint": "最小化至系統匣後，右鍵點擊匣圖示並選擇「結束」以關閉程式。",
+    "closeActionMinimizeHint_macos": "最小化至 Dock 後，右鍵點擊 Dock 圖示並選擇「結束」以關閉程式。",
+    "draftImageWarning": "草稿儲存確認",
+    "enableDraftImageWarning": "儲存含圖片的草稿前顯示警告"
   },
   "confirm": {
     "ok": "確定",
@@ -381,7 +402,46 @@
     "empty": "沒有草稿",
     "imageOnly": "（僅圖片）",
     "clearAll": "全部刪除",
-    "clearAllConfirm": "刪除所有草稿？"
+    "clearAllConfirm": "刪除所有草稿？",
+    "imageWarningTitle": "圖片品質提醒",
+    "imageWarningMessage": "將含有圖片的貼文儲存為草稿會大幅降低圖片品質。請知悉。",
+    "saveAnyway": "儲存草稿"
+  },
+  "watermark": {
+    "title": "浮水印",
+    "enable": "自動為圖片加上浮水印",
+    "preview": "預覽",
+    "preset": "文字範本",
+    "presetCopyright": "禁止轉載",
+    "presetAiJa": "禁止AI/轉載 (JP)",
+    "presetAiEn": "No AI Training",
+    "presetAiBoth": "AI + 禁止轉載",
+    "presetPhoto": "拍攝/編輯",
+    "presetCustom": "自訂",
+    "customPlaceholder": "輸入自訂文字（最多50個字元）",
+    "position": "位置",
+    "posTopLeft": "左上",
+    "posTopCenter": "上方置中",
+    "posTopRight": "右上",
+    "posBottomLeft": "左下",
+    "posBottomCenter": "下方置中",
+    "posBottomRight": "右下",
+    "posRandom": "隨機",
+    "posTile": "平鋪",
+    "opacity": "不透明度",
+    "fontSize": "字型大小（最小字級根據圖片寬度自動設定）",
+    "textColor": "文字顏色",
+    "confirmBeforePost": "發布前預覽浮水印效果",
+    "skipVideo": "不套用於影片",
+    "hint": "浮水印在發布前合成至圖片上。AI訓練拒絕文字作為意願聲明。",
+    "confirmTitle": "浮水印預覽",
+    "confirmMessage": "請在發布前確認帶有浮水印的圖片。",
+    "postWithout": "不加浮水印發布",
+    "stampCopyright": "禁止轉載",
+    "stampAiJa": "禁止AI訓練",
+    "stampAiEn": "No AI Training",
+    "stampAiBoth": "No AI Training / 禁止轉載",
+    "stampPhoto": "拍攝 / 編輯"
   },
   "bot": {
     "label": "此帳戶已自動化"

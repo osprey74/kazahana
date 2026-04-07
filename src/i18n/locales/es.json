@@ -26,7 +26,10 @@
       "removeAccount": "Eliminar cuenta",
       "removeConfirmTitle": "¿Eliminar esta cuenta?",
       "removeConfirmMessage": "Los datos de la cuenta se eliminarán de este dispositivo. Puedes agregarla de nuevo iniciando sesión."
-    }
+    },
+    "rateLimit": "Límite de tasa excedido. Espere e intente de nuevo. El límite generalmente se levanta después de unos 5 minutos.",
+    "rateLimitWithTime": "Límite de tasa excedido. Espere {{seconds}} segundos e intente de nuevo.",
+    "deleteHandle": "Eliminar"
   },
   "compose": {
     "cancel": "Cancelar",
@@ -37,7 +40,8 @@
     "postFailed": "Error al publicar",
     "newPost": "Crear nueva publicación",
     "fetchingLink": "Obteniendo información del enlace...",
-    "generateLinkCard": "Generar tarjeta de enlace"
+    "generateLinkCard": "Generar tarjeta de enlace",
+    "quotePlaceholder": "Añadir un comentario..."
   },
   "post": {
     "reposted": "republicó",
@@ -56,7 +60,11 @@
     "savingMedia": "Guardando...",
     "unmuteThread": "Activar notificaciones del hilo",
     "muteUser": "Silenciar a este usuario",
-    "unmuteUser": "Dejar de silenciar a este usuario"
+    "unmuteUser": "Dejar de silenciar a este usuario",
+    "blockUser": "Bloquear este usuario",
+    "unblockUser": "Desbloquear este usuario",
+    "quotePost": "Citar publicación",
+    "viewQuotes": "Ver citas"
   },
   "notification": {
     "liked": "le dio me gusta a tu publicación",
@@ -65,6 +73,8 @@
     "mentioned": "te mencionó",
     "replied": "respondió a tu publicación",
     "quoted": "citó tu publicación",
+    "likedViaRepost": "le dio me gusta a tu repost",
+    "repostedViaRepost": "reposteó tu repost",
     "grouped": "{{name}} y {{count}} más {{action}}",
     "empty": "No hay notificaciones",
     "loadFailed": "Error al cargar las notificaciones",
@@ -76,7 +86,9 @@
       "follow": "{{count}} seguidor(es)",
       "mention": "{{count}} mención(es)",
       "reply": "{{count}} respuesta(s)",
-      "quote": "{{count}} cita(s)"
+      "quote": "{{count}} cita(s)",
+      "like-via-repost": "{{count}} me gusta(s) en repost",
+      "repost-via-repost": "{{count}} repost(s) de repost"
     }
   },
   "timeline": {
@@ -270,7 +282,15 @@
     "claudeApiHint": "Registra una clave de API de Claude para habilitar texto ALT generado por IA para imágenes",
     "accounts": "Cuentas",
     "addAccount": "Agregar cuenta",
-    "activeAccount": "Activa"
+    "activeAccount": "Activa",
+    "closeAction": "Botón de cerrar",
+    "closeActionExit": "Salir de la aplicación",
+    "closeActionMinimize": "Minimizar a la bandeja del sistema",
+    "closeActionMinimize_macos": "Minimizar al Dock",
+    "closeActionMinimizeHint": "Cuando se minimiza a la bandeja del sistema, haga clic derecho en el icono de la bandeja y seleccione \"Salir\" para cerrar el programa.",
+    "closeActionMinimizeHint_macos": "Cuando se minimiza al Dock, haga clic derecho en el icono del Dock y seleccione \"Salir\" para cerrar el programa.",
+    "draftImageWarning": "Confirmación de guardado de borrador",
+    "enableDraftImageWarning": "Mostrar advertencia antes de guardar borradores con imágenes"
   },
   "confirm": {
     "ok": "OK",
@@ -381,9 +401,48 @@
     "empty": "Sin borradores",
     "imageOnly": "(Solo imágenes)",
     "clearAll": "Eliminar todos",
-    "clearAllConfirm": "¿Eliminar todos los borradores?"
+    "clearAllConfirm": "¿Eliminar todos los borradores?",
+    "imageWarningTitle": "Aviso de calidad de imagen",
+    "imageWarningMessage": "Guardar una publicación con imágenes como borrador reducirá significativamente la calidad de las imágenes. Tenga esto en cuenta.",
+    "saveAnyway": "Guardar borrador"
   },
   "bot": {
     "label": "Esta cuenta está automatizada"
+  },
+  "watermark": {
+    "title": "Marca de agua",
+    "enable": "Añadir marca de agua automáticamente a las imágenes",
+    "preview": "Vista previa",
+    "preset": "Plantilla de texto",
+    "presetCopyright": "Prohibido repostear",
+    "presetAiJa": "Prohibido AI/Repost (JP)",
+    "presetAiEn": "No AI Training",
+    "presetAiBoth": "AI + Prohibido repostear",
+    "presetPhoto": "Foto/Edición",
+    "presetCustom": "Personalizado",
+    "customPlaceholder": "Introducir texto personalizado (máx. 50 caracteres)",
+    "position": "Posición",
+    "posTopLeft": "Arriba izquierda",
+    "posTopCenter": "Arriba centro",
+    "posTopRight": "Arriba derecha",
+    "posBottomLeft": "Abajo izquierda",
+    "posBottomCenter": "Abajo centro",
+    "posBottomRight": "Abajo derecha",
+    "posRandom": "Aleatorio",
+    "posTile": "Mosaico",
+    "opacity": "Opacidad",
+    "fontSize": "Tamaño de fuente (el tamaño mínimo se ajusta automáticamente según el ancho de la imagen)",
+    "textColor": "Color del texto",
+    "confirmBeforePost": "Vista previa de marca de agua antes de publicar",
+    "skipVideo": "No aplicar a vídeos",
+    "hint": "Las marcas de agua se aplican a las imágenes antes de publicar. El texto de exclusión de entrenamiento AI sirve como declaración de intención.",
+    "confirmTitle": "Vista previa de marca de agua",
+    "confirmMessage": "Por favor, confirme las imágenes con marca de agua antes de publicar.",
+    "postWithout": "Publicar sin MA",
+    "stampCopyright": "Todos los derechos reservados",
+    "stampAiJa": "Prohibido entrenamiento IA",
+    "stampAiEn": "No AI Training",
+    "stampAiBoth": "No AI Training / Todos los derechos reservados",
+    "stampPhoto": "Foto / Edición"
   }
 }

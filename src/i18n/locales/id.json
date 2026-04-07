@@ -20,6 +20,9 @@
     "helpText": "Anda dapat membuat kata sandi aplikasi dari pengaturan Bluesky",
     "loginFailed": "Gagal masuk",
     "switchAccount": "Ganti Akun",
+    "rateLimit": "Batas permintaan terlampaui. Silakan tunggu dan coba lagi. Batas biasanya dicabut setelah sekitar 5 menit.",
+    "rateLimitWithTime": "Batas permintaan terlampaui. Silakan tunggu {{seconds}} detik dan coba lagi.",
+    "deleteHandle": "Hapus",
     "accountPicker": {
       "title": "Pilih Akun",
       "addAccount": "Tambah Akun Lain",
@@ -37,7 +40,8 @@
     "postFailed": "Gagal memposting",
     "newPost": "Buat postingan baru",
     "fetchingLink": "Mengambil info tautan...",
-    "generateLinkCard": "Buat kartu tautan"
+    "generateLinkCard": "Buat kartu tautan",
+    "quotePlaceholder": "Tambahkan komentar..."
   },
   "post": {
     "reposted": "memposting ulang",
@@ -56,7 +60,11 @@
     "savingMedia": "Menyimpan...",
     "unmuteThread": "Bunyikan notifikasi utas",
     "muteUser": "Bisukan pengguna ini",
-    "unmuteUser": "Batalkan bisukan pengguna ini"
+    "unmuteUser": "Batalkan bisukan pengguna ini",
+    "blockUser": "Blokir pengguna ini",
+    "unblockUser": "Buka blokir pengguna ini",
+    "quotePost": "Kutip postingan",
+    "viewQuotes": "Lihat kutipan"
   },
   "notification": {
     "liked": "menyukai postingan Anda",
@@ -65,6 +73,8 @@
     "mentioned": "menyebut Anda",
     "replied": "membalas postingan Anda",
     "quoted": "mengutip postingan Anda",
+    "likedViaRepost": "menyukai repost Anda",
+    "repostedViaRepost": "me-repost repost Anda",
     "grouped": "{{name}} dan {{count}} lainnya {{action}}",
     "empty": "Tidak ada notifikasi",
     "loadFailed": "Gagal memuat notifikasi",
@@ -76,7 +86,9 @@
       "follow": "{{count}} pengikut",
       "mention": "{{count}} sebutan",
       "reply": "{{count}} balasan",
-      "quote": "{{count}} kutipan"
+      "quote": "{{count}} kutipan",
+      "like-via-repost": "{{count}} suka pada repost",
+      "repost-via-repost": "{{count}} repost dari repost"
     }
   },
   "timeline": {
@@ -158,6 +170,7 @@
   "video": {
     "addVideo": "Tambahkan video (maks. 100MB)",
     "altPlaceholder": "Deskripsi video (ALT)",
+    "processing": "Memproses video...",
     "uploading": "Mengunggah video...",
     "error": {
       "notAuthenticated": "Perlu masuk",
@@ -270,7 +283,15 @@
     "claudeApiHint": "Daftarkan kunci API Claude untuk mengaktifkan teks ALT yang dibuat AI untuk gambar",
     "accounts": "Akun",
     "addAccount": "Tambah Akun",
-    "activeAccount": "Aktif"
+    "activeAccount": "Aktif",
+    "closeAction": "Tombol Tutup",
+    "closeActionExit": "Keluar dari aplikasi",
+    "closeActionMinimize": "Minimkan ke system tray",
+    "closeActionMinimize_macos": "Minimkan ke Dock",
+    "closeActionMinimizeHint": "Saat diminimalkan ke system tray, klik kanan ikon tray dan pilih \"Keluar\" untuk menutup program.",
+    "closeActionMinimizeHint_macos": "Saat diminimalkan ke Dock, klik kanan ikon Dock dan pilih \"Keluar\" untuk menutup program.",
+    "draftImageWarning": "Konfirmasi Simpan Draf",
+    "enableDraftImageWarning": "Tampilkan peringatan sebelum menyimpan draf dengan gambar"
   },
   "confirm": {
     "ok": "OK",
@@ -381,7 +402,46 @@
     "empty": "Tidak ada draf",
     "imageOnly": "(Hanya gambar)",
     "clearAll": "Hapus semua",
-    "clearAllConfirm": "Hapus semua draf?"
+    "clearAllConfirm": "Hapus semua draf?",
+    "imageWarningTitle": "Pemberitahuan Kualitas Gambar",
+    "imageWarningMessage": "Menyimpan postingan dengan gambar sebagai draf akan menurunkan kualitas gambar secara signifikan. Harap perhatikan hal ini.",
+    "saveAnyway": "Simpan draf"
+  },
+  "watermark": {
+    "title": "Tanda Air",
+    "enable": "Tambahkan tanda air otomatis ke gambar",
+    "preview": "Pratinjau",
+    "preset": "Template Teks",
+    "presetCopyright": "Dilarang Repost",
+    "presetAiJa": "Dilarang AI/Repost (JP)",
+    "presetAiEn": "No AI Training",
+    "presetAiBoth": "AI + Dilarang Repost",
+    "presetPhoto": "Foto/Edit",
+    "presetCustom": "Kustom",
+    "customPlaceholder": "Masukkan teks kustom (maks. 50 karakter)",
+    "position": "Posisi",
+    "posTopLeft": "Kiri Atas",
+    "posTopCenter": "Tengah Atas",
+    "posTopRight": "Kanan Atas",
+    "posBottomLeft": "Kiri Bawah",
+    "posBottomCenter": "Tengah Bawah",
+    "posBottomRight": "Kanan Bawah",
+    "posRandom": "Acak",
+    "posTile": "Ubin",
+    "opacity": "Opasitas",
+    "fontSize": "Ukuran Font (ukuran minimum diatur otomatis berdasarkan lebar gambar)",
+    "textColor": "Warna Teks",
+    "confirmBeforePost": "Pratinjau tanda air sebelum memposting",
+    "skipVideo": "Jangan terapkan ke video",
+    "hint": "Tanda air diterapkan ke gambar sebelum memposting. Teks penolakan pelatihan AI berfungsi sebagai pernyataan niat.",
+    "confirmTitle": "Pratinjau Tanda Air",
+    "confirmMessage": "Silakan konfirmasi gambar bertanda air sebelum memposting.",
+    "postWithout": "Posting tanpa TA",
+    "stampCopyright": "Hak cipta dilindungi",
+    "stampAiJa": "Dilarang pelatihan AI",
+    "stampAiEn": "No AI Training",
+    "stampAiBoth": "No AI Training / Hak cipta dilindungi",
+    "stampPhoto": "Foto / Edit"
   },
   "bot": {
     "label": "Akun ini otomatis"

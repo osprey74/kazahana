@@ -430,6 +430,8 @@
     "posBottomLeft": "Bottom Left",
     "posBottomCenter": "Bottom Center",
     "posBottomRight": "Bottom Right",
+    "posRandom": "Random",
+    "posTile": "Tiling",
     "opacity": "Opacity",
     "fontSize": "Font Size (minimum size is automatically set based on image width)",
     "confirmBeforePost": "Preview watermark before posting",
@@ -439,6 +441,11 @@
     "confirmMessage": "Please confirm the watermarked images before posting.",
     "postWithout": "Post without WM",
     "preview": "Preview",
-    "textColor": "Text Color"
+    "textColor": "Text Color",
+    "stampCopyright": "All Rights Reserved",
+    "stampAiJa": "No AI Training",
+    "stampAiEn": "No AI Training",
+    "stampAiBoth": "No AI Training / All Rights Reserved",
+    "stampPhoto": "Photo / Edit"
   }
 }

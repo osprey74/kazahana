@@ -20,6 +20,9 @@
     "helpText": "您可以在 Bluesky 设置中生成应用专用密码",
     "loginFailed": "登录失败",
     "switchAccount": "切换账号",
+    "rateLimit": "请求频率超限。请稍候重试。限制通常在约5分钟后解除。",
+    "rateLimitWithTime": "请求频率超限。请等待 {{seconds}} 秒后重试。",
+    "deleteHandle": "删除",
     "accountPicker": {
       "title": "选择账号",
       "addAccount": "添加其他账号",
@@ -37,7 +40,8 @@
     "postFailed": "发布失败",
     "newPost": "发布新帖子",
     "fetchingLink": "正在获取链接信息…",
-    "generateLinkCard": "生成链接卡片"
+    "generateLinkCard": "生成链接卡片",
+    "quotePlaceholder": "添加评论..."
   },
   "post": {
     "reposted": "转发了",
@@ -56,7 +60,11 @@
     "savingMedia": "保存中...",
     "unmuteThread": "取消静音此话题通知",
     "muteUser": "静音此用户",
-    "unmuteUser": "取消静音此用户"
+    "unmuteUser": "取消静音此用户",
+    "blockUser": "屏蔽此用户",
+    "unblockUser": "取消屏蔽",
+    "quotePost": "引用帖子",
+    "viewQuotes": "查看引用"
   },
   "notification": {
     "liked": "赞了你的帖子",
@@ -65,6 +73,8 @@
     "mentioned": "提到了你",
     "replied": "回复了你的帖子",
     "quoted": "引用了你的帖子",
+    "likedViaRepost": "赞了你的转发",
+    "repostedViaRepost": "转发了你的转发",
     "grouped": "{{name}}等{{count}}人{{action}}",
     "empty": "暂无通知",
     "loadFailed": "通知加载失败",
@@ -76,7 +86,9 @@
       "follow": "{{count}} 个关注",
       "mention": "{{count}} 条提及",
       "reply": "{{count}} 条回复",
-      "quote": "{{count}} 条引用"
+      "quote": "{{count}} 条引用",
+      "like-via-repost": "转发获得 {{count}} 个赞",
+      "repost-via-repost": "转发被转发 {{count}} 次"
     }
   },
   "timeline": {
@@ -159,6 +171,7 @@
     "addVideo": "添加视频（最大 100MB）",
     "altPlaceholder": "视频描述（ALT）",
     "uploading": "视频上传中...",
+    "processing": "正在处理视频...",
     "error": {
       "notAuthenticated": "需要登录",
       "limitReached": "已达每日视频上传上限",
@@ -270,7 +283,15 @@
     "claudeApiHint": "注册 Claude API 密钥以启用 AI 自动生成图片 ALT 文本",
     "accounts": "账号",
     "addAccount": "添加账号",
-    "activeAccount": "使用中"
+    "activeAccount": "使用中",
+    "closeAction": "关闭按钮",
+    "closeActionExit": "退出应用",
+    "closeActionMinimize": "最小化到系统托盘",
+    "closeActionMinimize_macos": "最小化到 Dock",
+    "closeActionMinimizeHint": "最小化到系统托盘后，右键单击托盘图标并选择\"退出\"以关闭程序。",
+    "closeActionMinimizeHint_macos": "最小化到 Dock 后，右键单击 Dock 图标并选择\"退出\"以关闭程序。",
+    "draftImageWarning": "草稿保存确认",
+    "enableDraftImageWarning": "保存含图片的草稿前显示警告"
   },
   "confirm": {
     "ok": "确定",
@@ -381,7 +402,46 @@
     "empty": "没有草稿",
     "imageOnly": "（仅图片）",
     "clearAll": "全部删除",
-    "clearAllConfirm": "删除所有草稿？"
+    "clearAllConfirm": "删除所有草稿？",
+    "imageWarningTitle": "图片质量提醒",
+    "imageWarningMessage": "将含有图片的帖子保存为草稿会大幅降低图片质量。请知悉。",
+    "saveAnyway": "保存草稿"
+  },
+  "watermark": {
+    "title": "水印",
+    "enable": "自动为图片添加水印",
+    "preview": "预览",
+    "preset": "文字模板",
+    "presetCopyright": "禁止转载",
+    "presetAiJa": "禁止AI/转载 (JP)",
+    "presetAiEn": "No AI Training",
+    "presetAiBoth": "AI + 禁止转载",
+    "presetPhoto": "拍摄/编辑",
+    "presetCustom": "自定义",
+    "customPlaceholder": "输入自定义文字（最多50个字符）",
+    "position": "位置",
+    "posTopLeft": "左上",
+    "posTopCenter": "上方居中",
+    "posTopRight": "右上",
+    "posBottomLeft": "左下",
+    "posBottomCenter": "下方居中",
+    "posBottomRight": "右下",
+    "posRandom": "随机",
+    "posTile": "平铺",
+    "opacity": "不透明度",
+    "fontSize": "字体大小（最小字号根据图片宽度自动设定）",
+    "textColor": "文字颜色",
+    "confirmBeforePost": "发布前预览水印效果",
+    "skipVideo": "不应用于视频",
+    "hint": "水印在发布前合成到图片上。AI训练拒绝文字作为意愿声明。",
+    "confirmTitle": "水印预览",
+    "confirmMessage": "请在发布前确认带水印的图片。",
+    "postWithout": "不带水印发布",
+    "stampCopyright": "禁止转载",
+    "stampAiJa": "禁止AI训练",
+    "stampAiEn": "No AI Training",
+    "stampAiBoth": "No AI Training / 禁止转载",
+    "stampPhoto": "拍摄 / 编辑"
   },
   "bot": {
     "label": "此账户已自动化"

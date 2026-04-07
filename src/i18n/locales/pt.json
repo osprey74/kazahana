@@ -20,6 +20,9 @@
     "helpText": "Você pode gerar uma senha de app nas configurações do Bluesky",
     "loginFailed": "Falha ao entrar",
     "switchAccount": "Trocar conta",
+    "rateLimit": "Limite de requisições excedido. Aguarde e tente novamente. O limite geralmente é removido após cerca de 5 minutos.",
+    "rateLimitWithTime": "Limite de requisições excedido. Aguarde {{seconds}} segundos e tente novamente.",
+    "deleteHandle": "Excluir",
     "accountPicker": {
       "title": "Selecionar conta",
       "addAccount": "Adicionar outra conta",
@@ -37,7 +40,8 @@
     "postFailed": "Falha ao publicar",
     "newPost": "Nova publicação",
     "fetchingLink": "Obtendo informações do link...",
-    "generateLinkCard": "Gerar cartão de link"
+    "generateLinkCard": "Gerar cartão de link",
+    "quotePlaceholder": "Adicionar um comentário..."
   },
   "post": {
     "reposted": "repostou",
@@ -56,7 +60,11 @@
     "savingMedia": "Salvando...",
     "unmuteThread": "Ativar notificações da conversa",
     "muteUser": "Silenciar este usuário",
-    "unmuteUser": "Deixar de silenciar este usuário"
+    "unmuteUser": "Deixar de silenciar este usuário",
+    "blockUser": "Bloquear este usuário",
+    "unblockUser": "Desbloquear este usuário",
+    "quotePost": "Citar publicação",
+    "viewQuotes": "Ver citações"
   },
   "notification": {
     "liked": "curtiu sua publicação",
@@ -65,6 +73,8 @@
     "mentioned": "mencionou você",
     "replied": "respondeu à sua publicação",
     "quoted": "citou sua publicação",
+    "likedViaRepost": "curtiu seu repost",
+    "repostedViaRepost": "repostou seu repost",
     "grouped": "{{name}} e {{count}} outros {{action}}",
     "empty": "Nenhuma notificação",
     "loadFailed": "Falha ao carregar notificações",
@@ -76,7 +86,9 @@
       "follow": "{{count}} seguidor(es)",
       "mention": "{{count}} menção(ões)",
       "reply": "{{count}} resposta(s)",
-      "quote": "{{count}} citação(ões)"
+      "quote": "{{count}} citação(ões)",
+      "like-via-repost": "{{count}} curtida(s) no repost",
+      "repost-via-repost": "{{count}} repost(s) do repost"
     }
   },
   "timeline": {
@@ -158,6 +170,7 @@
   "video": {
     "addVideo": "Adicionar vídeo (máx. 100MB)",
     "altPlaceholder": "Descrição do vídeo (ALT)",
+    "processing": "Processando vídeo...",
     "uploading": "Enviando vídeo...",
     "error": {
       "notAuthenticated": "Login necessário",
@@ -270,7 +283,15 @@
     "claudeApiHint": "Registre uma chave de API do Claude para ativar texto ALT gerado por IA para imagens",
     "accounts": "Contas",
     "addAccount": "Adicionar conta",
-    "activeAccount": "Ativa"
+    "activeAccount": "Ativa",
+    "closeAction": "Botão Fechar",
+    "closeActionExit": "Sair do aplicativo",
+    "closeActionMinimize": "Minimizar para a bandeja do sistema",
+    "closeActionMinimize_macos": "Minimizar para o Dock",
+    "closeActionMinimizeHint": "Quando minimizado na bandeja do sistema, clique com o botão direito no ícone da bandeja e selecione \"Sair\" para encerrar o programa.",
+    "closeActionMinimizeHint_macos": "Quando minimizado no Dock, clique com o botão direito no ícone do Dock e selecione \"Sair\" para encerrar o programa.",
+    "draftImageWarning": "Confirmação de Salvamento de Rascunho",
+    "enableDraftImageWarning": "Mostrar aviso antes de salvar rascunhos com imagens"
   },
   "confirm": {
     "ok": "OK",
@@ -381,7 +402,46 @@
     "empty": "Nenhum rascunho",
     "imageOnly": "(Apenas imagens)",
     "clearAll": "Excluir todos",
-    "clearAllConfirm": "Excluir todos os rascunhos?"
+    "clearAllConfirm": "Excluir todos os rascunhos?",
+    "imageWarningTitle": "Aviso de Qualidade de Imagem",
+    "imageWarningMessage": "Salvar uma publicação com imagens como rascunho reduzirá significativamente a qualidade das imagens. Esteja ciente disso.",
+    "saveAnyway": "Salvar rascunho"
+  },
+  "watermark": {
+    "title": "Marca d'água",
+    "enable": "Adicionar marca d'água automaticamente às imagens",
+    "preview": "Pré-visualização",
+    "preset": "Modelo de Texto",
+    "presetCopyright": "Repostagem Proibida",
+    "presetAiJa": "Proibido IA/Repost (JP)",
+    "presetAiEn": "No AI Training",
+    "presetAiBoth": "IA + Repostagem Proibida",
+    "presetPhoto": "Foto/Edição",
+    "presetCustom": "Personalizado",
+    "customPlaceholder": "Inserir texto personalizado (máx. 50 caracteres)",
+    "position": "Posição",
+    "posTopLeft": "Superior Esquerdo",
+    "posTopCenter": "Superior Centro",
+    "posTopRight": "Superior Direito",
+    "posBottomLeft": "Inferior Esquerdo",
+    "posBottomCenter": "Inferior Centro",
+    "posBottomRight": "Inferior Direito",
+    "posRandom": "Aleatório",
+    "posTile": "Ladrilho",
+    "opacity": "Opacidade",
+    "fontSize": "Tamanho da fonte (o tamanho mínimo é definido automaticamente com base na largura da imagem)",
+    "textColor": "Cor do Texto",
+    "confirmBeforePost": "Visualizar marca d'água antes de publicar",
+    "skipVideo": "Não aplicar a vídeos",
+    "hint": "Marcas d'água são aplicadas às imagens antes da publicação. O texto de recusa de treinamento de IA serve como declaração de intenção.",
+    "confirmTitle": "Visualização da Marca d'água",
+    "confirmMessage": "Confirme as imagens com marca d'água antes de publicar.",
+    "postWithout": "Publicar sem MA",
+    "stampCopyright": "Todos os direitos reservados",
+    "stampAiJa": "Proibido treinamento de IA",
+    "stampAiEn": "No AI Training",
+    "stampAiBoth": "No AI Training / Todos os direitos reservados",
+    "stampPhoto": "Foto / Edição"
   },
   "bot": {
     "label": "Esta conta é automatizada"

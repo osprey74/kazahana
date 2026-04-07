@@ -23,6 +23,8 @@ const POSITIONS: { id: WatermarkPosition; labelKey: string }[] = [
   { id: "bl", labelKey: "watermark.posBottomLeft" },
   { id: "bc", labelKey: "watermark.posBottomCenter" },
   { id: "br", labelKey: "watermark.posBottomRight" },
+  { id: "random", labelKey: "watermark.posRandom" },
+  { id: "tile", labelKey: "watermark.posTile" },
 ];
 
 const W3C_COLORS = [
@@ -162,11 +164,26 @@ export function WatermarkSettings() {
           <div>
             <h4 className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-2">{t("watermark.position")}</h4>
             <div className="grid grid-cols-3 gap-1.5 max-w-[240px]">
-              {POSITIONS.map((p) => (
+              {POSITIONS.filter((p) => !["random", "tile"].includes(p.id)).map((p) => (
                 <button
                   key={p.id}
                   onClick={() => update({ position: p.id })}
                   className={`px-2 py-1.5 text-xs rounded-btn transition-colors ${
+                    settings.position === p.id
+                      ? "bg-primary text-white"
+                      : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
+                  }`}
+                >
+                  {t(p.labelKey)}
+                </button>
+              ))}
+            </div>
+            <div className="flex gap-1.5 mt-1.5 max-w-[240px]">
+              {POSITIONS.filter((p) => ["random", "tile"].includes(p.id)).map((p) => (
+                <button
+                  key={p.id}
+                  onClick={() => update({ position: p.id })}
+                  className={`flex-1 px-2 py-1.5 text-xs rounded-btn transition-colors ${
                     settings.position === p.id
                       ? "bg-primary text-white"
                       : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
