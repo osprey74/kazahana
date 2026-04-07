@@ -406,5 +406,32 @@
   },
   "bot": {
     "label": "このアカウントは自動化されています"
+  },
+  "watermark": {
+    "title": "ウォーターマーク",
+    "enable": "画像にウォーターマークを自動合成する",
+    "preset": "文言プリセット",
+    "presetCopyright": "無断転載禁止",
+    "presetAiJa": "AI学習・転載禁止",
+    "presetAiEn": "No AI Training",
+    "presetAiBoth": "AI+無断転載禁止",
+    "presetPhoto": "撮影・編集",
+    "presetCustom": "カスタム",
+    "customPlaceholder": "任意の文言を入力（最大50文字）",
+    "position": "表示位置",
+    "posTopLeft": "左上",
+    "posTopCenter": "中央上",
+    "posTopRight": "右上",
+    "posBottomLeft": "左下",
+    "posBottomCenter": "中央下",
+    "posBottomRight": "右下",
+    "opacity": "不透明度",
+    "fontSize": "文字サイズ",
+    "confirmBeforePost": "投稿前にウォーターマークの合成結果を確認する",
+    "skipVideo": "動画には適用しない",
+    "hint": "ウォーターマークは投稿前に画像へ合成されます。AI学習拒否の文言は意思表示としての効果です。",
+    "confirmTitle": "ウォーターマーク確認",
+    "confirmMessage": "ウォーターマークが合成された画像を確認してください。",
+    "postWithout": "WMなしで投稿"
   }
 }

@@ -406,5 +406,32 @@
   },
   "bot": {
     "label": "This account is automated"
+  },
+  "watermark": {
+    "title": "Watermark",
+    "enable": "Automatically add watermark to images",
+    "preset": "Text Preset",
+    "presetCopyright": "No Repost",
+    "presetAiJa": "AI/Repost Ban (JP)",
+    "presetAiEn": "No AI Training",
+    "presetAiBoth": "AI + No Repost",
+    "presetPhoto": "Photo/Edit",
+    "presetCustom": "Custom",
+    "customPlaceholder": "Enter custom text (max 50 characters)",
+    "position": "Position",
+    "posTopLeft": "Top Left",
+    "posTopCenter": "Top Center",
+    "posTopRight": "Top Right",
+    "posBottomLeft": "Bottom Left",
+    "posBottomCenter": "Bottom Center",
+    "posBottomRight": "Bottom Right",
+    "opacity": "Opacity",
+    "fontSize": "Font Size",
+    "confirmBeforePost": "Preview watermark before posting",
+    "skipVideo": "Do not apply to videos",
+    "hint": "Watermarks are composited onto images before posting. AI training opt-out text serves as a declaration of intent.",
+    "confirmTitle": "Watermark Preview",
+    "confirmMessage": "Please confirm the watermarked images before posting.",
+    "postWithout": "Post without WM"
   }
 }

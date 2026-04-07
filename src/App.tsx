@@ -25,6 +25,7 @@ import { LoadingSpinner } from "./components/common/LoadingSpinner";
 import { useAuthStore } from "./stores/authStore";
 import { useComposeStore } from "./stores/composeStore";
 import { applyTheme, useSettingsStore } from "./stores/settingsStore";
+import { useWatermarkStore } from "./stores/watermarkStore";
 import { ModerationProvider } from "./contexts/ModerationContext";
 import { isRateLimitError, getRateLimitDelay } from "./lib/rateLimit";
 import { useBsafStore } from "./stores/bsafStore";
@@ -98,12 +99,14 @@ function AuthGate() {
 
   const initAutoStart = useSettingsStore((s) => s.initAutoStart);
   const initCloseAction = useSettingsStore((s) => s.initCloseAction);
+  const initWatermark = useWatermarkStore((s) => s.init);
 
   useEffect(() => {
     restoreSession();
     initAutoStart();
     initCloseAction();
-  }, [restoreSession, initAutoStart, initCloseAction]);
+    initWatermark();
+  }, [restoreSession, initAutoStart, initCloseAction, initWatermark]);
 
   // Apply theme on mount and when it changes
   useEffect(() => {

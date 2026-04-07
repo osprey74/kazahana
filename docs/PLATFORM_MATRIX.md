@@ -1,6 +1,6 @@
 # kazahana Platform Feature Matrix
 
-> **Last updated:** 2026-04-03 (Desktop v2.4.0: マルチアカウント実装完了。iOS v1.1.0: マルチアカウント実装完了)
+> **Last updated:** 2026-04-07 (Desktop v2.4.1: ウォーターマーク機能実装。Android: マルチアカウント実装完了)
 > **Source:** Compiled from the following repositories
 > - Desktop (Win/macOS): https://github.com/osprey74/kazahana
 > - iOS: https://github.com/osprey74/kazahana-ios
@@ -105,7 +105,11 @@
 | キーボードショートカット（N / ESC / Alt+Enter） | ✅ | ✅ | N/A | N/A | |
 | Option+Enter（macOS） | N/A | ✅ | N/A | N/A | macOS のみ |
 | プロフィールページからの自動メンション挿入 | ✅ | ✅ | ✅ | ✅ | |
-
+| ウォーターマーク合成（画像） | ✅ | ✅ | ⬜ | ⬜ | 投稿前に著作権・AI拒否文言を画像に合成。Canvas API / CoreGraphics / Android Canvas。HANDOFF_watermark.md 参照 |
+| ウォーターマーク — プリセット文言（6種） | ✅ | ✅ | ⬜ | ⬜ | 無断転載禁止 / AI学習禁止(JP) / No AI Training / AI+JP / 撮影・編集 / カスタム入力 |
+| ウォーターマーク — 位置・不透明度・サイズ設定 | ✅ | ✅ | ⬜ | ⬜ | 6方向 / 不透明度 20〜100% / フォントサイズ 8〜20px |
+| ウォーターマーク — 投稿前確認モーダル | ✅ | ✅ | ⬜ | ⬜ | `confirmBeforePost` 設定。合成結果を確認してから送信。WMなし投稿ボタンあり |
+| ウォーターマーク — 動画スキップ設定 | ✅ | ✅ | ⬜ | ⬜ | `skipVideo` 設定。Phase 1 は動画本体へは非適用 |
 ---
 
 ## 5. 通知
@@ -212,6 +216,7 @@
 | VIA 表示設定 | ✅ | ✅ | ✅ | ✅ | |
 | 投稿言語（Bluesky アカウント設定から優先取得） | ⬜ | ⬜ | ✅ | ✅ | アプリ設定 → Bluesky設定 → 端末ロケールの優先順 |
 | ログインハンドル履歴（オートコンプリート） | ✅ | ✅ | N/A | N/A | |
+| ウォーターマーク設定画面 | ✅ | ✅ | ⬜ | ⬜ | ON/OFF、プリセット選択、位置・不透明度・サイズ、確認モーダル設定。各 OS 標準のストレージに永続化 |
 
 ---
 
@@ -261,7 +266,7 @@
 | ログイン（アプリパスワード） | ✅ | ✅ | ✅ | ✅ | |
 | セッション永続化・自動リフレッシュ | ✅ | ✅ | ✅ | ✅ | |
 | レート制限ハンドリング（429 バックオフ） | ✅ | ✅ | ✅ | ✅ | |
-| マルチアカウント | ✅ | ✅ | ⬜ | ✅ | Desktop v2.4.0 / iOS v1.1.0 で実装完了 |
+| マルチアカウント | ✅ | ✅ | ✅ | ✅ | |
 
 ---
 
@@ -279,12 +284,6 @@
 |------|:-------:|
 | 自動更新（tauri-plugin-updater） | ⬜ |
 | 投稿言語（Bluesky アカウント設定から優先取得） | ⬜ |
-
-### Android 未実装
-
-| 機能 | Android | 備考 |
-|------|:-------:|------|
-| マルチアカウント | ⬜ | Desktop v2.4.0 / iOS v1.1.0 で実装完了 |
 
 ---
 

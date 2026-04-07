@@ -9,6 +9,7 @@ import { useAuthStore } from "../../stores/authStore";
 import { getAgent } from "../../lib/agent";
 import { LoginForm } from "../auth/LoginForm";
 import { Icon } from "../common/Icon";
+import { WatermarkSettings } from "./WatermarkSettings";
 
 type LabelPref = "hide" | "warn" | "ignore";
 
@@ -244,6 +245,12 @@ export function SettingsView() {
             <span className="text-sm text-text-light dark:text-text-dark">{t("settings.imageOpenModeExternal")}</span>
           </label>
         </div>
+      </section>
+
+      {/* Watermark */}
+      <section className="mb-6">
+        <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t("watermark.title")}</h3>
+        <WatermarkSettings />
       </section>
 
       {/* Claude API */}

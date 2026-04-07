@@ -5,6 +5,10 @@ import { useCreatePost, VideoUploadError } from "../../hooks/usePost";
 import { useOgp } from "../../hooks/useOgp";
 import { extractUrl } from "../../lib/ogp";
 import { useSearchActorsTypeahead } from "../../hooks/useSearch";
+import { useAuthStore } from "../../stores/authStore";
+import { useWatermarkStore } from "../../stores/watermarkStore";
+import { applyWatermark } from "../../lib/watermark";
+import { WatermarkConfirmModal } from "../WatermarkConfirmModal";
 import { ImageUpload, type ImageFile } from "./ImageUpload";
 import { ImageEditModal } from "./ImageEditModal";
 import { VideoUpload, type VideoFile } from "./VideoUpload";
@@ -106,7 +110,12 @@ export function ComposeModal() {
   const [isCompressing, setIsCompressing] = useState(false);
   const [editingImageId, setEditingImageId] = useState<string | null>(null);
   const [showDraftList, setShowDraftList] = useState(false);
+  const [showWatermarkConfirm, setShowWatermarkConfirm] = useState(false);
+  const [watermarkedPreviews, setWatermarkedPreviews] = useState<string[]>([]);
+  const [watermarkedImages, setWatermarkedImages] = useState<ImageFile[]>([]);
   const saveDraft = useDraftStore((s) => s.saveDraft);
+  const wmSettings = useWatermarkStore((s) => s.settings);
+  const handle = useAuthStore((s) => s.profile?.handle ?? "");
 
   // OGP link card (manual trigger)
   const { detectedUrl, ogp, isLoading: ogpLoading, fetchCard, fetchCardForUrl, dismiss: dismissOgp, reset: resetOgp } = useOgp(text);
@@ -356,12 +365,9 @@ export function ComposeModal() {
     useDraftStore.getState().deleteDraft(draft.id);
   };
 
-  const handleSubmit = async () => {
-    if (!canPost) return;
-
-    // Read image files into Uint8Array
+  const submitPost = async (finalImages: ImageFile[]) => {
     const imageData = await Promise.all(
-      images.map(async (img) => {
+      finalImages.map(async (img) => {
         const buf = await img.file.arrayBuffer();
         return { data: new Uint8Array(buf), mimeType: img.file.type, alt: img.alt };
       }),
@@ -385,12 +391,60 @@ export function ComposeModal() {
       },
       {
         onSuccess: () => {
+          finalImages.forEach((img) => URL.revokeObjectURL(img.preview));
           images.forEach((img) => URL.revokeObjectURL(img.preview));
           if (video) URL.revokeObjectURL(video.preview);
           close();
         },
       },
     );
+  };
+
+  const handleSubmit = async () => {
+    if (!canPost) return;
+
+    // Apply watermark to images if enabled
+    if (wmSettings.enabled && images.length > 0 && handle) {
+      const wmImages: ImageFile[] = await Promise.all(
+        images.map(async (img) => {
+          const wmFile = await applyWatermark(img.file, wmSettings, handle);
+          return { ...img, file: wmFile, preview: URL.createObjectURL(wmFile) };
+        }),
+      );
+
+      if (wmSettings.confirmBeforePost) {
+        setWatermarkedImages(wmImages);
+        setWatermarkedPreviews(wmImages.map((img) => img.preview));
+        setShowWatermarkConfirm(true);
+        return;
+      }
+
+      submitPost(wmImages);
+      return;
+    }
+
+    submitPost(images);
+  };
+
+  const handleWatermarkConfirm = () => {
+    setShowWatermarkConfirm(false);
+    submitPost(watermarkedImages);
+  };
+
+  const handlePostWithoutWatermark = () => {
+    // Clean up watermarked previews if confirm modal was open
+    watermarkedPreviews.forEach((url) => URL.revokeObjectURL(url));
+    setWatermarkedPreviews([]);
+    setWatermarkedImages([]);
+    setShowWatermarkConfirm(false);
+    submitPost(images);
+  };
+
+  const handleWatermarkCancel = () => {
+    watermarkedPreviews.forEach((url) => URL.revokeObjectURL(url));
+    setWatermarkedPreviews([]);
+    setWatermarkedImages([]);
+    setShowWatermarkConfirm(false);
   };
 
   const handleModalDragOver = useCallback((e: React.DragEvent) => {
@@ -459,6 +513,15 @@ export function ComposeModal() {
             >
               {t("draft.save")}
             </button>
+            {wmSettings.enabled && hasImages && handle && (
+              <button
+                onClick={handlePostWithoutWatermark}
+                disabled={!canPost}
+                className="px-3 py-1.5 text-sm text-gray-500 border border-border-light dark:border-border-dark rounded-btn hover:bg-gray-50 dark:hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {t("watermark.postWithout")}
+              </button>
+            )}
             <button
               onClick={handleSubmit}
               disabled={!canPost}
@@ -730,6 +793,16 @@ export function ComposeModal() {
         <DraftListModal
           onLoad={handleLoadDraft}
           onClose={() => setShowDraftList(false)}
+        />
+      )}
+
+      {/* Watermark confirm modal */}
+      {showWatermarkConfirm && (
+        <WatermarkConfirmModal
+          previewUrls={watermarkedPreviews}
+          onConfirm={handleWatermarkConfirm}
+          onPostWithoutWatermark={handlePostWithoutWatermark}
+          onCancel={handleWatermarkCancel}
         />
       )}
     </div>
