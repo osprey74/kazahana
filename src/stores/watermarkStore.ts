@@ -17,7 +17,7 @@ export const useWatermarkStore = create<WatermarkState>((set, get) => ({
   loaded: false,
 
   init: async () => {
-    const store = await load(STORE_FILE, { autoSave: true });
+    const store = await load(STORE_FILE, { defaults: {}, autoSave: true });
     const saved = await store.get<WatermarkSettings>(STORE_KEY);
     if (saved) {
       set({ settings: { ...DEFAULT_WATERMARK_SETTINGS, ...saved }, loaded: true });
@@ -29,7 +29,7 @@ export const useWatermarkStore = create<WatermarkState>((set, get) => ({
   update: async (patch: Partial<WatermarkSettings>) => {
     const next = { ...get().settings, ...patch };
     set({ settings: next });
-    const store = await load(STORE_FILE, { autoSave: true });
+    const store = await load(STORE_FILE, { defaults: {}, autoSave: true });
     await store.set(STORE_KEY, next);
   },
 }));
