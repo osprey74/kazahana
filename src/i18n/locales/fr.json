@@ -171,6 +171,7 @@
     "addVideo": "Ajouter une vidéo (100 Mo max)",
     "altPlaceholder": "Description de la vidéo (ALT)",
     "uploading": "Envoi de la vidéo...",
+    "processing": "Traitement de la vidéo...",
     "error": {
       "notAuthenticated": "Connexion requise",
       "limitReached": "Limite quotidienne d'envoi de vidéos atteinte",
@@ -216,7 +217,8 @@
     "blockedByUser": "Cet utilisateur vous a bloqué",
     "manageList": "Ajouter/Retirer des listes",
     "searchPlaceholder": "Rechercher les publications de cet utilisateur",
-    "noSearchResults": "Aucun résultat de recherche"
+    "noSearchResults": "Aucun résultat de recherche",
+    "likesUnavailable": "Les j'aime ne sont pas disponibles pour ce compte"
   },
   "search": {
     "placeholder": "Rechercher des utilisateurs ou des publications…",
@@ -253,7 +255,7 @@
     "autoStart": "Démarrage automatique",
     "enableAutoStart": "Lancer kazahana au démarrage du système",
     "feedVisibility": "Configurer les flux visibles",
-    "feedOrderHint": "Drag and drop to reorder feeds. Checkboxes toggle visibility.",
+    "feedOrderHint": "Glissez-déposez pour réorganiser les flux. Les cases à cocher basculent la visibilité.",
     "hiddenFeedsLabel": "Flux masqués",
     "noFeeds": "Aucun flux ni liste",
     "showAllInQuickJump": "Afficher tous les flux dans le menu déroulant de sélection des flux",
@@ -290,7 +292,8 @@
     "closeActionMinimizeHint": "Lorsque réduit dans la barre des tâches, faites un clic droit sur l'icône et sélectionnez \"Quitter\" pour fermer le programme.",
     "closeActionMinimizeHint_macos": "Lorsque réduit dans le Dock, faites un clic droit sur l'icône du Dock et sélectionnez \"Quitter\" pour fermer le programme.",
     "draftImageWarning": "Confirmation de sauvegarde du brouillon",
-    "enableDraftImageWarning": "Afficher un avertissement avant d'enregistrer des brouillons avec des images"
+    "enableDraftImageWarning": "Afficher un avertissement avant d'enregistrer des brouillons avec des images",
+    "videoVolume": "Volume vidéo"
   },
   "confirm": {
     "ok": "OK",

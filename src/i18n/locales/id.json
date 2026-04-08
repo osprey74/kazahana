@@ -217,7 +217,8 @@
     "blockedByUser": "Pengguna ini telah memblokir Anda",
     "manageList": "Tambah/Hapus dari daftar",
     "searchPlaceholder": "Cari postingan pengguna ini",
-    "noSearchResults": "Tidak ada hasil pencarian"
+    "noSearchResults": "Tidak ada hasil pencarian",
+    "likesUnavailable": "Suka tidak tersedia untuk akun ini"
   },
   "search": {
     "placeholder": "Cari pengguna atau postingan...",
@@ -254,7 +255,7 @@
     "autoStart": "Mulai otomatis",
     "enableAutoStart": "Jalankan kazahana saat sistem dinyalakan",
     "feedVisibility": "Atur feed yang ditampilkan",
-    "feedOrderHint": "Drag and drop to reorder feeds. Checkboxes toggle visibility.",
+    "feedOrderHint": "Seret dan lepas untuk mengubah urutan feed. Centang untuk mengubah visibilitas.",
     "hiddenFeedsLabel": "Feed tersembunyi",
     "noFeeds": "Tidak ada feed atau daftar",
     "showAllInQuickJump": "Tampilkan semua feed di menu dropdown pemilihan feed",
@@ -291,7 +292,8 @@
     "closeActionMinimizeHint": "Saat diminimalkan ke system tray, klik kanan ikon tray dan pilih \"Keluar\" untuk menutup program.",
     "closeActionMinimizeHint_macos": "Saat diminimalkan ke Dock, klik kanan ikon Dock dan pilih \"Keluar\" untuk menutup program.",
     "draftImageWarning": "Konfirmasi Simpan Draf",
-    "enableDraftImageWarning": "Tampilkan peringatan sebelum menyimpan draf dengan gambar"
+    "enableDraftImageWarning": "Tampilkan peringatan sebelum menyimpan draf dengan gambar",
+    "videoVolume": "Volume Video"
   },
   "confirm": {
     "ok": "OK",

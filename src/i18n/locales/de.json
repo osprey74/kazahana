@@ -171,6 +171,7 @@
     "addVideo": "Video hinzufügen (max. 100MB)",
     "altPlaceholder": "Videobeschreibung (ALT)",
     "uploading": "Video wird hochgeladen...",
+    "processing": "Video wird verarbeitet...",
     "error": {
       "notAuthenticated": "Anmeldung erforderlich",
       "limitReached": "Tägliches Video-Upload-Limit erreicht",
@@ -216,7 +217,8 @@
     "blockedByUser": "Dieser Benutzer hat dich blockiert",
     "manageList": "Zu Listen hinzufügen/entfernen",
     "searchPlaceholder": "Beiträge dieses Benutzers durchsuchen",
-    "noSearchResults": "Keine Suchergebnisse"
+    "noSearchResults": "Keine Suchergebnisse",
+    "likesUnavailable": "Likes sind für dieses Konto nicht verfügbar"
   },
   "search": {
     "placeholder": "Nutzer oder Beiträge suchen...",
@@ -253,7 +255,7 @@
     "autoStart": "Autostart",
     "enableAutoStart": "Kazahana beim Systemstart starten",
     "feedVisibility": "Sichtbare Feeds konfigurieren",
-    "feedOrderHint": "Drag and drop to reorder feeds. Checkboxes toggle visibility.",
+    "feedOrderHint": "Ziehen und ablegen, um die Reihenfolge zu ändern. Kontrollkästchen schalten die Sichtbarkeit um.",
     "hiddenFeedsLabel": "Ausgeblendete Feeds",
     "noFeeds": "Keine Feeds oder Listen",
     "showAllInQuickJump": "Alle Feeds im Feed-Auswahl-Dropdown anzeigen",
@@ -290,7 +292,8 @@
     "closeActionMinimizeHint": "Wenn in die Taskleiste minimiert, klicken Sie mit der rechten Maustaste auf das Taskleistensymbol und wählen Sie \"Beenden\", um das Programm zu schließen.",
     "closeActionMinimizeHint_macos": "Wenn ins Dock minimiert, klicken Sie mit der rechten Maustaste auf das Dock-Symbol und wählen Sie \"Beenden\", um das Programm zu schließen.",
     "draftImageWarning": "Entwurf-Speicherbestätigung",
-    "enableDraftImageWarning": "Warnung vor dem Speichern von Entwürfen mit Bildern anzeigen"
+    "enableDraftImageWarning": "Warnung vor dem Speichern von Entwürfen mit Bildern anzeigen",
+    "videoVolume": "Video-Lautstärke"
   },
   "confirm": {
     "ok": "OK",

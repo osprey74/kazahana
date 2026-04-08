@@ -217,7 +217,8 @@
     "blockedByUser": "이 사용자가 당신을 차단했습니다",
     "manageList": "리스트에 추가/삭제",
     "searchPlaceholder": "이 사용자의 게시물 검색",
-    "noSearchResults": "검색 결과가 없습니다"
+    "noSearchResults": "검색 결과가 없습니다",
+    "likesUnavailable": "이 계정의 좋아요를 볼 수 없습니다"
   },
   "search": {
     "placeholder": "사용자 또는 게시물 검색…",
@@ -254,7 +255,7 @@
     "autoStart": "자동 시작",
     "enableAutoStart": "시스템 시작 시 kazahana 자동 실행",
     "feedVisibility": "표시할 피드 설정",
-    "feedOrderHint": "Drag and drop to reorder feeds. Checkboxes toggle visibility.",
+    "feedOrderHint": "드래그 앤 드롭으로 피드 순서를 변경합니다. 체크박스로 표시/숨기기를 전환합니다.",
     "hiddenFeedsLabel": "숨겨진 피드",
     "noFeeds": "피드나 리스트가 없습니다",
     "showAllInQuickJump": "피드 선택 드롭다운 메뉴에 모든 피드 표시",
@@ -291,7 +292,8 @@
     "closeActionMinimizeHint": "시스템 트레이로 최소화된 경우, 트레이 아이콘을 마우스 오른쪽 클릭하고 \"종료\"를 선택하여 프로그램을 종료하세요.",
     "closeActionMinimizeHint_macos": "Dock으로 최소화된 경우, Dock 아이콘을 마우스 오른쪽 클릭하고 \"종료\"를 선택하여 프로그램을 종료하세요.",
     "draftImageWarning": "임시저장 확인",
-    "enableDraftImageWarning": "이미지가 포함된 임시저장 전 경고 표시"
+    "enableDraftImageWarning": "이미지가 포함된 임시저장 전 경고 표시",
+    "videoVolume": "동영상 볼륨"
   },
   "confirm": {
     "ok": "확인",
@@ -344,7 +346,7 @@
     "feeds": "피드",
     "membersList": "멤버",
     "noMembers": "멤버가 없습니다",
-    "feedBy": "by {{name}}"
+    "feedBy": "{{name}} 제작"
   },
   "listManagement": {
     "title": "리스트에 추가/삭제",

@@ -217,7 +217,8 @@
     "blockedByUser": "Этот пользователь заблокировал вас",
     "manageList": "Добавить/Удалить из списков",
     "searchPlaceholder": "Поиск публикаций пользователя",
-    "noSearchResults": "Результаты не найдены"
+    "noSearchResults": "Результаты не найдены",
+    "likesUnavailable": "Лайки недоступны для этого аккаунта"
   },
   "search": {
     "placeholder": "Поиск пользователей или постов...",
@@ -254,7 +255,7 @@
     "autoStart": "Автозапуск",
     "enableAutoStart": "Запускать kazahana при старте системы",
     "feedVisibility": "Настроить отображаемые ленты",
-    "feedOrderHint": "Drag and drop to reorder feeds. Checkboxes toggle visibility.",
+    "feedOrderHint": "Перетащите для изменения порядка. Флажки переключают видимость.",
     "hiddenFeedsLabel": "Скрытые ленты",
     "noFeeds": "Нет лент или списков",
     "showAllInQuickJump": "Показывать все ленты в выпадающем меню выбора лент",
@@ -291,7 +292,8 @@
     "closeActionMinimizeHint": "При сворачивании в системный трей щёлкните правой кнопкой мыши по значку в трее и выберите \"Выход\", чтобы закрыть программу.",
     "closeActionMinimizeHint_macos": "При сворачивании в Dock щёлкните правой кнопкой мыши по значку в Dock и выберите \"Завершить\", чтобы закрыть программу.",
     "draftImageWarning": "Подтверждение сохранения черновика",
-    "enableDraftImageWarning": "Показывать предупреждение перед сохранением черновиков с изображениями"
+    "enableDraftImageWarning": "Показывать предупреждение перед сохранением черновиков с изображениями",
+    "videoVolume": "Громкость видео"
   },
   "confirm": {
     "ok": "ОК",

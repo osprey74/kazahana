@@ -217,7 +217,8 @@
     "blockedByUser": "Este usuário bloqueou você",
     "manageList": "Adicionar/Remover de listas",
     "searchPlaceholder": "Pesquisar publicações deste usuário",
-    "noSearchResults": "Nenhum resultado encontrado"
+    "noSearchResults": "Nenhum resultado encontrado",
+    "likesUnavailable": "As curtidas não estão disponíveis para esta conta"
   },
   "search": {
     "placeholder": "Buscar usuários ou publicações...",
@@ -254,7 +255,7 @@
     "autoStart": "Inicialização automática",
     "enableAutoStart": "Iniciar kazahana ao ligar o sistema",
     "feedVisibility": "Configurar feeds visíveis",
-    "feedOrderHint": "Drag and drop to reorder feeds. Checkboxes toggle visibility.",
+    "feedOrderHint": "Arraste e solte para reordenar os feeds. As caixas de seleção alternam a visibilidade.",
     "hiddenFeedsLabel": "Feeds ocultos",
     "noFeeds": "Sem feeds ou listas",
     "showAllInQuickJump": "Mostrar todos os feeds no menu suspenso de seleção de feeds",
@@ -291,7 +292,8 @@
     "closeActionMinimizeHint": "Quando minimizado na bandeja do sistema, clique com o botão direito no ícone da bandeja e selecione \"Sair\" para encerrar o programa.",
     "closeActionMinimizeHint_macos": "Quando minimizado no Dock, clique com o botão direito no ícone do Dock e selecione \"Sair\" para encerrar o programa.",
     "draftImageWarning": "Confirmação de Salvamento de Rascunho",
-    "enableDraftImageWarning": "Mostrar aviso antes de salvar rascunhos com imagens"
+    "enableDraftImageWarning": "Mostrar aviso antes de salvar rascunhos com imagens",
+    "videoVolume": "Volume do vídeo"
   },
   "confirm": {
     "ok": "OK",

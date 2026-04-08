@@ -171,6 +171,7 @@
     "addVideo": "Añadir vídeo (máx. 100MB)",
     "altPlaceholder": "Descripción del vídeo (ALT)",
     "uploading": "Subiendo vídeo...",
+    "processing": "Procesando vídeo...",
     "error": {
       "notAuthenticated": "Inicio de sesión requerido",
       "limitReached": "Límite diario de subida de vídeos alcanzado",
@@ -216,7 +217,8 @@
     "blockedByUser": "Este usuario te ha bloqueado",
     "manageList": "Añadir/Quitar de listas",
     "searchPlaceholder": "Buscar publicaciones de este usuario",
-    "noSearchResults": "Sin resultados de búsqueda"
+    "noSearchResults": "Sin resultados de búsqueda",
+    "likesUnavailable": "Los me gusta no están disponibles para esta cuenta"
   },
   "search": {
     "placeholder": "Buscar usuarios o publicaciones...",
@@ -253,7 +255,7 @@
     "autoStart": "Inicio automático",
     "enableAutoStart": "Iniciar kazahana al arrancar el sistema",
     "feedVisibility": "Configurar feeds visibles",
-    "feedOrderHint": "Drag and drop to reorder feeds. Checkboxes toggle visibility.",
+    "feedOrderHint": "Arrastra y suelta para reordenar los feeds. Las casillas alternan la visibilidad.",
     "hiddenFeedsLabel": "Feeds ocultos",
     "noFeeds": "No hay feeds ni listas",
     "showAllInQuickJump": "Mostrar todos los feeds en el menú desplegable de selección de feeds",
@@ -290,7 +292,8 @@
     "closeActionMinimizeHint": "Cuando se minimiza a la bandeja del sistema, haga clic derecho en el icono de la bandeja y seleccione \"Salir\" para cerrar el programa.",
     "closeActionMinimizeHint_macos": "Cuando se minimiza al Dock, haga clic derecho en el icono del Dock y seleccione \"Salir\" para cerrar el programa.",
     "draftImageWarning": "Confirmación de guardado de borrador",
-    "enableDraftImageWarning": "Mostrar advertencia antes de guardar borradores con imágenes"
+    "enableDraftImageWarning": "Mostrar advertencia antes de guardar borradores con imágenes",
+    "videoVolume": "Volumen de vídeo"
   },
   "confirm": {
     "ok": "OK",

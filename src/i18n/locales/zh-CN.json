@@ -217,7 +217,8 @@
     "blockedByUser": "此用户已屏蔽你",
     "manageList": "添加/移除列表",
     "searchPlaceholder": "搜索该用户的帖子",
-    "noSearchResults": "没有搜索结果"
+    "noSearchResults": "没有搜索结果",
+    "likesUnavailable": "此账户的点赞不可用"
   },
   "search": {
     "placeholder": "搜索用户或帖子…",
@@ -254,7 +255,7 @@
     "autoStart": "自动启动",
     "enableAutoStart": "系统启动时自动启动 kazahana",
     "feedVisibility": "设置显示的信息流",
-    "feedOrderHint": "Drag and drop to reorder feeds. Checkboxes toggle visibility.",
+    "feedOrderHint": "拖放以重新排列 Feed。勾选框切换显示/隐藏。",
     "hiddenFeedsLabel": "已隐藏的信息流",
     "noFeeds": "没有信息流或列表",
     "showAllInQuickJump": "在信息流选择下拉菜单中显示所有信息流",
@@ -291,7 +292,8 @@
     "closeActionMinimizeHint": "最小化到系统托盘后，右键单击托盘图标并选择\"退出\"以关闭程序。",
     "closeActionMinimizeHint_macos": "最小化到 Dock 后，右键单击 Dock 图标并选择\"退出\"以关闭程序。",
     "draftImageWarning": "草稿保存确认",
-    "enableDraftImageWarning": "保存含图片的草稿前显示警告"
+    "enableDraftImageWarning": "保存含图片的草稿前显示警告",
+    "videoVolume": "视频音量"
   },
   "confirm": {
     "ok": "确定",
@@ -344,7 +346,7 @@
     "feeds": "信息流",
     "membersList": "成员",
     "noMembers": "没有成员",
-    "feedBy": "by {{name}}"
+    "feedBy": "由 {{name}} 创建"
   },
   "listManagement": {
     "title": "添加/移除列表",
