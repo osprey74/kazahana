@@ -1,6 +1,6 @@
 # kazahana Platform Feature Matrix
 
-> **Last updated:** 2026-04-07 (Desktop v2.4.1: ウォーターマーク機能実装。Android: マルチアカウント実装完了)
+> **Last updated:** 2026-04-08 (Desktop v2.4.4: ウォーターマーク機能拡張（ランダム・タイリング配置、文字色、プレビュー、多言語対応）)
 > **Source:** Compiled from the following repositories
 > - Desktop (Win/macOS): https://github.com/osprey74/kazahana
 > - iOS: https://github.com/osprey74/kazahana-ios
