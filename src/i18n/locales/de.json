@@ -64,7 +64,15 @@
     "blockUser": "Diesen Benutzer blockieren",
     "unblockUser": "Blockierung aufheben",
     "quotePost": "Beitrag zitieren",
-    "viewQuotes": "Zitate anzeigen"
+    "viewQuotes": "Zitate anzeigen",
+    "showOriginalSize": "Originalgröße anzeigen",
+    "originalSizeTitle": "Originalgröße des Bildes",
+    "originalSizeImage": "Bild {{n}}",
+    "originalSizeBytes": "Größe",
+    "originalSizeDimensions": "Abmessungen",
+    "originalSizeType": "Typ",
+    "originalSizeNote": "Dies sind die auf dem PDS gespeicherten Rohbytes. In Feeds werden Bilder von cdn.bsky.app neu kodiert.",
+    "originalSizeClose": "Schließen"
   },
   "notification": {
     "liked": "gefällt dein Beitrag",

@@ -237,3 +237,15 @@ Collaborator: よつぎnん / @yotsugin.bsky.social
 - [x] 投稿カードへのALTテキスト表示 — 画像にALTテキストがある場合、投稿カード上に先頭128文字までを表示。128文字を超過する場合は画像タップ後の詳細画面で全文を表示
 - [x] 下書き機能（20件） — 投稿の下書きを最大20件まで保存・管理できる機能を実装
 - [x] DM新規会話作成履歴 — 新規メッセージ作成時の宛先履歴を最大20件保存、検索未入力時に「最近の宛先」として表示、個別削除対応（dmRecipientHistoryStore）
+
+## Bluesky Image Spec 2026-04 対応 Phase 1 (2026-04-23)
+
+> 参照: `g:/dev/HANDOFF_kazahana-bsky-image-spec.md`（全3プラットフォーム共通 Handoff）
+> 対象: atproto PR #4823（2MB拡張、2026-04-08 merge済み）への追従。Phase 2（`app.bsky.embed.gallery` 10枚対応）は PR #4827 merge 待ち。
+
+- [x] **[D-1] 画像アップロード上限を 2MB へ引き上げ + 1MB フォールバック** — `IMAGE_MAX_BYTES` を `1_000_000` → `2_000_000`。PDS が古い atproto サーバコードを動かしている場合の `BlobTooLarge` / 413 検出時に `IMAGE_FALLBACK_BYTES` (1MB) で再圧縮して一度だけリトライ (`src/hooks/usePost.ts` の `uploadImageBlobWithFallback`)
+- [x] **[D-2] 公式互換ダウンサイジング** — social-app PR #10117 と同じアルゴリズムを移植: 最大寸法 `min(longerSide, 4000)` スタート、`×0.8` で反復、最大5段。解像度を維持できるならJPEG品質下げ優先、不可なら解像度を落とす内外二重ループ (`src/lib/imageCompress.ts` 新規)
+- [x] **[D-3] `aspectRatio` を画像 embed に付与** — 従来 video のみだった `aspectRatio` を `app.bsky.embed.images` にも送信。`src/components/post/ComposeModal.tsx` の `submitPost` で `getImageDimensions` により各画像の寸法を取得し、`src/hooks/usePost.ts` の image embed 組み立てで含める。`app.bsky.embed.gallery` では必須フィールドになる予定のため先行対応
+- [x] 圧縮ユーティリティの共通化 — ComposeModal / usePost / 今後のDM画像送信からも使えるよう `src/lib/imageCompress.ts` に抽出。公開関数: `compressImage` / `compressImageFile` / `getImageDimensions` / `isBlobTooLargeError`、定数: `IMAGE_MAX_BYTES` / `IMAGE_FALLBACK_BYTES`
+- [x] ComposeModal: D&D で画像ドロップ後にオーバーレイが消えないバグ修正 — 内側 `ImageUpload` ドロップゾーンが `stopPropagation` するため外側モーダルの `setIsDragging(false)` が発火しない問題を、全入力経路が通る `compressAndAddImages` 先頭で解消
+- [x] 投稿メニューに「原本サイズを表示」項目を追加 — 画像付きポストの三点メニューから原本バイト数・寸法・MIME Type を確認できるダイアログを表示。AT Protocol の BlobRef が record 内に `size` / `mimeType` / `ref.$link` を持つためネットワーク不要（`com.atproto.sync.getBlob` 経由の HEAD などは呼ばない）。`recordWithMedia`（引用＋画像）embed にも対応。CDN が再圧縮する旨の注記付き。全11言語i18n対応

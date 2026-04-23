@@ -64,7 +64,15 @@
     "blockUser": "Bloquear este usuario",
     "unblockUser": "Desbloquear este usuario",
     "quotePost": "Citar publicación",
-    "viewQuotes": "Ver citas"
+    "viewQuotes": "Ver citas",
+    "showOriginalSize": "Mostrar tamaño original",
+    "originalSizeTitle": "Tamaño original de la imagen",
+    "originalSizeImage": "Imagen {{n}}",
+    "originalSizeBytes": "Tamaño",
+    "originalSizeDimensions": "Dimensiones",
+    "originalSizeType": "Tipo",
+    "originalSizeNote": "Estos son los bytes originales almacenados en el PDS. Las imágenes en los feeds son recodificadas por cdn.bsky.app.",
+    "originalSizeClose": "Cerrar"
   },
   "notification": {
     "liked": "le dio me gusta a tu publicación",

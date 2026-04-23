@@ -64,7 +64,15 @@
     "blockUser": "屏蔽此用户",
     "unblockUser": "取消屏蔽",
     "quotePost": "引用帖子",
-    "viewQuotes": "查看引用"
+    "viewQuotes": "查看引用",
+    "showOriginalSize": "显示原图大小",
+    "originalSizeTitle": "原图大小",
+    "originalSizeImage": "图片 {{n}}",
+    "originalSizeBytes": "大小",
+    "originalSizeDimensions": "尺寸",
+    "originalSizeType": "类型",
+    "originalSizeNote": "这是存储在 PDS 上的原始字节。时间线中显示的图片由 cdn.bsky.app 重新编码。",
+    "originalSizeClose": "关闭"
   },
   "notification": {
     "liked": "赞了你的帖子",

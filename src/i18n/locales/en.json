@@ -64,7 +64,15 @@
     "blockUser": "Block this user",
     "unblockUser": "Unblock this user",
     "quotePost": "Quote post",
-    "viewQuotes": "View quotes"
+    "viewQuotes": "View quotes",
+    "showOriginalSize": "Show original size",
+    "originalSizeTitle": "Original image size",
+    "originalSizeImage": "Image {{n}}",
+    "originalSizeBytes": "Size",
+    "originalSizeDimensions": "Dimensions",
+    "originalSizeType": "Type",
+    "originalSizeNote": "These are the raw bytes stored on the PDS. Images in feeds are re-encoded by cdn.bsky.app.",
+    "originalSizeClose": "Close"
   },
   "notification": {
     "liked": "liked your post",

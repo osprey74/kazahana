@@ -64,7 +64,15 @@
     "blockUser": "이 사용자 차단",
     "unblockUser": "차단 해제",
     "quotePost": "게시물 인용",
-    "viewQuotes": "인용 보기"
+    "viewQuotes": "인용 보기",
+    "showOriginalSize": "원본 크기 표시",
+    "originalSizeTitle": "원본 이미지 크기",
+    "originalSizeImage": "이미지 {{n}}",
+    "originalSizeBytes": "크기",
+    "originalSizeDimensions": "해상도",
+    "originalSizeType": "형식",
+    "originalSizeNote": "PDS에 저장된 원본 바이트입니다. 피드에 표시되는 이미지는 cdn.bsky.app에서 재인코딩됩니다.",
+    "originalSizeClose": "닫기"
   },
   "notification": {
     "liked": "님이 게시물을 좋아합니다",

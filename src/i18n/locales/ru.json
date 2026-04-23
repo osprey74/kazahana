@@ -64,7 +64,15 @@
     "blockUser": "Заблокировать пользователя",
     "unblockUser": "Разблокировать пользователя",
     "quotePost": "Цитировать пост",
-    "viewQuotes": "Посмотреть цитаты"
+    "viewQuotes": "Посмотреть цитаты",
+    "showOriginalSize": "Показать размер оригинала",
+    "originalSizeTitle": "Размер оригинала изображения",
+    "originalSizeImage": "Изображение {{n}}",
+    "originalSizeBytes": "Размер",
+    "originalSizeDimensions": "Разрешение",
+    "originalSizeType": "Тип",
+    "originalSizeNote": "Это исходные байты, хранящиеся на PDS. Изображения в лентах повторно кодируются cdn.bsky.app.",
+    "originalSizeClose": "Закрыть"
   },
   "notification": {
     "liked": "оценил(а) ваш пост",

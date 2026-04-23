@@ -57,7 +57,7 @@ Kazahana is designed as a **lightweight, always-running companion app** — not 
 - [x] Window size & position persistence (save on exit, restore on launch)
 - [x] System tray: left-click to restore, right-click menu (Open Window / Minimize / Exit)
 - [x] Configurable close button behavior (exit or minimize to tray)
-- [x] Image drag & drop onto compose modal (with auto-compression for large images)
+- [x] Image drag & drop onto compose modal (official-compatible auto-compression up to 2MB / 4000px, with 1MB fallback for legacy PDSes)
 - [x] Clipboard image paste (screenshot paste with JPEG compression)
 - [x] Image editor (90° rotation, crop with free/original/square aspect ratio)
 - [x] Translate button in post menu (Google Translate integration)
@@ -80,6 +80,7 @@ Kazahana is designed as a **lightweight, always-running companion app** — not 
 - [x] Bot automation label badge (robot icon for self-labeled bot accounts)
 - [x] Notification grouping (batch same-type actions, multi-avatar display)
 - [x] Bulk save images & videos from posts
+- [x] Show original image size from post menu (PDS-stored bytes, dimensions, MIME type — verifies the raw blob before cdn.bsky.app re-encoding)
 - [x] Multi-account support (add, switch, remove accounts with per-account feed/search settings)
 - [x] Image watermark (copyright / no-AI-training text overlay with 8 placement modes including random and tiling; opacity, font size, text color settings; localized stamp text; live preview)
 - [x] BSAF (Bluesky Structured Alert Feed) compatible client

@@ -17,35 +17,10 @@ import { DraftListModal } from "./DraftListModal";
 import { Avatar } from "../common/Avatar";
 import { Icon } from "../common/Icon";
 import { useDraftStore, compressForDraft, dataUrlToFile, type PostDraft } from "../../stores/draftStore";
+import { compressImageFile, getImageDimensions } from "../../lib/imageCompress";
 
 const MAX_GRAPHEMES = 300;
-const IMAGE_MAX_BYTES = 1_000_000; // 1MB — Bluesky image upload limit (images exceeding this are auto-compressed)
-const IMAGE_MAX_WIDTH = 2048;
 const IMAGE_ACCEPTED = ["image/jpeg", "image/png", "image/webp"];
-
-/** Compress a pasted image (e.g. screenshot) to fit within Bluesky's upload limit. */
-async function compressImageFile(file: File): Promise<File> {
-  if (file.size <= IMAGE_MAX_BYTES) return file;
-
-  const img = await createImageBitmap(file);
-  const scale = Math.min(1, IMAGE_MAX_WIDTH / img.width);
-  const w = Math.round(img.width * scale);
-  const h = Math.round(img.height * scale);
-
-  const canvas = new OffscreenCanvas(w, h);
-  const ctx = canvas.getContext("2d")!;
-  ctx.drawImage(img, 0, 0, w, h);
-  img.close();
-
-  for (let quality = 0.85; quality >= 0.3; quality -= 0.1) {
-    const blob = await canvas.convertToBlob({ type: "image/jpeg", quality });
-    if (blob.size <= IMAGE_MAX_BYTES) {
-      return new File([blob], "screenshot.jpg", { type: "image/jpeg" });
-    }
-  }
-  const fallback = await canvas.convertToBlob({ type: "image/jpeg", quality: 0.2 });
-  return new File([fallback], "screenshot.jpg", { type: "image/jpeg" });
-}
 
 function countGraphemes(text: string): number {
   if (typeof Intl !== "undefined" && Intl.Segmenter) {
@@ -190,6 +165,9 @@ export function ComposeModal() {
 
   /** Compress files that exceed the upload limit and add them as images. */
   const compressAndAddImages = useCallback(async (rawFiles: File[]) => {
+    // Drops on ImageUpload's inner zone stop propagation, so the outer modal
+    // drop handler never runs. Clear the overlay here so every input path wins.
+    setIsDragging(false);
     setIsCompressing(true);
     try {
       const compressed: File[] = [];
@@ -379,8 +357,16 @@ export function ComposeModal() {
   const submitPost = async (finalImages: ImageFile[]) => {
     const imageData = await Promise.all(
       finalImages.map(async (img) => {
-        const buf = await img.file.arrayBuffer();
-        return { data: new Uint8Array(buf), mimeType: img.file.type, alt: img.alt };
+        const [buf, dim] = await Promise.all([
+          img.file.arrayBuffer(),
+          getImageDimensions(img.file),
+        ]);
+        return {
+          data: new Uint8Array(buf),
+          mimeType: img.file.type,
+          alt: img.alt,
+          aspectRatio: dim,
+        };
       }),
     );
 

@@ -64,7 +64,15 @@
     "blockUser": "Blokir pengguna ini",
     "unblockUser": "Buka blokir pengguna ini",
     "quotePost": "Kutip postingan",
-    "viewQuotes": "Lihat kutipan"
+    "viewQuotes": "Lihat kutipan",
+    "showOriginalSize": "Tampilkan ukuran asli",
+    "originalSizeTitle": "Ukuran gambar asli",
+    "originalSizeImage": "Gambar {{n}}",
+    "originalSizeBytes": "Ukuran",
+    "originalSizeDimensions": "Dimensi",
+    "originalSizeType": "Jenis",
+    "originalSizeNote": "Ini adalah byte asli yang disimpan di PDS. Gambar di feed dikompres ulang oleh cdn.bsky.app.",
+    "originalSizeClose": "Tutup"
   },
   "notification": {
     "liked": "menyukai postingan Anda",

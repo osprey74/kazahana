@@ -254,6 +254,86 @@ function getMediaVideo(post: PostView): MediaVideo | null {
   return null;
 }
 
+interface OriginalImageInfo {
+  index: number;
+  cid: string;
+  mimeType: string;
+  size: number;
+  aspectRatio?: { width: number; height: number };
+}
+
+/**
+ * Extract image blob metadata from the raw post record.
+ * BlobRef carries size/mimeType/cid inline, so we can show original bytes
+ * without hitting com.atproto.sync.getBlob — handy for verifying that the
+ * 2 MB upload path (atproto #4823) is actually round-tripping end-to-end,
+ * since cdn.bsky.app always re-encodes for display.
+ */
+function getImageBlobs(post: PostView): OriginalImageInfo[] {
+  const record = post.record as { embed?: unknown } | undefined;
+  const embed = record?.embed as
+    | {
+        $type?: string;
+        images?: unknown[];
+        media?: { $type?: string; images?: unknown[] };
+      }
+    | undefined;
+  if (!embed) return [];
+
+  let rawImages: unknown[] | undefined;
+  if (embed.$type === "app.bsky.embed.images") {
+    rawImages = embed.images;
+  } else if (
+    embed.$type === "app.bsky.embed.recordWithMedia" &&
+    embed.media?.$type === "app.bsky.embed.images"
+  ) {
+    rawImages = embed.media.images;
+  }
+  if (!rawImages) return [];
+
+  const out: OriginalImageInfo[] = [];
+  for (let i = 0; i < rawImages.length; i++) {
+    const entry = rawImages[i] as { image?: unknown; aspectRatio?: unknown } | undefined;
+    const blob = entry?.image as
+      | {
+          size?: number;
+          mimeType?: string;
+          ref?: { $link?: string; toString?: () => string };
+        }
+      | undefined;
+    if (!blob || typeof blob.size !== "number") continue;
+
+    const refLink =
+      blob.ref && typeof blob.ref === "object" && typeof blob.ref.$link === "string"
+        ? blob.ref.$link
+        : blob.ref
+          ? String(blob.ref)
+          : "";
+    if (!refLink) continue;
+
+    const ar = entry?.aspectRatio as { width?: number; height?: number } | undefined;
+    const aspectRatio =
+      ar && typeof ar.width === "number" && typeof ar.height === "number"
+        ? { width: ar.width, height: ar.height }
+        : undefined;
+
+    out.push({
+      index: i,
+      cid: refLink,
+      mimeType: typeof blob.mimeType === "string" ? blob.mimeType : "",
+      size: blob.size,
+      aspectRatio,
+    });
+  }
+  return out;
+}
+
+function formatBytes(n: number): string {
+  if (n < 1024) return `${n} B`;
+  if (n < 1024 * 1024) return `${(n / 1024).toFixed(1)} KB`;
+  return `${(n / (1024 * 1024)).toFixed(2)} MB`;
+}
+
 function detectImageExt(buffer: Uint8Array): string {
   if (buffer.length >= 4) {
     if (buffer[0] === 0x89 && buffer[1] === 0x50 && buffer[2] === 0x4E && buffer[3] === 0x47) return "png";
@@ -273,7 +353,9 @@ function PostMenu({ post, isOwnPost, onSavingMediaChange }: { post: PostView; is
   const [confirming, setConfirming] = useState(false);
   const [confirmingBlock, setConfirmingBlock] = useState(false);
   const [savingMedia, setSavingMedia] = useState(false);
+  const [showOriginalSize, setShowOriginalSize] = useState(false);
   const [threadMuted, setThreadMuted] = useState(!!post.viewer?.threadMuted);
+  const imageBlobs = getImageBlobs(post);
   const deletePost = useDeletePost();
   const muteActor = useMuteActor();
   const unmuteActor = useUnmuteActor();
@@ -503,6 +585,15 @@ function PostMenu({ post, isOwnPost, onSavingMediaChange }: { post: PostView; is
                   <span>{savingMedia ? t("post.savingMedia") : t("post.saveMedia")}</span>
                 </button>
               )}
+              {imageBlobs.length > 0 && (
+                <button
+                  onClick={() => { setOpen(false); setShowOriginalSize(true); }}
+                  className="w-full flex items-center gap-2 px-3 py-2 text-sm text-text-light dark:text-text-dark hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                >
+                  <Icon name="photo_size_select_large" size={16} />
+                  <span>{t("post.showOriginalSize")}</span>
+                </button>
+              )}
               {!isOwnPost && (
                 <>
                   <div className="my-1 border-t border-border-light dark:border-border-dark" />
@@ -575,6 +666,45 @@ function PostMenu({ post, isOwnPost, onSavingMediaChange }: { post: PostView; is
                 {t("post.deleteAction")}
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Original image size modal */}
+      {showOriginalSize && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" onClick={(e) => { e.stopPropagation(); setShowOriginalSize(false); }}>
+          <div className="bg-white dark:bg-bg-dark border border-border-light dark:border-border-dark rounded-xl shadow-xl p-5 mx-4 max-w-sm w-full" onClick={(e) => e.stopPropagation()}>
+            <p className="text-sm font-medium text-text-light dark:text-text-dark mb-3">{t("post.originalSizeTitle")}</p>
+            <div className="space-y-2 mb-3 max-h-[50vh] overflow-y-auto">
+              {imageBlobs.map((info) => (
+                <div key={info.cid} className="text-xs text-text-light dark:text-text-dark border border-border-light dark:border-border-dark rounded p-2">
+                  <div className="font-medium mb-0.5">{t("post.originalSizeImage", { n: info.index + 1 })}</div>
+                  <div className="flex justify-between gap-2">
+                    <span className="text-gray-500 dark:text-gray-400">{t("post.originalSizeBytes")}</span>
+                    <span className="font-mono">{formatBytes(info.size)}</span>
+                  </div>
+                  {info.aspectRatio && (
+                    <div className="flex justify-between gap-2">
+                      <span className="text-gray-500 dark:text-gray-400">{t("post.originalSizeDimensions")}</span>
+                      <span className="font-mono">{info.aspectRatio.width}×{info.aspectRatio.height}</span>
+                    </div>
+                  )}
+                  {info.mimeType && (
+                    <div className="flex justify-between gap-2">
+                      <span className="text-gray-500 dark:text-gray-400">{t("post.originalSizeType")}</span>
+                      <span className="font-mono">{info.mimeType}</span>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+            <p className="text-[11px] text-gray-500 dark:text-gray-400 mb-3 leading-snug">{t("post.originalSizeNote")}</p>
+            <button
+              onClick={() => setShowOriginalSize(false)}
+              className="w-full py-2 text-sm font-medium rounded-lg border border-border-light dark:border-border-dark text-text-light dark:text-text-dark hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            >
+              {t("post.originalSizeClose")}
+            </button>
           </div>
         </div>
       )}

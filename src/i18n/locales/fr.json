@@ -64,7 +64,15 @@
     "blockUser": "Bloquer cet utilisateur",
     "unblockUser": "Débloquer cet utilisateur",
     "quotePost": "Citer la publication",
-    "viewQuotes": "Voir les citations"
+    "viewQuotes": "Voir les citations",
+    "showOriginalSize": "Afficher la taille d'origine",
+    "originalSizeTitle": "Taille d'origine de l'image",
+    "originalSizeImage": "Image {{n}}",
+    "originalSizeBytes": "Taille",
+    "originalSizeDimensions": "Dimensions",
+    "originalSizeType": "Type",
+    "originalSizeNote": "Voici les octets bruts stockés sur le PDS. Les images dans les flux sont ré-encodées par cdn.bsky.app.",
+    "originalSizeClose": "Fermer"
   },
   "notification": {
     "liked": "a aimé votre publication",

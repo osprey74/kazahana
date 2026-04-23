@@ -3,11 +3,19 @@ import { RichText } from "@atproto/api";
 import { fetch } from "@tauri-apps/plugin-http";
 import { getAgent } from "../lib/agent";
 import { useSettingsStore } from "../stores/settingsStore";
+import { compressImage, IMAGE_FALLBACK_BYTES, isBlobTooLargeError } from "../lib/imageCompress";
 import i18n from "../i18n";
+
+interface CreatePostImage {
+  data: Uint8Array;
+  mimeType: string;
+  alt: string;
+  aspectRatio?: { width: number; height: number };
+}
 
 interface CreatePostParams {
   text: string;
-  images?: { data: Uint8Array; mimeType: string; alt: string }[];
+  images?: CreatePostImage[];
   video?: { file: File; alt: string; aspectRatio?: { width: number; height: number } };
   external?: {
     uri: string;
@@ -234,6 +242,37 @@ function mimeToExt(mime: string): string {
   }
 }
 
+/**
+ * Upload a single image blob, retrying at IMAGE_FALLBACK_BYTES if the PDS
+ * rejects the blob for size. AppView accepts 2 MB since 2026-04-08, but
+ * PDSes on older atproto server builds may still enforce the 1 MB ceiling.
+ */
+async function uploadImageBlobWithFallback(
+  img: CreatePostImage,
+): Promise<{ blob: unknown; aspectRatio?: { width: number; height: number } }> {
+  const agent = getAgent();
+
+  try {
+    const res = await agent.uploadBlob(img.data, { encoding: img.mimeType });
+    return { blob: res.data.blob, aspectRatio: img.aspectRatio };
+  } catch (err) {
+    if (!isBlobTooLargeError(err) || img.data.byteLength <= IMAGE_FALLBACK_BYTES) {
+      throw err;
+    }
+    console.warn("[post] Blob rejected above 1 MB; retrying with legacy fallback compression");
+  }
+
+  const blobLike = new Blob([new Uint8Array(img.data)], { type: img.mimeType });
+  const recompressed = await compressImage(blobLike, IMAGE_FALLBACK_BYTES);
+  const retryBytes = new Uint8Array(await recompressed.blob.arrayBuffer());
+  const res = await agent.uploadBlob(retryBytes, { encoding: "image/jpeg" });
+  return {
+    blob: res.data.blob,
+    aspectRatio:
+      img.aspectRatio ?? { width: recompressed.width, height: recompressed.height },
+  };
+}
+
 export function useCreatePost() {
   const queryClient = useQueryClient();
 
@@ -246,15 +285,18 @@ export function useCreatePost() {
       await rt.detectFacets(agent);
 
       // Upload images if any
-      const imageEmbeds: { alt: string; image: unknown }[] = [];
+      const imageEmbeds: {
+        alt: string;
+        image: unknown;
+        aspectRatio?: { width: number; height: number };
+      }[] = [];
       if (images && images.length > 0) {
         for (const img of images) {
-          const res = await agent.uploadBlob(img.data, {
-            encoding: img.mimeType,
-          });
+          const uploaded = await uploadImageBlobWithFallback(img);
           imageEmbeds.push({
             alt: img.alt,
-            image: res.data.blob,
+            image: uploaded.blob,
+            ...(uploaded.aspectRatio ? { aspectRatio: uploaded.aspectRatio } : {}),
           });
         }
       }

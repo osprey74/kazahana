@@ -64,7 +64,15 @@
     "blockUser": "このユーザーをブロック",
     "unblockUser": "このユーザーのブロックを解除",
     "quotePost": "引用して投稿",
-    "viewQuotes": "引用一覧を見る"
+    "viewQuotes": "引用一覧を見る",
+    "showOriginalSize": "原本サイズを表示",
+    "originalSizeTitle": "原本画像サイズ",
+    "originalSizeImage": "画像{{n}}",
+    "originalSizeBytes": "サイズ",
+    "originalSizeDimensions": "寸法",
+    "originalSizeType": "種別",
+    "originalSizeNote": "PDS に保存された原本のバイト数です。タイムラインで表示される画像は cdn.bsky.app により再圧縮されています。",
+    "originalSizeClose": "閉じる"
   },
   "notification": {
     "liked": "がいいねしました",

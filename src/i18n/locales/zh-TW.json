@@ -64,7 +64,15 @@
     "blockUser": "封鎖此使用者",
     "unblockUser": "解除封鎖",
     "quotePost": "引用貼文",
-    "viewQuotes": "查看引用"
+    "viewQuotes": "查看引用",
+    "showOriginalSize": "顯示原圖大小",
+    "originalSizeTitle": "原圖大小",
+    "originalSizeImage": "圖片 {{n}}",
+    "originalSizeBytes": "大小",
+    "originalSizeDimensions": "尺寸",
+    "originalSizeType": "類型",
+    "originalSizeNote": "這是儲存在 PDS 上的原始位元組。時間軸中顯示的圖片由 cdn.bsky.app 重新編碼。",
+    "originalSizeClose": "關閉"
   },
   "notification": {
     "liked": "對你的貼文按讚",
