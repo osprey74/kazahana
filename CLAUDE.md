@@ -30,8 +30,8 @@
   - `src-tauri/Cargo.toml`
   - `src-tauri/tauri.conf.json`
 - **extra_version_files**:
-  - `docs/en/guide/index.html`
-  - `docs/ja/guide/index.html`
+  - `docs/en/guide/index.md`
+  - `docs/ja/guide/index.md`
 - **cargo_lockfile**: true
 
 ## CI/CD
