@@ -5,6 +5,7 @@ import { moderatePost } from "@atproto/api";
 import type { FeedViewPost } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
 import { useTimeline } from "../../hooks/useTimeline";
 import { useBsafDuplicates } from "../../hooks/useBsafDuplicates";
+import { useScrollRestoration } from "../../hooks/useScrollRestoration";
 import { useBsafStore } from "../../stores/bsafStore";
 import { parseBsafTags, shouldShowBsafPost } from "../../lib/bsaf";
 import { useModerationOpts } from "../../contexts/ModerationContext";
@@ -76,6 +77,19 @@ export function TimelineView() {
     }
   }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
+  const { initialTopMostItemIndex, onRangeChanged: onScrollRangeChanged } = useScrollRestoration({
+    items: filteredItems,
+    firstItemIndex,
+  });
+
+  const handleRangeChanged = useCallback(
+    (range: { startIndex: number; endIndex: number }) => {
+      reportViewportTop(range.startIndex - firstItemIndex);
+      onScrollRangeChanged(range);
+    },
+    [reportViewportTop, firstItemIndex, onScrollRangeChanged],
+  );
+
   if (isLoading) return <LoadingSpinner />;
 
   if (isError) {
@@ -99,6 +113,7 @@ export function TimelineView() {
           customScrollParent={scrollParent}
           data={filteredItems}
           firstItemIndex={firstItemIndex}
+          initialTopMostItemIndex={initialTopMostItemIndex}
           computeItemKey={(_index, item: FeedViewPost) => {
             const reason = item.reason as {
               by?: { did?: string };
@@ -107,9 +122,7 @@ export function TimelineView() {
               ? `${item.post.uri}:repost:${reason.by.did}`
               : item.post.uri;
           }}
-          rangeChanged={(range) => {
-            reportViewportTop(range.startIndex - firstItemIndex);
-          }}
+          rangeChanged={handleRangeChanged}
           endReached={loadMore}
           itemContent={(_index, item: FeedViewPost) => (
             <>

@@ -457,6 +457,16 @@ export function SettingsView() {
             {t("settings.hiddenPosts")}
             <Icon name="chevron_right" size={16} />
           </button>
+
+          {/* View history link */}
+          <button
+            onClick={() => navigate("/settings/view-history")}
+            className="flex items-center gap-2 mt-3 text-sm text-primary hover:underline"
+          >
+            <Icon name="history" size={16} />
+            {t("settings.viewHistory")}
+            <Icon name="chevron_right" size={16} />
+          </button>
         </div>
       </section>
 

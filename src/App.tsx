@@ -14,6 +14,7 @@ import { SettingsView } from "./components/settings/SettingsView";
 import { LicenseView } from "./components/settings/LicenseView";
 import { ReadmeView } from "./components/settings/ReadmeView";
 import { HiddenPostsView } from "./components/settings/HiddenPostsView";
+import { ViewHistoryView } from "./components/settings/ViewHistoryView";
 import { FeedVisibilityView } from "./components/settings/FeedVisibilityView";
 import { BsafBotsView } from "./components/settings/BsafBotsView";
 import { StarterPackDetailView } from "./components/profile/StarterPackDetailView";
@@ -183,6 +184,7 @@ function AuthGate() {
               <Route path="/settings/license" element={<LicenseView />} />
               <Route path="/settings/readme" element={<ReadmeView />} />
               <Route path="/settings/hidden-posts" element={<HiddenPostsView />} />
+              <Route path="/settings/view-history" element={<ViewHistoryView />} />
               <Route path="/settings/feed-visibility" element={<FeedVisibilityView />} />
               <Route path="/settings/bsaf" element={<BsafBotsView />} />
             </Route>

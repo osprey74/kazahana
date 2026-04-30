@@ -17,6 +17,7 @@ import { isRateLimitError, getRateLimitDelay } from "../lib/rateLimit";
 import { syncLanguageFromBluesky } from "../lib/languageSync";
 import { useFeedStore } from "./feedStore";
 import { useSearchHistoryStore } from "./searchHistoryStore";
+import { useViewHistoryStore } from "./viewHistoryStore";
 
 interface AuthState {
   isLoggedIn: boolean;
@@ -61,6 +62,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       if (did) {
         useFeedStore.getState().initForAccount(did);
         useSearchHistoryStore.getState().initForAccount(did);
+        useViewHistoryStore.getState().initForAccount(did);
       }
       get().fetchProfile();
       syncLanguageFromBluesky();
@@ -138,6 +140,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       set({ isLoggedIn: true, isLoading: false, activeAccountDID: did, savedAccounts: accounts, profile: null });
       useFeedStore.getState().initForAccount(did);
       useSearchHistoryStore.getState().initForAccount(did);
+      useViewHistoryStore.getState().initForAccount(did);
       get().fetchProfile();
     } catch {
       // Session expired for this account — remove it and show error
@@ -177,6 +180,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       set({ isLoggedIn: true, isLoading: false, activeAccountDID: session.did });
       useFeedStore.getState().initForAccount(session.did);
       useSearchHistoryStore.getState().initForAccount(session.did);
+      useViewHistoryStore.getState().initForAccount(session.did);
       get().fetchProfile();
       syncLanguageFromBluesky();
     } catch {

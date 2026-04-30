@@ -1,10 +1,11 @@
 import { useParams, useNavigate, useLocation } from "react-router-dom";
-import { useState, useRef, useLayoutEffect } from "react";
+import { useEffect, useState, useRef, useLayoutEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { moderatePost } from "@atproto/api";
 import { isThreadViewPost as isThreadPost } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
 import type { PostView } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
 import { useThread } from "../../hooks/useThread";
+import { useViewHistoryStore } from "../../stores/viewHistoryStore";
 import { useModerationOpts } from "../../contexts/ModerationContext";
 import { LoadingSpinner } from "../common/LoadingSpinner";
 import { Avatar } from "../common/Avatar";
@@ -39,6 +40,11 @@ export function ThreadView() {
   const decodedUri = uri ? decodeURIComponent(uri) : "";
   const { data: thread, isLoading, isError } = useThread(decodedUri);
   const highlightRef = useRef<HTMLDivElement>(null);
+  const addToViewHistory = useViewHistoryStore((s) => s.addEntry);
+
+  useEffect(() => {
+    if (decodedUri) addToViewHistory(decodedUri);
+  }, [decodedUri, addToViewHistory]);
 
   // Collect parent chain (must be computed before hooks that depend on it)
   const threadPost = (!isLoading && !isError && thread && isThreadPost(thread))

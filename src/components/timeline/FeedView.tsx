@@ -4,6 +4,7 @@ import { Virtuoso } from "react-virtuoso";
 import { moderatePost } from "@atproto/api";
 import type { FeedViewPost } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
 import { useFeed } from "../../hooks/useFeed";
+import { useScrollRestoration } from "../../hooks/useScrollRestoration";
 import { useModerationOpts } from "../../contexts/ModerationContext";
 import { useBsafStore } from "../../stores/bsafStore";
 import { parseBsafTags, shouldShowBsafPost } from "../../lib/bsaf";
@@ -73,6 +74,10 @@ export function FeedView({ feed }: { feed: FeedSource }) {
     }
   }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
+  const { initialTopMostItemIndex, onRangeChanged } = useScrollRestoration({
+    items: filteredItems,
+  });
+
   if (isLoading) return <LoadingSpinner />;
 
   if (isError) {
@@ -101,6 +106,7 @@ export function FeedView({ feed }: { feed: FeedSource }) {
         <Virtuoso
           customScrollParent={scrollParent}
           data={filteredItems}
+          initialTopMostItemIndex={initialTopMostItemIndex}
           computeItemKey={(_index, item: FeedViewPost) => {
             const reason = item.reason as {
               by?: { did?: string };
@@ -109,6 +115,7 @@ export function FeedView({ feed }: { feed: FeedSource }) {
               ? `${item.post.uri}:repost:${reason.by.did}`
               : item.post.uri;
           }}
+          rangeChanged={onRangeChanged}
           endReached={loadMore}
           itemContent={(_index, item: FeedViewPost) => (
             <PostCard feedItem={item} />
