@@ -41,7 +41,8 @@
     "postFailed": "投稿に失敗しました",
     "newPost": "新しい投稿を作成",
     "fetchingLink": "リンク情報を取得中...",
-    "generateLinkCard": "リンクカード生成"
+    "generateLinkCard": "リンクカード生成",
+    "longForm": "長文を書く"
   },
   "post": {
     "reposted": "がリポスト",
@@ -307,7 +308,11 @@
     "addAccount": "アカウントを追加",
     "activeAccount": "使用中",
     "draftImageWarning": "下書き保存時の確認",
-    "enableDraftImageWarning": "画像を含む下書きの保存前に警告を表示する"
+    "enableDraftImageWarning": "画像を含む下書きの保存前に警告を表示する",
+    "longFormServiceUrl": "長文投稿サービスの URL",
+    "longFormServiceUrlPlaceholder": "https://...",
+    "longFormServiceUrlHint": "standard.site 対応サービスの URL（サービスのトップページ、自分の publication ページなど開きたい任意のページ）を設定すると、コンポーザに「長文を書く」ボタンが表示されます。押下するとブラウザでそのページを開きます。",
+    "longFormServiceUrlError": "https:// から始まる URL を入力してください"
   },
   "confirm": {
     "ok": "OK",

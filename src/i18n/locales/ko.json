@@ -41,7 +41,8 @@
     "newPost": "새 게시물 작성",
     "fetchingLink": "링크 정보를 가져오는 중…",
     "generateLinkCard": "링크 카드 생성",
-    "quotePlaceholder": "댓글 추가..."
+    "quotePlaceholder": "댓글 추가...",
+    "longForm": "장문 작성"
   },
   "post": {
     "reposted": "님이 리포스트함",
@@ -307,7 +308,11 @@
     "closeActionMinimizeHint_macos": "Dock으로 최소화된 경우, Dock 아이콘을 마우스 오른쪽 클릭하고 \"종료\"를 선택하여 프로그램을 종료하세요.",
     "draftImageWarning": "임시저장 확인",
     "enableDraftImageWarning": "이미지가 포함된 임시저장 전 경고 표시",
-    "videoVolume": "동영상 볼륨"
+    "videoVolume": "동영상 볼륨",
+    "longFormServiceUrl": "장문 게시 서비스 URL",
+    "longFormServiceUrlPlaceholder": "https://...",
+    "longFormServiceUrlHint": "standard.site 호환 서비스의 URL(서비스 홈페이지, 자신의 publication 페이지 등 열고 싶은 임의의 페이지)을 설정하면 작성기에 「장문 작성」 버튼이 표시됩니다. 클릭하면 브라우저에서 해당 페이지가 열립니다.",
+    "longFormServiceUrlError": "URL은 https:// 로 시작해야 합니다"
   },
   "confirm": {
     "ok": "확인",

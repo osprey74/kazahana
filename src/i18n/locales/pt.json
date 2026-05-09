@@ -41,7 +41,8 @@
     "newPost": "Nova publicação",
     "fetchingLink": "Obtendo informações do link...",
     "generateLinkCard": "Gerar cartão de link",
-    "quotePlaceholder": "Adicionar um comentário..."
+    "quotePlaceholder": "Adicionar um comentário...",
+    "longForm": "Escrever post longo"
   },
   "post": {
     "reposted": "repostou",
@@ -307,7 +308,11 @@
     "closeActionMinimizeHint_macos": "Quando minimizado no Dock, clique com o botão direito no ícone do Dock e selecione \"Sair\" para encerrar o programa.",
     "draftImageWarning": "Confirmação de Salvamento de Rascunho",
     "enableDraftImageWarning": "Mostrar aviso antes de salvar rascunhos com imagens",
-    "videoVolume": "Volume do vídeo"
+    "videoVolume": "Volume do vídeo",
+    "longFormServiceUrl": "URL do serviço de posts longos",
+    "longFormServiceUrlPlaceholder": "https://...",
+    "longFormServiceUrlHint": "Defina a URL de um serviço compatível com standard.site (a página inicial do serviço, sua página de publicação ou qualquer página que você queira abrir). Um botão \"Escrever post longo\" aparecerá no compositor e abrirá essa página no navegador.",
+    "longFormServiceUrlError": "A URL deve começar com https://"
   },
   "confirm": {
     "ok": "OK",

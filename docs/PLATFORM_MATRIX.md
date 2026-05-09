@@ -1,6 +1,6 @@
 # kazahana Platform Feature Matrix
 
-> **Last updated:** 2026-04-08 (Desktop v2.4.4: ウォーターマーク機能拡張（ランダム・タイリング配置、文字色、プレビュー、多言語対応）)
+> **Last updated:** 2026-05-09 (Desktop: 長文投稿サービス連携（standard.site 対応）追加)
 > **Source:** Compiled from the following repositories
 > - Desktop (Win/macOS): https://github.com/osprey74/kazahana
 > - iOS: https://github.com/osprey74/kazahana-ios
@@ -110,6 +110,7 @@
 | ウォーターマーク — 位置・不透明度・サイズ設定 | ✅ | ✅ | ⬜ | ⬜ | 6方向 / 不透明度 20〜100% / フォントサイズ 8〜20px |
 | ウォーターマーク — 投稿前確認モーダル | ✅ | ✅ | ⬜ | ⬜ | `confirmBeforePost` 設定。合成結果を確認してから送信。WMなし投稿ボタンあり |
 | ウォーターマーク — 動画スキップ設定 | ✅ | ✅ | ⬜ | ⬜ | `skipVideo` 設定。Phase 1 は動画本体へは非適用 |
+| 長文投稿サービス連携（standard.site） | ✅ | ✅ | ⬜ | ⬜ | 設定済み URL を OS 既定ブラウザで開く軽量ハンドオフ。HANDOFF_kazahana-standard-site.md 参照 |
 ---
 
 ## 5. 通知

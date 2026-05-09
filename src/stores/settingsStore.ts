@@ -17,6 +17,7 @@ interface SettingsState {
   imageOpenMode: ImageOpenMode;
   claudeApiKey: string;
   confirmDraftImageQuality: boolean;
+  longFormServiceUrl: string;
   setTheme: (theme: Theme) => void;
   setPollInterval: (seconds: number) => void;
   setDesktopNotification: (enabled: boolean) => void;
@@ -27,6 +28,7 @@ interface SettingsState {
   setImageOpenMode: (mode: ImageOpenMode) => void;
   setClaudeApiKey: (key: string) => void;
   setConfirmDraftImageQuality: (enabled: boolean) => void;
+  setLongFormServiceUrl: (url: string) => void;
   initAutoStart: () => void;
   initCloseAction: () => void;
 }
@@ -46,6 +48,7 @@ export const useSettingsStore = create<SettingsState>((set) => ({
   imageOpenMode: (localStorage.getItem("kazahana-image-open-mode") as ImageOpenMode) || "app",
   claudeApiKey: localStorage.getItem("kazahana-claude-api-key") || "",
   confirmDraftImageQuality: localStorage.getItem("kazahana-confirm-draft-image-quality") !== "false",
+  longFormServiceUrl: localStorage.getItem("kazahana-long-form-service-url") || "",
 
   setTheme: (theme: Theme) => {
     localStorage.setItem("kazahana-theme", theme);
@@ -105,6 +108,15 @@ export const useSettingsStore = create<SettingsState>((set) => ({
   setConfirmDraftImageQuality: (enabled: boolean) => {
     localStorage.setItem("kazahana-confirm-draft-image-quality", String(enabled));
     set({ confirmDraftImageQuality: enabled });
+  },
+
+  setLongFormServiceUrl: (url: string) => {
+    if (url) {
+      localStorage.setItem("kazahana-long-form-service-url", url);
+    } else {
+      localStorage.removeItem("kazahana-long-form-service-url");
+    }
+    set({ longFormServiceUrl: url });
   },
 
   initAutoStart: () => {

@@ -32,13 +32,34 @@ export function SettingsView() {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { theme, setTheme, pollInterval, setPollInterval, desktopNotification, setDesktopNotification, autoStart, setAutoStart, videoVolume, setVideoVolume, showVia, setShowVia, closeAction, setCloseAction, imageOpenMode, setImageOpenMode, claudeApiKey, setClaudeApiKey, confirmDraftImageQuality, setConfirmDraftImageQuality } = useSettingsStore();
+  const { theme, setTheme, pollInterval, setPollInterval, desktopNotification, setDesktopNotification, autoStart, setAutoStart, videoVolume, setVideoVolume, showVia, setShowVia, closeAction, setCloseAction, imageOpenMode, setImageOpenMode, claudeApiKey, setClaudeApiKey, confirmDraftImageQuality, setConfirmDraftImageQuality, longFormServiceUrl, setLongFormServiceUrl } = useSettingsStore();
   const { savedAccounts, activeAccountDID, switchAccount, removeAccount } = useAuthStore();
   const { bsafEnabled, setBsafEnabled } = useBsafStore();
   const [showAddAccount, setShowAddAccount] = useState(false);
   const [confirmRemoveDID, setConfirmRemoveDID] = useState<string | null>(null);
   const [apiKeyInput, setApiKeyInput] = useState("");
   const [apiKeyVisible, setApiKeyVisible] = useState(false);
+  const [longFormUrlInput, setLongFormUrlInput] = useState(longFormServiceUrl);
+  const [longFormUrlError, setLongFormUrlError] = useState(false);
+
+  useEffect(() => {
+    setLongFormUrlInput(longFormServiceUrl);
+  }, [longFormServiceUrl]);
+
+  const handleLongFormUrlSave = () => {
+    const trimmed = longFormUrlInput.trim();
+    if (trimmed === "") {
+      setLongFormServiceUrl("");
+      setLongFormUrlError(false);
+      return;
+    }
+    if (!/^https:\/\//i.test(trimmed)) {
+      setLongFormUrlError(true);
+      return;
+    }
+    setLongFormUrlError(false);
+    setLongFormServiceUrl(trimmed);
+  };
 
   // Fetch current moderation preferences
   const { data: modPrefs } = useQuery({
@@ -299,6 +320,47 @@ export function SettingsView() {
             </div>
           )}
           <p className="mt-1.5 text-[11px] text-gray-400">{t("settings.claudeApiHint")}</p>
+        </div>
+      </section>
+
+      {/* Long-form service URL (standard.site compatible) */}
+      <section className="mb-6">
+        <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t("settings.longFormServiceUrl")}</h3>
+        <div className="ml-4">
+          <div className="flex gap-2">
+            <input
+              type="url"
+              value={longFormUrlInput}
+              onChange={(e) => { setLongFormUrlInput(e.target.value); setLongFormUrlError(false); }}
+              onBlur={handleLongFormUrlSave}
+              onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); handleLongFormUrlSave(); } }}
+              placeholder={t("settings.longFormServiceUrlPlaceholder")}
+              className={`flex-1 text-sm px-3 py-1.5 rounded border bg-transparent text-text-light dark:text-text-dark placeholder-gray-400 focus:outline-none focus:border-primary ${
+                longFormUrlError
+                  ? "border-red-400 dark:border-red-500"
+                  : "border-border-light dark:border-border-dark"
+              }`}
+            />
+            {longFormServiceUrl && (
+              <button
+                onClick={() => { setLongFormUrlInput(""); setLongFormServiceUrl(""); setLongFormUrlError(false); }}
+                className="px-3 py-1.5 text-xs rounded-btn text-red-500 border border-red-300 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+              >
+                {t("settings.claudeApiDelete")}
+              </button>
+            )}
+          </div>
+          {longFormUrlError && (
+            <p className="mt-1.5 text-[11px] text-red-500">{t("settings.longFormServiceUrlError")}</p>
+          )}
+          <p className="mt-1.5 text-[11px] text-gray-400">{t("settings.longFormServiceUrlHint")}</p>
+          <button
+            onClick={() => openUrl("https://standard.site")}
+            className="mt-1 inline-flex items-center gap-1 text-[11px] text-primary hover:underline"
+          >
+            <Icon name="open_in_new" size={12} />
+            standard.site
+          </button>
         </div>
       </section>
 

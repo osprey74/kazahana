@@ -41,7 +41,8 @@
     "newPost": "发布新帖子",
     "fetchingLink": "正在获取链接信息…",
     "generateLinkCard": "生成链接卡片",
-    "quotePlaceholder": "添加评论..."
+    "quotePlaceholder": "添加评论...",
+    "longForm": "撰写长文"
   },
   "post": {
     "reposted": "转发了",
@@ -307,7 +308,11 @@
     "closeActionMinimizeHint_macos": "最小化到 Dock 后，右键单击 Dock 图标并选择\"退出\"以关闭程序。",
     "draftImageWarning": "草稿保存确认",
     "enableDraftImageWarning": "保存含图片的草稿前显示警告",
-    "videoVolume": "视频音量"
+    "videoVolume": "视频音量",
+    "longFormServiceUrl": "长文发布服务 URL",
+    "longFormServiceUrlPlaceholder": "https://...",
+    "longFormServiceUrlHint": "设置 standard.site 兼容服务的 URL（服务首页、您的 publication 页面或任何您想打开的页面），编辑器中将显示「撰写长文」按钮。点击后会在浏览器中打开该页面。",
+    "longFormServiceUrlError": "URL 必须以 https:// 开头"
   },
   "confirm": {
     "ok": "确定",

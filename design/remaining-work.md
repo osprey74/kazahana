@@ -249,3 +249,15 @@ Collaborator: よつぎnん / @yotsugin.bsky.social
 - [x] 圧縮ユーティリティの共通化 — ComposeModal / usePost / 今後のDM画像送信からも使えるよう `src/lib/imageCompress.ts` に抽出。公開関数: `compressImage` / `compressImageFile` / `getImageDimensions` / `isBlobTooLargeError`、定数: `IMAGE_MAX_BYTES` / `IMAGE_FALLBACK_BYTES`
 - [x] ComposeModal: D&D で画像ドロップ後にオーバーレイが消えないバグ修正 — 内側 `ImageUpload` ドロップゾーンが `stopPropagation` するため外側モーダルの `setIsDragging(false)` が発火しない問題を、全入力経路が通る `compressAndAddImages` 先頭で解消
 - [x] 投稿メニューに「原本サイズを表示」項目を追加 — 画像付きポストの三点メニューから原本バイト数・寸法・MIME Type を確認できるダイアログを表示。AT Protocol の BlobRef が record 内に `size` / `mimeType` / `ref.$link` を持つためネットワーク不要（`com.atproto.sync.getBlob` 経由の HEAD などは呼ばない）。`recordWithMedia`（引用＋画像）embed にも対応。CDN が再圧縮する旨の注記付き。全11言語i18n対応
+
+## 長文投稿サービス連携（standard.site） (2026-05-09)
+
+> 参照: `g:/dev/HANDOFF_kazahana-standard-site.md`（全3プラットフォーム共通 Handoff）
+> 元要望: https://bsky.app/profile/tkusano.jp/post/3mleytulml22g
+> 方針: kazahana 自身は standard.site の Lexicon を実装せず、ユーザが事前登録した URL を外部ブラウザで開くだけの軽量ハンドオフ機能。
+
+- [x] **[D-1] 設定ストアに `longFormServiceUrl` を追加** — `src/stores/settingsStore.ts` に文字列フィールドと setter を追加。localStorage キーは `kazahana-long-form-service-url`。`https://` 始まりのみ許可、空文字＝機能 OFF
+- [x] **[D-2] 設定画面 UI に入力欄追加** — `src/components/settings/SettingsView.tsx` に「長文投稿サービス URL」セクションを追加（Claude API 設定の直後、最初の `<hr>` の前）。テキスト入力＋ヘルプテキスト＋standard.site への外部リンクボタン。`https://` バリデーション・削除ボタン付き
+- [x] **[D-3] コンポーザに「長文を書く」ボタン追加** — `src/components/post/ComposeModal.tsx` ヘッダー左側のドラフトアイコン横に `article` アイコンボタンを追加。`longFormServiceUrl` が空でないときのみ表示。押下で `openUrl` (`@tauri-apps/plugin-opener`) で OS 既定ブラウザに渡す。コンポーザ本文は引き継がない
+- [x] **[D-4] i18n** — 全11言語に `compose.longForm` / `settings.longFormServiceUrl` / `settings.longFormServiceUrlPlaceholder` / `settings.longFormServiceUrlHint` / `settings.longFormServiceUrlError` を追加
+- [x] **[D-5] PLATFORM_MATRIX.md 更新** — 「4. 投稿作成」セクションに「長文投稿サービス連携（standard.site）」行を追加。Desktop=✅、iOS/Android=⬜（後追い実装予定）

@@ -1,5 +1,6 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { openUrl } from "@tauri-apps/plugin-opener";
 import { useComposeStore } from "../../stores/composeStore";
 import { useCreatePost, VideoUploadError } from "../../hooks/usePost";
 import { useOgp } from "../../hooks/useOgp";
@@ -94,6 +95,7 @@ export function ComposeModal() {
   const wmSettings = useWatermarkStore((s) => s.settings);
   const handle = useAuthStore((s) => s.profile?.handle ?? "");
   const confirmDraftImageQuality = useSettingsStore((s) => s.confirmDraftImageQuality);
+  const longFormServiceUrl = useSettingsStore((s) => s.longFormServiceUrl);
 
   // OGP link card (manual trigger)
   const { detectedUrl, ogp, isLoading: ogpLoading, fetchCard, fetchCardForUrl, dismiss: dismissOgp, reset: resetOgp } = useOgp(text);
@@ -501,6 +503,17 @@ export function ComposeModal() {
             >
               <Icon name="note_alt" size={20} />
             </button>
+            {longFormServiceUrl && (
+              <button
+                onClick={() => openUrl(longFormServiceUrl)}
+                disabled={createPost.isPending}
+                className="text-gray-400 hover:text-primary disabled:opacity-50"
+                title={t("compose.longForm")}
+                aria-label={t("compose.longForm")}
+              >
+                <Icon name="article" size={20} />
+              </button>
+            )}
           </div>
           <div className="flex items-center gap-2">
             <button

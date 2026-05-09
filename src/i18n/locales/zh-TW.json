@@ -41,7 +41,8 @@
     "newPost": "建立新貼文",
     "fetchingLink": "正在取得連結資訊...",
     "generateLinkCard": "產生連結卡片",
-    "quotePlaceholder": "新增留言..."
+    "quotePlaceholder": "新增留言...",
+    "longForm": "撰寫長文"
   },
   "post": {
     "reposted": "轉發了",
@@ -307,7 +308,11 @@
     "closeActionMinimizeHint_macos": "最小化至 Dock 後，右鍵點擊 Dock 圖示並選擇「結束」以關閉程式。",
     "draftImageWarning": "草稿儲存確認",
     "enableDraftImageWarning": "儲存含圖片的草稿前顯示警告",
-    "videoVolume": "影片音量"
+    "videoVolume": "影片音量",
+    "longFormServiceUrl": "長文發布服務 URL",
+    "longFormServiceUrlPlaceholder": "https://...",
+    "longFormServiceUrlHint": "設定 standard.site 相容服務的 URL（服務首頁、您的 publication 頁面或任何您想開啟的頁面），編輯器中將顯示「撰寫長文」按鈕。點擊後會在瀏覽器中開啟該頁面。",
+    "longFormServiceUrlError": "URL 必須以 https:// 開頭"
   },
   "confirm": {
     "ok": "確定",

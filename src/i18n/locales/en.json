@@ -41,7 +41,8 @@
     "postFailed": "Failed to post",
     "newPost": "Create new post",
     "fetchingLink": "Fetching link info...",
-    "generateLinkCard": "Generate link card"
+    "generateLinkCard": "Generate link card",
+    "longForm": "Write long-form"
   },
   "post": {
     "reposted": "reposted",
@@ -307,7 +308,11 @@
     "addAccount": "Add Account",
     "activeAccount": "Active",
     "draftImageWarning": "Draft Save Confirmation",
-    "enableDraftImageWarning": "Show warning before saving drafts with images"
+    "enableDraftImageWarning": "Show warning before saving drafts with images",
+    "longFormServiceUrl": "Long-form Post Service URL",
+    "longFormServiceUrlPlaceholder": "https://...",
+    "longFormServiceUrlHint": "Set the URL of a standard.site-compatible service (the service's home page, your publication page, or any page you want to open). A \"Write long-form\" button will then appear in the composer and open that page in your browser.",
+    "longFormServiceUrlError": "URL must start with https://"
   },
   "confirm": {
     "ok": "OK",

@@ -41,7 +41,8 @@
     "newPost": "Buat postingan baru",
     "fetchingLink": "Mengambil info tautan...",
     "generateLinkCard": "Buat kartu tautan",
-    "quotePlaceholder": "Tambahkan komentar..."
+    "quotePlaceholder": "Tambahkan komentar...",
+    "longForm": "Tulis artikel panjang"
   },
   "post": {
     "reposted": "memposting ulang",
@@ -307,7 +308,11 @@
     "closeActionMinimizeHint_macos": "Saat diminimalkan ke Dock, klik kanan ikon Dock dan pilih \"Keluar\" untuk menutup program.",
     "draftImageWarning": "Konfirmasi Simpan Draf",
     "enableDraftImageWarning": "Tampilkan peringatan sebelum menyimpan draf dengan gambar",
-    "videoVolume": "Volume Video"
+    "videoVolume": "Volume Video",
+    "longFormServiceUrl": "URL layanan postingan panjang",
+    "longFormServiceUrlPlaceholder": "https://...",
+    "longFormServiceUrlHint": "Atur URL layanan yang kompatibel dengan standard.site (halaman utama layanan, halaman publikasi Anda, atau halaman mana saja yang ingin Anda buka). Tombol \"Tulis artikel panjang\" akan muncul di komposer dan membuka halaman tersebut di browser Anda.",
+    "longFormServiceUrlError": "URL harus diawali dengan https://"
   },
   "confirm": {
     "ok": "OK",

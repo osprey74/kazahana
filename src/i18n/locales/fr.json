@@ -41,7 +41,8 @@
     "newPost": "Créer une publication",
     "fetchingLink": "Récupération des infos du lien…",
     "generateLinkCard": "Générer un aperçu du lien",
-    "quotePlaceholder": "Ajouter un commentaire..."
+    "quotePlaceholder": "Ajouter un commentaire...",
+    "longForm": "Écrire un article"
   },
   "post": {
     "reposted": "a republié",
@@ -307,7 +308,11 @@
     "closeActionMinimizeHint_macos": "Lorsque réduit dans le Dock, faites un clic droit sur l'icône du Dock et sélectionnez \"Quitter\" pour fermer le programme.",
     "draftImageWarning": "Confirmation de sauvegarde du brouillon",
     "enableDraftImageWarning": "Afficher un avertissement avant d'enregistrer des brouillons avec des images",
-    "videoVolume": "Volume vidéo"
+    "videoVolume": "Volume vidéo",
+    "longFormServiceUrl": "URL du service d'articles longs",
+    "longFormServiceUrlPlaceholder": "https://...",
+    "longFormServiceUrlHint": "Définissez l'URL d'un service compatible standard.site (la page d'accueil du service, votre page de publication ou toute page que vous souhaitez ouvrir). Un bouton « Écrire un article » apparaîtra alors dans le compositeur et ouvrira cette page dans votre navigateur.",
+    "longFormServiceUrlError": "L'URL doit commencer par https://"
   },
   "confirm": {
     "ok": "OK",
