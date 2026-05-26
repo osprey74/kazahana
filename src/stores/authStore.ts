@@ -12,7 +12,10 @@ import {
   clearSession,
   addHandleHistory,
   migrateFromSingleSession,
+  getPdsUrlForDID,
 } from "../lib/session";
+import { DEFAULT_PDS_HOST } from "../lib/constants";
+import { normalizeIdentifier, resolveIdentifierToPds } from "../lib/pdsResolver";
 import { isRateLimitError, getRateLimitDelay } from "../lib/rateLimit";
 import { syncLanguageFromBluesky } from "../lib/languageSync";
 import { useFeedStore } from "./feedStore";
@@ -47,14 +50,27 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   login: async (identifier: string, password: string) => {
     set({ isLoading: true, error: null });
     try {
-      const agent = getAgent();
+      // Identifier may be a handle, DID, or email. Email login is only supported
+      // on bsky.social; for handles/DIDs we resolve the user's actual PDS first.
+      const normalized = normalizeIdentifier(identifier);
+      const isEmail = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(normalized);
+      let pdsUrl = DEFAULT_PDS_HOST;
+      if (!isEmail) {
+        const resolved = await resolveIdentifierToPds(normalized);
+        if (!resolved) {
+          set({ isLoggedIn: false, isLoading: false, error: "pds_resolution_failed" });
+          return;
+        }
+        pdsUrl = resolved.pdsUrl;
+      }
+      const agent = getAgent(pdsUrl);
       await agent.login({ identifier, password });
       addHandleHistory(identifier);
       // Explicitly save the session before reading all sessions.
       // The persistSession callback fires saveSession() without awaiting,
       // so loadAllSessions() could race and miss the new session.
       if (agent.session) {
-        await saveSession(agent.session);
+        await saveSession(agent.session, pdsUrl);
       }
       const did = agent.session?.did ?? null;
       const accounts = await loadAllSessions();
@@ -90,11 +106,12 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   },
 
   removeAccount: async (did: string) => {
-    // Best-effort server-side session deletion
+    // Best-effort server-side session deletion against the account's actual PDS
     try {
       const session = await loadSessionForDID(did);
       if (session) {
-        await fetch(`https://bsky.social/xrpc/com.atproto.server.deleteSession`, {
+        const pdsUrl = await getPdsUrlForDID(did);
+        await fetch(`${pdsUrl}/xrpc/com.atproto.server.deleteSession`, {
           method: "POST",
           headers: { Authorization: `Bearer ${session.refreshJwt}` },
         });
@@ -130,11 +147,12 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         set({ isLoading: false, error: "session_not_found" });
         return;
       }
-      const agent = getAgent();
+      const pdsUrl = await getPdsUrlForDID(did);
+      const agent = getAgent(pdsUrl);
       await agent.resumeSession(session);
       // Ensure refreshed session is persisted before reading all sessions
       if (agent.session) {
-        await saveSession(agent.session);
+        await saveSession(agent.session, pdsUrl);
       }
       const accounts = await loadAllSessions();
       set({ isLoggedIn: true, isLoading: false, activeAccountDID: did, savedAccounts: accounts, profile: null });
@@ -175,7 +193,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         return;
       }
 
-      const agent = getAgent();
+      const pdsUrl = await getPdsUrlForDID(session.did);
+      const agent = getAgent(pdsUrl);
       await agent.resumeSession(session);
       set({ isLoggedIn: true, isLoading: false, activeAccountDID: session.did });
       useFeedStore.getState().initForAccount(session.did);
@@ -208,11 +227,11 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 }));
 
 // Register session event handler — runs once at module load
-function handleSessionEvent(evt: AtpSessionEvent, session?: AtpSessionData) {
+function handleSessionEvent(evt: AtpSessionEvent, session: AtpSessionData | undefined, pdsUrl: string) {
   if (evt === "update" || evt === "create") {
     if (session) {
       // Save and update savedAccounts so UI stays in sync
-      saveSession(session).then(() => {
+      saveSession(session, pdsUrl).then(() => {
         loadAllSessions().then((accounts) => {
           useAuthStore.setState({ savedAccounts: accounts });
         });

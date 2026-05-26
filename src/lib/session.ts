@@ -1,6 +1,13 @@
 import { load } from "@tauri-apps/plugin-store";
 import type { AtpSessionData } from "@atproto/api";
-import { SESSION_STORE_KEY, ACCOUNTS_KEY, ACTIVE_ACCOUNT_DID_KEY, HANDLE_HISTORY_KEY, STORE_FILE } from "./constants";
+import {
+  SESSION_STORE_KEY,
+  ACCOUNTS_KEY,
+  ACTIVE_ACCOUNT_DID_KEY,
+  HANDLE_HISTORY_KEY,
+  STORE_FILE,
+  DEFAULT_PDS_HOST,
+} from "./constants";
 
 let storeInstance: Awaited<ReturnType<typeof load>> | null = null;
 
@@ -15,6 +22,7 @@ async function getStore() {
 
 interface AccountsData {
   sessions: Record<string, AtpSessionData>; // keyed by DID
+  pdsUrls?: Record<string, string>; // keyed by DID — absent means legacy (bsky.social)
   order: string[]; // DID order (insertion order preserved)
 }
 
@@ -47,17 +55,33 @@ export async function migrateFromSingleSession(): Promise<void> {
   await store.delete(SESSION_STORE_KEY);
 }
 
-/** Save or update a session for an account. */
-export async function saveSession(session: AtpSessionData): Promise<void> {
+/**
+ * Save or update a session for an account.
+ *
+ * When pdsUrl is provided (login / switch), the per-DID PDS URL is updated.
+ * When omitted (token refresh from persistSession callback), the existing
+ * PDS URL is preserved.
+ */
+export async function saveSession(session: AtpSessionData, pdsUrl?: string): Promise<void> {
   const data = await loadAccountsData();
   data.sessions[session.did] = session;
   if (!data.order.includes(session.did)) {
     data.order.push(session.did);
   }
+  if (pdsUrl) {
+    data.pdsUrls = data.pdsUrls ?? {};
+    data.pdsUrls[session.did] = pdsUrl;
+  }
   await saveAccountsData(data);
   // Also set as active
   const store = await getStore();
   await store.set(ACTIVE_ACCOUNT_DID_KEY, session.did);
+}
+
+/** Get the PDS URL associated with a DID, falling back to bsky.social for legacy sessions. */
+export async function getPdsUrlForDID(did: string): Promise<string> {
+  const data = await loadAccountsData();
+  return data.pdsUrls?.[did] ?? DEFAULT_PDS_HOST;
 }
 
 /** Load the active session. */
@@ -99,6 +123,7 @@ export async function loadSessionForDID(did: string): Promise<AtpSessionData | n
 export async function deleteSessionForDID(did: string): Promise<string | null> {
   const data = await loadAccountsData();
   delete data.sessions[did];
+  if (data.pdsUrls) delete data.pdsUrls[did];
   data.order = data.order.filter((d) => d !== did);
   await saveAccountsData(data);
 

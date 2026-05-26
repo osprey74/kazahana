@@ -261,3 +261,20 @@ Collaborator: よつぎnん / @yotsugin.bsky.social
 - [x] **[D-3] コンポーザに「長文を書く」ボタン追加** — `src/components/post/ComposeModal.tsx` ヘッダー左側のドラフトアイコン横に `article` アイコンボタンを追加。`longFormServiceUrl` が空でないときのみ表示。押下で `openUrl` (`@tauri-apps/plugin-opener`) で OS 既定ブラウザに渡す。コンポーザ本文は引き継がない
 - [x] **[D-4] i18n** — 全11言語に `compose.longForm` / `settings.longFormServiceUrl` / `settings.longFormServiceUrlPlaceholder` / `settings.longFormServiceUrlHint` / `settings.longFormServiceUrlError` を追加
 - [x] **[D-5] PLATFORM_MATRIX.md 更新** — 「4. 投稿作成」セクションに「長文投稿サービス連携（standard.site）」行を追加。Desktop=✅、iOS/Android=⬜（後追い実装予定）
+
+## 独自 PDS 対応（v2.7.0） (2026-05-26)
+
+> 背景: macOS版 kazahana で独自 PDS アカウントがログインできないとの問い合わせ。現状 `agent.ts` は `service: "https://bsky.social"` ハードコードで、ハンドル → DID → PDS endpoint の解決ロジック未実装
+> 方針: ハンドルから自動で PDS を解決して `AtpAgent` の service を切り替える。既存 bsky.social ユーザーへの非破壊更新
+
+- [x] **[D-1] ハンドル → DID 解決ユーティリティ** — `src/lib/pdsResolver.ts` 新規。DNS-over-HTTPS（Cloudflare）と HTTPS well-known を並列試行
+- [x] **[D-2] DID → PDS endpoint 解決** — `did:plc:*` は `plc.directory`、`did:web:*` は `/.well-known/did.json` から取得、`#atproto_pds` を抽出
+- [x] **[D-3] `agent.ts` リファクタ** — `getAgent(pdsUrl?)` を導入。引数なし時は既存 agent 維持、指定時は service 差異で再生成
+- [x] **[D-4] セッション永続化スキーマ拡張** — `session.ts` の `AccountsData` に `pdsUrls` マップ追加、`saveSession(session, pdsUrl?)` / `getPdsUrlForDID(did)` 新設、レガシーは `bsky.social` フォールバック
+- [x] **[D-5] `authStore.login` 流れの拡張** — identifier 正規化 → email 判定 → resolver で PDS 解決 → 当該 PDS で createSession → pdsUrl 付きで保存
+- [x] **[D-6] `authStore.switchAccount` / `restoreSession` の対応** — `getPdsUrlForDID` から取得した pdsUrl で agent を再生成、`removeAccount` の deleteSession も対象 PDS へ
+- [x] **[D-7] Tauri CSP / 権限見直し** — `capabilities/default.json` の `http:default` が `https://*:*` 全許可済みで追加変更不要を確認
+- [x] **[D-8] エラーハンドリング / i18n** — `auth.pdsResolutionFailed` を全11言語に追加、`LoginForm.tsx` のエラー表示に分岐追加
+- [x] **[D-9] テスト** — Dev モードで実機検証。porcini（独自 PDS 相当）/ gomphidius（別 PDS）でログイン・タイムライン・通知・DM・複数アカウント切替動作確認。AppView は `configureProxy(api.bsky.app#bsky_appview)`、chat は `withProxy(bsky_chat)` で正常ルーティング
+- [x] **[D-10] ドキュメント更新** — `README.md` / `README.ja.md` の機能リストに独自 PDS ログイン追加、`docs/en/guide/index.md` / `docs/ja/guide/index.md` のログイン手順に注記追加
+- [x] **[D-11] PLATFORM_MATRIX.md 更新** — セクション 13「アカウント管理」に「独自 PDS ログイン」行追加（Desktop=✅、iOS/Android=⬜）、差異サマリーに Desktop 先行サブセクション新設

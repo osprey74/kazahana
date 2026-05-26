@@ -86,6 +86,7 @@ Kazahana is designed as a **lightweight, always-running companion app** — not 
 - [x] Timeline scroll position restoration on back navigation (saved per browser history entry, so forward/back gestures land on the previously-visible post)
 - [x] Post viewing history (settings page lists post details you've opened, up to 200 entries per account, with batch delete and clear-all)
 - [x] Long-form post service handoff ([standard.site](https://standard.site)-compatible: configure a service URL in settings to add a "Write long-form" button to the composer that opens that page in your browser)
+- [x] Custom PDS login (sign in with accounts hosted on a self-run PDS — the handle is automatically resolved to the correct PDS endpoint via DNS / well-known and DID document)
 - [x] BSAF (Bluesky Structured Alert Feed) compatible client
 
 ### BSAF Support

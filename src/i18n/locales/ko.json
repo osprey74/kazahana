@@ -19,6 +19,7 @@
     "loggingIn": "로그인 중…",
     "helpText": "Bluesky 설정에서 앱 비밀번호를 생성할 수 있습니다",
     "loginFailed": "로그인 실패",
+    "pdsResolutionFailed": "해당 핸들의 PDS를 확인할 수 없습니다. 핸들을 확인하고 다시 시도해 주세요.",
     "switchAccount": "계정 전환",
     "rateLimit": "요청 제한을 초과했습니다. 잠시 후 다시 시도해 주세요. 제한은 보통 약 5분 후에 해제됩니다.",
     "rateLimitWithTime": "요청 제한을 초과했습니다. {{seconds}}초 후 다시 시도해 주세요.",

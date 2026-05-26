@@ -19,6 +19,7 @@
     "loggingIn": "Iniciando sesión...",
     "helpText": "Puedes generar una contraseña de aplicación desde los ajustes de Bluesky",
     "loginFailed": "Error al iniciar sesión",
+    "pdsResolutionFailed": "No se pudo determinar el PDS para ese identificador. Por favor, verifica el identificador e inténtalo de nuevo.",
     "switchAccount": "Cambiar cuenta",
     "accountPicker": {
       "title": "Seleccionar cuenta",

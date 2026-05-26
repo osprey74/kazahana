@@ -148,7 +148,9 @@ export function LoginForm({ onBack, isAddAccount }: LoginFormProps) {
                     })()
                   : error === "login_failed"
                     ? t("auth.loginFailed")
-                    : error}
+                    : error === "pds_resolution_failed"
+                      ? t("auth.pdsResolutionFailed")
+                      : error}
             </p>
           )}
 
