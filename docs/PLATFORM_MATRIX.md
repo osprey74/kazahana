@@ -1,6 +1,6 @@
 # kazahana Platform Feature Matrix
 
-> **Last updated:** 2026-05-30 (Desktop: Standard Site 拡張リンクカード（受信・送信）対応)
+> **Last updated:** 2026-05-30 (Android 棚卸: Standard Site 拡張リンクカード（受信・送信）/ ウォーターマーク / 長文投稿サービス連携を実装済みに反映)
 > **Source:** Compiled from the following repositories
 > - Desktop (Win/macOS): https://github.com/osprey74/kazahana
 > - iOS: https://github.com/osprey74/kazahana-ios
@@ -53,7 +53,7 @@
 | 画像表示モード設定（アプリ内/ブラウザ） | ✅ | ✅ | N/A | N/A | |
 | 動画再生（HLS） | ✅ | ✅ | ✅ | ✅ | |
 | リンクカード（OGP） | ✅ | ✅ | ✅ | ✅ | |
-| Standard Site 拡張リンクカード（受信） | ✅ | ✅ | ⬜ | ⬜ | 公開日 / 読了時間 / パブリケーション情報・テーマカラー表示。HANDOFF_kazahana-standard-site-embed.md 参照 |
+| Standard Site 拡張リンクカード（受信） | ✅ | ✅ | ✅ | ⬜ | 公開日 / 読了時間 / パブリケーション情報・著者・テーマカラー表示。HANDOFF_kazahana-standard-site-embed.md 参照 |
 | 引用投稿表示 | ✅ | ✅ | ✅ | ✅ | |
 | スレッド表示（親チェーン＋返信一覧） | ✅ | ✅ | ✅ | ✅ | |
 | ALT テキスト表示（投稿カード、128文字） | ✅ | ✅ | ✅ | ✅ | |
@@ -98,7 +98,7 @@
 | ALT テキスト自動生成（Claude API） | ✅ | ✅ | ✅ | ✅ | |
 | 画像自動圧縮 | ✅ | ✅ | ✅ | ✅ | |
 | リンクカード自動生成（URL貼り付け） | ✅ | ✅ | ✅ | ✅ | |
-| Standard Site 拡張リンクカード（送信） | ✅ | ✅ | ⬜ | ⬜ | `getEmbedExternalView` 経由でプレビュー取得、`associatedRefs` を投稿レコードに含める。HANDOFF_kazahana-standard-site-embed.md 参照 |
+| Standard Site 拡張リンクカード（送信） | ✅ | ✅ | ✅ | ⬜ | `getEmbedExternalView` 経由でプレビュー取得、`associatedRefs` を投稿レコードに含める。HANDOFF_kazahana-standard-site-embed.md 参照 |
 | メンションオートコンプリート（`@`） | ✅ | ✅ | ✅ | ✅ | |
 | ハッシュタグ/URL ファセット自動検出 | ✅ | ✅ | ✅ | ✅ | |
 | ドラッグ＆ドロップ画像添付 | ✅ | ✅ | N/A | N/A | Desktop 固有 |
@@ -107,12 +107,12 @@
 | キーボードショートカット（N / ESC / Alt+Enter） | ✅ | ✅ | N/A | N/A | |
 | Option+Enter（macOS） | N/A | ✅ | N/A | N/A | macOS のみ |
 | プロフィールページからの自動メンション挿入 | ✅ | ✅ | ✅ | ✅ | |
-| ウォーターマーク合成（画像） | ✅ | ✅ | ⬜ | ⬜ | 投稿前に著作権・AI拒否文言を画像に合成。Canvas API / CoreGraphics / Android Canvas。HANDOFF_watermark.md 参照 |
-| ウォーターマーク — プリセット文言（6種） | ✅ | ✅ | ⬜ | ⬜ | 無断転載禁止 / AI学習禁止(JP) / No AI Training / AI+JP / 撮影・編集 / カスタム入力 |
-| ウォーターマーク — 位置・不透明度・サイズ設定 | ✅ | ✅ | ⬜ | ⬜ | 6方向 / 不透明度 20〜100% / フォントサイズ 8〜20px |
-| ウォーターマーク — 投稿前確認モーダル | ✅ | ✅ | ⬜ | ⬜ | `confirmBeforePost` 設定。合成結果を確認してから送信。WMなし投稿ボタンあり |
-| ウォーターマーク — 動画スキップ設定 | ✅ | ✅ | ⬜ | ⬜ | `skipVideo` 設定。Phase 1 は動画本体へは非適用 |
-| 長文投稿サービス連携（standard.site） | ✅ | ✅ | ⬜ | ⬜ | 設定済み URL を OS 既定ブラウザで開く軽量ハンドオフ。HANDOFF_kazahana-standard-site.md 参照 |
+| ウォーターマーク合成（画像） | ✅ | ✅ | ✅ | ⬜ | 投稿前に著作権・AI拒否文言を画像に合成。Canvas API / CoreGraphics / Android Canvas。HANDOFF_watermark.md 参照 |
+| ウォーターマーク — プリセット文言（6種） | ✅ | ✅ | ✅ | ⬜ | 無断転載禁止 / AI学習禁止(JP) / No AI Training / AI+JP / 撮影・編集 / カスタム入力 |
+| ウォーターマーク — 位置・不透明度・サイズ設定 | ✅ | ✅ | ✅ | ⬜ | 6方向（＋ランダム/タイル）/ 不透明度 20〜100% / フォントサイズ 8〜20px |
+| ウォーターマーク — 投稿前確認モーダル | ✅ | ✅ | ✅ | ⬜ | `confirmBeforePost` 設定。合成結果を確認してから送信。WMなし投稿ボタンあり |
+| ウォーターマーク — 動画スキップ設定 | ✅ | ✅ | ✅ | ⬜ | `skipVideo` 設定。Phase 1 は動画本体へは非適用 |
+| 長文投稿サービス連携（standard.site） | ✅ | ✅ | ✅ | ⬜ | 設定済み URL を OS 既定ブラウザ（Android: Custom Tabs）で開く軽量ハンドオフ。HANDOFF_kazahana-standard-site.md 参照 |
 ---
 
 ## 5. 通知
@@ -219,7 +219,7 @@
 | VIA 表示設定 | ✅ | ✅ | ✅ | ✅ | |
 | 投稿言語（Bluesky アカウント設定から優先取得） | ⬜ | ⬜ | ✅ | ✅ | アプリ設定 → Bluesky設定 → 端末ロケールの優先順 |
 | ログインハンドル履歴（オートコンプリート） | ✅ | ✅ | N/A | N/A | |
-| ウォーターマーク設定画面 | ✅ | ✅ | ⬜ | ⬜ | ON/OFF、プリセット選択、位置・不透明度・サイズ、確認モーダル設定。各 OS 標準のストレージに永続化 |
+| ウォーターマーク設定画面 | ✅ | ✅ | ✅ | ⬜ | ON/OFF、プリセット選択、位置・不透明度・サイズ・文字色、確認モーダル設定。各 OS 標準のストレージに永続化 |
 
 ---
 
@@ -286,7 +286,15 @@
 
 | 機能 | iOS | Android | 備考 |
 |------|:---:|:-------:|------|
-| 独自 PDS ログイン（DNS/well-known からの PDS 自動解決） | ⬜ | ⬜ | Desktop v2.7.0 で実装 |
+| 独自 PDS ログイン（DNS/well-known からの PDS 自動解決） | ⬜ | ⬜ | Desktop v2.7.0 で実装。Android は did:plc の DID ドキュメントからの PDS 解決のみ対応（ハンドル解決は bsky.social 固定） |
+
+### Desktop / Android 実装済み（iOS 未実装）
+
+| 機能 | iOS | 備考 |
+|------|:---:|------|
+| Standard Site 拡張リンクカード（受信・送信） | ⬜ | HANDOFF_kazahana-standard-site-embed.md 参照 |
+| ウォーターマーク合成（設定画面・プリセット・確認モーダル含む） | ⬜ | HANDOFF_watermark.md 参照 |
+| 長文投稿サービス連携（standard.site） | ⬜ | HANDOFF_kazahana-standard-site.md 参照 |
 
 ### Desktop 未実装
 
