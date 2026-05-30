@@ -470,6 +470,7 @@
   },
   "linkCard": {
     "readingTime": "{{minutes}}m",
-    "viewPublication": "View publication"
+    "viewPublication": "View publication",
+    "author": "by @{{handle}}"
   }
 }

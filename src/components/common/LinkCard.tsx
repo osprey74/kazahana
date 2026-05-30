@@ -13,7 +13,8 @@ interface LinkCardProps {
 
 export function LinkCard({ external }: LinkCardProps) {
   const { t } = useTranslation();
-  const { source, createdAt, readingTime, thumb, title, description } = external;
+  const { source, createdAt, readingTime, thumb, title, description, associatedProfiles } = external;
+  const author = associatedProfiles?.[0];
   const domain = getDomain(external.uri);
   const isPublicationOnly = !!source && external.uri === source.uri;
   const hasMeta = (readingTime != null && readingTime > 0) || !!createdAt;
@@ -56,6 +57,11 @@ export function LinkCard({ external }: LinkCardProps) {
             {source.description && (
               <p className="text-xs text-gray-500 line-clamp-2 mt-0.5 leading-snug">
                 {source.description}
+              </p>
+            )}
+            {author && (
+              <p className="text-xs text-gray-500 truncate mt-1">
+                {t("linkCard.author", { handle: author.handle })}
               </p>
             )}
             <p className="text-xs text-gray-500 truncate mt-1">{domain}</p>
@@ -122,6 +128,11 @@ export function LinkCard({ external }: LinkCardProps) {
             <p className="text-xs font-medium text-text-light dark:text-text-dark truncate">
               {source.title}
             </p>
+            {author && (
+              <p className="text-xs text-gray-500 truncate">
+                {t("linkCard.author", { handle: author.handle })}
+              </p>
+            )}
           </div>
           <button
             type="button"

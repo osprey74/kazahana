@@ -470,6 +470,7 @@
   },
   "linkCard": {
     "readingTime": "{{minutes}}分",
-    "viewPublication": "公開元を見る"
+    "viewPublication": "公開元を見る",
+    "author": "著者：@{{handle}}"
   }
 }
