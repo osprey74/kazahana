@@ -1,6 +1,6 @@
 # kazahana Platform Feature Matrix
 
-> **Last updated:** 2026-05-30 (Desktop: Standard Site 拡張リンクカード（受信）対応)
+> **Last updated:** 2026-05-30 (Desktop: Standard Site 拡張リンクカード（受信・送信）対応)
 > **Source:** Compiled from the following repositories
 > - Desktop (Win/macOS): https://github.com/osprey74/kazahana
 > - iOS: https://github.com/osprey74/kazahana-ios
@@ -98,6 +98,7 @@
 | ALT テキスト自動生成（Claude API） | ✅ | ✅ | ✅ | ✅ | |
 | 画像自動圧縮 | ✅ | ✅ | ✅ | ✅ | |
 | リンクカード自動生成（URL貼り付け） | ✅ | ✅ | ✅ | ✅ | |
+| Standard Site 拡張リンクカード（送信） | ✅ | ✅ | ⬜ | ⬜ | `getEmbedExternalView` 経由でプレビュー取得、`associatedRefs` を投稿レコードに含める。HANDOFF_kazahana-standard-site-embed.md 参照 |
 | メンションオートコンプリート（`@`） | ✅ | ✅ | ✅ | ✅ | |
 | ハッシュタグ/URL ファセット自動検出 | ✅ | ✅ | ✅ | ✅ | |
 | ドラッグ＆ドロップ画像添付 | ✅ | ✅ | N/A | N/A | Desktop 固有 |

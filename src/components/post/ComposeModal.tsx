@@ -17,6 +17,7 @@ import { VideoUpload, type VideoFile } from "./VideoUpload";
 import { DraftListModal } from "./DraftListModal";
 import { Avatar } from "../common/Avatar";
 import { Icon } from "../common/Icon";
+import { LinkCard } from "../common/LinkCard";
 import { useDraftStore, compressForDraft, dataUrlToFile, type PostDraft } from "../../stores/draftStore";
 import { compressImageFile, getImageDimensions } from "../../lib/imageCompress";
 
@@ -97,8 +98,8 @@ export function ComposeModal() {
   const confirmDraftImageQuality = useSettingsStore((s) => s.confirmDraftImageQuality);
   const longFormServiceUrl = useSettingsStore((s) => s.longFormServiceUrl);
 
-  // OGP link card (manual trigger)
-  const { detectedUrl, ogp, isLoading: ogpLoading, fetchCard, fetchCardForUrl, dismiss: dismissOgp, reset: resetOgp } = useOgp(text);
+  // External link preview (Standard Site aware, OGP fallback)
+  const { detectedUrl, preview, isLoading: ogpLoading, fetchCard, fetchCardForUrl, dismiss: dismissPreview, reset: resetPreview } = useOgp(text);
 
   // Mention autocomplete
   const mentionInfo = getMentionQuery(text, cursorPos);
@@ -136,7 +137,7 @@ export function ComposeModal() {
       setMentionIndex(0);
       setShowDraftList(false);
       createPost.reset();
-      resetOgp();
+      resetPreview();
       // Auto-fetch OGP card for deep-link URLs
       if (initialText) {
         const url = extractUrl(initialText);
@@ -205,10 +206,10 @@ export function ComposeModal() {
     if (!pasted) return;
     const url = extractUrl(pasted);
     if (!url) return;
-    // ogp/images/video/quote already present → skip
-    if (ogp || images.length > 0 || video || quoteTo) return;
+    // preview/images/video/quote already present → skip
+    if (preview || images.length > 0 || video || quoteTo) return;
     fetchCardForUrl(url);
-  }, [fetchCardForUrl, ogp, images.length, video, quoteTo, compressAndAddImages]);
+  }, [fetchCardForUrl, preview, images.length, video, quoteTo, compressAndAddImages]);
 
   const handleSelect = (e: React.SyntheticEvent<HTMLTextAreaElement>) => {
     setCursorPos((e.target as HTMLTextAreaElement).selectionStart);
@@ -316,7 +317,7 @@ export function ComposeModal() {
       images: draftImages,
       replyTo: replyTo,
       quoteTo: quoteTo,
-      ogpUrl: ogp?.url ?? null,
+      ogpUrl: preview?.external.uri ?? null,
       threadgate: replyGate,
       disableQuote,
     });
@@ -377,7 +378,13 @@ export function ComposeModal() {
         text,
         images: imageData.length > 0 ? imageData : undefined,
         video: video ? { file: video.file, alt: video.alt, aspectRatio: videoAspectRatio } : undefined,
-        external: !quoteTo && ogp ? { uri: ogp.url, title: ogp.title, description: ogp.description, thumbUrl: ogp.imageUrl } : undefined,
+        external: !quoteTo && preview ? {
+          uri: preview.external.uri,
+          title: preview.external.title,
+          description: preview.external.description,
+          thumbUrl: preview.external.thumb,
+          associatedRefs: preview.associatedRefs.map((r) => ({ uri: r.uri, cid: r.cid })),
+        } : undefined,
         replyTo: replyTo
           ? { uri: replyTo.uri, cid: replyTo.cid, root: replyTo.root }
           : undefined,
@@ -695,22 +702,16 @@ export function ComposeModal() {
                 <Icon name="link" size={14} />
                 <span>{t("compose.fetchingLink")}</span>
               </div>
-            ) : ogp ? (
-              <div className="relative border border-border-light dark:border-border-dark rounded-card overflow-hidden">
+            ) : preview ? (
+              <div className="relative">
                 <button
-                  onClick={dismissOgp}
-                  className="absolute top-1 right-1 z-10 w-6 h-6 flex items-center justify-center bg-black/60 text-white rounded-full hover:bg-black/80"
+                  type="button"
+                  onClick={dismissPreview}
+                  className="absolute top-3 right-1 z-10 w-6 h-6 flex items-center justify-center bg-black/60 text-white rounded-full hover:bg-black/80"
                 >
                   <Icon name="close" size={16} />
                 </button>
-                {ogp.imageUrl && (
-                  <img src={ogp.imageUrl} alt="" className="w-full h-28 object-cover" loading="lazy" />
-                )}
-                <div className="px-3 py-2">
-                  <p className="text-xs text-gray-500 truncate">{new URL(ogp.url).hostname}</p>
-                  {ogp.title && <p className="text-sm font-medium text-text-light dark:text-text-dark line-clamp-2 leading-snug">{ogp.title}</p>}
-                  {ogp.description && <p className="text-xs text-gray-500 line-clamp-2 mt-0.5 leading-snug">{ogp.description}</p>}
-                </div>
+                <LinkCard external={preview.external} hideSubscribe />
               </div>
             ) : detectedUrl ? (
               <button

@@ -1,12 +1,14 @@
 import { useState, useCallback } from "react";
-import { extractUrl, fetchOgp, type OgpData } from "../lib/ogp";
+import { extractUrl } from "../lib/ogp";
+import { fetchExternalPreview, type ExternalPreview } from "../lib/embed/preview";
 
 /**
- * Hook for manually fetching OGP metadata.
- * Detects the last URL in text and fetches on explicit trigger.
+ * Hook for manually fetching external link preview.
+ * Tries app.bsky.embed.getEmbedExternalView first (Standard Site aware),
+ * falls back to direct OGP fetch when the AppView has no view.
  */
 export function useOgp(text: string) {
-  const [ogp, setOgp] = useState<OgpData | null>(null);
+  const [preview, setPreview] = useState<ExternalPreview | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const detectedUrl = extractUrl(text);
@@ -14,30 +16,30 @@ export function useOgp(text: string) {
   const fetchCard = useCallback(async () => {
     if (!detectedUrl) return;
     setIsLoading(true);
-    const data = await fetchOgp(detectedUrl);
-    setOgp(data);
+    const data = await fetchExternalPreview(detectedUrl);
+    setPreview(data);
     setIsLoading(false);
   }, [detectedUrl]);
 
   const fetchCardForUrl = useCallback(async (url: string) => {
     setIsLoading(true);
-    const data = await fetchOgp(url);
-    setOgp(data);
+    const data = await fetchExternalPreview(url);
+    setPreview(data);
     setIsLoading(false);
   }, []);
 
   const dismiss = useCallback(() => {
-    setOgp(null);
+    setPreview(null);
   }, []);
 
   const reset = useCallback(() => {
-    setOgp(null);
+    setPreview(null);
     setIsLoading(false);
   }, []);
 
   return {
     detectedUrl,
-    ogp,
+    preview,
     isLoading,
     fetchCard,
     fetchCardForUrl,

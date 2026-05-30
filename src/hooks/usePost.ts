@@ -22,6 +22,7 @@ interface CreatePostParams {
     title: string;
     description: string;
     thumbUrl?: string;
+    associatedRefs?: { uri: string; cid: string }[];
   };
   replyTo?: {
     uri: string;
@@ -358,6 +359,9 @@ export function useCreatePost() {
             title: external.title,
             description: external.description,
             ...(thumb ? { thumb } : {}),
+            ...(external.associatedRefs && external.associatedRefs.length > 0
+              ? { associatedRefs: external.associatedRefs }
+              : {}),
           },
         };
       }
