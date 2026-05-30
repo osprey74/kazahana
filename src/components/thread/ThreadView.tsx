@@ -18,6 +18,7 @@ import { ImageGrid } from "../common/ImageGrid";
 import { LinkCard } from "../common/LinkCard";
 import { QuoteEmbed } from "../common/QuoteEmbed";
 import { VideoPlayer } from "../common/VideoPlayer";
+import { getExternalEmbed } from "../../lib/embed/external";
 import type { AppBskyEmbedImages } from "@atproto/api";
 type ViewImage = AppBskyEmbedImages.ViewImage;
 import { formatDistanceToNowStrict } from "date-fns";
@@ -313,28 +314,6 @@ function flattenReplies(node: ThreadViewPost): ThreadViewPost[] {
     result.push(...flattenReplies(tvp));
   }
   return result;
-}
-
-interface ExternalEmbed {
-  uri: string;
-  title: string;
-  description: string;
-  thumb?: string;
-}
-
-function getExternalEmbed(post: PostView): ExternalEmbed | null {
-  const embed = post.embed;
-  if (!embed) return null;
-  if (embed.$type === "app.bsky.embed.external#view") {
-    return (embed as { external?: ExternalEmbed }).external ?? null;
-  }
-  if (embed.$type === "app.bsky.embed.recordWithMedia#view") {
-    const media = (embed as { media?: { $type?: string; external?: ExternalEmbed } }).media;
-    if (media?.$type === "app.bsky.embed.external#view") {
-      return media.external ?? null;
-    }
-  }
-  return null;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

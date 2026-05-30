@@ -1,6 +1,6 @@
 # kazahana Platform Feature Matrix
 
-> **Last updated:** 2026-05-09 (Desktop: 長文投稿サービス連携（standard.site 対応）追加)
+> **Last updated:** 2026-05-30 (Desktop: Standard Site 拡張リンクカード（受信）対応)
 > **Source:** Compiled from the following repositories
 > - Desktop (Win/macOS): https://github.com/osprey74/kazahana
 > - iOS: https://github.com/osprey74/kazahana-ios
@@ -53,6 +53,7 @@
 | 画像表示モード設定（アプリ内/ブラウザ） | ✅ | ✅ | N/A | N/A | |
 | 動画再生（HLS） | ✅ | ✅ | ✅ | ✅ | |
 | リンクカード（OGP） | ✅ | ✅ | ✅ | ✅ | |
+| Standard Site 拡張リンクカード（受信） | ✅ | ✅ | ⬜ | ⬜ | 公開日 / 読了時間 / パブリケーション情報・テーマカラー表示。HANDOFF_kazahana-standard-site-embed.md 参照 |
 | 引用投稿表示 | ✅ | ✅ | ✅ | ✅ | |
 | スレッド表示（親チェーン＋返信一覧） | ✅ | ✅ | ✅ | ✅ | |
 | ALT テキスト表示（投稿カード、128文字） | ✅ | ✅ | ✅ | ✅ | |

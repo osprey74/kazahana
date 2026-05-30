@@ -467,5 +467,9 @@
     "stampAiEn": "No AI Training",
     "stampAiBoth": "No AI Training / 無断転載禁止",
     "stampPhoto": "撮影・編集"
+  },
+  "linkCard": {
+    "readingTime": "{{minutes}}分",
+    "viewPublication": "公開元を見る"
   }
 }

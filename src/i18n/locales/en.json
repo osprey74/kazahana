@@ -467,5 +467,9 @@
     "stampAiEn": "No AI Training",
     "stampAiBoth": "No AI Training / All Rights Reserved",
     "stampPhoto": "Photo / Edit"
+  },
+  "linkCard": {
+    "readingTime": "{{minutes}}m",
+    "viewPublication": "View publication"
   }
 }
