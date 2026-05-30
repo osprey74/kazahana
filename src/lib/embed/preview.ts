@@ -1,6 +1,6 @@
 import type { AppBskyEmbedExternal, ComAtprotoRepoStrongRef } from "@atproto/api";
 import { getAgent } from "../agent";
-import { fetchOgp } from "../ogp";
+import { extractStandardSiteUris, fetchHtml, parseOgp } from "../ogp";
 
 export interface ExternalPreview {
   external: AppBskyEmbedExternal.ViewExternal;
@@ -8,29 +8,38 @@ export interface ExternalPreview {
 }
 
 export async function fetchExternalPreview(url: string): Promise<ExternalPreview | null> {
-  try {
-    const agent = getAgent();
-    const res = await agent.app.bsky.embed.getEmbedExternalView({ url, uris: [] });
-    const external = res.data.view?.external;
-    if (external && external.title) {
-      return {
-        external,
-        associatedRefs: res.data.associatedRefs ?? [],
-      };
+  const html = await fetchHtml(url);
+  const uris = html ? extractStandardSiteUris(html) : [];
+
+  if (uris.length > 0) {
+    try {
+      const agent = getAgent();
+      const res = await agent.app.bsky.embed.getEmbedExternalView({ url, uris });
+      const external = res.data.view?.external;
+      if (external && external.title) {
+        return {
+          external,
+          associatedRefs: res.data.associatedRefs ?? [],
+        };
+      }
+    } catch {
+      // fall through to OGP
     }
-  } catch {
-    // fall through to OGP
   }
 
-  const ogp = await fetchOgp(url);
-  if (!ogp) return null;
-  return {
-    external: {
-      uri: ogp.url,
-      title: ogp.title,
-      description: ogp.description,
-      thumb: ogp.imageUrl,
-    },
-    associatedRefs: [],
-  };
+  if (html) {
+    const ogp = parseOgp(url, html);
+    if (ogp) {
+      return {
+        external: {
+          uri: ogp.url,
+          title: ogp.title,
+          description: ogp.description,
+          thumb: ogp.imageUrl,
+        },
+        associatedRefs: [],
+      };
+    }
+  }
+  return null;
 }
