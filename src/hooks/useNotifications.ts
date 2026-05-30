@@ -1,7 +1,8 @@
 import { useInfiniteQuery, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import type { Notification } from "@atproto/api/dist/client/types/app/bsky/notification/listNotifications";
-import type { PostView } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
+import type { AppBskyNotificationListNotifications, AppBskyFeedDefs } from "@atproto/api";
+type Notification = AppBskyNotificationListNotifications.Notification;
+type PostView = AppBskyFeedDefs.PostView;
 import { getAgent } from "../lib/agent";
 import { sendNotification, type NotificationReasonCounts } from "../lib/notifications";
 

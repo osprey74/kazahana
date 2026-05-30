@@ -19,6 +19,7 @@
     "loggingIn": "登入中...",
     "helpText": "您可以在 Bluesky 設定中產生應用程式密碼",
     "loginFailed": "登入失敗",
+    "pdsResolutionFailed": "無法確定該帳號的 PDS。請檢查帳號後重試。",
     "switchAccount": "切換帳號",
     "rateLimit": "請求頻率超限。請稍候重試。限制通常在約5分鐘後解除。",
     "rateLimitWithTime": "請求頻率超限。請等待 {{seconds}} 秒後重試。",

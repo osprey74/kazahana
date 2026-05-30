@@ -2,8 +2,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { moderatePost } from "@atproto/api";
-import type { FeedViewPost } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
-import type { ViewImage } from "@atproto/api/dist/client/types/app/bsky/embed/images";
+import type { AppBskyFeedDefs, AppBskyEmbedImages } from "@atproto/api";
+type FeedViewPost = AppBskyFeedDefs.FeedViewPost;
+type ViewImage = AppBskyEmbedImages.ViewImage;
 import { formatDistanceToNowStrict } from "date-fns";
 import { ja } from "date-fns/locale";
 import { enUS } from "date-fns/locale";
@@ -13,6 +14,7 @@ import { ImageGrid } from "../common/ImageGrid";
 import { LinkCard } from "../common/LinkCard";
 import { QuoteEmbed } from "../common/QuoteEmbed";
 import { VideoPlayer } from "../common/VideoPlayer";
+import { getExternalEmbed } from "../../lib/embed/external";
 import { ContentWarning } from "../common/ContentWarning";
 import { PostContent } from "./PostContent";
 import { PostActions } from "./PostActions";
@@ -301,28 +303,6 @@ export function PostCard({ feedItem, showParentContext, bsafDuplicateInfo }: Pos
       )}
     </article>
   );
-}
-
-interface ExternalEmbed {
-  uri: string;
-  title: string;
-  description: string;
-  thumb?: string;
-}
-
-function getExternalEmbed(post: FeedViewPost["post"]): ExternalEmbed | null {
-  const embed = post.embed;
-  if (!embed) return null;
-  if (embed.$type === "app.bsky.embed.external#view") {
-    return (embed as { external?: ExternalEmbed }).external ?? null;
-  }
-  if (embed.$type === "app.bsky.embed.recordWithMedia#view") {
-    const media = (embed as { media?: { $type?: string; external?: ExternalEmbed } }).media;
-    if (media?.$type === "app.bsky.embed.external#view") {
-      return media.external ?? null;
-    }
-  }
-  return null;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

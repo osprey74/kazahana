@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import type { FeedViewPost } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
+import type { AppBskyFeedDefs } from "@atproto/api";
+type FeedViewPost = AppBskyFeedDefs.FeedViewPost;
 import { getAgent } from "../lib/agent";
 import { useSettingsStore } from "../stores/settingsStore";
 import { isRateLimitError, getRateLimitDelay } from "../lib/rateLimit";

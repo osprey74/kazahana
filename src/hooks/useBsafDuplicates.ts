@@ -1,5 +1,6 @@
 import { useMemo } from "react";
-import type { FeedViewPost } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
+import type { AppBskyFeedDefs } from "@atproto/api";
+type FeedViewPost = AppBskyFeedDefs.FeedViewPost;
 import { useBsafStore } from "../stores/bsafStore";
 import { parseBsafTags } from "../lib/bsaf";
 

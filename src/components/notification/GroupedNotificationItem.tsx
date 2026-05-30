@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import type { PostView } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
-import type { ViewImage } from "@atproto/api/dist/client/types/app/bsky/embed/images";
+import type { AppBskyFeedDefs, AppBskyEmbedImages } from "@atproto/api";
+type PostView = AppBskyFeedDefs.PostView;
+type ViewImage = AppBskyEmbedImages.ViewImage;
 import { formatDistanceToNowStrict } from "date-fns";
 import { ja } from "date-fns/locale";
 import { enUS } from "date-fns/locale";
@@ -13,6 +14,7 @@ import { Avatar } from "../common/Avatar";
 import { BotBadge, isBotAccount } from "../common/BotBadge";
 import { Icon } from "../common/Icon";
 import { PostContent } from "../timeline/PostContent";
+import { getExternalEmbed } from "../../lib/embed/external";
 
 interface GroupedNotificationItemProps {
   group: NotificationGroup;
@@ -40,13 +42,6 @@ const REASON_KEYS: Record<string, string> = {
   "like-via-repost": "notification.likedViaRepost",
   "repost-via-repost": "notification.repostedViaRepost",
 };
-
-interface ExternalEmbed {
-  uri: string;
-  title: string;
-  description: string;
-  thumb?: string;
-}
 
 interface VideoEmbed {
   playlist: string;
@@ -80,21 +75,6 @@ function getVideoEmbed(post?: PostView): VideoEmbed | null {
     const media = (embed as { media?: { $type?: string } }).media;
     if (media?.$type === "app.bsky.embed.video#view") {
       return media as unknown as VideoEmbed;
-    }
-  }
-  return null;
-}
-
-function getExternalEmbed(post?: PostView): ExternalEmbed | null {
-  const embed = post?.embed;
-  if (!embed) return null;
-  if (embed.$type === "app.bsky.embed.external#view") {
-    return (embed as { external?: ExternalEmbed }).external ?? null;
-  }
-  if (embed.$type === "app.bsky.embed.recordWithMedia#view") {
-    const media = (embed as { media?: { $type?: string; external?: ExternalEmbed } }).media;
-    if (media?.$type === "app.bsky.embed.external#view") {
-      return media.external ?? null;
     }
   }
   return null;

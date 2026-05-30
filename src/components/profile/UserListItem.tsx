@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
-import type { ProfileView } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
+import type { AppBskyActorDefs } from "@atproto/api";
+type ProfileView = AppBskyActorDefs.ProfileView;
 import { Avatar } from "../common/Avatar";
 import { BotBadge, isBotAccount } from "../common/BotBadge";
 

@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import type { Notification } from "@atproto/api/dist/client/types/app/bsky/notification/listNotifications";
-import type { PostView } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
-import type { ViewImage } from "@atproto/api/dist/client/types/app/bsky/embed/images";
+import type { AppBskyNotificationListNotifications, AppBskyFeedDefs, AppBskyEmbedImages } from "@atproto/api";
+type Notification = AppBskyNotificationListNotifications.Notification;
+type PostView = AppBskyFeedDefs.PostView;
+type ViewImage = AppBskyEmbedImages.ViewImage;
 import { formatDistanceToNowStrict } from "date-fns";
 import { ja } from "date-fns/locale";
 import { enUS } from "date-fns/locale";
@@ -18,6 +19,7 @@ import { VideoPlayer } from "../common/VideoPlayer";
 import { LinkCard } from "../common/LinkCard";
 import { QuoteEmbed } from "../common/QuoteEmbed";
 import { PostContent } from "../timeline/PostContent";
+import { getExternalEmbed } from "../../lib/embed/external";
 
 interface NotificationItemProps {
   notification: Notification;
@@ -58,28 +60,6 @@ function getPostImages(post?: PostView): ViewImage[] {
     }
   }
   return [];
-}
-
-interface ExternalEmbed {
-  uri: string;
-  title: string;
-  description: string;
-  thumb?: string;
-}
-
-function getExternalEmbed(post?: PostView): ExternalEmbed | null {
-  const embed = post?.embed;
-  if (!embed) return null;
-  if (embed.$type === "app.bsky.embed.external#view") {
-    return (embed as { external?: ExternalEmbed }).external ?? null;
-  }
-  if (embed.$type === "app.bsky.embed.recordWithMedia#view") {
-    const media = (embed as { media?: { $type?: string; external?: ExternalEmbed } }).media;
-    if (media?.$type === "app.bsky.embed.external#view") {
-      return media.external ?? null;
-    }
-  }
-  return null;
 }
 
 interface VideoEmbed {

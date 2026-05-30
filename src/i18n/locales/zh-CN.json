@@ -19,6 +19,7 @@
     "loggingIn": "正在登录…",
     "helpText": "您可以在 Bluesky 设置中生成应用专用密码",
     "loginFailed": "登录失败",
+    "pdsResolutionFailed": "无法确定该用户名对应的 PDS。请检查用户名后重试。",
     "switchAccount": "切换账号",
     "rateLimit": "请求频率超限。请稍候重试。限制通常在约5分钟后解除。",
     "rateLimitWithTime": "请求频率超限。请等待 {{seconds}} 秒后重试。",

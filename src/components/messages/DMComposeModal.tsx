@@ -7,7 +7,8 @@ import { getAgent } from "../../lib/agent";
 import { getChatAgent } from "../../lib/chatAgent";
 import { Avatar } from "../common/Avatar";
 import { Icon } from "../common/Icon";
-import type { ProfileViewBasic } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
+import type { AppBskyActorDefs } from "@atproto/api";
+type ProfileViewBasic = AppBskyActorDefs.ProfileViewBasic;
 
 export function DMComposeModal() {
   const { isOpen, recipientDid, close } = useDMComposeStore();

@@ -1,8 +1,9 @@
 import { useMemo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { moderateProfile, moderatePost } from "@atproto/api";
-import type { ProfileView } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
-import type { PostView } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
+import type { AppBskyActorDefs, AppBskyFeedDefs } from "@atproto/api";
+type ProfileView = AppBskyActorDefs.ProfileView;
+type PostView = AppBskyFeedDefs.PostView;
 import { usePostListStore } from "../../stores/postListStore";
 import { useLikes, useRepostedBy, useQuotes } from "../../hooks/usePostLists";
 import { useModerationOpts } from "../../contexts/ModerationContext";

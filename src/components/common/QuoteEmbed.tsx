@@ -1,7 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import type { RichText } from "@atproto/api";
-import type { ViewImage } from "@atproto/api/dist/client/types/app/bsky/embed/images";
+import type { AppBskyEmbedImages } from "@atproto/api";
+type ViewImage = AppBskyEmbedImages.ViewImage;
 import { Avatar } from "./Avatar";
 import { BotBadge, isBotAccount } from "./BotBadge";
 import { ImageGrid } from "./ImageGrid";

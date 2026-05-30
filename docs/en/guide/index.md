@@ -38,6 +38,8 @@ When you launch the app, the login screen is displayed.
 The link at the bottom of the screen takes you to Bluesky's app password settings page.
 
 > **Tip:** kazahana uses an "App Password" issued from Bluesky's settings, not your account's regular password.
+>
+> **Custom PDS support:** kazahana can also log in to accounts hosted on a self-run PDS (Personal Data Server). Just enter your handle as usual — kazahana automatically resolves it to the correct PDS endpoint via DNS / well-known and the DID document, so no extra PDS URL field is required. Email login is supported only for `bsky.social` accounts; custom-PDS users should sign in with their handle.
 
 ---
 

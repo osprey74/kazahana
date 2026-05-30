@@ -2,7 +2,8 @@ import { useCallback, useEffect, useLayoutEffect, useMemo, useState } from "reac
 import { useTranslation } from "react-i18next";
 import { Virtuoso } from "react-virtuoso";
 import { moderatePost } from "@atproto/api";
-import type { FeedViewPost } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
+import type { AppBskyFeedDefs } from "@atproto/api";
+type FeedViewPost = AppBskyFeedDefs.FeedViewPost;
 import { useTimeline } from "../../hooks/useTimeline";
 import { useBsafDuplicates } from "../../hooks/useBsafDuplicates";
 import { useScrollRestoration } from "../../hooks/useScrollRestoration";

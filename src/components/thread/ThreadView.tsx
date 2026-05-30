@@ -2,8 +2,9 @@ import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState, useRef, useLayoutEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { moderatePost } from "@atproto/api";
-import { isThreadViewPost as isThreadPost } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
-import type { PostView } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
+import { AppBskyFeedDefs } from "@atproto/api";
+const isThreadPost = AppBskyFeedDefs.isThreadViewPost;
+type PostView = AppBskyFeedDefs.PostView;
 import { useThread } from "../../hooks/useThread";
 import { useViewHistoryStore } from "../../stores/viewHistoryStore";
 import { useModerationOpts } from "../../contexts/ModerationContext";
@@ -17,7 +18,9 @@ import { ImageGrid } from "../common/ImageGrid";
 import { LinkCard } from "../common/LinkCard";
 import { QuoteEmbed } from "../common/QuoteEmbed";
 import { VideoPlayer } from "../common/VideoPlayer";
-import type { ViewImage } from "@atproto/api/dist/client/types/app/bsky/embed/images";
+import { getExternalEmbed } from "../../lib/embed/external";
+import type { AppBskyEmbedImages } from "@atproto/api";
+type ViewImage = AppBskyEmbedImages.ViewImage;
 import { formatDistanceToNowStrict } from "date-fns";
 import { ja } from "date-fns/locale";
 import { enUS } from "date-fns/locale";
@@ -311,28 +314,6 @@ function flattenReplies(node: ThreadViewPost): ThreadViewPost[] {
     result.push(...flattenReplies(tvp));
   }
   return result;
-}
-
-interface ExternalEmbed {
-  uri: string;
-  title: string;
-  description: string;
-  thumb?: string;
-}
-
-function getExternalEmbed(post: PostView): ExternalEmbed | null {
-  const embed = post.embed;
-  if (!embed) return null;
-  if (embed.$type === "app.bsky.embed.external#view") {
-    return (embed as { external?: ExternalEmbed }).external ?? null;
-  }
-  if (embed.$type === "app.bsky.embed.recordWithMedia#view") {
-    const media = (embed as { media?: { $type?: string; external?: ExternalEmbed } }).media;
-    if (media?.$type === "app.bsky.embed.external#view") {
-      return media.external ?? null;
-    }
-  }
-  return null;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

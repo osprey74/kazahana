@@ -1,6 +1,6 @@
 # kazahana Platform Feature Matrix
 
-> **Last updated:** 2026-05-09 (Desktop: 長文投稿サービス連携（standard.site 対応）追加)
+> **Last updated:** 2026-05-30 (Desktop: Standard Site 拡張リンクカード（受信・送信）対応)
 > **Source:** Compiled from the following repositories
 > - Desktop (Win/macOS): https://github.com/osprey74/kazahana
 > - iOS: https://github.com/osprey74/kazahana-ios
@@ -53,6 +53,7 @@
 | 画像表示モード設定（アプリ内/ブラウザ） | ✅ | ✅ | N/A | N/A | |
 | 動画再生（HLS） | ✅ | ✅ | ✅ | ✅ | |
 | リンクカード（OGP） | ✅ | ✅ | ✅ | ✅ | |
+| Standard Site 拡張リンクカード（受信） | ✅ | ✅ | ⬜ | ⬜ | 公開日 / 読了時間 / パブリケーション情報・テーマカラー表示。HANDOFF_kazahana-standard-site-embed.md 参照 |
 | 引用投稿表示 | ✅ | ✅ | ✅ | ✅ | |
 | スレッド表示（親チェーン＋返信一覧） | ✅ | ✅ | ✅ | ✅ | |
 | ALT テキスト表示（投稿カード、128文字） | ✅ | ✅ | ✅ | ✅ | |
@@ -97,6 +98,7 @@
 | ALT テキスト自動生成（Claude API） | ✅ | ✅ | ✅ | ✅ | |
 | 画像自動圧縮 | ✅ | ✅ | ✅ | ✅ | |
 | リンクカード自動生成（URL貼り付け） | ✅ | ✅ | ✅ | ✅ | |
+| Standard Site 拡張リンクカード（送信） | ✅ | ✅ | ⬜ | ⬜ | `getEmbedExternalView` 経由でプレビュー取得、`associatedRefs` を投稿レコードに含める。HANDOFF_kazahana-standard-site-embed.md 参照 |
 | メンションオートコンプリート（`@`） | ✅ | ✅ | ✅ | ✅ | |
 | ハッシュタグ/URL ファセット自動検出 | ✅ | ✅ | ✅ | ✅ | |
 | ドラッグ＆ドロップ画像添付 | ✅ | ✅ | N/A | N/A | Desktop 固有 |
@@ -268,6 +270,7 @@
 | セッション永続化・自動リフレッシュ | ✅ | ✅ | ✅ | ✅ | |
 | レート制限ハンドリング（429 バックオフ） | ✅ | ✅ | ✅ | ✅ | |
 | マルチアカウント | ✅ | ✅ | ✅ | ✅ | |
+| 独自 PDS ログイン（DNS/well-known からの PDS 自動解決） | ✅ | ✅ | ⬜ | ⬜ | Desktop v2.7.0 で実装。iOS / Android は後追い |
 
 ---
 
@@ -278,6 +281,12 @@
 | 機能 | Windows | macOS | 備考 |
 |------|:-------:|:-----:|------|
 | 投稿言語（Bluesky アカウント設定から優先取得） | ⬜ | ⬜ | iOS / Android 実装済み |
+
+### Desktop 先行実装（iOS / Android 未実装）
+
+| 機能 | iOS | Android | 備考 |
+|------|:---:|:-------:|------|
+| 独自 PDS ログイン（DNS/well-known からの PDS 自動解決） | ⬜ | ⬜ | Desktop v2.7.0 で実装 |
 
 ### Desktop 未実装
 

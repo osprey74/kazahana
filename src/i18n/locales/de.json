@@ -19,6 +19,7 @@
     "loggingIn": "Anmeldung läuft...",
     "helpText": "Du kannst ein App-Passwort in den Bluesky-Einstellungen erstellen",
     "loginFailed": "Anmeldung fehlgeschlagen",
+    "pdsResolutionFailed": "Der PDS für diesen Handle konnte nicht ermittelt werden. Bitte überprüfe den Handle und versuche es erneut.",
     "rateLimit": "Ratenlimit überschritten. Bitte warten Sie und versuchen Sie es erneut. Das Limit wird normalerweise nach etwa 5 Minuten aufgehoben.",
     "rateLimitWithTime": "Ratenlimit überschritten. Bitte warten Sie {{seconds}} Sekunden und versuchen Sie es erneut.",
     "deleteHandle": "Löschen",

@@ -19,6 +19,7 @@
     "loggingIn": "Sedang masuk...",
     "helpText": "Anda dapat membuat kata sandi aplikasi dari pengaturan Bluesky",
     "loginFailed": "Gagal masuk",
+    "pdsResolutionFailed": "Tidak dapat menentukan PDS untuk handle tersebut. Silakan periksa handle dan coba lagi.",
     "switchAccount": "Ganti Akun",
     "rateLimit": "Batas permintaan terlampaui. Silakan tunggu dan coba lagi. Batas biasanya dicabut setelah sekitar 5 menit.",
     "rateLimitWithTime": "Batas permintaan terlampaui. Silakan tunggu {{seconds}} detik dan coba lagi.",

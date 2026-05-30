@@ -19,6 +19,7 @@
     "loggingIn": "Connexion en cours…",
     "helpText": "Vous pouvez générer un mot de passe d'application depuis les paramètres de Bluesky",
     "loginFailed": "Échec de la connexion",
+    "pdsResolutionFailed": "Impossible de déterminer le PDS pour ce handle. Veuillez vérifier le handle et réessayer.",
     "switchAccount": "Changer de compte",
     "accountPicker": {
       "title": "Sélectionner un compte",
