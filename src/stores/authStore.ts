@@ -1,5 +1,6 @@
 import { create } from "zustand";
-import type { ProfileViewDetailed } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
+import type { AppBskyActorDefs } from "@atproto/api";
+type ProfileViewDetailed = AppBskyActorDefs.ProfileViewDetailed;
 import type { AtpSessionData, AtpSessionEvent } from "@atproto/api";
 import { getAgent, resetAgent, setSessionHandler } from "../lib/agent";
 import {

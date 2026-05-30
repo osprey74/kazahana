@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useQueryClient } from "@tanstack/react-query";
-import type { PostView } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
+import type { AppBskyFeedDefs } from "@atproto/api";
+type PostView = AppBskyFeedDefs.PostView;
 import { getAgent } from "../../lib/agent";
 import { useComposeStore } from "../../stores/composeStore";
 import { usePostListStore } from "../../stores/postListStore";

@@ -1,4 +1,5 @@
-import type { ViewImage } from "@atproto/api/dist/client/types/app/bsky/embed/images";
+import type { AppBskyEmbedImages } from "@atproto/api";
+type ViewImage = AppBskyEmbedImages.ViewImage;
 import { useTranslation } from "react-i18next";
 import { openUrl } from "@tauri-apps/plugin-opener";
 import { useLightboxStore } from "../../stores/lightboxStore";

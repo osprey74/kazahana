@@ -1,7 +1,8 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import type { ProfileViewBasic } from "@atproto/api/dist/client/types/app/bsky/actor/defs";
-import type { GeneratorView } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
+import type { AppBskyActorDefs, AppBskyFeedDefs } from "@atproto/api";
+type ProfileViewBasic = AppBskyActorDefs.ProfileViewBasic;
+type GeneratorView = AppBskyFeedDefs.GeneratorView;
 import { useStarterPack } from "../../hooks/useProfile";
 import { LoadingSpinner } from "../common/LoadingSpinner";
 import { Avatar } from "../common/Avatar";

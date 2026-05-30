@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import type { Notification } from "@atproto/api/dist/client/types/app/bsky/notification/listNotifications";
-import type { PostView } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
-import type { ViewImage } from "@atproto/api/dist/client/types/app/bsky/embed/images";
+import type { AppBskyNotificationListNotifications, AppBskyFeedDefs, AppBskyEmbedImages } from "@atproto/api";
+type Notification = AppBskyNotificationListNotifications.Notification;
+type PostView = AppBskyFeedDefs.PostView;
+type ViewImage = AppBskyEmbedImages.ViewImage;
 import { formatDistanceToNowStrict } from "date-fns";
 import { ja } from "date-fns/locale";
 import { enUS } from "date-fns/locale";

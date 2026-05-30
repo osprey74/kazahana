@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import type { PostView } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
-import type { ViewImage } from "@atproto/api/dist/client/types/app/bsky/embed/images";
+import type { AppBskyFeedDefs, AppBskyEmbedImages } from "@atproto/api";
+type PostView = AppBskyFeedDefs.PostView;
+type ViewImage = AppBskyEmbedImages.ViewImage;
 import { formatDistanceToNowStrict } from "date-fns";
 import { ja } from "date-fns/locale";
 import { enUS } from "date-fns/locale";

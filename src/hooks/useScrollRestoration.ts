@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
-import type { FeedViewPost } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
+import type { AppBskyFeedDefs } from "@atproto/api";
+type FeedViewPost = AppBskyFeedDefs.FeedViewPost;
 import { loadScrollPosition, saveScrollPosition } from "../lib/scrollRestoration";
 
 interface UseScrollRestorationParams {
