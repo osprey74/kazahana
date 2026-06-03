@@ -278,3 +278,28 @@ Collaborator: よつぎnん / @yotsugin.bsky.social
 - [x] **[D-9] テスト** — Dev モードで実機検証。porcini（独自 PDS 相当）/ gomphidius（別 PDS）でログイン・タイムライン・通知・DM・複数アカウント切替動作確認。AppView は `configureProxy(api.bsky.app#bsky_appview)`、chat は `withProxy(bsky_chat)` で正常ルーティング
 - [x] **[D-10] ドキュメント更新** — `README.md` / `README.ja.md` の機能リストに独自 PDS ログイン追加、`docs/en/guide/index.md` / `docs/ja/guide/index.md` のログイン手順に注記追加
 - [x] **[D-11] PLATFORM_MATRIX.md 更新** — セクション 13「アカウント管理」に「独自 PDS ログイン」行追加（Desktop=✅、iOS/Android=⬜）、差異サマリーに Desktop 先行サブセクション新設
+
+## Bluesky 認証マーク表示対応 (2026-06-03)
+
+> 背景: Bluesky が 2025-04-21 にローンチした認証システム（trusted verifiers が他アカウントに認証レコードを発行する仕組み）に対応する。kazahana 公式アカウント（@app-kazahana.bsky.social）が公式から認証マークを付与されたが、kazahana 自体に表示機能がなかったため実装。
+> Lexicon: `app.bsky.actor.defs#verificationState`（`verifiedStatus` / `trustedVerifierStatus` を含む）
+
+- [x] **[D-1] VerificationBadge コンポーネント新設** — `src/components/common/VerificationBadge.tsx`。`verifiedStatus === "valid"` で青の `verified` アイコン、`trustedVerifierStatus === "valid"` で `workspace_premium` アイコン（trusted verifier が優先表示）。ツールチップ付き、BotBadge と同パターン
+- [x] **[D-2] ProfileHeader に展開** — 表示名横（`flex items-center gap-1`）に `VerificationBadge` を BotBadge の前に挿入（size=18）
+- [x] **[D-3] UserListItem に展開** — フォロー一覧・フォロワー一覧・検索結果のユーザー行に表示（size=14）
+- [x] **[D-4] PostCard に展開** — 投稿カードの著者名横（size=14）、親ポストコンテキストの著者名横（size=12）に表示
+- [x] **[D-5] NotificationItem に展開** — 通知一覧のユーザー名横に表示（size=13）
+- [x] **[D-6] verified / unverified 通知理由対応** — `NotificationItem.tsx` の REASON_ICONS / REASON_KEYS に追加、`notifications.ts` の `NotificationReasonCounts` 型と `REASON_KEYS` 配列に追加。verified は青の verified アイコン、unverified はオレンジの gpp_bad アイコン。クリックでの遷移は無効（follow と同様）
+- [x] **[D-7] i18n** — 全11言語に `verification.verified` / `verification.trustedVerifier`（バッジツールチップ）、`notification.verified` / `notification.unverified`（通知ラベル）、`notification.reason.verified` / `notification.reason.unverified`（カウントサマリー）を追加
+- [x] **[D-8] PLATFORM_MATRIX.md 更新** — セクション 2「投稿表示」に「Bluesky 認証マーク」行追加（Desktop=✅、iOS/Android=⬜）、セクション 5「通知」に「verified / unverified」行追加、差異サマリー「Desktop 先行実装」に追記
+- [x] **[D-9] design/kazahana-spec.md 更新** — 4.5 通知・4.6 プロフィールに認証関連行を追加
+- [ ] **iOS / Android 後追い実装** — kazahana-ios / kazahana-android リポジトリに parity Issue 発行（`platform:ios` / `platform:android` + `parity` ラベル）
+
+## BSAF 視覚スタイル・重複検出の登録 Bot 限定化 (2026-06-03)
+
+> 背景: 未登録 BSAF Bot のポストに対しても縦線（severity border）・タグバッジが表示され、さらに重複検出も登録 Bot 以外を巻き込んでいた。kazahana の BSAF 機能は「登録 = 購読」モデルのため、フィルタリング ([FeedView.tsx](kazahana/src/components/timeline/FeedView.tsx) / [TimelineView.tsx](kazahana/src/components/timeline/TimelineView.tsx)) は登録 Bot 限定だが、視覚スタイルと重複検出のみ全 BSAF 投稿に適用されており非対称だった。
+> 方針: A 案（登録 Bot 限定）を採用。未登録 Bot からの BSAF 投稿は通常ポストとして表示する。
+
+- [x] **[D-1] PostCard の BSAF パース条件に登録 Bot チェック追加** — `src/components/timeline/PostCard.tsx`。`registeredBots.some((b) => b.definition.bot.did === author.did)` を `isRegisteredBsafBot` として算出し、`bsafParsed` の算出条件に組み込む。これにより縦線（`bsafBorderColor`）・タグバッジ表示・重複ヒンダーも登録 Bot のみに適用
+- [x] **[D-2] useBsafDuplicates の重複検出に登録 Bot チェック追加** — `src/hooks/useBsafDuplicates.ts`。`registeredBots` から DID Set を構築し、グルーピング前に投稿者 DID をチェック。未登録 Bot の投稿は重複検出対象外に
+- [ ] **iOS / Android 後追い実装** — 同様の仕様漏れの可能性あり。kazahana-ios / kazahana-android で別途検証・改修（総司様対応）

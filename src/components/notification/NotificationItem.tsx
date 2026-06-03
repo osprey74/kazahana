@@ -13,6 +13,7 @@ import { useComposeStore } from "../../stores/composeStore";
 import { useSubjectPost } from "../../hooks/useNotifications";
 import { Avatar } from "../common/Avatar";
 import { BotBadge, isBotAccount } from "../common/BotBadge";
+import { VerificationBadge } from "../common/VerificationBadge";
 import { Icon } from "../common/Icon";
 import { ImageGrid } from "../common/ImageGrid";
 import { VideoPlayer } from "../common/VideoPlayer";
@@ -34,6 +35,8 @@ const REASON_ICONS: Record<string, string> = {
   quote: "repeat",
   "like-via-repost": "favorite",
   "repost-via-repost": "repeat",
+  verified: "verified",
+  unverified: "gpp_bad",
 };
 
 const REASON_KEYS: Record<string, string> = {
@@ -45,6 +48,8 @@ const REASON_KEYS: Record<string, string> = {
   quote: "notification.quoted",
   "like-via-repost": "notification.likedViaRepost",
   "repost-via-repost": "notification.repostedViaRepost",
+  verified: "notification.verified",
+  unverified: "notification.unverified",
 };
 
 function getPostImages(post?: PostView): ViewImage[] {
@@ -117,7 +122,7 @@ export function NotificationItem({ notification }: NotificationItemProps) {
   const subjectUri = notification.reasonSubject;
 
   const handleClick = () => {
-    if (reason === "follow") return;
+    if (reason === "follow" || reason === "verified" || reason === "unverified") return;
     let targetUri = (reason === "reply" || reason === "mention" || reason === "quote")
       ? notification.uri
       : subjectUri || notification.uri;
@@ -156,7 +161,7 @@ export function NotificationItem({ notification }: NotificationItemProps) {
     >
       {/* Notification reason header */}
       <div className="flex items-center gap-2 mb-2">
-        <Icon name={icon} size={16} className={`flex-shrink-0 ${reason === "like" || reason === "like-via-repost" ? "text-red-500" : reason === "repost" || reason === "repost-via-repost" ? "text-green-500" : "text-gray-500"}`} filled={reason === "like" || reason === "like-via-repost"} />
+        <Icon name={icon} size={16} className={`flex-shrink-0 ${reason === "like" || reason === "like-via-repost" ? "text-red-500" : reason === "repost" || reason === "repost-via-repost" ? "text-green-500" : reason === "verified" ? "text-sky-500" : reason === "unverified" ? "text-orange-500" : "text-gray-500"}`} filled={reason === "like" || reason === "like-via-repost" || reason === "verified"} />
         <button onClick={handleProfileClick} className="self-start hover:opacity-80 flex-shrink-0">
           <Avatar src={author.avatar} size="sm" />
         </button>
@@ -164,6 +169,7 @@ export function NotificationItem({ notification }: NotificationItemProps) {
           <button onClick={handleProfileClick} className="font-bold text-text-light dark:text-text-dark truncate hover:underline">
             {author.displayName || author.handle}
           </button>
+          <VerificationBadge profile={author} size={13} />
           {isBotAccount(author) && <BotBadge size={13} />}
           <span className="text-gray-700 dark:text-gray-300 flex-shrink-0">{label}</span>
         </div>

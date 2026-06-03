@@ -78,6 +78,7 @@ Kazahana is designed as a **lightweight, always-running companion app** — not 
 - [x] Language sync from Bluesky (detect language from user's posts, fallback to device locale)
 - [x] Post drafts (save up to 20 drafts with text and image thumbnails)
 - [x] Bot automation label badge (robot icon for self-labeled bot accounts)
+- [x] Bluesky verification badges (verified accounts and trusted verifiers — checkmark / premium icon next to display names, plus `verified` / `unverified` notification handling)
 - [x] Notification grouping (batch same-type actions, multi-avatar display)
 - [x] Bulk save images & videos from posts
 - [x] Show original image size from post menu (PDS-stored bytes, dimensions, MIME type — verifies the raw blob before cdn.bsky.app re-encoding)
@@ -87,6 +88,8 @@ Kazahana is designed as a **lightweight, always-running companion app** — not 
 - [x] Post viewing history (settings page lists post details you've opened, up to 200 entries per account, with batch delete and clear-all)
 - [x] Long-form post service handoff ([standard.site](https://standard.site)-compatible: configure a service URL in settings to add a "Write long-form" button to the composer that opens that page in your browser)
 - [x] Custom PDS login (sign in with accounts hosted on a self-run PDS — the handle is automatically resolved to the correct PDS endpoint via DNS / well-known and DID document)
+- [x] Cross-PDS direct messages (DM works for accounts hosted on PDSes outside `bsky.network`, with `getServiceAuth`-based audience resolution routed through `api.bsky.chat`)
+- [x] [Standard Site](https://standard.site) extended link card (publication date, reading time, source publication with theme accent color, author byline, "View publication" action — receive and send, including in-composer preview with `associatedRefs` embedding)
 - [x] BSAF (Bluesky Structured Alert Feed) compatible client
 
 ### BSAF Support

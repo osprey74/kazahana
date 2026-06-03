@@ -85,6 +85,8 @@
     "quoted": "процитировал(а) ваш пост",
     "likedViaRepost": "понравился ваш репост",
     "repostedViaRepost": "репостнул ваш репост",
+    "verified": "подтвердил(а) ваш аккаунт",
+    "unverified": "снял(а) подтверждение с вашего аккаунта",
     "grouped": "{{name}} и ещё {{count}} {{action}}",
     "empty": "Нет уведомлений",
     "loadFailed": "Не удалось загрузить уведомления",
@@ -98,7 +100,9 @@
       "reply": "{{count}} ответ(ов)",
       "quote": "{{count}} цитат(а)",
       "like-via-repost": "{{count}} лайк(ов) на репост",
-      "repost-via-repost": "{{count}} репост(ов) репоста"
+      "repost-via-repost": "{{count}} репост(ов) репоста",
+      "verified": "Подтверждений: {{count}}",
+      "unverified": "Снятий подтверждения: {{count}}"
     }
   },
   "timeline": {
@@ -467,5 +471,9 @@
   },
   "bot": {
     "label": "Этот аккаунт автоматизирован"
+  },
+  "verification": {
+    "verified": "Подтверждённый аккаунт",
+    "trustedVerifier": "Доверенный верификатор"
   }
 }

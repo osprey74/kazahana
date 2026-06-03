@@ -85,6 +85,8 @@
     "quoted": "a cité votre publication",
     "likedViaRepost": "a aimé votre repost",
     "repostedViaRepost": "a reposté votre repost",
+    "verified": "a vérifié votre compte",
+    "unverified": "a retiré la vérification de votre compte",
     "grouped": "{{name}} et {{count}} autres {{action}}",
     "empty": "Aucune notification",
     "loadFailed": "Échec du chargement des notifications",
@@ -98,7 +100,9 @@
       "reply": "{{count}} réponse(s)",
       "quote": "{{count}} citation(s)",
       "like-via-repost": "{{count}} j'aime(s) sur le repost",
-      "repost-via-repost": "{{count}} repost(s) du repost"
+      "repost-via-repost": "{{count}} repost(s) du repost",
+      "verified": "{{count}} vérification(s)",
+      "unverified": "{{count}} retrait(s) de vérification"
     }
   },
   "timeline": {
@@ -431,6 +435,10 @@
   },
   "bot": {
     "label": "Ce compte est automatisé"
+  },
+  "verification": {
+    "verified": "Compte vérifié",
+    "trustedVerifier": "Vérificateur de confiance"
   },
   "watermark": {
     "title": "Filigrane",

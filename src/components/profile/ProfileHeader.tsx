@@ -12,6 +12,7 @@ import { ConfirmDialog } from "../common/ConfirmDialog";
 import { useModerationOpts } from "../../contexts/ModerationContext";
 import { Avatar } from "../common/Avatar";
 import { BotBadge, isBotAccount } from "../common/BotBadge";
+import { VerificationBadge } from "../common/VerificationBadge";
 import { ContentWarning } from "../common/ContentWarning";
 import { ProfileDescription } from "./ProfileDescription";
 interface ProfileHeaderProps {
@@ -209,6 +210,7 @@ export function ProfileHeader({ profile, isOwnProfile }: ProfileHeaderProps) {
         <div className="mt-3">
           <h2 className="text-lg font-bold text-text-light dark:text-text-dark flex items-center gap-1">
             {profile.displayName || profile.handle}
+            <VerificationBadge profile={profile} size={18} />
             {isBotAccount(profile) && <BotBadge size={18} />}
           </h2>
           <p className="text-sm text-gray-500">@{profile.handle}</p>

@@ -4,6 +4,7 @@ import type { AppBskyActorDefs } from "@atproto/api";
 type ProfileView = AppBskyActorDefs.ProfileView;
 import { Avatar } from "../common/Avatar";
 import { BotBadge, isBotAccount } from "../common/BotBadge";
+import { VerificationBadge } from "../common/VerificationBadge";
 
 interface UserListItemProps {
   actor: ProfileView;
@@ -22,6 +23,7 @@ export function UserListItem({ actor, action }: UserListItemProps) {
       <div className="flex-1 min-w-0">
         <p className="font-bold text-sm text-text-light dark:text-text-dark truncate flex items-center gap-1">
           <span className="truncate">{actor.displayName || actor.handle}</span>
+          <VerificationBadge profile={actor} size={14} />
           {isBotAccount(actor) && <BotBadge size={14} />}
         </p>
         <p className="text-xs text-gray-500 truncate">@{actor.handle}</p>

@@ -1,9 +1,8 @@
 # kazahana Platform Feature Matrix
 
-> **Last updated:** 2026-05-30 (macOS Catalyst 版追加、iOS Standard Site / ウォーターマーク等の実装ステータス更新)
+> **Last updated:** 2026-06-03 (Android: Bluesky 認証マーク表示機能を追加（v3.1.0）。iOS: 独自 PDS ログイン対応。iOS 認証マークは未実装)
 > **Source:** Compiled from the following repositories
-> - Windows (Tauri): https://github.com/osprey74/kazahana
-> - macOS (Catalyst): https://github.com/osprey74/kazahana-ios
+> - Desktop (Win/macOS): https://github.com/osprey74/kazahana
 > - iOS: https://github.com/osprey74/kazahana-ios
 > - Android: https://github.com/osprey74/kazahana-android
 
@@ -17,8 +16,8 @@
 | N/A | プラットフォーム非対象（仕様上不要） |
 | ❓ | 要確認（ソースから判定不能） |
 
-> **Windows** は Tauri v2 版、**macOS** は Mac Catalyst 版（kazahana-ios ベース）です。
-> macOS (Tauri) は v3.0.0 以降 deprecate 予定です。
+> **Windows / macOS** は同一バイナリのため基本的に同一扱いです。
+> macOS 固有の挙動のみ `macOS のみ` と注記します。
 
 ---
 
@@ -29,11 +28,11 @@
 | ホームタイムライン | ✅ | ✅ | ✅ | ✅ | |
 | 自動更新（ポーリング間隔設定） | ✅ | ✅ | ✅ | ✅ | |
 | 無限スクロール | ✅ | ✅ | ✅ | ✅ | |
-| Pull-to-Refresh | N/A | N/A | ✅ | ✅ | Desktop はタブクリック/Cmd+R で代替 |
+| Pull-to-Refresh | N/A | N/A | ✅ | ✅ | Desktop はタブクリック/F5/ヘッダーボタンで代替 |
 | 手動リロード | ✅ | ✅ | ✅ | ✅ | |
-| 既読位置マーカー | ✅ | ✅ | N/A | ✅ | ポーリング新投稿時に「ここまで読んだ」区切り線 |
+| 既読位置マーカー | ✅ | ✅ | N/A | N/A | Desktop 独自実装 |
 | スティッキーフィードタブヘッダー | ✅ | ✅ | ✅ | ✅ | |
-| ホームタブ再タップでスクロール先頭＋再読み込み | N/A | ✅ | ✅ | ✅ | |
+| ホームタブ再タップでスクロール先頭＋再読み込み | N/A | N/A | ✅ | ✅ | |
 | カスタムフィード切り替え | ✅ | ✅ | ✅ | ✅ | |
 | リストフィード表示 | ✅ | ✅ | ✅ | ✅ | |
 | フィードクイックジャンプメニュー | ✅ | ✅ | ✅ | ✅ | |
@@ -50,16 +49,17 @@
 |------|:-------:|:-----:|:-------:|:---:|------|
 | リッチテキスト（メンション/URL/ハッシュタグ） | ✅ | ✅ | ✅ | ✅ | |
 | 画像グリッド表示（最大4枚） | ✅ | ✅ | ✅ | ✅ | |
-| 画像ライトボックス（フルスクリーン） | ✅ | ✅ | ✅ | ✅ | macOS: 矢印キーナビ + ESC 対応 |
-| 画像表示モード設定（アプリ内/ブラウザ） | ✅ | ✅ | N/A | ✅ | |
+| 画像ライトボックス（フルスクリーン） | ✅ | ✅ | ✅ | ✅ | Desktop: キーボードナビ対応 |
+| 画像表示モード設定（アプリ内/ブラウザ） | ✅ | ✅ | N/A | N/A | |
 | 動画再生（HLS） | ✅ | ✅ | ✅ | ✅ | |
 | リンクカード（OGP） | ✅ | ✅ | ✅ | ✅ | |
-| Standard Site 拡張リンクカード（受信） | ✅ | ✅ | ⬜ | ✅ | 公開日 / 読了時間 / パブリケーション情報・テーマカラー・著者名表示 |
+| Standard Site 拡張リンクカード（受信） | ✅ | ✅ | ✅ | ⬜ | 公開日 / 読了時間 / パブリケーション情報・著者・テーマカラー表示。HANDOFF_kazahana-standard-site-embed.md 参照 |
 | 引用投稿表示 | ✅ | ✅ | ✅ | ✅ | |
 | スレッド表示（親チェーン＋返信一覧） | ✅ | ✅ | ✅ | ✅ | |
 | ALT テキスト表示（投稿カード、128文字） | ✅ | ✅ | ✅ | ✅ | |
 | ピン留め投稿表示 | ✅ | ✅ | ✅ | ✅ | |
 | Bot 自動化ラベルバッジ | ✅ | ✅ | ✅ | ✅ | |
+| Bluesky 認証マーク（verifiedStatus / trustedVerifierStatus） | ✅ | ✅ | ✅ | ⬜ | `app.bsky.actor.defs#verificationState` を読み取り、認証済み / 信頼された認証機関を表示名横にバッジ表示 |
 | VIA（投稿元アプリ）表示 | ✅ | ✅ | ✅ | ✅ | |
 | 翻訳ボタン（Google翻訳） | ✅ | ✅ | ✅ | ✅ | |
 | 通知からのポスト表示（画像/動画/リンクカード） | ✅ | ✅ | ✅ | ✅ | |
@@ -83,7 +83,6 @@
 | リンクコピー | ✅ | ✅ | ✅ | ✅ | |
 | 外部ブラウザで開く | ✅ | ✅ | ✅ | ✅ | |
 | 画像・動画の一括保存 | ✅ | ✅ | ✅ | ✅ | ポストの三点メニューから全メディアを端末に保存 |
-| 右クリックコンテキストメニュー | N/A | ✅ | N/A | N/A | macOS: 返信・引用・共有・リンクコピー・翻訳 |
 
 ---
 
@@ -100,21 +99,21 @@
 | ALT テキスト自動生成（Claude API） | ✅ | ✅ | ✅ | ✅ | |
 | 画像自動圧縮 | ✅ | ✅ | ✅ | ✅ | |
 | リンクカード自動生成（URL貼り付け） | ✅ | ✅ | ✅ | ✅ | |
-| Standard Site 拡張リンクカード（送信） | ✅ | ✅ | ⬜ | ✅ | `getEmbedExternalView` 経由でプレビュー取得、`associatedRefs` を投稿レコードに含める |
+| Standard Site 拡張リンクカード（送信） | ✅ | ✅ | ✅ | ⬜ | `getEmbedExternalView` 経由でプレビュー取得、`associatedRefs` を投稿レコードに含める。HANDOFF_kazahana-standard-site-embed.md 参照 |
 | メンションオートコンプリート（`@`） | ✅ | ✅ | ✅ | ✅ | |
 | ハッシュタグ/URL ファセット自動検出 | ✅ | ✅ | ✅ | ✅ | |
-| ドラッグ＆ドロップ画像添付 | ✅ | N/A | N/A | N/A | Windows 固有 |
-| クリップボード画像ペースト | ✅ | N/A | N/A | N/A | Windows 固有 |
+| ドラッグ＆ドロップ画像添付 | ✅ | ✅ | N/A | N/A | Desktop 固有 |
+| クリップボード画像ペースト | ✅ | ✅ | N/A | N/A | Desktop 固有 |
 | 下書き保存（最大20件） | ✅ | ✅ | ✅ | ✅ | |
-| キーボードショートカット（Cmd+N / Cmd+Enter） | ✅ | ✅ | N/A | N/A | |
+| キーボードショートカット（N / ESC / Alt+Enter） | ✅ | ✅ | N/A | N/A | |
+| Option+Enter（macOS） | N/A | ✅ | N/A | N/A | macOS のみ |
 | プロフィールページからの自動メンション挿入 | ✅ | ✅ | ✅ | ✅ | |
-| ウォーターマーク合成（画像） | ✅ | ✅ | ⬜ | ✅ | 投稿前に著作権・AI拒否文言を画像に合成 |
-| ウォーターマーク — プリセット文言（6種） | ✅ | ✅ | ⬜ | ✅ | 無断転載禁止 / AI学習禁止(JP) / No AI Training / AI+JP / 撮影・編集 / カスタム入力 |
-| ウォーターマーク — 位置・不透明度・サイズ設定 | ✅ | ✅ | ⬜ | ✅ | 6方向 / 不透明度 20〜100% / フォントサイズ 8〜20px |
-| ウォーターマーク — 投稿前確認モーダル | ✅ | ✅ | ⬜ | ✅ | `confirmBeforePost` 設定。合成結果を確認してから送信。WMなし投稿ボタンあり |
-| ウォーターマーク — 動画スキップ設定 | ✅ | ✅ | ⬜ | ✅ | `skipVideo` 設定。Phase 1 は動画本体へは非適用 |
-| 長文投稿サービス連携（standard.site） | ✅ | ✅ | ⬜ | ✅ | 設定済み URL を OS 既定ブラウザで開く軽量ハンドオフ |
-
+| ウォーターマーク合成（画像） | ✅ | ✅ | ✅ | ⬜ | 投稿前に著作権・AI拒否文言を画像に合成。Canvas API / CoreGraphics / Android Canvas。HANDOFF_watermark.md 参照 |
+| ウォーターマーク — プリセット文言（6種） | ✅ | ✅ | ✅ | ⬜ | 無断転載禁止 / AI学習禁止(JP) / No AI Training / AI+JP / 撮影・編集 / カスタム入力 |
+| ウォーターマーク — 位置・不透明度・サイズ設定 | ✅ | ✅ | ✅ | ⬜ | 6方向（＋ランダム/タイル）/ 不透明度 20〜100% / フォントサイズ 8〜20px |
+| ウォーターマーク — 投稿前確認モーダル | ✅ | ✅ | ✅ | ⬜ | `confirmBeforePost` 設定。合成結果を確認してから送信。WMなし投稿ボタンあり |
+| ウォーターマーク — 動画スキップ設定 | ✅ | ✅ | ✅ | ⬜ | `skipVideo` 設定。Phase 1 は動画本体へは非適用 |
+| 長文投稿サービス連携（standard.site） | ✅ | ✅ | ✅ | ⬜ | 設定済み URL を OS 既定ブラウザ（Android: Custom Tabs）で開く軽量ハンドオフ。HANDOFF_kazahana-standard-site.md 参照 |
 ---
 
 ## 5. 通知
@@ -126,10 +125,11 @@
 | 通知タイプ別アイコン・カラー | ✅ | ✅ | ✅ | ✅ | |
 | like / repost / follow / mention / reply / quote | ✅ | ✅ | ✅ | ✅ | |
 | like-via-repost / repost-via-repost | ✅ | ✅ | ✅ | ✅ | |
+| verified / unverified（認証通知） | ✅ | ✅ | ✅ | ⬜ | アカウント認証付与・解除通知の表示対応 |
 | 通知アクションボタン（返信/RT/いいね） | ✅ | ✅ | ✅ | ✅ | |
 | 通知画像サムネイル | ✅ | ✅ | ✅ | ✅ | |
 | 通知グルーピング表示（同種アクションまとめ） | ✅ | ✅ | ✅ | ✅ | 「〇〇ほかN人が…」形式・複数アバター表示 |
-| OS ネイティブ通知（バックグラウンド） | ✅ | ✅ | ✅ | ✅ | Windows: tauri-plugin-notification / macOS: UNUserNotificationCenter / iOS: BGAppRefreshTask + APNs / Android: WorkManager |
+| OS ネイティブ通知（バックグラウンド） | ✅ | ✅ | ✅ | ✅ | Desktop: tauri-plugin-notification / iOS: BGAppRefreshTask + UNUserNotificationCenter / Android: WorkManager |
 | 通知ポスト内容プログレッシブ読み込み | ✅ | ✅ | ✅ | ✅ | 10件ずつバッチ分割＋バッチ内via-repost並列解決でUI段階描画 |
 
 ---
@@ -158,7 +158,7 @@
 |------|:-------:|:-----:|:-------:|:---:|------|
 | 投稿検索 | ✅ | ✅ | ✅ | ✅ | |
 | ユーザー検索 | ✅ | ✅ | ✅ | ✅ | |
-| 検索履歴（永続化） | ✅ | ✅ | ✅ | ✅ | Windows: 200件 / その他: 20件 |
+| 検索履歴（永続化） | ✅ | ✅ | ✅ | ✅ | Desktop: 200件 / iOS・Android: 20件 |
 | スティッキー検索ヘッダー | ✅ | ✅ | ✅ | ✅ | |
 
 ---
@@ -206,7 +206,7 @@
 | 深刻度カラーボーダー | ✅ | ✅ | ✅ | ✅ | |
 | BSAF タグバッジ表示 | ✅ | ✅ | ✅ | ✅ | |
 | Bot 定義自動更新チェック | ✅ | ✅ | ✅ | ✅ | |
-| ローカル JSON ファイルからの登録 | ✅ | ✅ | N/A | N/A | Windows: ファイルダイアログ / macOS: .fileImporter |
+| ローカル JSON ファイルからの登録 | ✅ | ✅ | N/A | N/A | Desktop: ファイルダイアログ対応 |
 
 ---
 
@@ -219,38 +219,26 @@
 | Claude API キー管理 | ✅ | ✅ | ✅ | ✅ | |
 | 自動更新間隔設定（30/60/90/120秒） | ✅ | ✅ | ✅ | ✅ | |
 | VIA 表示設定 | ✅ | ✅ | ✅ | ✅ | |
-| 投稿言語（Bluesky アカウント設定から優先取得） | ⬜ | ✅ | ✅ | ✅ | アプリ設定 → Bluesky設定 → 端末ロケールの優先順 |
-| ログインハンドル履歴（オートコンプリート） | ✅ | ✅ | N/A | ✅ | 最大20件、サジェスト表示・個別削除対応 |
-| ウォーターマーク設定画面 | ✅ | ✅ | ⬜ | ✅ | ON/OFF、プリセット選択、位置・不透明度・サイズ、確認モーダル設定 |
+| 投稿言語（Bluesky アカウント設定から優先取得） | ⬜ | ⬜ | ✅ | ✅ | アプリ設定 → Bluesky設定 → 端末ロケールの優先順 |
+| ログインハンドル履歴（オートコンプリート） | ✅ | ✅ | N/A | N/A | |
+| ウォーターマーク設定画面 | ✅ | ✅ | ✅ | ⬜ | ON/OFF、プリセット選択、位置・不透明度・サイズ・文字色、確認モーダル設定。各 OS 標準のストレージに永続化 |
 
 ---
 
 ## 12. プラットフォーム固有機能
 
-### Windows 固有 (Tauri)
+### Desktop 固有
 
-| 機能 | Windows | 備考 |
-|------|:-------:|------|
-| システムトレイアイコン | ✅ | 左クリック復元・右クリックメニュー |
-| OS 起動時自動スタート | ✅ | tauri-plugin-autostart |
-| ウィンドウサイズ/位置の保存・復元 | ✅ | tauri-plugin-window-state |
-| 閉じるボタン動作設定（終了/最小化） | ✅ | |
-| ブックマークレット連携 | ✅ | kazahana://compose |
-| カスタム URI スキーム（compose） | ✅ | |
-| 自動更新（tauri-plugin-updater） | ⬜ | コード署名導入後に実装 |
-
-### macOS 固有 (Catalyst)
-
-| 機能 | macOS | 備考 |
-|------|:-----:|------|
-| OS 起動時自動スタート | ✅ | SMAppService |
-| ウィンドウサイズ/位置の保存・復元 | ✅ | NSWindow frameAutosaveName |
-| 閉じるボタン動作設定（終了/最小化） | ✅ | |
-| Dock アイコンからのウィンドウ復元 | ✅ | sceneDidBecomeActive |
-| メニューバー（Cmd+N / Cmd+R / Cmd+1〜5） | ✅ | UIMenuBuilder + UIKeyCommand |
-| 右クリックコンテキストメニュー | ✅ | 投稿カード上で返信・引用・共有等 |
-| ホバーステート | ✅ | 投稿カードに背景ハイライト |
-| コンテンツ幅制約（最大600px中央揃え） | ✅ | Desktop 版準拠 |
+| 機能 | Windows | macOS | 備考 |
+|------|:-------:|:-----:|------|
+| システムトレイアイコン | ✅ | ✅ | 左クリック復元・右クリックメニュー |
+| OS 起動時自動スタート | ✅ | ✅ | tauri-plugin-autostart |
+| ウィンドウサイズ/位置の保存・復元 | ✅ | ✅ | tauri-plugin-window-state |
+| 閉じるボタン動作設定（終了/最小化） | ✅ | ✅ | |
+| Dock アイコンからのウィンドウ復元 | N/A | ✅ | macOS のみ |
+| ブックマークレット連携 | ✅ | ✅ | kazahana://compose |
+| カスタム URI スキーム（compose） | ✅ | ✅ | |
+| 自動更新（tauri-plugin-updater） | ⬜ | ⬜ | コード署名導入後に実装 |
 
 ### iOS 固有
 
@@ -284,34 +272,39 @@
 | セッション永続化・自動リフレッシュ | ✅ | ✅ | ✅ | ✅ | |
 | レート制限ハンドリング（429 バックオフ） | ✅ | ✅ | ✅ | ✅ | |
 | マルチアカウント | ✅ | ✅ | ✅ | ✅ | |
-| 独自 PDS ログイン（DNS/well-known からの PDS 自動解決） | ✅ | ✅ | ⬜ | ✅ | |
+| 独自 PDS ログイン（DNS/well-known からの PDS 自動解決） | ✅ | ✅ | ⬜ | ✅ | Desktop v2.7.0 / iOS v3.1.0 で実装。Android は後追い |
 
 ---
 
 ## 差異サマリー（要対応）
 
-### Windows 未実装（iOS / macOS 先行）
+### iOS / Android 先行実装（Desktop 未実装）
 
-| 機能 | Windows | 備考 |
-|------|:-------:|------|
-| 投稿言語（Bluesky アカウント設定から優先取得） | ⬜ | iOS / macOS / Android 実装済み |
-| 自動更新（tauri-plugin-updater） | ⬜ | コード署名導入後に実装 |
+| 機能 | Windows | macOS | 備考 |
+|------|:-------:|:-----:|------|
+| 投稿言語（Bluesky アカウント設定から優先取得） | ⬜ | ⬜ | iOS / Android 実装済み |
 
-### macOS 未実装
-
-| 機能 | macOS | 備考 |
-|------|:-----:|------|
-| （現時点で Windows 版との機能差なし） | — | |
-
-### Android 未実装（他プラットフォーム実装済み）
+### Desktop 先行実装（Android 未実装）
 
 | 機能 | Android | 備考 |
 |------|:-------:|------|
-| Standard Site 拡張リンクカード（受信） | ⬜ | |
-| Standard Site 拡張リンクカード（送信） | ⬜ | |
-| 独自 PDS ログイン | ⬜ | |
-| ウォーターマーク全機能 | ⬜ | |
-| 長文投稿サービス連携 | ⬜ | |
+| 独自 PDS ログイン（DNS/well-known からの PDS 自動解決） | ⬜ | Desktop v2.7.0 / iOS v3.1.0 で実装。Android は did:plc の DID ドキュメントからの PDS 解決のみ対応（ハンドル解決は bsky.social 固定） |
+
+### Desktop / Android 実装済み（iOS 未実装）
+
+| 機能 | iOS | 備考 |
+|------|:---:|------|
+| Bluesky 認証マーク表示（verifiedStatus / trustedVerifierStatus） | ⬜ | `app.bsky.actor.defs#verificationState` を読み取り、表示名横にバッジ表示。verified / unverified 通知理由も対応。Android v3.1.0 で実装 |
+| Standard Site 拡張リンクカード（受信・送信） | ⬜ | HANDOFF_kazahana-standard-site-embed.md 参照 |
+| ウォーターマーク合成（設定画面・プリセット・確認モーダル含む） | ⬜ | HANDOFF_watermark.md 参照 |
+| 長文投稿サービス連携（standard.site） | ⬜ | HANDOFF_kazahana-standard-site.md 参照 |
+
+### Desktop 未実装
+
+| 機能 | Desktop |
+|------|:-------:|
+| 自動更新（tauri-plugin-updater） | ⬜ |
+| 投稿言語（Bluesky アカウント設定から優先取得） | ⬜ |
 
 ---
 

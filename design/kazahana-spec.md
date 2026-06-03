@@ -207,11 +207,13 @@ kazahanaは全機能を網羅するスタンドアロンアプリではなく、
 | OS通知 | Tauri Notification plugin | ✅ |
 | リポストへのいいね通知 | `like-via-repost` reason対応（Bluesky設定でON時） | ✅ |
 | リポストのリポスト通知 | `repost-via-repost` reason対応（Bluesky設定でON時） | ✅ |
+| 認証付与・解除通知 | `verified` / `unverified` reason対応 | ✅ |
 
 ### 4.6 プロフィール
 | 機能 | API | 状態 |
 |------|-----|------|
 | プロフィール表示 | `app.bsky.actor.getProfile`（バナー・アバター・自己紹介） | ✅ |
+| 認証マーク表示（verified / trusted verifier） | `app.bsky.actor.defs#verificationState` の `verifiedStatus === "valid"` / `trustedVerifierStatus === "valid"` を表示名横にバッジ表示。ProfileHeader / UserListItem / PostCard / NotificationItem に展開 | ✅ |
 | ユーザー投稿一覧 | `app.bsky.feed.getAuthorFeed` | ✅ |
 | ユーザーリプライ一覧 | `app.bsky.feed.getAuthorFeed` (filter: posts_with_replies) | ✅ |
 | いいねした投稿一覧 | `app.bsky.feed.getActorLikes` | ✅ |
@@ -668,9 +670,9 @@ kazahana/
 | Bot 登録解除 + 自動アンフォロー | ✅ |
 | 動的フィルタ UI 生成（アコーディオン展開） | ✅ |
 | タイムライン BSAF フィルタリング | ✅ |
-| 重複投稿検出 & 折りたたみ | ✅ |
-| 深刻度カラーボーダー表示（BSAF投稿の左ボーダー） | ✅ |
-| BSAFタグ表示（投稿本文下にタグバッジ） | ✅ |
+| 重複投稿検出 & 折りたたみ（登録 Bot 限定） | ✅ |
+| 深刻度カラーボーダー表示（BSAF投稿の左ボーダー、登録 Bot 限定） | ✅ |
+| BSAFタグ表示（投稿本文下にタグバッジ、登録 Bot 限定） | ✅ |
 | Bot Definition JSON 自動更新チェック | ✅ |
 | 11 言語 i18n 対応 | ✅ |
 

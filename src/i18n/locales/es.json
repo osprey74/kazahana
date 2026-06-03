@@ -85,6 +85,8 @@
     "quoted": "citó tu publicación",
     "likedViaRepost": "le dio me gusta a tu repost",
     "repostedViaRepost": "reposteó tu repost",
+    "verified": "verificó tu cuenta",
+    "unverified": "eliminó la verificación de tu cuenta",
     "grouped": "{{name}} y {{count}} más {{action}}",
     "empty": "No hay notificaciones",
     "loadFailed": "Error al cargar las notificaciones",
@@ -98,7 +100,9 @@
       "reply": "{{count}} respuesta(s)",
       "quote": "{{count}} cita(s)",
       "like-via-repost": "{{count}} me gusta(s) en repost",
-      "repost-via-repost": "{{count}} repost(s) de repost"
+      "repost-via-repost": "{{count}} repost(s) de repost",
+      "verified": "{{count}} verificación/es",
+      "unverified": "{{count}} desverificación/es"
     }
   },
   "timeline": {
@@ -431,6 +435,10 @@
   },
   "bot": {
     "label": "Esta cuenta está automatizada"
+  },
+  "verification": {
+    "verified": "Cuenta verificada",
+    "trustedVerifier": "Verificador de confianza"
   },
   "watermark": {
     "title": "Marca de agua",
