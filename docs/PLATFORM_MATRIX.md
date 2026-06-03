@@ -1,6 +1,6 @@
 # kazahana Platform Feature Matrix
 
-> **Last updated:** 2026-06-03 (Android: Bluesky 認証マーク表示機能を追加（v3.1.0）。iOS は未実装)
+> **Last updated:** 2026-06-03 (Android: Bluesky 認証マーク表示機能を追加（v3.1.0）。iOS: 独自 PDS ログイン対応。iOS 認証マークは未実装)
 > **Source:** Compiled from the following repositories
 > - Desktop (Win/macOS): https://github.com/osprey74/kazahana
 > - iOS: https://github.com/osprey74/kazahana-ios
@@ -272,7 +272,7 @@
 | セッション永続化・自動リフレッシュ | ✅ | ✅ | ✅ | ✅ | |
 | レート制限ハンドリング（429 バックオフ） | ✅ | ✅ | ✅ | ✅ | |
 | マルチアカウント | ✅ | ✅ | ✅ | ✅ | |
-| 独自 PDS ログイン（DNS/well-known からの PDS 自動解決） | ✅ | ✅ | ⬜ | ⬜ | Desktop v2.7.0 で実装。iOS / Android は後追い |
+| 独自 PDS ログイン（DNS/well-known からの PDS 自動解決） | ✅ | ✅ | ⬜ | ✅ | Desktop v2.7.0 / iOS v3.1.0 で実装。Android は後追い |
 
 ---
 
@@ -284,11 +284,11 @@
 |------|:-------:|:-----:|------|
 | 投稿言語（Bluesky アカウント設定から優先取得） | ⬜ | ⬜ | iOS / Android 実装済み |
 
-### Desktop 先行実装（iOS / Android 未実装）
+### Desktop 先行実装（Android 未実装）
 
-| 機能 | iOS | Android | 備考 |
-|------|:---:|:-------:|------|
-| 独自 PDS ログイン（DNS/well-known からの PDS 自動解決） | ⬜ | ⬜ | Desktop v2.7.0 で実装。Android は did:plc の DID ドキュメントからの PDS 解決のみ対応（ハンドル解決は bsky.social 固定） |
+| 機能 | Android | 備考 |
+|------|:-------:|------|
+| 独自 PDS ログイン（DNS/well-known からの PDS 自動解決） | ⬜ | Desktop v2.7.0 / iOS v3.1.0 で実装。Android は did:plc の DID ドキュメントからの PDS 解決のみ対応（ハンドル解決は bsky.social 固定） |
 
 ### Desktop / Android 実装済み（iOS 未実装）
 
