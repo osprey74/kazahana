@@ -2,7 +2,7 @@
 
 kazahana is a lightweight desktop client application for Bluesky. This guide explains the names and functions of each screen element.
 
-**Supported version: kazahana v3.0.0**
+**Supported version: kazahana v3.1.0**
 
 ## Table of Contents
 
