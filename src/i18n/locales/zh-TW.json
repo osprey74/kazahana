@@ -85,6 +85,8 @@
     "quoted": "引用了你的貼文",
     "likedViaRepost": "對你的轉發按讚",
     "repostedViaRepost": "轉發了你的轉發",
+    "verified": "驗證了你的帳號",
+    "unverified": "取消了你的驗證",
     "grouped": "{{name}}等{{count}}人{{action}}",
     "empty": "沒有通知",
     "loadFailed": "無法載入通知",
@@ -98,7 +100,9 @@
       "reply": "{{count}} 則回覆",
       "quote": "{{count}} 則引用",
       "like-via-repost": "轉發獲得 {{count}} 個讚",
-      "repost-via-repost": "轉發被轉發 {{count}} 次"
+      "repost-via-repost": "轉發被轉發 {{count}} 次",
+      "verified": "驗證 {{count}} 次",
+      "unverified": "取消驗證 {{count}} 次"
     }
   },
   "timeline": {
@@ -467,5 +471,9 @@
   },
   "bot": {
     "label": "此帳戶已自動化"
+  },
+  "verification": {
+    "verified": "已驗證帳號",
+    "trustedVerifier": "可信驗證者"
   }
 }

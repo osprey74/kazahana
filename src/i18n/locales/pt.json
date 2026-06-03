@@ -85,6 +85,8 @@
     "quoted": "citou sua publicação",
     "likedViaRepost": "curtiu seu repost",
     "repostedViaRepost": "repostou seu repost",
+    "verified": "verificou sua conta",
+    "unverified": "removeu a verificação da sua conta",
     "grouped": "{{name}} e {{count}} outros {{action}}",
     "empty": "Nenhuma notificação",
     "loadFailed": "Falha ao carregar notificações",
@@ -98,7 +100,9 @@
       "reply": "{{count}} resposta(s)",
       "quote": "{{count}} citação(ões)",
       "like-via-repost": "{{count}} curtida(s) no repost",
-      "repost-via-repost": "{{count}} repost(s) do repost"
+      "repost-via-repost": "{{count}} repost(s) do repost",
+      "verified": "{{count}} verificação(ões)",
+      "unverified": "{{count}} remoção(ões) de verificação"
     }
   },
   "timeline": {
@@ -467,5 +471,9 @@
   },
   "bot": {
     "label": "Esta conta é automatizada"
+  },
+  "verification": {
+    "verified": "Conta verificada",
+    "trustedVerifier": "Verificador confiável"
   }
 }

@@ -85,6 +85,8 @@
     "quoted": "引用了你的帖子",
     "likedViaRepost": "赞了你的转发",
     "repostedViaRepost": "转发了你的转发",
+    "verified": "验证了你的账号",
+    "unverified": "取消了你的验证",
     "grouped": "{{name}}等{{count}}人{{action}}",
     "empty": "暂无通知",
     "loadFailed": "通知加载失败",
@@ -98,7 +100,9 @@
       "reply": "{{count}} 条回复",
       "quote": "{{count}} 条引用",
       "like-via-repost": "转发获得 {{count}} 个赞",
-      "repost-via-repost": "转发被转发 {{count}} 次"
+      "repost-via-repost": "转发被转发 {{count}} 次",
+      "verified": "验证 {{count}} 次",
+      "unverified": "取消验证 {{count}} 次"
     }
   },
   "timeline": {
@@ -467,5 +471,9 @@
   },
   "bot": {
     "label": "此账户已自动化"
+  },
+  "verification": {
+    "verified": "已验证账号",
+    "trustedVerifier": "可信验证者"
   }
 }

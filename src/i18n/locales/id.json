@@ -85,6 +85,8 @@
     "quoted": "mengutip postingan Anda",
     "likedViaRepost": "menyukai repost Anda",
     "repostedViaRepost": "me-repost repost Anda",
+    "verified": "memverifikasi akun Anda",
+    "unverified": "menghapus verifikasi akun Anda",
     "grouped": "{{name}} dan {{count}} lainnya {{action}}",
     "empty": "Tidak ada notifikasi",
     "loadFailed": "Gagal memuat notifikasi",
@@ -98,7 +100,9 @@
       "reply": "{{count}} balasan",
       "quote": "{{count}} kutipan",
       "like-via-repost": "{{count}} suka pada repost",
-      "repost-via-repost": "{{count}} repost dari repost"
+      "repost-via-repost": "{{count}} repost dari repost",
+      "verified": "{{count}} verifikasi",
+      "unverified": "{{count}} penghapusan verifikasi"
     }
   },
   "timeline": {
@@ -467,5 +471,9 @@
   },
   "bot": {
     "label": "Akun ini otomatis"
+  },
+  "verification": {
+    "verified": "Akun terverifikasi",
+    "trustedVerifier": "Verifikator tepercaya"
   }
 }

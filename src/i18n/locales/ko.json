@@ -85,6 +85,8 @@
     "quoted": "님이 게시물을 인용했습니다",
     "likedViaRepost": "리포스트에 좋아요를 눌렀습니다",
     "repostedViaRepost": "리포스트를 리포스트했습니다",
+    "verified": "님이 계정을 인증했습니다",
+    "unverified": "님이 인증을 해제했습니다",
     "grouped": "{{name}} 외 {{count}}명이 {{action}}",
     "empty": "알림이 없습니다",
     "loadFailed": "알림을 불러오지 못했습니다",
@@ -98,7 +100,9 @@
       "reply": "답글 {{count}}개",
       "quote": "인용 {{count}}개",
       "like-via-repost": "리포스트에 좋아요 {{count}}개",
-      "repost-via-repost": "리포스트의 리포스트 {{count}}개"
+      "repost-via-repost": "리포스트의 리포스트 {{count}}개",
+      "verified": "인증 {{count}}건",
+      "unverified": "인증 해제 {{count}}건"
     }
   },
   "timeline": {
@@ -467,5 +471,9 @@
   },
   "bot": {
     "label": "이 계정은 자동화되어 있습니다"
+  },
+  "verification": {
+    "verified": "인증된 계정",
+    "trustedVerifier": "신뢰할 수 있는 인증자"
   }
 }

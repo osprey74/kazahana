@@ -1,6 +1,6 @@
 # kazahana Platform Feature Matrix
 
-> **Last updated:** 2026-05-30 (Android 棚卸: Standard Site 拡張リンクカード（受信・送信）/ ウォーターマーク / 長文投稿サービス連携を実装済みに反映)
+> **Last updated:** 2026-06-03 (Desktop: Bluesky 認証マーク表示機能を追加。iOS / Android は未実装)
 > **Source:** Compiled from the following repositories
 > - Desktop (Win/macOS): https://github.com/osprey74/kazahana
 > - iOS: https://github.com/osprey74/kazahana-ios
@@ -59,6 +59,7 @@
 | ALT テキスト表示（投稿カード、128文字） | ✅ | ✅ | ✅ | ✅ | |
 | ピン留め投稿表示 | ✅ | ✅ | ✅ | ✅ | |
 | Bot 自動化ラベルバッジ | ✅ | ✅ | ✅ | ✅ | |
+| Bluesky 認証マーク（verifiedStatus / trustedVerifierStatus） | ✅ | ✅ | ⬜ | ⬜ | `app.bsky.actor.defs#verificationState` を読み取り、認証済み / 信頼された認証機関を表示名横にバッジ表示 |
 | VIA（投稿元アプリ）表示 | ✅ | ✅ | ✅ | ✅ | |
 | 翻訳ボタン（Google翻訳） | ✅ | ✅ | ✅ | ✅ | |
 | 通知からのポスト表示（画像/動画/リンクカード） | ✅ | ✅ | ✅ | ✅ | |
@@ -124,6 +125,7 @@
 | 通知タイプ別アイコン・カラー | ✅ | ✅ | ✅ | ✅ | |
 | like / repost / follow / mention / reply / quote | ✅ | ✅ | ✅ | ✅ | |
 | like-via-repost / repost-via-repost | ✅ | ✅ | ✅ | ✅ | |
+| verified / unverified（認証通知） | ✅ | ✅ | ⬜ | ⬜ | アカウント認証付与・解除通知の表示対応 |
 | 通知アクションボタン（返信/RT/いいね） | ✅ | ✅ | ✅ | ✅ | |
 | 通知画像サムネイル | ✅ | ✅ | ✅ | ✅ | |
 | 通知グルーピング表示（同種アクションまとめ） | ✅ | ✅ | ✅ | ✅ | 「〇〇ほかN人が…」形式・複数アバター表示 |
@@ -287,6 +289,7 @@
 | 機能 | iOS | Android | 備考 |
 |------|:---:|:-------:|------|
 | 独自 PDS ログイン（DNS/well-known からの PDS 自動解決） | ⬜ | ⬜ | Desktop v2.7.0 で実装。Android は did:plc の DID ドキュメントからの PDS 解決のみ対応（ハンドル解決は bsky.social 固定） |
+| Bluesky 認証マーク表示（verifiedStatus / trustedVerifierStatus） | ⬜ | ⬜ | Desktop で先行実装。`app.bsky.actor.defs#verificationState` を読み取り、表示名横にバッジ表示。verified / unverified 通知理由も対応 |
 
 ### Desktop / Android 実装済み（iOS 未実装）
 

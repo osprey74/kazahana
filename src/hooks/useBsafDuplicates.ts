@@ -18,6 +18,7 @@ export interface BsafDuplicateInfo {
  */
 export function useBsafDuplicates(items: FeedViewPost[]) {
   const bsafEnabled = useBsafStore((s) => s.bsafEnabled);
+  const registeredBots = useBsafStore((s) => s.registeredBots);
 
   return useMemo(() => {
     const duplicateInfo = new Map<string, BsafDuplicateInfo>();
@@ -25,10 +26,14 @@ export function useBsafDuplicates(items: FeedViewPost[]) {
 
     if (!bsafEnabled) return { duplicateInfo, hiddenDuplicates };
 
-    // Group BSAF posts by event key (type+value+time+target)
+    const registeredDids = new Set(registeredBots.map((b) => b.definition.bot.did));
+
+    // Group BSAF posts by event key (type+value+time+target) — only registered bots
     const groups = new Map<string, { uri: string; handle: string }[]>();
 
     for (const item of items) {
+      if (!registeredDids.has(item.post.author.did)) continue;
+
       const record = item.post.record as { tags?: string[] };
       if (!record.tags) continue;
 
@@ -61,5 +66,5 @@ export function useBsafDuplicates(items: FeedViewPost[]) {
     }
 
     return { duplicateInfo, hiddenDuplicates };
-  }, [items, bsafEnabled]);
+  }, [items, bsafEnabled, registeredBots]);
 }

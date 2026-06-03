@@ -85,6 +85,8 @@
     "quoted": "hat deinen Beitrag zitiert",
     "likedViaRepost": "hat deinen Repost geliked",
     "repostedViaRepost": "hat deinen Repost repostet",
+    "verified": "hat dein Konto verifiziert",
+    "unverified": "hat die Verifizierung deines Kontos entfernt",
     "grouped": "{{name}} und {{count}} weitere {{action}}",
     "empty": "Keine Benachrichtigungen",
     "loadFailed": "Benachrichtigungen konnten nicht geladen werden",
@@ -98,7 +100,9 @@
       "reply": "{{count}} Antwort(en)",
       "quote": "{{count}} Zitat(e)",
       "like-via-repost": "{{count}} Like(s) auf Repost",
-      "repost-via-repost": "{{count}} Repost(s) von Repost"
+      "repost-via-repost": "{{count}} Repost(s) von Repost",
+      "verified": "{{count}} Verifizierung(en)",
+      "unverified": "{{count}} Entfernung(en) der Verifizierung"
     }
   },
   "timeline": {
@@ -467,5 +471,9 @@
   },
   "bot": {
     "label": "Dieses Konto ist automatisiert"
+  },
+  "verification": {
+    "verified": "Verifiziertes Konto",
+    "trustedVerifier": "Vertrauenswürdiger Verifizierer"
   }
 }

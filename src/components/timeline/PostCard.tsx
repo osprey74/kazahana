@@ -19,6 +19,7 @@ import { ContentWarning } from "../common/ContentWarning";
 import { PostContent } from "./PostContent";
 import { PostActions } from "./PostActions";
 import { BotBadge, isBotAccount } from "../common/BotBadge";
+import { VerificationBadge } from "../common/VerificationBadge";
 import { useModerationOpts } from "../../contexts/ModerationContext";
 import { useSettingsStore } from "../../stores/settingsStore";
 import { useBsafStore } from "../../stores/bsafStore";
@@ -38,12 +39,14 @@ export function PostCard({ feedItem, showParentContext, bsafDuplicateInfo }: Pos
   const moderationOpts = useModerationOpts();
   const showVia = useSettingsStore((s) => s.showVia);
   const bsafEnabled = useBsafStore((s) => s.bsafEnabled);
+  const registeredBots = useBsafStore((s) => s.registeredBots);
   const { post, reason } = feedItem;
   const author = post.author;
   const record = post.record as { text?: string; facets?: unknown[]; createdAt?: string; reply?: { parent?: { uri: string }; root?: { uri: string } }; $via?: string; langs?: string[]; tags?: string[] };
 
-  // BSAF visual styling
-  const bsafParsed = bsafEnabled && record.tags ? parseBsafTags(record.tags) : null;
+  // BSAF visual styling — only applied to posts from registered bots
+  const isRegisteredBsafBot = registeredBots.some((b) => b.definition.bot.did === author.did);
+  const bsafParsed = bsafEnabled && isRegisteredBsafBot && record.tags ? parseBsafTags(record.tags) : null;
   const bsafBorderColor = bsafParsed ? getSeverityBorderColor(bsafParsed.value) : undefined;
 
   // Moderation
@@ -72,7 +75,7 @@ export function PostCard({ feedItem, showParentContext, bsafDuplicateInfo }: Pos
 
   // Parent post context for reply posts
   const parentPost = showParentContext
-    ? (feedItem.reply?.parent as { author?: { displayName?: string; handle?: string; avatar?: string }; record?: { text?: string }; uri?: string } | undefined)
+    ? (feedItem.reply?.parent as { author?: { displayName?: string; handle?: string; avatar?: string; verification?: { verifiedStatus?: string; trustedVerifierStatus?: string } }; record?: { text?: string }; uri?: string } | undefined)
     : undefined;
   const hasParentContext = !!(parentPost?.author);
 
@@ -114,6 +117,7 @@ export function PostCard({ feedItem, showParentContext, bsafDuplicateInfo }: Pos
                 <span className="font-bold text-xs text-text-light dark:text-text-dark truncate">
                   {parentPost!.author!.displayName || parentPost!.author!.handle}
                 </span>
+                <VerificationBadge profile={parentPost!.author!} size={12} />
                 <span className="text-xs text-gray-500 truncate">
                   @{parentPost!.author!.handle}
                 </span>
@@ -140,6 +144,7 @@ export function PostCard({ feedItem, showParentContext, bsafDuplicateInfo }: Pos
               <span className="font-bold text-sm text-text-light dark:text-text-dark truncate">
                 {author.displayName || author.handle}
               </span>
+              <VerificationBadge profile={author} size={14} />
               {isBotAccount(author) && <BotBadge size={14} />}
               <span className="text-xs text-gray-500 truncate">
                 @{author.handle}

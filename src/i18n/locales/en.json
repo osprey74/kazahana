@@ -85,6 +85,8 @@
     "quoted": "quoted your post",
     "likedViaRepost": "liked your repost",
     "repostedViaRepost": "reposted your repost",
+    "verified": "verified your account",
+    "unverified": "removed verification from your account",
     "grouped": "{{name}} and {{count}} others {{action}}",
     "empty": "No notifications",
     "loadFailed": "Failed to load notifications",
@@ -98,7 +100,9 @@
       "reply": "{{count}} reply/replies",
       "quote": "{{count}} quote(s)",
       "like-via-repost": "{{count}} like(s) on repost",
-      "repost-via-repost": "{{count}} repost(s) of repost"
+      "repost-via-repost": "{{count}} repost(s) of repost",
+      "verified": "{{count}} verification(s)",
+      "unverified": "{{count}} unverification(s)"
     }
   },
   "timeline": {
@@ -431,6 +435,10 @@
   },
   "bot": {
     "label": "This account is automated"
+  },
+  "verification": {
+    "verified": "Verified account",
+    "trustedVerifier": "Trusted verifier"
   },
   "watermark": {
     "title": "Watermark",
