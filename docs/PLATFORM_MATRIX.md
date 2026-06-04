@@ -1,6 +1,6 @@
 # kazahana Platform Feature Matrix
 
-> **Last updated:** 2026-06-03 (Android: Bluesky 認証マーク表示機能を追加（v3.1.0）。iOS: 独自 PDS ログイン対応。iOS 認証マークは未実装)
+> **Last updated:** 2026-06-04 (iOS: 避難誘導補助機能を追加（v3.2.0）、認証マーク・認証通知対応済みに更新)
 > **Source:** Compiled from the following repositories
 > - Desktop (Win/macOS): https://github.com/osprey74/kazahana
 > - iOS: https://github.com/osprey74/kazahana-ios
@@ -59,7 +59,7 @@
 | ALT テキスト表示（投稿カード、128文字） | ✅ | ✅ | ✅ | ✅ | |
 | ピン留め投稿表示 | ✅ | ✅ | ✅ | ✅ | |
 | Bot 自動化ラベルバッジ | ✅ | ✅ | ✅ | ✅ | |
-| Bluesky 認証マーク（verifiedStatus / trustedVerifierStatus） | ✅ | ✅ | ✅ | ⬜ | `app.bsky.actor.defs#verificationState` を読み取り、認証済み / 信頼された認証機関を表示名横にバッジ表示 |
+| Bluesky 認証マーク（verifiedStatus / trustedVerifierStatus） | ✅ | ✅ | ✅ | ✅ | `app.bsky.actor.defs#verificationState` を読み取り、認証済み / 信頼された認証機関を表示名横にバッジ表示 |
 | VIA（投稿元アプリ）表示 | ✅ | ✅ | ✅ | ✅ | |
 | 翻訳ボタン（Google翻訳） | ✅ | ✅ | ✅ | ✅ | |
 | 通知からのポスト表示（画像/動画/リンクカード） | ✅ | ✅ | ✅ | ✅ | |
@@ -125,7 +125,7 @@
 | 通知タイプ別アイコン・カラー | ✅ | ✅ | ✅ | ✅ | |
 | like / repost / follow / mention / reply / quote | ✅ | ✅ | ✅ | ✅ | |
 | like-via-repost / repost-via-repost | ✅ | ✅ | ✅ | ✅ | |
-| verified / unverified（認証通知） | ✅ | ✅ | ✅ | ⬜ | アカウント認証付与・解除通知の表示対応 |
+| verified / unverified（認証通知） | ✅ | ✅ | ✅ | ✅ | アカウント認証付与・解除通知の表示対応 |
 | 通知アクションボタン（返信/RT/いいね） | ✅ | ✅ | ✅ | ✅ | |
 | 通知画像サムネイル | ✅ | ✅ | ✅ | ✅ | |
 | 通知グルーピング表示（同種アクションまとめ） | ✅ | ✅ | ✅ | ✅ | 「〇〇ほかN人が…」形式・複数アバター表示 |
@@ -207,6 +207,21 @@
 | BSAF タグバッジ表示 | ✅ | ✅ | ✅ | ✅ | |
 | Bot 定義自動更新チェック | ✅ | ✅ | ✅ | ✅ | |
 | ローカル JSON ファイルからの登録 | ✅ | ✅ | N/A | N/A | Desktop: ファイルダイアログ対応 |
+
+---
+
+## 10.5. 避難誘導補助（Evacuation Assist）
+
+| 機能 | Windows | macOS | Android | iOS | 備考 |
+|------|:-------:|:-----:|:-------:|:---:|------|
+| 避難誘導マスタートグル | N/A | N/A | ⬜ | ✅ | 設定画面で ON/OFF、bsaf-kikikuru-bot 自動登録 |
+| 避難所データ同梱（オフライン対応） | N/A | N/A | ⬜ | ✅ | 国土地理院 指定緊急避難場所データ 115,447件、zlib 圧縮 |
+| 最寄り避難所検索 | N/A | N/A | ⬜ | ✅ | CoreLocation + Haversine、災害種別フィルタ |
+| 警報バナー表示（BSAF 自動検知） | N/A | N/A | ⬜ | ✅ | レベル3/4/5 色分け、タップで避難所一覧 |
+| コンパス簡易ナビ（オフライン） | N/A | N/A | ⬜ | ✅ | 方位角 + 直線距離リアルタイム更新 |
+| OS 地図アプリ委譲 | N/A | N/A | ⬜ | ✅ | Apple Maps / Google Maps |
+| オンボーディングダイアログ（初回案内） | N/A | N/A | ⬜ | ✅ | |
+| 免責文言・出典表示 | N/A | N/A | ⬜ | ✅ | 気象庁危険度情報・国土地理院データ |
 
 ---
 
@@ -294,7 +309,6 @@
 
 | 機能 | iOS | 備考 |
 |------|:---:|------|
-| Bluesky 認証マーク表示（verifiedStatus / trustedVerifierStatus） | ⬜ | `app.bsky.actor.defs#verificationState` を読み取り、表示名横にバッジ表示。verified / unverified 通知理由も対応。Android v3.1.0 で実装 |
 | Standard Site 拡張リンクカード（受信・送信） | ⬜ | HANDOFF_kazahana-standard-site-embed.md 参照 |
 | ウォーターマーク合成（設定画面・プリセット・確認モーダル含む） | ⬜ | HANDOFF_watermark.md 参照 |
 | 長文投稿サービス連携（standard.site） | ⬜ | HANDOFF_kazahana-standard-site.md 参照 |
