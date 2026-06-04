@@ -65,4 +65,4 @@
 
 ## SNS
 - **sns_accounts**:
-  - Bluesky: `@app-kazahana.bsky.social`
+  - Bluesky: `@kazahana.app`
