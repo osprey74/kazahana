@@ -281,7 +281,7 @@ Collaborator: よつぎnん / @yotsugin.bsky.social
 
 ## Bluesky 認証マーク表示対応 (2026-06-03)
 
-> 背景: Bluesky が 2025-04-21 にローンチした認証システム（trusted verifiers が他アカウントに認証レコードを発行する仕組み）に対応する。kazahana 公式アカウント（@app-kazahana.bsky.social）が公式から認証マークを付与されたが、kazahana 自体に表示機能がなかったため実装。
+> 背景: Bluesky が 2025-04-21 にローンチした認証システム（trusted verifiers が他アカウントに認証レコードを発行する仕組み）に対応する。kazahana 公式アカウント（@kazahana.app、旧 @app-kazahana.bsky.social）が公式から認証マークを付与されたが、kazahana 自体に表示機能がなかったため実装。
 > Lexicon: `app.bsky.actor.defs#verificationState`（`verifiedStatus` / `trustedVerifierStatus` を含む）
 
 - [x] **[D-1] VerificationBadge コンポーネント新設** — `src/components/common/VerificationBadge.tsx`。`verifiedStatus === "valid"` で青の `verified` アイコン、`trustedVerifierStatus === "valid"` で `workspace_premium` アイコン（trusted verifier が優先表示）。ツールチップ付き、BotBadge と同パターン

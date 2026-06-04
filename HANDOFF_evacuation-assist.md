@@ -5,11 +5,15 @@
 | 機能名（仮） | 避難誘導補助機能 / Evacuation Assist |
 | 対象アプリ | kazahana モバイル版（iOS / Android） |
 | 元設計書 | DESIGN_evacuation-assist.md |
-| ステータス | HANDOFF（実装フェーズ） |
+| ステータス | HANDOFF（iOS 実装完了 / Android 未実装） |
 | 作成日 | 2026-06-03 |
+| iOS 完了日 | 2026-06-04（v3.2.0） |
+| iOS リポジトリ | https://github.com/osprey74/kazahana-ios |
 | 想定実装環境 | Claude Code |
 
 > 本書は DESIGN_evacuation-assist.md を実装可能な単位に分解した指示書です。各フェーズは独立してコミット・テスト可能な粒度で構成しています。実装中の仕様変更は都度反映してください。
+
+> **iOS 実装完了**: kazahana-ios で全 5 フェーズを実装し v3.2.0 で App Store 審査提出済み。以下の HANDOFF は Tauri v2 ベースの記述だが、Android（Kotlin / Jetpack Compose）実装時は iOS 実装 (`kazahana-ios/Documentation/HANDOFF-evacuation-assist.md`) も参照し、実装判断・データ形式・審査対応のノウハウを活用すること。
 
 ---
 
@@ -290,3 +294,43 @@ interface EvacuationSettings {
 | BSAF Protocol | https://github.com/osprey74/bsaf-protocol |
 | Tauri v2 Geolocation Plugin | https://v2.tauri.app/plugin/geolocation/ |
 | 気象庁 防災情報XMLフィード | https://www.data.jma.go.jp/developer/xml/ |
+
+---
+
+## 10. iOS 実装からの申し送り事項（Android 向け）
+
+### データ形式（iOS 実績）
+- CSV → コンパクト JSON → **zlib 圧縮**（`shelters.zlib`、2.1MB）。`id` フィールドを除去し `hazards` を8ビットのビットマスクに圧縮することでサイズを大幅削減。
+- 変換スクリプト `kazahana-ios/scripts/build-shelters.py` は iOS/Android 共用可。出力ファイルをそのまま Android の `assets/` に配置可能。
+- Android 側: `java.util.zip.Inflater` で解凍 → `Gson` / `kotlinx.serialization` でパース。
+
+### 設定プロパティ（iOS 実績）
+- `evacuationEnabled: Boolean`（デフォルト false）
+- `evacuationPrefectureOverride: String?`（null = 自動判定）
+- `evacuationOnboardingShown: Boolean`（デフォルト false）
+- Android: `SharedPreferences` または `DataStore` で永続化。
+
+### Bot 定義 URL
+- **正しい URL**: `https://raw.githubusercontent.com/osprey74/bsaf-kikikuru-bot/main/bsaf-bot.json`
+- GitHub の `blob` URL ではなく `raw` URL を使用すること（iOS で初期実装時に誤って blob URL を使用し修正した経緯あり）。
+
+### ストア審査（iOS で得たノウハウ）
+- **デモモード**: `BuildConfig.DEBUG` ゲートではなく、設定画面のバージョン番号を5回タップで Release ビルドでもデモボタンを表示する方式を推奨。審査官がアラートバナー → 避難所一覧 → コンパスナビの一連フローを自分で操作できる。
+- **審査ノート記載例**: 「Settings > App Info > tap version 5 times to enable demo mode. Use Demo buttons in Evacuation Assist section to simulate weather alerts.」
+- **プライバシー**: 位置情報は「アプリの機能」用途として申告。バックグラウンド測位は行わない。
+
+### オンボーディング
+- 初回起動時に1回だけダイアログ表示（「避難誘導機能が利用できます。設定からいつでもオンにできます」）。
+- 「あとで」ボタンのみ（設定への直接遷移は不要）。
+
+### 免責文言（専門家確認済み・iOS と同一文言を使用）
+- `evacuation.disclaimer`: 「避難誘導機能は気象庁発令の危険度情報に基づき、国土地理院 指定緊急避難場所のデータから最寄りの指定緊急避難場所を掲出、避難誘導をサポートする事を目的としています。避難の判断は自治体の避難指示や公式情報をご確認ください。」
+- `evacuation.dataSource`: 「出典: 国土地理院 指定緊急避難場所データ」
+- `evacuation.dataWarning`: 「データが最新でない場合や実際の避難場所と異なる場合があります。最新情報は自治体にご確認ください。」
+
+### アラートタイムアウト
+- iOS 実装: 6時間（`alertTimeoutInterval = 6 * 3600`）。
+- 10分間隔で `expireStaleAlerts()` を実行 + フォアグラウンド復帰時にも即時チェック。
+
+### Bluesky 公式アカウント
+- `@kazahana.app`（旧 `@app-kazahana.bsky.social` から変更済み）。アプリ内の設定画面表示を更新すること。
