@@ -1,6 +1,6 @@
 # kazahana Platform Feature Matrix
 
-> **Last updated:** 2026-06-04 (iOS: 避難誘導補助機能を追加（v3.2.0）、認証マーク・認証通知対応済みに更新)
+> **Last updated:** 2026-06-04 (Android: 避難誘導補助機能を追加（v3.2.0）／ iOS: 避難誘導補助機能を追加（v3.2.0）、認証マーク・認証通知対応済みに更新)
 > **Source:** Compiled from the following repositories
 > - Desktop (Win/macOS): https://github.com/osprey74/kazahana
 > - iOS: https://github.com/osprey74/kazahana-ios
@@ -214,14 +214,14 @@
 
 | 機能 | Windows | macOS | Android | iOS | 備考 |
 |------|:-------:|:-----:|:-------:|:---:|------|
-| 避難誘導マスタートグル | N/A | N/A | ⬜ | ✅ | 設定画面で ON/OFF、bsaf-kikikuru-bot 自動登録 |
-| 避難所データ同梱（オフライン対応） | N/A | N/A | ⬜ | ✅ | 国土地理院 指定緊急避難場所データ 115,447件、zlib 圧縮 |
-| 最寄り避難所検索 | N/A | N/A | ⬜ | ✅ | CoreLocation + Haversine、災害種別フィルタ |
-| 警報バナー表示（BSAF 自動検知） | N/A | N/A | ⬜ | ✅ | レベル3/4/5 色分け、タップで避難所一覧 |
-| コンパス簡易ナビ（オフライン） | N/A | N/A | ⬜ | ✅ | 方位角 + 直線距離リアルタイム更新 |
-| OS 地図アプリ委譲 | N/A | N/A | ⬜ | ✅ | Apple Maps / Google Maps |
-| オンボーディングダイアログ（初回案内） | N/A | N/A | ⬜ | ✅ | |
-| 免責文言・出典表示 | N/A | N/A | ⬜ | ✅ | 気象庁危険度情報・国土地理院データ |
+| 避難誘導マスタートグル | N/A | N/A | ✅ | ✅ | 設定画面で ON/OFF、bsaf-kikikuru-bot 自動登録 |
+| 避難所データ同梱（オフライン対応） | N/A | N/A | ✅ | ✅ | 国土地理院 指定緊急避難場所データ 115,447件、zlib 圧縮 |
+| 最寄り避難所検索 | N/A | N/A | ✅ | ✅ | 測位（Android: FusedLocation / iOS: CoreLocation）+ Haversine、災害種別フィルタ |
+| 警報バナー表示（BSAF 自動検知） | N/A | N/A | ✅ | ✅ | レベル3/4/5 色分け、タップで避難所一覧 |
+| コンパス簡易ナビ（オフライン） | N/A | N/A | ✅ | ✅ | 方位角 + 直線距離リアルタイム更新 |
+| OS 地図アプリ委譲 | N/A | N/A | ✅ | ✅ | Apple Maps / Google Maps |
+| オンボーディングダイアログ（初回案内） | N/A | N/A | ✅ | ✅ | |
+| 免責文言・出典表示 | N/A | N/A | ✅ | ✅ | 気象庁危険度情報・国土地理院データ |
 
 ---
 
