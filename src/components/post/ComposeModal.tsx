@@ -11,7 +11,7 @@ import { useSettingsStore } from "../../stores/settingsStore";
 import { useWatermarkStore } from "../../stores/watermarkStore";
 import { applyWatermark } from "../../lib/watermark";
 import { WatermarkConfirmModal } from "../WatermarkConfirmModal";
-import { ImageUpload, type ImageFile } from "./ImageUpload";
+import { ImageUpload, MAX_IMAGES, type ImageFile } from "./ImageUpload";
 import { ImageEditModal } from "./ImageEditModal";
 import { VideoUpload, type VideoFile } from "./VideoUpload";
 import { DraftListModal } from "./DraftListModal";
@@ -81,6 +81,7 @@ export function ComposeModal() {
   const [video, setVideo] = useState<VideoFile | null>(null);
   const [videoAspectRatio, setVideoAspectRatio] = useState<{ width: number; height: number } | undefined>();
   const [videoProgress, setVideoProgress] = useState<{ progress: number; state: string } | null>(null);
+  const [imageProgress, setImageProgress] = useState<{ current: number; total: number } | null>(null);
   const [replyGate, setReplyGate] = useState<"everyone" | "mention" | "follower" | "following" | "nobody">("everyone");
   const [disableQuote, setDisableQuote] = useState(false);
   const [mentionIndex, setMentionIndex] = useState(0);
@@ -132,6 +133,7 @@ export function ComposeModal() {
       setVideo(null);
       setVideoAspectRatio(undefined);
       setVideoProgress(null);
+      setImageProgress(null);
       setReplyGate("everyone");
       setDisableQuote(false);
       setMentionIndex(0);
@@ -185,7 +187,7 @@ export function ComposeModal() {
 
   const handlePaste = useCallback(async (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
     // Handle clipboard image paste (screenshots, copied images)
-    if (!video && images.length < 4) {
+    if (!video && images.length < MAX_IMAGES) {
       const imageItems = Array.from(e.clipboardData.items).filter(
         (item) => item.kind === "file" && IMAGE_ACCEPTED.includes(item.type),
       );
@@ -394,6 +396,7 @@ export function ComposeModal() {
         threadgate: !replyTo && !quoteTo ? replyGate : undefined,
         postgate: !replyTo && !quoteTo && disableQuote ? { disableQuote: true } : undefined,
         onVideoProgress: (progress, state) => setVideoProgress({ progress, state }),
+        onImageProgress: (current, total) => setImageProgress({ current, total }),
       },
       {
         onSuccess: () => {
@@ -466,7 +469,7 @@ export function ComposeModal() {
   const handleModalDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     setIsDragging(false);
-    if (video || images.length >= 4) return;
+    if (video || images.length >= MAX_IMAGES) return;
     const files = Array.from(e.dataTransfer.files).filter(
       (f) => IMAGE_ACCEPTED.includes(f.type),
     );
@@ -490,6 +493,34 @@ export function ComposeModal() {
         {isDragging && !video && (
           <div className="absolute inset-0 z-10 bg-primary/10 border-2 border-dashed border-primary rounded-card flex items-center justify-center pointer-events-none">
             <p className="text-primary font-medium text-sm">{t("image.dropHere")}</p>
+          </div>
+        )}
+        {/* Submitting overlay — covers entire modal while createPost is pending */}
+        {createPost.isPending && (
+          <div className="absolute inset-0 z-20 bg-white/85 dark:bg-bg-dark/85 backdrop-blur-sm rounded-card flex flex-col items-center justify-center gap-3 pointer-events-auto">
+            <svg className="animate-spin h-10 w-10 text-primary" viewBox="0 0 24 24" fill="none">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+            </svg>
+            <p className="text-sm font-medium text-text-light dark:text-text-dark">
+              {imageProgress && imageProgress.current < imageProgress.total
+                ? t("compose.uploadingImage", { current: imageProgress.current + 1, total: imageProgress.total })
+                : videoProgress?.state === "uploading"
+                  ? `${t("video.uploading")} ${videoProgress.progress}%`
+                  : videoProgress?.state === "processing"
+                    ? t("video.processing")
+                    : imageProgress && imageProgress.current >= imageProgress.total
+                      ? t("compose.finalizingPost")
+                      : t("compose.posting")}
+            </p>
+            {imageProgress && imageProgress.total > 0 && (
+              <div className="w-48 h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-primary rounded-full transition-all duration-300"
+                  style={{ width: `${(imageProgress.current / imageProgress.total) * 100}%` }}
+                />
+              </div>
+            )}
           </div>
         )}
         {/* Header */}

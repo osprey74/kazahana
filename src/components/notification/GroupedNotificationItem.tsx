@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import type { AppBskyFeedDefs, AppBskyEmbedImages } from "@atproto/api";
+import type { AppBskyFeedDefs } from "@atproto/api";
 type PostView = AppBskyFeedDefs.PostView;
-type ViewImage = AppBskyEmbedImages.ViewImage;
+import { extractImagesFromEmbed, type MediaImage } from "../../lib/embed/gallery";
 import { formatDistanceToNowStrict } from "date-fns";
 import { ja } from "date-fns/locale";
 import { enUS } from "date-fns/locale";
@@ -50,19 +50,8 @@ interface VideoEmbed {
   aspectRatio?: { width: number; height: number };
 }
 
-function getPostImages(post?: PostView): ViewImage[] {
-  const embed = post?.embed;
-  if (!embed) return [];
-  if (embed.$type === "app.bsky.embed.images#view") {
-    return (embed as { images?: ViewImage[] }).images ?? [];
-  }
-  if (embed.$type === "app.bsky.embed.recordWithMedia#view") {
-    const media = (embed as { media?: { $type?: string; images?: ViewImage[] } }).media;
-    if (media?.$type === "app.bsky.embed.images#view") {
-      return media.images ?? [];
-    }
-  }
-  return [];
+function getPostImages(post?: PostView): MediaImage[] {
+  return extractImagesFromEmbed(post?.embed);
 }
 
 function getVideoEmbed(post?: PostView): VideoEmbed | null {
@@ -220,12 +209,17 @@ export function GroupedNotificationItem({ group, subjectPosts }: GroupedNotifica
               />
             </div>
           )}
-          {/* Images: 64px square thumbnails */}
+          {/* Images: 64px square thumbnails; horizontal scroll on overflow */}
           {images.length > 0 && (
-            <div className="flex gap-1 mt-2">
+            <div className="flex gap-1 mt-2 overflow-x-auto snap-x scrollbar-thin">
               {images.map((img, i) => (
-                <div key={i} className="w-16 h-16 rounded overflow-hidden flex-shrink-0 bg-gray-200 dark:bg-gray-700">
+                <div key={i} className="relative w-16 h-16 rounded overflow-hidden flex-shrink-0 snap-start bg-gray-200 dark:bg-gray-700">
                   <img src={img.thumb} alt={img.alt || ""} className="w-full h-full object-cover" />
+                  {images.length > 4 && (
+                    <div className="absolute top-0.5 right-0.5 px-1 py-0 rounded-full bg-black/55 text-white text-[9px] font-medium leading-none">
+                      {i + 1}/{images.length}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>

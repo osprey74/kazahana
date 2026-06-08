@@ -36,6 +36,8 @@
     "cancel": "Отмена",
     "post": "Опубликовать",
     "posting": "Публикация...",
+    "uploadingImage": "Загрузка изображения ({{current}}/{{total}})",
+    "finalizingPost": "Завершение публикации...",
     "placeholder": "О чём думаете?",
     "replyPlaceholder": "Написать ответ...",
     "postFailed": "Не удалось опубликовать",

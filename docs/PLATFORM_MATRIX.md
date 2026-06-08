@@ -48,7 +48,8 @@
 | 機能 | Windows | macOS | Android | iOS | 備考 |
 |------|:-------:|:-----:|:-------:|:---:|------|
 | リッチテキスト（メンション/URL/ハッシュタグ） | ✅ | ✅ | ✅ | ✅ | |
-| 画像グリッド表示（最大4枚） | ✅ | ✅ | ✅ | ✅ | |
+| 画像グリッド表示（≤4枚、`app.bsky.embed.images`） | ✅ | ✅ | ✅ | ✅ | |
+| 画像カルーセル表示（5〜10枚、`app.bsky.embed.gallery`） | ✅ | ✅ | ⬜ | ⬜ | 2026-06-06 Bluesky v1.123 で正式リリース（atproto #4827 / social-app #10707）。5 枚以上で横スクロールカルーセル + 枚数バッジ。HANDOFF_kazahana-bsky-v1.123.md 参照 |
 | 画像ライトボックス（フルスクリーン） | ✅ | ✅ | ✅ | ✅ | Desktop: キーボードナビ対応 |
 | 画像表示モード設定（アプリ内/ブラウザ） | ✅ | ✅ | N/A | N/A | |
 | 動画再生（HLS） | ✅ | ✅ | ✅ | ✅ | |
@@ -91,8 +92,10 @@
 | 機能 | Windows | macOS | Android | iOS | 備考 |
 |------|:-------:|:-----:|:-------:|:---:|------|
 | テキスト投稿 | ✅ | ✅ | ✅ | ✅ | |
-| 画像添付（最大4枚） | ✅ | ✅ | ✅ | ✅ | |
+| 画像添付（≤4枚、`app.bsky.embed.images`） | ✅ | ✅ | ✅ | ✅ | |
+| 画像添付（5〜10枚、`app.bsky.embed.gallery` 送信） | ✅ | ✅ | ⬜ | ⬜ | 5 枚以上選択で自動的に `embed.gallery` 種別へ昇格、≤4 で `embed.images` に降格。alt / aspectRatio 必須付与。HANDOFF_kazahana-bsky-v1.123.md 参照 |
 | 動画添付 | ✅ | ✅ | ✅ | ✅ | |
+| 動画上限 300MB（Bluesky v1.123 拡張） | ✅ | ✅ | ⬜ | ⬜ | social-app #10497/#10683 で feature gate 解除。lexicon `video.maxSize` は 100MB のまま（サーバ受容範囲＝トランスコード前提）。HANDOFF_kazahana-bsky-v1.123.md 参照 |
 | 画像クロップ（オリジナル/正方形/自由） | ✅ | ✅ | ✅ | ✅ | |
 | 画像回転（90度単位） | ✅ | ✅ | ✅ | ✅ | |
 | ALT テキスト入力 | ✅ | ✅ | ✅ | ✅ | |
@@ -304,6 +307,14 @@
 | 機能 | Android | 備考 |
 |------|:-------:|------|
 | 独自 PDS ログイン（DNS/well-known からの PDS 自動解決） | ⬜ | Desktop v2.7.0 / iOS v3.1.0 で実装。Android は did:plc の DID ドキュメントからの PDS 解決のみ対応（ハンドル解決は bsky.social 固定） |
+
+### Desktop 先行実装（iOS / Android 未実装）
+
+| 機能 | iOS | Android | 備考 |
+|------|:---:|:-------:|------|
+| `app.bsky.embed.gallery` 受信表示（5〜10枚カルーセル） | ⬜ | ⬜ | Bluesky v1.123（2026-06-06）対応。HANDOFF_kazahana-bsky-v1.123.md 参照 |
+| `app.bsky.embed.gallery` 送信（画像 5〜10枚投稿） | ⬜ | ⬜ | Composer で 5枚以上選択時に自動的に gallery embed 種別へ昇格 |
+| 動画上限 300MB（Bluesky v1.123 拡張） | ⬜ | ⬜ | サーバ受容範囲 = トランスコード前提（lexicon は 100MB のまま） |
 
 ### Desktop / Android 実装済み（iOS 未実装）
 

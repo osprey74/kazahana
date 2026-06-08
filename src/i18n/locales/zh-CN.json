@@ -36,6 +36,8 @@
     "cancel": "取消",
     "post": "发布",
     "posting": "正在发布…",
+    "uploadingImage": "正在上传图片 ({{current}}/{{total}})",
+    "finalizingPost": "正在完成发布…",
     "placeholder": "有什么想说的？",
     "replyPlaceholder": "写下你的回复…",
     "postFailed": "发布失败",

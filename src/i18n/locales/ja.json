@@ -36,6 +36,8 @@
     "cancel": "キャンセル",
     "post": "投稿する",
     "posting": "投稿中...",
+    "uploadingImage": "画像をアップロード中 ({{current}}/{{total}})",
+    "finalizingPost": "投稿を準備中...",
     "placeholder": "いまどうしてる？",
     "replyPlaceholder": "返信を入力...",
     "quotePlaceholder": "引用にコメントを追加...",

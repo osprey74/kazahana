@@ -312,8 +312,8 @@ Clicking the FAB at the bottom right opens the post composer as a modal.
 | **Post button** | Publishes the post. You can also publish by pressing Alt+Enter (Windows/Linux) or Option+Enter (macOS) |
 | **Text input area** | Enter your post body (placeholder: "What's up?") |
 | **Character counter** | Current count and limit shown at bottom right (0/300) |
-| **Add images** | Attach image files (up to 4, 1MB max each) |
-| **Add video** | Attach a video file (100MB max) |
+| **Add images** | Attach image files (up to 10, auto-compressed to 2MB / 1MB fallback for legacy PDSes). 5+ images are posted as `app.bsky.embed.gallery` and shown as a horizontal-scrolling carousel with an image count badge |
+| **Add video** | Attach a video file (up to 300MB, transcoded server-side) |
 | **Reply scope** | Set who can reply via the dropdown |
 | **Disable quotes** | Check to prevent quote reposts |
 

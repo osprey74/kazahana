@@ -35,8 +35,9 @@ Kazahana is designed as a **lightweight, always-running companion app** — not 
 - [x] Reading position marker
 - [x] Post / Reply
 - [x] Like / Repost
-- [x] Image attachments (up to 4, with ALT text)
+- [x] Image attachments (up to 10, with ALT text — auto-promotes to `app.bsky.embed.gallery`)
 - [x] Image lightbox with keyboard navigation
+- [x] Horizontal-scrolling carousel for 5+ image posts (compatible with official v1.123, with image count badge)
 - [x] Link card (OGP preview)
 - [x] Thread view
 - [x] Notifications (like, repost, follow, mention, reply, quote, like-via-repost, repost-via-repost)
@@ -47,7 +48,7 @@ Kazahana is designed as a **lightweight, always-running companion app** — not 
 - [x] Content moderation (label-based filtering, blur, settings)
 - [x] Custom feeds & list feeds (tab selector)
 - [x] Threadgate & postgate (reply / quote restrictions)
-- [x] Video attachments (upload, HLS playback, volume setting)
+- [x] Video attachments (upload, HLS playback, volume setting — up to 300MB, compatible with official v1.123)
 - [x] Desktop notifications (with reason breakdown: like/repost/reply/mention/follow/quote/like-via-repost/repost-via-repost)
 - [x] Auto-start on OS boot (optional)
 - [x] Bookmarks

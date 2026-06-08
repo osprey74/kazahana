@@ -14,6 +14,7 @@ import { fetch as tauriFetch } from "@tauri-apps/plugin-http";
 import { save } from "@tauri-apps/plugin-dialog";
 import { writeFile } from "@tauri-apps/plugin-fs";
 import { Icon } from "../common/Icon";
+import { extractImagesFromEmbed, GALLERY_RECORD_TYPE, GALLERY_VIEW_TYPE, type MediaImage as SharedMediaImage } from "../../lib/embed/gallery";
 
 interface PostActionsProps {
   post: PostView;
@@ -220,28 +221,24 @@ function hasMediaInPost(post: PostView): boolean {
   const embed = post.embed;
   if (!embed) return false;
   if (embed.$type === "app.bsky.embed.images#view") return true;
+  if (embed.$type === GALLERY_VIEW_TYPE) return true;
   if (embed.$type === "app.bsky.embed.video#view") return true;
   if (embed.$type === "app.bsky.embed.recordWithMedia#view") {
     const media = (embed as { media?: { $type?: string } }).media;
-    return media?.$type === "app.bsky.embed.images#view" || media?.$type === "app.bsky.embed.video#view";
+    return (
+      media?.$type === "app.bsky.embed.images#view" ||
+      media?.$type === GALLERY_VIEW_TYPE ||
+      media?.$type === "app.bsky.embed.video#view"
+    );
   }
   return false;
 }
 
-interface MediaImage { fullsize: string; thumb: string; alt?: string }
+type MediaImage = SharedMediaImage;
 interface MediaVideo { playlist: string; thumbnail?: string }
 
 function getMediaImages(post: PostView): MediaImage[] {
-  const embed = post.embed;
-  if (!embed) return [];
-  if (embed.$type === "app.bsky.embed.images#view") {
-    return (embed as { images?: MediaImage[] }).images ?? [];
-  }
-  if (embed.$type === "app.bsky.embed.recordWithMedia#view") {
-    const media = (embed as { media?: { $type?: string; images?: MediaImage[] } }).media;
-    if (media?.$type === "app.bsky.embed.images#view") return media.images ?? [];
-  }
-  return [];
+  return extractImagesFromEmbed(post.embed);
 }
 
 function getMediaVideo(post: PostView): MediaVideo | null {
@@ -276,7 +273,8 @@ function getImageBlobs(post: PostView): OriginalImageInfo[] {
     | {
         $type?: string;
         images?: unknown[];
-        media?: { $type?: string; images?: unknown[] };
+        items?: unknown[];
+        media?: { $type?: string; images?: unknown[]; items?: unknown[] };
       }
     | undefined;
   if (!embed) return [];
@@ -284,11 +282,15 @@ function getImageBlobs(post: PostView): OriginalImageInfo[] {
   let rawImages: unknown[] | undefined;
   if (embed.$type === "app.bsky.embed.images") {
     rawImages = embed.images;
-  } else if (
-    embed.$type === "app.bsky.embed.recordWithMedia" &&
-    embed.media?.$type === "app.bsky.embed.images"
-  ) {
-    rawImages = embed.media.images;
+  } else if (embed.$type === GALLERY_RECORD_TYPE) {
+    // app.bsky.embed.gallery wraps each image under `items[]`
+    rawImages = embed.items;
+  } else if (embed.$type === "app.bsky.embed.recordWithMedia") {
+    if (embed.media?.$type === "app.bsky.embed.images") {
+      rawImages = embed.media.images;
+    } else if (embed.media?.$type === GALLERY_RECORD_TYPE) {
+      rawImages = embed.media.items;
+    }
   }
   if (!rawImages) return [];
 

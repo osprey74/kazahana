@@ -36,6 +36,8 @@
     "cancel": "Abbrechen",
     "post": "Posten",
     "posting": "Wird gepostet...",
+    "uploadingImage": "Bild wird hochgeladen ({{current}}/{{total}})",
+    "finalizingPost": "Beitrag wird fertiggestellt...",
     "placeholder": "Was beschäftigt dich gerade?",
     "replyPlaceholder": "Antwort schreiben...",
     "postFailed": "Posten fehlgeschlagen",

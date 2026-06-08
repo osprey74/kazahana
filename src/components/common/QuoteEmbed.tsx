@@ -1,11 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import type { RichText } from "@atproto/api";
-import type { AppBskyEmbedImages } from "@atproto/api";
-type ViewImage = AppBskyEmbedImages.ViewImage;
 import { Avatar } from "./Avatar";
 import { BotBadge, isBotAccount } from "./BotBadge";
 import { ImageGrid } from "./ImageGrid";
+import { extractImagesFromQuoteEmbeds } from "../../lib/embed/gallery";
 import { PostContent } from "../timeline/PostContent";
 import { Icon } from "./Icon";
 
@@ -63,7 +62,7 @@ export function QuoteEmbed({ record }: QuoteEmbedProps) {
   const value = record.value;
   if (!author) return null;
 
-  const images = getQuoteImages(record.embeds);
+  const images = extractImagesFromQuoteEmbeds(record.embeds);
 
   const handleClick = (e: React.MouseEvent) => {
     if ((e.target as HTMLElement).closest("button, a")) return;
@@ -101,15 +100,4 @@ export function QuoteEmbed({ record }: QuoteEmbedProps) {
       {images.length > 0 && <ImageGrid images={images} />}
     </div>
   );
-}
-
-function getQuoteImages(embeds?: unknown[]): ViewImage[] {
-  if (!embeds || embeds.length === 0) return [];
-  for (const embed of embeds) {
-    const e = embed as { $type?: string; images?: ViewImage[] };
-    if (e.$type === "app.bsky.embed.images#view" && e.images) {
-      return e.images;
-    }
-  }
-  return [];
 }

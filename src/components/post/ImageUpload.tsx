@@ -2,6 +2,7 @@ import { useRef, useCallback, useState, type DragEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { Icon } from "../common/Icon";
 import { AltTextDialog } from "./AltTextDialog";
+import { MAX_GALLERY_ITEMS_CLIENT } from "../../lib/embed/gallery";
 
 interface ImageFile {
   id: string;
@@ -18,8 +19,10 @@ interface ImageUploadProps {
   onEdit?: (id: string) => void;
 }
 
-const MAX_IMAGES = 4;
+const MAX_IMAGES = MAX_GALLERY_ITEMS_CLIENT;
 const ACCEPTED = ["image/jpeg", "image/png", "image/webp"];
+
+export { MAX_IMAGES };
 
 export function ImageUpload({ images, onAdd, onRemove, onUpdateAlt, onEdit }: ImageUploadProps) {
   const { t } = useTranslation();

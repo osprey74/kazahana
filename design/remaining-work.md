@@ -313,21 +313,21 @@ Collaborator: よつぎnん / @yotsugin.bsky.social
 
 ### Phase A: 受信側 embed.gallery viewer 対応（最優先・3 プラットフォーム同時リリース推奨）
 
-- [ ] **[D-G1] `app.bsky.embed.gallery#view` レンダラ追加** — `src/components/common/ImageGrid.tsx` を拡張、または `GalleryView.tsx` を新設。`src/components/timeline/PostCard.tsx:350-364` 周辺の `getImages()` を `embed.images` / `embed.gallery` 両対応に
-- [ ] **[D-G2] ≤4 枚グリッド / ≥5 枚横スクロールカルーセル分岐** — 4 枚以下は既存 2 列グリッド維持、5 枚以上は横スクロール（CSS `overflow-x: auto` + `scroll-snap-type: x mandatory`）
-- [ ] **[D-G3] `recordWithMedia` 内 gallery 対応** — `recordWithMedia.media` の union を `embed.images` / `embed.gallery` / `embed.video` 3 通りで処理
-- [ ] **[D-G4] 未知 union ref のスキップ実装** — `items[]` の `union { refs: ["#image"] }` 構造に対し、将来追加される `#video` 等の未知型を安全にスキップ
+- [x] **[D-G1] `app.bsky.embed.gallery#view` レンダラ追加** — `src/lib/embed/gallery.ts` に `extractImagesFromEmbed()` / `extractImagesFromQuoteEmbeds()` ヘルパを新設。`gallery#viewImage.thumbnail` ↔ legacy `images#viewImage.thumb` のフィールド名差を正規化。`PostCard.tsx` / `ThreadView.tsx` / `NotificationItem.tsx` / `QuoteEmbed.tsx` の 4 callsite を共通ヘルパへ移行
+- [x] **[D-G2] ≤4 枚グリッド / ≥5 枚横スクロールカルーセル分岐** — `ImageGrid.tsx` を `MediaImage[]` ベースに作り直し、`CAROUSEL_THRESHOLD = 4` で分岐。≥5 枚は `flex overflow-x-auto snap-x snap-mandatory` の横スクロール + 各サムネに枚数バッジ（"3/7"）
+- [x] **[D-G3] `recordWithMedia` 内 gallery 対応** — `extractImagesFromEmbed()` が `recordWithMedia#view.media` を再帰展開、`embed.images` / `embed.gallery` の両方を正規化
+- [x] **[D-G4] 未知 union ref のスキップ実装** — `Gallery.isViewImage()` 型ガードで `#viewImage` のみ採用、将来追加 ref は自動スキップ
 
 ### Phase B: 送信側 composer 対応 + 動画 300MB
 
-- [ ] **[D-G5] `MAX_IMAGES = 4` → `10` に拡張** — `src/components/post/ImageUpload.tsx:21` ほか。alt 入力ダイアログを 10 枚分まで対応
-- [ ] **[D-G6] 5 枚以上選択時に `embed.gallery` で送信** — `src/hooks/usePost.ts` の embed 組み立て箇所。≤4 枚は `embed.images`、≥5 枚は `embed.gallery` で自動分岐。auto promote/demote 対応（公式互換）
-- [ ] **[D-G7] gallery `#image` に alt / aspectRatio 必須付与** — lexicon required を満たす（alt 空文字は許容）
-- [ ] **[D-G8] 動画上限 100MB → 300MB** — `src/components/post/VideoUpload.tsx` の `MAX_SIZE`。固定値 `300 * 1024 * 1024` でひとまず引き上げ
-- [ ] **[D-G9] `app.bsky.video.getUploadLimits` 応答尊重** — サーバ応答の `canUpload` / `remainingDailyBytes` をチェックし、超過時はユーザに通知
+- [x] **[D-G5] `MAX_IMAGES = 4` → `10` に拡張** — `ImageUpload.tsx` の `MAX_IMAGES` を `MAX_GALLERY_ITEMS_CLIENT (=10)` に。`ComposeModal.tsx` のハードコード `4` を `MAX_IMAGES` import へ切り替え（paste / drop 両方）
+- [x] **[D-G6] 5 枚以上選択時に `embed.gallery` で送信** — `usePost.ts` で `imageEmbeds.length > CAROUSEL_THRESHOLD` 時に `$type: "app.bsky.embed.gallery"` + `items[]` を組み立て、≤4 は従来通り `embed.images`
+- [x] **[D-G7] gallery `#image` に alt / aspectRatio 必須付与** — gallery items は `alt` と `aspectRatio` を必ず送信（lexicon required）、aspectRatio 不在時は `{width:1,height:1}` フォールバック
+- [x] **[D-G8] 動画上限 100MB → 300MB** — `VideoUpload.tsx` の `MAX_SIZE` を `300 * 1024 * 1024` に拡張、コメントで lexicon は依然 100MB（トランスコード前提）と明記
+- [x] **[D-G9] `app.bsky.video.getUploadLimits` 応答尊重** — `usePost.ts:82-99` で既に実装済（`canUpload` チェック）。300MB 拡張に伴う追加変更は不要
 
 ### Phase C: 品質改善（任意）
 
-- [ ] **[D-G10] カルーセル枚数バッジ表示** — social-app PR #10719 互換。"3 / 7" 形式を右上に
-- [ ] **[D-G11] `@atproto/api` 型生成更新** — `AppBskyEmbedGallery` 型が型生成済か確認、未生成なら手書き型定義 or アップデート
-- [ ] **[D-G12] PLATFORM_MATRIX.md 更新** — セクション「投稿表示」に `embed.gallery` 行追加、「投稿作成」に画像 10 枚 / 動画 300MB 行追加
+- [x] **[D-G10] カルーセル枚数バッジ表示** — `ImageGrid.tsx` の `CarouselLayout` 内で各サムネ右上に `"{i+1}/{count}"` 形式のバッジを実装（social-app PR #10719 互換）
+- [x] **[D-G11] `@atproto/api` を 0.20.11 へアップデート** — `^0.20.5` → `^0.20.11`。`AppBskyEmbedGallery`（`Main` / `Image` / `View` / `ViewImage`）が codegen で追加されたのは 0.20.9（atproto PR #4827）。0.20.11 まで上げて最新 chat lexicons も取り込み済。**注意**: `gallery#viewImage` は `thumbnail` フィールド（legacy `embed.images#viewImage` は `thumb`）、フィールド名が異なるため call site で正規化が必要
+- [x] **[D-G12] PLATFORM_MATRIX.md 更新** — セクション 2「投稿表示」に `embed.gallery` カルーセル行追加、セクション 4「投稿作成」に gallery 送信 / 動画 300MB 行追加、差異サマリーに「Desktop 先行実装（iOS / Android 未実装）」セクションを新設

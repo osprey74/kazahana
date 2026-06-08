@@ -36,6 +36,8 @@
     "cancel": "Batal",
     "post": "Posting",
     "posting": "Memposting...",
+    "uploadingImage": "Mengunggah gambar ({{current}}/{{total}})",
+    "finalizingPost": "Menyelesaikan postingan...",
     "placeholder": "Apa yang sedang Anda pikirkan?",
     "replyPlaceholder": "Tulis balasan...",
     "postFailed": "Gagal memposting",

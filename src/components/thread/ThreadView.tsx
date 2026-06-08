@@ -19,8 +19,7 @@ import { LinkCard } from "../common/LinkCard";
 import { QuoteEmbed } from "../common/QuoteEmbed";
 import { VideoPlayer } from "../common/VideoPlayer";
 import { getExternalEmbed } from "../../lib/embed/external";
-import type { AppBskyEmbedImages } from "@atproto/api";
-type ViewImage = AppBskyEmbedImages.ViewImage;
+import { extractImagesFromEmbed, type MediaImage } from "../../lib/embed/gallery";
 import { formatDistanceToNowStrict } from "date-fns";
 import { ja } from "date-fns/locale";
 import { enUS } from "date-fns/locale";
@@ -353,17 +352,6 @@ function getVideoEmbed(post: PostView): VideoEmbed | null {
   return null;
 }
 
-function getImages(post: PostView): ViewImage[] {
-  const embed = post.embed;
-  if (!embed) return [];
-  if (embed.$type === "app.bsky.embed.images#view") {
-    return (embed as { images?: ViewImage[] }).images ?? [];
-  }
-  if (embed.$type === "app.bsky.embed.recordWithMedia#view") {
-    const media = (embed as { media?: { $type?: string; images?: ViewImage[] } }).media;
-    if (media?.$type === "app.bsky.embed.images#view") {
-      return media.images ?? [];
-    }
-  }
-  return [];
+function getImages(post: PostView): MediaImage[] {
+  return extractImagesFromEmbed(post.embed);
 }

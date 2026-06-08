@@ -36,6 +36,8 @@
     "cancel": "취소",
     "post": "게시",
     "posting": "게시 중…",
+    "uploadingImage": "이미지 업로드 중 ({{current}}/{{total}})",
+    "finalizingPost": "게시물 마무리 중…",
     "placeholder": "무슨 생각을 하고 계신가요?",
     "replyPlaceholder": "답글을 작성하세요…",
     "postFailed": "게시 실패",

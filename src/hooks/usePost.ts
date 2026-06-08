@@ -4,6 +4,7 @@ import { fetch } from "@tauri-apps/plugin-http";
 import { getAgent } from "../lib/agent";
 import { useSettingsStore } from "../stores/settingsStore";
 import { compressImage, IMAGE_FALLBACK_BYTES, isBlobTooLargeError } from "../lib/imageCompress";
+import { CAROUSEL_THRESHOLD } from "../lib/embed/gallery";
 import i18n from "../i18n";
 
 interface CreatePostImage {
@@ -36,6 +37,7 @@ interface CreatePostParams {
   threadgate?: "everyone" | "mention" | "follower" | "following" | "nobody";
   postgate?: { disableQuote: boolean };
   onVideoProgress?: (progress: number, state: string) => void;
+  onImageProgress?: (current: number, total: number) => void;
 }
 
 /** Error keys that map to i18n video.error.* */
@@ -278,7 +280,7 @@ export function useCreatePost() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ text, images, video, external, replyTo, quoteTo, threadgate, postgate, onVideoProgress }: CreatePostParams) => {
+    mutationFn: async ({ text, images, video, external, replyTo, quoteTo, threadgate, postgate, onVideoProgress, onImageProgress }: CreatePostParams) => {
       const agent = getAgent();
 
       // Build rich text with facets
@@ -292,14 +294,17 @@ export function useCreatePost() {
         aspectRatio?: { width: number; height: number };
       }[] = [];
       if (images && images.length > 0) {
-        for (const img of images) {
-          const uploaded = await uploadImageBlobWithFallback(img);
+        const total = images.length;
+        for (let i = 0; i < total; i++) {
+          onImageProgress?.(i, total);
+          const uploaded = await uploadImageBlobWithFallback(images[i]);
           imageEmbeds.push({
-            alt: img.alt,
+            alt: images[i].alt,
             image: uploaded.blob,
             ...(uploaded.aspectRatio ? { aspectRatio: uploaded.aspectRatio } : {}),
           });
         }
+        onImageProgress?.(total, total);
       }
 
       // Upload video if any
@@ -322,10 +327,23 @@ export function useCreatePost() {
       let mediaEmbed: Record<string, unknown> | undefined;
 
       if (imageEmbeds.length > 0) {
-        mediaEmbed = {
-          $type: "app.bsky.embed.images",
-          images: imageEmbeds,
-        };
+        if (imageEmbeds.length > CAROUSEL_THRESHOLD) {
+          // 5+ images → app.bsky.embed.gallery (lexicon: alt and aspectRatio required)
+          mediaEmbed = {
+            $type: "app.bsky.embed.gallery",
+            items: imageEmbeds.map((img) => ({
+              $type: "app.bsky.embed.gallery#image",
+              image: img.image,
+              alt: img.alt,
+              aspectRatio: img.aspectRatio ?? { width: 1, height: 1 },
+            })),
+          };
+        } else {
+          mediaEmbed = {
+            $type: "app.bsky.embed.images",
+            images: imageEmbeds,
+          };
+        }
       } else if (videoBlob) {
         mediaEmbed = {
           $type: "app.bsky.embed.video",

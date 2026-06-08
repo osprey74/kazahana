@@ -16,7 +16,10 @@ interface VideoUploadProps {
   disabled?: boolean;
 }
 
-const MAX_SIZE = 100 * 1024 * 1024; // 100MB
+// 300MB client guard. social-app v1.123 (PR #10497/#10683) accepts uploads up to 300MB
+// even though lexicon app.bsky.embed.video.video.maxSize is still 100MB — the bsky video
+// service transcodes oversize uploads down to fit the lexicon limit.
+const MAX_SIZE = 300 * 1024 * 1024;
 const ACCEPTED_MIMES = ["video/mp4", "video/webm", "video/mpeg", "video/quicktime"];
 const ACCEPTED_EXTS = [".mp4", ".webm", ".mpeg", ".mov"];
 const ACCEPT_ATTR = [...ACCEPTED_MIMES, ...ACCEPTED_EXTS].join(",");

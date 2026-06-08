@@ -2,9 +2,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { moderatePost } from "@atproto/api";
-import type { AppBskyFeedDefs, AppBskyEmbedImages } from "@atproto/api";
+import type { AppBskyFeedDefs } from "@atproto/api";
 type FeedViewPost = AppBskyFeedDefs.FeedViewPost;
-type ViewImage = AppBskyEmbedImages.ViewImage;
+import { extractImagesFromEmbed, type MediaImage } from "../../lib/embed/gallery";
 import { formatDistanceToNowStrict } from "date-fns";
 import { ja } from "date-fns/locale";
 import { enUS } from "date-fns/locale";
@@ -347,18 +347,6 @@ function getVideoEmbed(post: FeedViewPost["post"]): VideoEmbed | null {
   return null;
 }
 
-function getImages(post: FeedViewPost["post"]): ViewImage[] {
-  const embed = post.embed;
-  if (!embed) return [];
-
-  if (embed.$type === "app.bsky.embed.images#view") {
-    return (embed as { images?: ViewImage[] }).images ?? [];
-  }
-  if (embed.$type === "app.bsky.embed.recordWithMedia#view") {
-    const media = (embed as { media?: { $type?: string; images?: ViewImage[] } }).media;
-    if (media?.$type === "app.bsky.embed.images#view") {
-      return media.images ?? [];
-    }
-  }
-  return [];
+function getImages(post: FeedViewPost["post"]): MediaImage[] {
+  return extractImagesFromEmbed(post.embed);
 }

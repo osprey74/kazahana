@@ -36,6 +36,8 @@
     "cancel": "Cancelar",
     "post": "Publicar",
     "posting": "Publicando...",
+    "uploadingImage": "Subiendo imagen ({{current}}/{{total}})",
+    "finalizingPost": "Finalizando publicación...",
     "placeholder": "¿Qué tienes en mente?",
     "replyPlaceholder": "Escribe una respuesta...",
     "postFailed": "Error al publicar",

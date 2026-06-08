@@ -36,6 +36,8 @@
     "cancel": "Cancel",
     "post": "Post",
     "posting": "Posting...",
+    "uploadingImage": "Uploading image ({{current}}/{{total}})",
+    "finalizingPost": "Finalizing post...",
     "placeholder": "What's on your mind?",
     "replyPlaceholder": "Write a reply...",
     "quotePlaceholder": "Add a comment...",

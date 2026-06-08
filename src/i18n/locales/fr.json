@@ -36,6 +36,8 @@
     "cancel": "Annuler",
     "post": "Publier",
     "posting": "Publication en cours…",
+    "uploadingImage": "Téléversement de l'image ({{current}}/{{total}})",
+    "finalizingPost": "Finalisation de la publication…",
     "placeholder": "Quoi de neuf ?",
     "replyPlaceholder": "Écrivez une réponse…",
     "postFailed": "Échec de la publication",
