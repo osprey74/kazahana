@@ -303,3 +303,31 @@ Collaborator: よつぎnん / @yotsugin.bsky.social
 - [x] **[D-1] PostCard の BSAF パース条件に登録 Bot チェック追加** — `src/components/timeline/PostCard.tsx`。`registeredBots.some((b) => b.definition.bot.did === author.did)` を `isRegisteredBsafBot` として算出し、`bsafParsed` の算出条件に組み込む。これにより縦線（`bsafBorderColor`）・タグバッジ表示・重複ヒンダーも登録 Bot のみに適用
 - [x] **[D-2] useBsafDuplicates の重複検出に登録 Bot チェック追加** — `src/hooks/useBsafDuplicates.ts`。`registeredBots` から DID Set を構築し、グルーピング前に投稿者 DID をチェック。未登録 Bot の投稿は重複検出対象外に
 - [ ] **iOS / Android 後追い実装** — 同様の仕様漏れの可能性あり。kazahana-ios / kazahana-android で別途検証・改修（総司様対応）
+
+## Bluesky v1.123 対応 (2026-06-09)
+
+> 設計書: [HANDOFF_kazahana-bsky-v1.123.md](../../HANDOFF_kazahana-bsky-v1.123.md)
+> 背景: 2026-06-06 リリースの Bluesky 公式 v1.123 で `app.bsky.embed.gallery`（写真 10 枚 / 5 枚以上カルーセル）が正式リリース、動画 300MB 化の feature gate も解除された
+> 一次情報: atproto #4827 (merged 2026-06-03) / social-app #10707 #10497 #10683 / lexicon: `app.bsky.embed.gallery`（`maxLength: 20`、ソフト上限 10、`#image.required = ["image", "alt", "aspectRatio"]`）
+> 重要: 動画 lexicon `video.maxSize` は **100MB のまま**。300MB はサーバ受容範囲（トランスコード前提）。`app.bsky.video.getUploadLimits` 応答の尊重を推奨
+
+### Phase A: 受信側 embed.gallery viewer 対応（最優先・3 プラットフォーム同時リリース推奨）
+
+- [ ] **[D-G1] `app.bsky.embed.gallery#view` レンダラ追加** — `src/components/common/ImageGrid.tsx` を拡張、または `GalleryView.tsx` を新設。`src/components/timeline/PostCard.tsx:350-364` 周辺の `getImages()` を `embed.images` / `embed.gallery` 両対応に
+- [ ] **[D-G2] ≤4 枚グリッド / ≥5 枚横スクロールカルーセル分岐** — 4 枚以下は既存 2 列グリッド維持、5 枚以上は横スクロール（CSS `overflow-x: auto` + `scroll-snap-type: x mandatory`）
+- [ ] **[D-G3] `recordWithMedia` 内 gallery 対応** — `recordWithMedia.media` の union を `embed.images` / `embed.gallery` / `embed.video` 3 通りで処理
+- [ ] **[D-G4] 未知 union ref のスキップ実装** — `items[]` の `union { refs: ["#image"] }` 構造に対し、将来追加される `#video` 等の未知型を安全にスキップ
+
+### Phase B: 送信側 composer 対応 + 動画 300MB
+
+- [ ] **[D-G5] `MAX_IMAGES = 4` → `10` に拡張** — `src/components/post/ImageUpload.tsx:21` ほか。alt 入力ダイアログを 10 枚分まで対応
+- [ ] **[D-G6] 5 枚以上選択時に `embed.gallery` で送信** — `src/hooks/usePost.ts` の embed 組み立て箇所。≤4 枚は `embed.images`、≥5 枚は `embed.gallery` で自動分岐。auto promote/demote 対応（公式互換）
+- [ ] **[D-G7] gallery `#image` に alt / aspectRatio 必須付与** — lexicon required を満たす（alt 空文字は許容）
+- [ ] **[D-G8] 動画上限 100MB → 300MB** — `src/components/post/VideoUpload.tsx` の `MAX_SIZE`。固定値 `300 * 1024 * 1024` でひとまず引き上げ
+- [ ] **[D-G9] `app.bsky.video.getUploadLimits` 応答尊重** — サーバ応答の `canUpload` / `remainingDailyBytes` をチェックし、超過時はユーザに通知
+
+### Phase C: 品質改善（任意）
+
+- [ ] **[D-G10] カルーセル枚数バッジ表示** — social-app PR #10719 互換。"3 / 7" 形式を右上に
+- [ ] **[D-G11] `@atproto/api` 型生成更新** — `AppBskyEmbedGallery` 型が型生成済か確認、未生成なら手書き型定義 or アップデート
+- [ ] **[D-G12] PLATFORM_MATRIX.md 更新** — セクション「投稿表示」に `embed.gallery` 行追加、「投稿作成」に画像 10 枚 / 動画 300MB 行追加
