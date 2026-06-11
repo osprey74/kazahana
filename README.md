@@ -10,6 +10,9 @@
 
 ---
 
+> [!IMPORTANT]
+> **macOS users**: Kazahana for macOS is now available on the [Mac App Store](https://apps.apple.com/us/app/kazahana/id6761288069) as a native Mac Catalyst app built from the [kazahana-ios](https://github.com/osprey74/kazahana-ios) codebase. This Tauri-based build is transitioning to **Windows-only**; the macOS DMG distribution will continue for a 6-month transition period before being discontinued. See [macOS Migration](#macos-migration) below for details.
+
 ## Overview
 
 Kazahana is a lightweight desktop client for [Bluesky](https://bsky.app/).
@@ -25,7 +28,7 @@ Kazahana is designed as a **lightweight, always-running companion app** — not 
 ## Features
 
 - 🪶 **Lightweight** — Tauri v2 with no bundled Chromium, dramatically reducing memory usage
-- 🖥️ **Cross-platform** — Windows / macOS support
+- 🖥️ **Windows-first** — Primary focus is Windows. macOS users are encouraged to use the native [Mac App Store version](https://apps.apple.com/us/app/kazahana/id6761288069)
 - ⚡ **Fast** — Native app startup speed and responsiveness
 - 🔓 **Open Source** — Freely available under the MIT License
 
@@ -107,6 +110,20 @@ Kazahana supports the [BSAF protocol](https://github.com/osprey74/bsaf-protocol)
 - **BSAF tag display** — structured tags (type, value, target, source, etc.) are shown below the post body
 - **Duplicate detection** — when multiple bots report the same event, duplicates are automatically collapsed
 - **Auto-update** — bot definitions are checked for updates on each app launch
+
+## macOS Migration
+
+Starting from 2026-06, the macOS version of Kazahana is delivered via the **Mac App Store** as a native Mac Catalyst app built from the [kazahana-ios](https://github.com/osprey74/kazahana-ios) codebase.
+
+- **Download**: [Kazahana on the Mac App Store](https://apps.apple.com/us/app/kazahana/id6761288069)
+- **Why the change**: Native Mac Catalyst delivers Apple Silicon optimization, automatic updates via the App Store, integrated supporter badge (StoreKit IAP), and continuous feature parity with the iOS version.
+- **Tauri-based macOS build deprecation schedule**:
+  - **Now**: Mac App Store version released. The Tauri-based macOS DMG continues for the transition period.
+  - **+1 month**: No new features in the Tauri-based macOS build (bug fixes only).
+  - **+3 months**: Tauri-based macOS build officially enters maintenance mode.
+  - **+6 months**: Tauri-based macOS builds will be removed from GitHub Actions and from release assets.
+- **Data migration**: An export/import workflow will be provided so that drafts, settings, BSAF bot registrations, and reading-position markers can be carried over from the Tauri-based version to the Mac App Store version. (Login accounts require re-authentication.)
+- **Windows is unaffected**: This repository continues as the home of the Tauri-based Windows build.
 
 ## Tech Stack
 
