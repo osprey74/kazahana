@@ -7,6 +7,7 @@ import { useSettingsStore } from "../../stores/settingsStore";
 import { useBsafStore } from "../../stores/bsafStore";
 import { useAuthStore } from "../../stores/authStore";
 import { getAgent } from "../../lib/agent";
+import { useChatDeclaration, useUpdateAllowGroupInvites, type AllowInvitesPref } from "../../hooks/useGroup";
 import { LoginForm } from "../auth/LoginForm";
 import { Icon } from "../common/Icon";
 import { WatermarkSettings } from "./WatermarkSettings";
@@ -41,6 +42,14 @@ export function SettingsView() {
   const [apiKeyVisible, setApiKeyVisible] = useState(false);
   const [longFormUrlInput, setLongFormUrlInput] = useState(longFormServiceUrl);
   const [longFormUrlError, setLongFormUrlError] = useState(false);
+  const { data: chatDeclaration } = useChatDeclaration();
+  const updateAllowGroupInvites = useUpdateAllowGroupInvites();
+  const allowGroupInvites = chatDeclaration?.allowGroupInvites ?? "all";
+
+  const handleAllowGroupInvitesChange = (value: AllowInvitesPref) => {
+    if (value === allowGroupInvites || updateAllowGroupInvites.isPending) return;
+    updateAllowGroupInvites.mutate(value);
+  };
 
   useEffect(() => {
     setLongFormUrlInput(longFormServiceUrl);
@@ -429,6 +438,35 @@ export function SettingsView() {
             <Icon name="chevron_right" size={16} />
           </button>
         )}
+      </section>
+
+      <hr className="border-border-light dark:border-border-dark mb-6" />
+
+      {/* Chat / DM privacy */}
+      <section className="mb-6">
+        <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t("settings.chatPrivacy")}</h3>
+        <div className="ml-4">
+          <h4 className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-2">{t("settings.allowGroupInvites")}</h4>
+          <div className="flex flex-col gap-2">
+            {(["all", "following", "none"] as const).map((opt) => (
+              <label key={opt} className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="radio"
+                  name="allowGroupInvites"
+                  checked={allowGroupInvites === opt}
+                  onChange={() => handleAllowGroupInvitesChange(opt)}
+                  disabled={updateAllowGroupInvites.isPending}
+                  className="w-4 h-4 accent-primary"
+                />
+                <span className="text-sm text-text-light dark:text-text-dark">{t(`settings.allowGroupInvitesOption.${opt}`)}</span>
+              </label>
+            ))}
+          </div>
+          {updateAllowGroupInvites.isError && (
+            <p className="mt-2 text-[11px] text-red-500">{t("settings.allowGroupInvitesError")}</p>
+          )}
+          <p className="mt-1.5 text-[11px] text-gray-400">{t("settings.allowGroupInvitesHint")}</p>
+        </div>
       </section>
 
       <hr className="border-border-light dark:border-border-dark mb-6" />

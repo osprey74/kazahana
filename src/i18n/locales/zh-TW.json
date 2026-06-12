@@ -319,7 +319,16 @@
     "longFormServiceUrl": "長文發布服務 URL",
     "longFormServiceUrlPlaceholder": "https://...",
     "longFormServiceUrlHint": "設定 standard.site 相容服務的 URL（服務首頁、您的 publication 頁面或任何您想開啟的頁面），編輯器中將顯示「撰寫長文」按鈕。點擊後會在瀏覽器中開啟該頁面。",
-    "longFormServiceUrlError": "URL 必須以 https:// 開頭"
+    "longFormServiceUrlError": "URL 必須以 https:// 開頭",
+    "chatPrivacy": "聊天",
+    "allowGroupInvites": "誰可以邀請你加入群組聊天",
+    "allowGroupInvitesOption": {
+      "all": "所有人",
+      "following": "你追蹤的人",
+      "none": "無人"
+    },
+    "allowGroupInvitesHint": "設定誰可以邀請你加入群組聊天。",
+    "allowGroupInvitesError": "儲存設定失敗,請稍後重試。"
   },
   "confirm": {
     "ok": "確定",

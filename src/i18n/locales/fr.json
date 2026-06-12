@@ -319,7 +319,16 @@
     "longFormServiceUrl": "URL du service d'articles longs",
     "longFormServiceUrlPlaceholder": "https://...",
     "longFormServiceUrlHint": "Définissez l'URL d'un service compatible standard.site (la page d'accueil du service, votre page de publication ou toute page que vous souhaitez ouvrir). Un bouton « Écrire un article » apparaîtra alors dans le compositeur et ouvrira cette page dans votre navigateur.",
-    "longFormServiceUrlError": "L'URL doit commencer par https://"
+    "longFormServiceUrlError": "L'URL doit commencer par https://",
+    "chatPrivacy": "Chat",
+    "allowGroupInvites": "Qui peut vous inviter aux discussions de groupe",
+    "allowGroupInvitesOption": {
+      "all": "Tout le monde",
+      "following": "Personnes que vous suivez",
+      "none": "Personne"
+    },
+    "allowGroupInvitesHint": "Contrôle qui peut vous inviter aux discussions de groupe.",
+    "allowGroupInvitesError": "Échec de l'enregistrement des paramètres. Veuillez réessayer plus tard."
   },
   "confirm": {
     "ok": "OK",

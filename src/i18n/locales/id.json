@@ -319,7 +319,16 @@
     "longFormServiceUrl": "URL layanan postingan panjang",
     "longFormServiceUrlPlaceholder": "https://...",
     "longFormServiceUrlHint": "Atur URL layanan yang kompatibel dengan standard.site (halaman utama layanan, halaman publikasi Anda, atau halaman mana saja yang ingin Anda buka). Tombol \"Tulis artikel panjang\" akan muncul di komposer dan membuka halaman tersebut di browser Anda.",
-    "longFormServiceUrlError": "URL harus diawali dengan https://"
+    "longFormServiceUrlError": "URL harus diawali dengan https://",
+    "chatPrivacy": "Obrolan",
+    "allowGroupInvites": "Siapa yang dapat mengundang Anda ke obrolan grup",
+    "allowGroupInvitesOption": {
+      "all": "Semua orang",
+      "following": "Orang yang Anda ikuti",
+      "none": "Tidak ada"
+    },
+    "allowGroupInvitesHint": "Mengatur siapa yang dapat mengundang Anda ke obrolan grup.",
+    "allowGroupInvitesError": "Gagal menyimpan pengaturan. Silakan coba lagi nanti."
   },
   "confirm": {
     "ok": "OK",

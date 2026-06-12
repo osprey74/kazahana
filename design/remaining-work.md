@@ -371,9 +371,9 @@ Collaborator: よつぎnん / @yotsugin.bsky.social
 - [x] **[D-P3-7] DMThreadView ヘッダから設定画面への導線** — group の場合グループ名ヘッダをタップで `/messages/:convoId/settings` へ遷移。未読参加申請があれば赤バッジ表示
 - [x] **[D-P3-8] 「新規グループ」エントリーポイント** — `AppLayout` のメッセージ画面 FAB にグループ作成ボタンを追加（既存 DM 用 FAB の上に積み重ね）。DMListView 空状態にも「新規グループ」ボタン併設
 
-### Phase 4（未着手）
+### Phase 4: プライバシー設定（Desktop）
 
-- [ ] **[D-P4] `allowGroupInvites` プライバシー設定 UI** — `chat.bsky.actor.declaration` レコードに `allowGroupInvites: "all" \| "none" \| "following"` を保存する設定画面 UI
+- [x] **[D-P4] `allowGroupInvites` プライバシー設定 UI** — 設定画面に「チャット」セクションを新設し、`allowGroupInvites: "all" \| "following" \| "none"` のラジオ選択 UI を追加。`useChatDeclaration` / `useUpdateAllowGroupInvites` フックを `useGroup.ts` に追加（`com.atproto.repo.getRecord` / `putRecord` で `chat.bsky.actor.declaration/self` を読み書き、未登録時は `allowIncoming: "all"` を補完して lexicon required を満たす）。11 ロケール（ja/en/de/es/fr/id/ko/pt/ru/zh-CN/zh-TW）に文言追加
 
 ## CI/CD 改修（2026-06-12）
 

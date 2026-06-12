@@ -93,6 +93,7 @@ Kazahana is designed as a **lightweight, always-running companion app** — not 
 - [x] Long-form post service handoff ([standard.site](https://standard.site)-compatible: configure a service URL in settings to add a "Write long-form" button to the composer that opens that page in your browser)
 - [x] Custom PDS login (sign in with accounts hosted on a self-run PDS — the handle is automatically resolved to the correct PDS endpoint via DNS / well-known and DID document)
 - [x] Cross-PDS direct messages (DM works for accounts hosted on PDSes outside `bsky.network`, with `getServiceAuth`-based audience resolution routed through `api.bsky.chat`)
+- [x] Group chat (up to 50 members; invite-link based joining; request-based join with owner approval; member add/remove, lock, leave operations; group invite privacy settings — `chat.bsky.group.*` 17 endpoints + `chat.bsky.embed.joinLink` support, compatible with official v1.124)
 - [x] [Standard Site](https://standard.site) extended link card (publication date, reading time, source publication with theme accent color, author byline, "View publication" action — receive and send, including in-composer preview with `associatedRefs` embedding)
 - [x] BSAF (Bluesky Structured Alert Feed) compatible client
 

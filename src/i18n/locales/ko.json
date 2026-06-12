@@ -319,7 +319,16 @@
     "longFormServiceUrl": "장문 게시 서비스 URL",
     "longFormServiceUrlPlaceholder": "https://...",
     "longFormServiceUrlHint": "standard.site 호환 서비스의 URL(서비스 홈페이지, 자신의 publication 페이지 등 열고 싶은 임의의 페이지)을 설정하면 작성기에 「장문 작성」 버튼이 표시됩니다. 클릭하면 브라우저에서 해당 페이지가 열립니다.",
-    "longFormServiceUrlError": "URL은 https:// 로 시작해야 합니다"
+    "longFormServiceUrlError": "URL은 https:// 로 시작해야 합니다",
+    "chatPrivacy": "채팅",
+    "allowGroupInvites": "그룹 채팅에 초대할 수 있는 사람",
+    "allowGroupInvitesOption": {
+      "all": "모든 사람",
+      "following": "팔로우하는 사람만",
+      "none": "아무도 안 됨"
+    },
+    "allowGroupInvitesHint": "다른 사용자가 당신을 그룹 채팅에 초대할 수 있는 범위를 설정합니다.",
+    "allowGroupInvitesError": "설정을 저장하지 못했습니다. 잠시 후 다시 시도해 주세요."
   },
   "confirm": {
     "ok": "확인",

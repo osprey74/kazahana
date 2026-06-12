@@ -1,6 +1,9 @@
-import { useInfiniteQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { ChatBskyActorDefs, type ChatBskyConvoDefs, type ChatBskyGroupDefs } from "@atproto/api";
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { ChatBskyActorDefs, type ChatBskyActorDeclaration, type ChatBskyConvoDefs, type ChatBskyGroupDefs } from "@atproto/api";
+import { getAgent } from "../lib/agent";
 import { getChatAgent } from "../lib/chatAgent";
+
+export type AllowInvitesPref = "all" | "following" | "none";
 
 export function useCreateGroup() {
   const queryClient = useQueryClient();
@@ -284,6 +287,92 @@ export function useSendJoinLinkMessage() {
     onSuccess: (_data, { convoId }) => {
       queryClient.invalidateQueries({ queryKey: ["messages", convoId] });
       queryClient.invalidateQueries({ queryKey: ["conversations"] });
+    },
+  });
+}
+
+const DECLARATION_COLLECTION = "chat.bsky.actor.declaration";
+const DECLARATION_RKEY = "self";
+
+function normalizeAllowInvitesPref(value: unknown): AllowInvitesPref {
+  return value === "none" || value === "following" ? value : "all";
+}
+
+/**
+ * Reads the viewer's chat.bsky.actor.declaration record from their PDS.
+ * Missing record is treated as defaults (`allowIncoming: "all"`,
+ * `allowGroupInvites: "all"`). The declaration record lives in the user's
+ * own repo (not on the chat service), so we use the main PDS agent here.
+ */
+export function useChatDeclaration() {
+  const agent = getAgent();
+  const did = agent.session?.did;
+  return useQuery({
+    queryKey: ["chatDeclaration", did],
+    queryFn: async (): Promise<{
+      allowIncoming: AllowInvitesPref;
+      allowGroupInvites: AllowInvitesPref;
+    }> => {
+      try {
+        const res = await agent.com.atproto.repo.getRecord({
+          repo: did!,
+          collection: DECLARATION_COLLECTION,
+          rkey: DECLARATION_RKEY,
+        });
+        const value = res.data.value as ChatBskyActorDeclaration.Record;
+        return {
+          allowIncoming: normalizeAllowInvitesPref(value.allowIncoming),
+          allowGroupInvites: normalizeAllowInvitesPref(value.allowGroupInvites),
+        };
+      } catch (err) {
+        if (err instanceof Error && /RecordNotFound|Could not locate/i.test(err.message)) {
+          return { allowIncoming: "all", allowGroupInvites: "all" };
+        }
+        throw err;
+      }
+    },
+    enabled: !!did,
+    staleTime: 60_000,
+  });
+}
+
+export function useUpdateAllowGroupInvites() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (allowGroupInvites: AllowInvitesPref) => {
+      const agent = getAgent();
+      const repo = agent.session!.did;
+
+      let existing: ChatBskyActorDeclaration.Record | null = null;
+      try {
+        const res = await agent.com.atproto.repo.getRecord({
+          repo,
+          collection: DECLARATION_COLLECTION,
+          rkey: DECLARATION_RKEY,
+        });
+        existing = res.data.value as ChatBskyActorDeclaration.Record;
+      } catch (err) {
+        if (!(err instanceof Error && /RecordNotFound|Could not locate/i.test(err.message))) {
+          throw err;
+        }
+      }
+
+      const next: ChatBskyActorDeclaration.Record = {
+        ...(existing ?? {}),
+        $type: DECLARATION_COLLECTION,
+        allowIncoming: normalizeAllowInvitesPref(existing?.allowIncoming),
+        allowGroupInvites,
+      };
+
+      await agent.com.atproto.repo.putRecord({
+        repo,
+        collection: DECLARATION_COLLECTION,
+        rkey: DECLARATION_RKEY,
+        record: next,
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["chatDeclaration"] });
     },
   });
 }

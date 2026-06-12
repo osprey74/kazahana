@@ -1,6 +1,6 @@
 # kazahana Platform Feature Matrix
 
-> **Last updated:** 2026-06-12 (Bluesky v1.124 グループチャット Phase 1-3 を Desktop で実装。グループ作成 / メンバー管理 / 招待リンク管理 / ロック / 参加申請承認の owner 機能まで完了。CI/CD から macOS Tauri バイナリ生成を撤去)
+> **Last updated:** 2026-06-13 (Bluesky v1.124 グループチャット Phase 4 を Desktop で実装。`allowGroupInvites` プライバシー設定 UI を追加し Desktop 全 4 フェーズ完走。iOS / Android は Phase 1 から未着手)
 > **Source:** Compiled from the following repositories
 > - Desktop (Windows / macOS Tauri build): https://github.com/osprey74/kazahana
 > - macOS (Catalyst) — generated from kazahana-ios: https://github.com/osprey74/kazahana-ios
@@ -199,7 +199,7 @@
 | 参加申請承認 / 拒否 | ✅ | ✅ | ❓ | ⬜ | ⬜ | Desktop: `JoinRequestsView`（/messages/:convoId/requests）。`listJoinRequests` ページング + `approveJoinRequest` / `rejectJoinRequest`。画面オープン時に `updateJoinRequestsRead` で自動既読化 |
 | グループロック操作（owner） | ✅ | ✅ | ❓ | ⬜ | ⬜ | Desktop: 設定画面のトグル。`lockConvo` / `unlockConvo`。`locked-permanently` 状態は解除 UI 非表示 |
 | 招待リンク embed のチャット送信（owner→他 DM への共有） | 🚧 | 🚧 | ❓ | ⬜ | ⬜ | `useSendJoinLinkMessage` フックのみ実装。チャット選択ピッカー UI は未着手。当面は URL を通常テキストとして貼る運用で代替 |
-| グループ招待プライバシー設定（`allowGroupInvites`） | ⬜ | ⬜ | ❓ | ⬜ | ⬜ | Phase 4 |
+| グループ招待プライバシー設定（`allowGroupInvites`） | ✅ | ✅ | ❓ | ⬜ | ⬜ | Desktop: 設定画面 > チャット セクションのラジオ選択（全員 / フォロー中 / 誰からも）。`chat.bsky.actor.declaration/self` レコードへ `putRecord`、`allowIncoming` 既存値を保持しつつ更新 |
 
 ---
 

@@ -319,7 +319,16 @@
     "longFormServiceUrl": "URL des Langtext-Dienstes",
     "longFormServiceUrlPlaceholder": "https://...",
     "longFormServiceUrlHint": "Geben Sie die URL eines standard.site-kompatiblen Dienstes ein (Startseite des Dienstes, Ihre Publikationsseite oder jede beliebige Seite, die Sie öffnen möchten). Eine Schaltfläche \"Langtext schreiben\" erscheint dann im Editor und öffnet diese Seite in Ihrem Browser.",
-    "longFormServiceUrlError": "Die URL muss mit https:// beginnen"
+    "longFormServiceUrlError": "Die URL muss mit https:// beginnen",
+    "chatPrivacy": "Chat",
+    "allowGroupInvites": "Wer kann Sie zu Gruppenchats einladen",
+    "allowGroupInvitesOption": {
+      "all": "Alle",
+      "following": "Personen, denen Sie folgen",
+      "none": "Niemand"
+    },
+    "allowGroupInvitesHint": "Legt fest, wer Sie zu Gruppenchats einladen kann.",
+    "allowGroupInvitesError": "Einstellungen konnten nicht gespeichert werden. Bitte versuchen Sie es später erneut."
   },
   "confirm": {
     "ok": "OK",

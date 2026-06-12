@@ -319,7 +319,16 @@
     "longFormServiceUrl": "長文投稿サービスの URL",
     "longFormServiceUrlPlaceholder": "https://...",
     "longFormServiceUrlHint": "standard.site 対応サービスの URL（サービスのトップページ、自分の publication ページなど開きたい任意のページ）を設定すると、コンポーザに「長文を書く」ボタンが表示されます。押下するとブラウザでそのページを開きます。",
-    "longFormServiceUrlError": "https:// から始まる URL を入力してください"
+    "longFormServiceUrlError": "https:// から始まる URL を入力してください",
+    "chatPrivacy": "チャット",
+    "allowGroupInvites": "グループ招待を受け取る相手",
+    "allowGroupInvitesOption": {
+      "all": "全員から",
+      "following": "フォロー中の人のみ",
+      "none": "誰からも受け取らない"
+    },
+    "allowGroupInvitesHint": "他のユーザーからグループチャットに招待される範囲を設定します。",
+    "allowGroupInvitesError": "設定の保存に失敗しました。時間をおいて再度お試しください。"
   },
   "confirm": {
     "ok": "OK",

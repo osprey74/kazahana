@@ -319,7 +319,16 @@
     "longFormServiceUrl": "URL do serviço de posts longos",
     "longFormServiceUrlPlaceholder": "https://...",
     "longFormServiceUrlHint": "Defina a URL de um serviço compatível com standard.site (a página inicial do serviço, sua página de publicação ou qualquer página que você queira abrir). Um botão \"Escrever post longo\" aparecerá no compositor e abrirá essa página no navegador.",
-    "longFormServiceUrlError": "A URL deve começar com https://"
+    "longFormServiceUrlError": "A URL deve começar com https://",
+    "chatPrivacy": "Chat",
+    "allowGroupInvites": "Quem pode convidá-lo para chats em grupo",
+    "allowGroupInvitesOption": {
+      "all": "Todos",
+      "following": "Pessoas que você segue",
+      "none": "Ninguém"
+    },
+    "allowGroupInvitesHint": "Controla quem pode convidá-lo para chats em grupo.",
+    "allowGroupInvitesError": "Falha ao salvar as configurações. Tente novamente mais tarde."
   },
   "confirm": {
     "ok": "OK",

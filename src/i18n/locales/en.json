@@ -319,7 +319,16 @@
     "longFormServiceUrl": "Long-form Post Service URL",
     "longFormServiceUrlPlaceholder": "https://...",
     "longFormServiceUrlHint": "Set the URL of a standard.site-compatible service (the service's home page, your publication page, or any page you want to open). A \"Write long-form\" button will then appear in the composer and open that page in your browser.",
-    "longFormServiceUrlError": "URL must start with https://"
+    "longFormServiceUrlError": "URL must start with https://",
+    "chatPrivacy": "Chat",
+    "allowGroupInvites": "Who can invite you to group chats",
+    "allowGroupInvitesOption": {
+      "all": "Everyone",
+      "following": "People you follow",
+      "none": "No one"
+    },
+    "allowGroupInvitesHint": "Controls who can invite you to group chats.",
+    "allowGroupInvitesError": "Failed to save settings. Please try again later."
   },
   "confirm": {
     "ok": "OK",

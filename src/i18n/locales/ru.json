@@ -319,7 +319,16 @@
     "longFormServiceUrl": "URL сервиса длинных постов",
     "longFormServiceUrlPlaceholder": "https://...",
     "longFormServiceUrlHint": "Укажите URL сервиса, совместимого с standard.site (главная страница сервиса, ваша страница публикации или любая страница, которую вы хотите открыть). Кнопка «Написать длинный пост» появится в редакторе и откроет эту страницу в браузере.",
-    "longFormServiceUrlError": "URL должен начинаться с https://"
+    "longFormServiceUrlError": "URL должен начинаться с https://",
+    "chatPrivacy": "Чат",
+    "allowGroupInvites": "Кто может приглашать вас в групповые чаты",
+    "allowGroupInvitesOption": {
+      "all": "Все",
+      "following": "Те, на кого вы подписаны",
+      "none": "Никто"
+    },
+    "allowGroupInvitesHint": "Управляет тем, кто может приглашать вас в групповые чаты.",
+    "allowGroupInvitesError": "Не удалось сохранить настройки. Повторите попытку позже."
   },
   "confirm": {
     "ok": "ОК",
