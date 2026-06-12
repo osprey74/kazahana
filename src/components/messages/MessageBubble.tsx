@@ -3,11 +3,13 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { formatDistanceToNowStrict, type Locale } from "date-fns";
 import { ja, enUS, de, es, fr, ko, pt, ru, id, zhTW, zhCN } from "date-fns/locale";
-import { ChatBskyConvoDefs } from "@atproto/api";
+import { ChatBskyConvoDefs, ChatBskyEmbedJoinLink } from "@atproto/api";
 import { useDeleteMessage, useAddReaction, useRemoveReaction } from "../../hooks/useMessages";
 import { getAgent } from "../../lib/agent";
 import { parseRichText } from "../../lib/richtext";
+import { resolveInAppRoute } from "../../lib/externalLink";
 import { Icon } from "../common/Icon";
+import { JoinLinkEmbed } from "./JoinLinkEmbed";
 
 const dateFnsLocales: Record<string, Locale> = {
   ja, en: enUS, de, es, fr, ko, pt, ru, id, "zh-TW": zhTW, "zh-CN": zhCN,
@@ -50,6 +52,7 @@ export function MessageBubble({ message, isMine, convoId }: MessageBubbleProps) 
 
   const msg = message as ChatBskyConvoDefs.MessageView;
   const reactions = msg.reactions ?? [];
+  const joinLinkEmbed = ChatBskyEmbedJoinLink.isView(msg.embed) ? msg.embed : null;
 
   // Group reactions by emoji value: { emoji: { count, senders[], myReaction } }
   const grouped = new Map<string, { count: number; mine: boolean }>();
@@ -89,6 +92,19 @@ export function MessageBubble({ message, isMine, convoId }: MessageBubbleProps) 
         >
           {parseRichText(msg.text, msg.facets).map((seg, i) => {
             if (seg.link) {
+              const inApp = resolveInAppRoute(seg.link.uri);
+              if (inApp) {
+                return (
+                  <button
+                    type="button"
+                    key={i}
+                    onClick={() => navigate(inApp)}
+                    className={isMine ? "underline hover:opacity-80" : "text-primary hover:underline"}
+                  >
+                    {seg.text}
+                  </button>
+                );
+              }
               return (
                 <a
                   key={i}
@@ -128,6 +144,12 @@ export function MessageBubble({ message, isMine, convoId }: MessageBubbleProps) 
             return <span key={i}>{seg.text}</span>;
           })}
         </div>
+
+        {joinLinkEmbed && (
+          <div className={`mt-1 ${isMine ? "flex justify-end" : ""}`}>
+            <JoinLinkEmbed embed={joinLinkEmbed} isMine={isMine} />
+          </div>
+        )}
 
         {/* Reactions display */}
         {grouped.size > 0 && (

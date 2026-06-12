@@ -10,18 +10,9 @@ jobs:
   publish-tauri:
     permissions:
       contents: write
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - platform: macos-latest
-            args: '--target aarch64-apple-darwin'
-          - platform: macos-latest
-            args: '--target x86_64-apple-darwin'
-          - platform: windows-latest
-            args: ''
-
-    runs-on: ${{ matrix.platform }}
+    # macOS Tauri ビルドは 2026-06-12 をもって廃止しました。
+    # macOS 版は Mac App Store で配信中の Catalyst 版（kazahana-ios リポジトリ）へ移行済みです。
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
 
@@ -33,8 +24,6 @@ jobs:
 
       - name: Install Rust stable
         uses: dtolnay/rust-toolchain@stable
-        with:
-          targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
 
       - name: Rust cache
         uses: swatinem/rust-cache@v2
@@ -55,4 +44,3 @@ jobs:
           releaseDraft: true
           prerelease: false
           updaterJsonPreferNsis: true
-          args: ${{ matrix.args }}

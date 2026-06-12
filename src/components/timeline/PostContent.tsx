@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import type { RichText } from "@atproto/api";
 import { parseRichText } from "../../lib/richtext";
+import { resolveInAppRoute } from "../../lib/externalLink";
 
 interface PostContentProps {
   text: string;
@@ -15,6 +16,21 @@ export function PostContent({ text, facets }: PostContentProps) {
     <p className="text-sm text-text-light dark:text-text-dark whitespace-pre-wrap break-words leading-relaxed">
       {segments.map((seg, i) => {
         if (seg.link) {
+          const inApp = resolveInAppRoute(seg.link.uri);
+          if (inApp) {
+            return (
+              <button
+                key={i}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate(inApp);
+                }}
+                className="text-primary hover:underline"
+              >
+                {seg.text}
+              </button>
+            );
+          }
           return (
             <a
               key={i}

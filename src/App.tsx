@@ -20,6 +20,7 @@ import { BsafBotsView } from "./components/settings/BsafBotsView";
 import { StarterPackDetailView } from "./components/profile/StarterPackDetailView";
 import { DMListView } from "./components/messages/DMListView";
 import { DMThreadView } from "./components/messages/DMThreadView";
+import { JoinLinkView } from "./components/messages/JoinLinkView";
 import { FollowersPage } from "./components/profile/FollowersPage";
 import { FollowingPage } from "./components/profile/FollowingPage";
 import { LoadingSpinner } from "./components/common/LoadingSpinner";
@@ -174,6 +175,7 @@ function AuthGate() {
               <Route path="/notifications" element={<NotificationList />} />
               <Route path="/messages" element={<DMListView />} />
               <Route path="/messages/:convoId" element={<DMThreadView />} />
+              <Route path="/chat/:code" element={<JoinLinkView />} />
               <Route path="/profile" element={<ProfileView />} />
               <Route path="/profile/:handle" element={<ProfileView />} />
               <Route path="/profile/:handle/followers" element={<FollowersPage />} />

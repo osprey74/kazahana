@@ -331,3 +331,40 @@ Collaborator: よつぎnん / @yotsugin.bsky.social
 - [x] **[D-G10] カルーセル枚数バッジ表示** — `ImageGrid.tsx` の `CarouselLayout` 内で各サムネ右上に `"{i+1}/{count}"` 形式のバッジを実装（social-app PR #10719 互換）
 - [x] **[D-G11] `@atproto/api` を 0.20.11 へアップデート** — `^0.20.5` → `^0.20.11`。`AppBskyEmbedGallery`（`Main` / `Image` / `View` / `ViewImage`）が codegen で追加されたのは 0.20.9（atproto PR #4827）。0.20.11 まで上げて最新 chat lexicons も取り込み済。**注意**: `gallery#viewImage` は `thumbnail` フィールド（legacy `embed.images#viewImage` は `thumb`）、フィールド名が異なるため call site で正規化が必要
 - [x] **[D-G12] PLATFORM_MATRIX.md 更新** — セクション 2「投稿表示」に `embed.gallery` カルーセル行追加、セクション 4「投稿作成」に gallery 送信 / 動画 300MB 行追加、差異サマリーに「Desktop 先行実装（iOS / Android 未実装）」セクションを新設
+
+## Bluesky v1.124.0 — グループチャット対応（HANDOFF_kazahana-group-chat.md 参照）
+
+### Phase 1: 受信側対応（Desktop）
+
+- [x] **[D-P1-1] `@atproto/api` を ^0.20.14 へアップデート** — `^0.20.11` → `^0.20.14`。`chat.bsky.group.*` 17 endpoint・`chat.bsky.embed.joinLink`・`listConvoRequests` / `acceptConvo` / `leaveConvo` / `lockConvo` / `unlockConvo`・`groupConvo` / `systemMessageView` 等の新規型をすべて取り込み
+- [x] **[D-P1-3] `convoView.kind` 判別** — `ConversationItem.tsx` / `DMThreadView.tsx` で `ChatBskyConvoDefs.isGroupConvo(convo.kind)` により 1:1 と group を分岐
+- [x] **[D-P1-4] `groupConvo` 会話一覧表示** — `ConversationItem.tsx` でグループ名 + メンバー数 + ロック状態アイコン + group デフォルトアバター（`Icon name="group"`）。lastMessage の `MessageView` / `DeletedMessageView` / `SystemMessageView` 三種それぞれにプレビュー表示分岐
+- [x] **[D-P1-5] システムメッセージ描画** — 新規 `SystemMessage.tsx`。全 12 種（addMember / removeMember / memberJoin / memberLeave / lockConvo / unlockConvo / lockConvoPermanently / editGroup / createJoinLink / editJoinLink / enableJoinLink / disableJoinLink）に対応。中央寄せ italic 表示。member DID は convo.members からの参照で表示名解決、未解決時は短縮 DID 表示
+- [x] **[D-P1-6] `chat.bsky.embed.joinLink` 受信側描画** — 新規 `JoinLinkEmbed.tsx`。`joinLinkPreviewView` / `disabledJoinLinkPreviewView` / `invalidJoinLinkPreviewView` 三状態に対応。グループ名 + owner プロフィール + メンバー数を表示。「参加」ボタンは Phase 2 で追加
+- [x] **[D-P1-7] `acceptConvo` / `leaveConvo` 対応** — `useAcceptConvo` / `useLeaveConvo` フックを `useConversations.ts` に追加。`DMThreadView.tsx` の leave 確認ダイアログは group 時に「グループから退出しますか？」へ分岐
+- [x] **[D-P1-8] `listConvoRequests` 対応** — `useConvoRequests` フックを新設（incoming + outgoing 統合）。旧 `useConversationRequests`（`listConvos status:request`）を廃止
+- [x] **[D-P1-9] グループロック表示** — `DMThreadView.tsx` でロック中はメッセージ入力欄を非表示にし「このグループはロックされています」を表示。`locked-permanently` は別文言。`ConversationItem.tsx` でもロックアイコン併記
+- [x] **[D-P1-10] PLATFORM_MATRIX.md 更新** — セクション 8 を「ダイレクトメッセージ・グループチャット」に改名し、Phase 1 受信側機能行（groupConvo 表示 / システムメッセージ / joinLink embed / ロック中入力抑止 / listConvoRequests）を追加。Phase 2-4 機能行も枠だけ先行追加（全プラットフォーム ⬜）
+
+### Phase 2: 招待リンクからの参加（Desktop）
+
+- [x] **[D-P2-1] 招待 URL 検出ヘルパー** — `lib/externalLink.ts` 新設。`resolveInAppRoute(url)` で `https://bsky.app/chat/<code>` を `/chat/:code` の内部ルートに解決
+- [x] **[D-P2-2] `getJoinLinkPreviews` プレビュー取得フック** — `hooks/useJoinLink.ts` 新設の `useJoinLinkPreview(code)`。`joinLinkPreviewView` / `disabled` / `invalid` の 3 状態を返却
+- [x] **[D-P2-3] `requestJoin` 実装** — `useRequestJoin` フック。`status: joined` 時は会話画面へ遷移、`pending` 時はバナー表示。`ConvoLocked` / `FollowRequired` / `InvalidCode` / `LinkDisabled` / `MemberLimitReached` / `UserKicked` のエラーを文言マップ化
+- [x] **[D-P2-4] `withdrawJoinRequest` 実装** — `useWithdrawJoinRequest` フック。保留中の参加申請を取り下げ可能
+- [x] **[D-P2-5] `JoinLinkView` 画面新設** — `components/messages/JoinLinkView.tsx`。`/chat/:code` ルートに紐付け。グループ名・メンバー数・オーナー表示・参加 CTA・参加状態バナー・エラー表示・取り下げ操作を実装
+- [x] **[D-P2-6] `App.tsx` ルート追加** — `<Route path="/chat/:code" element={<JoinLinkView />}>`
+- [x] **[D-P2-7] `JoinLinkEmbed` クリックで in-app 遷移** — チャット内招待リンクカードをタップで `/chat/<code>` へ
+- [x] **[D-P2-8] 投稿リッチテキスト内の `bsky.app/chat/<code>` を in-app 遷移** — `PostContent.tsx` で facet link の URL を `resolveInAppRoute` で判定
+- [x] **[D-P2-9] OGP リンクカードの `bsky.app/chat/<code>` を in-app 遷移** — `LinkCard.tsx` の openExternal / openSource で `resolveInAppRoute` を優先評価
+- [x] **[D-P2-10] チャットメッセージのリッチテキストリンクを in-app 遷移** — `MessageBubble.tsx` 内の facet link も同様に介入
+- [x] **[D-P2-11] i18n 文言追加** — `messages.joinLink.*`（CTA / ステータス / 6 種のエラーマップ）を ja / en に追加
+
+### Phase 3-4（未着手）
+
+- [ ] **[D-P3] グループ作成・owner 操作** — `createGroup` / `editGroup` / `addMembers` / `removeMembers` / `createJoinLink` 系 / `lockConvo` / `approveJoinRequest` ほか
+- [ ] **[D-P4] `allowGroupInvites` プライバシー設定 UI**
+
+## CI/CD 改修（2026-06-12）
+
+- [x] **macOS Tauri バイナリの自動生成を停止** — `.github/workflows/release.yml` のマトリクスを撤去し `runs-on: windows-latest` 単一構成に変更。macOS 版は Mac App Store で配信中の Catalyst 版（kazahana-ios リポジトリ）へ移行済みのため Tauri 経由の macOS リリースは不要

@@ -7,6 +7,7 @@ import { useMessages, useSendMessage, useMarkConvoAsRead } from "../../hooks/use
 import { getChatAgent } from "../../lib/chatAgent";
 import { useAuthStore } from "../../stores/authStore";
 import { MessageBubble } from "./MessageBubble";
+import { SystemMessage } from "./SystemMessage";
 import { Avatar } from "../common/Avatar";
 import { LoadingSpinner } from "../common/LoadingSpinner";
 import { Icon } from "../common/Icon";
@@ -64,9 +65,15 @@ export function DMThreadView() {
       .flatMap((page) => page.messages)
       .filter(
         (msg) =>
-          ChatBskyConvoDefs.isMessageView(msg) || ChatBskyConvoDefs.isDeletedMessageView(msg),
+          ChatBskyConvoDefs.isMessageView(msg) ||
+          ChatBskyConvoDefs.isDeletedMessageView(msg) ||
+          ChatBskyConvoDefs.isSystemMessageView(msg),
       )
-      .reverse() as (ChatBskyConvoDefs.MessageView | ChatBskyConvoDefs.DeletedMessageView)[];
+      .reverse() as (
+      | ChatBskyConvoDefs.MessageView
+      | ChatBskyConvoDefs.DeletedMessageView
+      | ChatBskyConvoDefs.SystemMessageView
+    )[];
   }, [data]);
 
   const prevMessagesLenRef = useRef(0);
@@ -129,8 +136,11 @@ export function DMThreadView() {
   }, [text]);
 
   const convo = convoQuery.data;
+  const group = ChatBskyConvoDefs.isGroupConvo(convo?.kind) ? convo?.kind : null;
+  const isGroup = !!group;
   const other = convo?.members.find((m) => m.did !== myDid) ?? convo?.members[0];
   const isRequest = convo?.status === "request";
+  const isLocked = group?.lockStatus === "locked" || group?.lockStatus === "locked-permanently";
 
   const handleMuteToggle = useCallback(async () => {
     if (!convoId || !convo) return;
@@ -146,12 +156,15 @@ export function DMThreadView() {
 
   const handleLeave = useCallback(async () => {
     if (!convoId) return;
-    if (!confirm(t("messages.leaveConfirm"))) return;
+    const confirmMsg = isGroup
+      ? t("messages.group.leaveConfirmGroup")
+      : t("messages.leaveConfirm");
+    if (!confirm(confirmMsg)) return;
     const agent = getChatAgent();
     await agent.chat.bsky.convo.leaveConvo({ convoId });
     queryClient.invalidateQueries({ queryKey: ["conversations"] });
     navigate("/messages");
-  }, [convoId, t, queryClient, navigate]);
+  }, [convoId, isGroup, t, queryClient, navigate]);
 
   const handleAccept = useCallback(async () => {
     if (!convoId) return;
@@ -170,7 +183,28 @@ export function DMThreadView() {
         >
           <Icon name="arrow_back" size={20} />
         </button>
-        {other && (
+        {isGroup && group ? (
+          <div className="flex items-center gap-2 min-w-0">
+            <div className="w-8 h-8 flex-shrink-0 rounded-full bg-primary/15 dark:bg-primary/25 flex items-center justify-center text-primary">
+              <Icon name="group" size={18} />
+            </div>
+            <div className="text-left min-w-0">
+              <p className="text-sm font-medium text-text-light dark:text-text-dark leading-tight truncate flex items-center gap-1">
+                {group.name}
+                {isLocked && (
+                  <Icon
+                    name={group.lockStatus === "locked-permanently" ? "lock" : "lock_outline"}
+                    size={12}
+                    className="text-gray-400 flex-shrink-0"
+                  />
+                )}
+              </p>
+              <p className="text-xs text-gray-400">
+                {t("messages.group.memberCount", { count: group.memberCount })}
+              </p>
+            </div>
+          </div>
+        ) : other ? (
           <button
             onClick={() => navigate(`/profile/${other.handle}`)}
             className="flex items-center gap-2 hover:opacity-80"
@@ -183,7 +217,7 @@ export function DMThreadView() {
               <p className="text-xs text-gray-400">@{other.handle}</p>
             </div>
           </button>
-        )}
+        ) : null}
         <div className="ml-auto relative">
           <button
             onClick={() => setShowMenu(!showMenu)}
@@ -254,37 +288,62 @@ export function DMThreadView() {
             </button>
           </div>
         )}
-        {messages.map((msg) => (
-          <MessageBubble
-            key={msg.id}
-            message={msg}
-            isMine={ChatBskyConvoDefs.isMessageView(msg) && msg.sender.did === myDid}
-            convoId={convoId!}
-          />
-        ))}
+        {messages.map((msg) => {
+          if (ChatBskyConvoDefs.isSystemMessageView(msg)) {
+            return (
+              <SystemMessage
+                key={msg.id}
+                message={msg}
+                members={convo?.members ?? []}
+              />
+            );
+          }
+          const nonSystem = msg as
+            | ChatBskyConvoDefs.MessageView
+            | ChatBskyConvoDefs.DeletedMessageView;
+          return (
+            <MessageBubble
+              key={nonSystem.id}
+              message={nonSystem}
+              isMine={
+                ChatBskyConvoDefs.isMessageView(nonSystem) && nonSystem.sender.did === myDid
+              }
+              convoId={convoId!}
+            />
+          );
+        })}
         <div ref={bottomRef} />
       </div>
 
       {/* Input */}
       <div className="border-t border-border-light dark:border-border-dark px-4 py-2">
-        <div className="flex items-end gap-2">
-          <textarea
-            ref={textareaRef}
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder={t("messages.placeholder")}
-            rows={1}
-            className="flex-1 resize-none bg-gray-100 dark:bg-gray-800 text-text-light dark:text-text-dark text-sm rounded-2xl px-3 py-2 outline-none focus:ring-1 focus:ring-primary scrollbar-thin"
-          />
-          <button
-            onClick={handleSend}
-            disabled={!text.trim() || sendMessage.isPending}
-            className="flex-shrink-0 w-8 h-8 flex items-center justify-center bg-primary text-white rounded-full disabled:opacity-40 hover:bg-blue-600 transition-colors"
-          >
-            <Icon name="send" size={18} />
-          </button>
-        </div>
+        {isLocked ? (
+          <div className="flex items-center justify-center gap-2 py-2 text-xs text-gray-500 dark:text-gray-400 italic">
+            <Icon name="lock" size={14} />
+            {group?.lockStatus === "locked-permanently"
+              ? t("messages.group.lockedPermanentlyNotice")
+              : t("messages.group.lockedNotice")}
+          </div>
+        ) : (
+          <div className="flex items-end gap-2">
+            <textarea
+              ref={textareaRef}
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder={t("messages.placeholder")}
+              rows={1}
+              className="flex-1 resize-none bg-gray-100 dark:bg-gray-800 text-text-light dark:text-text-dark text-sm rounded-2xl px-3 py-2 outline-none focus:ring-1 focus:ring-primary scrollbar-thin"
+            />
+            <button
+              onClick={handleSend}
+              disabled={!text.trim() || sendMessage.isPending}
+              className="flex-shrink-0 w-8 h-8 flex items-center justify-center bg-primary text-white rounded-full disabled:opacity-40 hover:bg-blue-600 transition-colors"
+            >
+              <Icon name="send" size={18} />
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Bottom spacer — half window height so the input can scroll up to center */}

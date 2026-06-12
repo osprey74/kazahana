@@ -1,8 +1,10 @@
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import { openUrl } from "@tauri-apps/plugin-opener";
 import type { AppBskyEmbedExternal } from "@atproto/api";
 import { Icon } from "./Icon";
 import i18n from "../../i18n";
+import { resolveInAppRoute } from "../../lib/externalLink";
 
 type ViewExternal = AppBskyEmbedExternal.ViewExternal;
 
@@ -13,6 +15,7 @@ interface LinkCardProps {
 
 export function LinkCard({ external }: LinkCardProps) {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const { source, createdAt, readingTime, thumb, title, description, associatedProfiles } = external;
   const author = associatedProfiles?.[0];
   const domain = getDomain(external.uri);
@@ -26,12 +29,23 @@ export function LinkCard({ external }: LinkCardProps) {
 
   const openExternal = (e: React.MouseEvent) => {
     e.stopPropagation();
+    const inApp = resolveInAppRoute(external.uri);
+    if (inApp) {
+      navigate(inApp);
+      return;
+    }
     openUrl(external.uri);
   };
 
   const openSource = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (source) openUrl(source.uri);
+    if (!source) return;
+    const inApp = resolveInAppRoute(source.uri);
+    if (inApp) {
+      navigate(inApp);
+      return;
+    }
+    openUrl(source.uri);
   };
 
   if (isPublicationOnly && source) {

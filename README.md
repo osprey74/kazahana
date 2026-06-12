@@ -11,7 +11,7 @@
 ---
 
 > [!IMPORTANT]
-> **macOS users**: Kazahana for macOS is now available on the [Mac App Store](https://apps.apple.com/us/app/kazahana/id6761288069) as a native Mac Catalyst app built from the [kazahana-ios](https://github.com/osprey74/kazahana-ios) codebase. This Tauri-based build is transitioning to **Windows-only**; the macOS DMG distribution will continue for a 6-month transition period before being discontinued. See [macOS Migration](#macos-migration) below for details.
+> **macOS users**: Kazahana for macOS is available on the [Mac App Store](https://apps.apple.com/us/app/kazahana/id6761288069) as a native Mac Catalyst app built from the [kazahana-ios](https://github.com/osprey74/kazahana-ios) codebase. This Tauri-based build is now **Windows-only**; the macOS DMG distribution was discontinued on 2026-06-12. See [macOS Migration](#macos-migration) below for details.
 
 ## Overview
 
@@ -117,11 +117,9 @@ Starting from 2026-06, the macOS version of Kazahana is delivered via the **Mac 
 
 - **Download**: [Kazahana on the Mac App Store](https://apps.apple.com/us/app/kazahana/id6761288069)
 - **Why the change**: Native Mac Catalyst delivers Apple Silicon optimization, automatic updates via the App Store, integrated supporter badge (StoreKit IAP), and continuous feature parity with the iOS version.
-- **Tauri-based macOS build deprecation schedule**:
-  - **Now**: Mac App Store version released. The Tauri-based macOS DMG continues for the transition period.
-  - **+1 month**: No new features in the Tauri-based macOS build (bug fixes only).
-  - **+3 months**: Tauri-based macOS build officially enters maintenance mode.
-  - **+6 months**: Tauri-based macOS builds will be removed from GitHub Actions and from release assets.
+- **Tauri-based macOS build retirement**:
+  - **2026-06-12**: Tauri-based macOS builds were removed from GitHub Actions and release assets. macOS DMG is no longer shipped with subsequent releases.
+  - Existing Tauri-based macOS users are asked to migrate to the Mac App Store version (a separate data-migration flow for drafts, settings, etc. is planned).
 - **Data migration**: An export/import workflow will be provided so that drafts, settings, BSAF bot registrations, and reading-position markers can be carried over from the Tauri-based version to the Mac App Store version. (Login accounts require re-authentication.)
 - **Windows is unaffected**: This repository continues as the home of the Tauri-based Windows build.
 
