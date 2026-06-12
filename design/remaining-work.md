@@ -360,10 +360,20 @@ Collaborator: よつぎnん / @yotsugin.bsky.social
 - [x] **[D-P2-10] チャットメッセージのリッチテキストリンクを in-app 遷移** — `MessageBubble.tsx` 内の facet link も同様に介入
 - [x] **[D-P2-11] i18n 文言追加** — `messages.joinLink.*`（CTA / ステータス / 6 種のエラーマップ）を ja / en に追加
 
-### Phase 3-4（未着手）
+### Phase 3: グループ作成・owner 操作（Desktop）
 
-- [ ] **[D-P3] グループ作成・owner 操作** — `createGroup` / `editGroup` / `addMembers` / `removeMembers` / `createJoinLink` 系 / `lockConvo` / `approveJoinRequest` ほか
-- [ ] **[D-P4] `allowGroupInvites` プライバシー設定 UI**
+- [x] **[D-P3-1] グループ作成モーダル** — `CreateGroupModal.tsx` / `createGroupStore.ts` 新設。グループ名（≤50 grapheme）+ メンバー選択（≤49 名、`searchActorsTypeahead`）。`AppLayout` でグローバルマウント。エラー 7 種（`NewAccountCannotCreateGroup` / `UserForbidsGroups` / `NotFollowedBySender` / `RecipientNotFound` / `BlockedActor` / `BlockedSubject` / `AccountSuspended`）をローカライズ表示
+- [x] **[D-P3-2] グループ設定画面** — `GroupSettingsView.tsx` 新設。ルート `/messages/:convoId/settings`。グループ名編集（`editGroup`）/ メンバー一覧（`getConvoMembers` ページング）/ メンバー追加（`addMembers`）/ メンバー削除（`removeMembers`）/ ロックトグル（`lockConvo` / `unlockConvo`）/ 退出（`leaveConvo`）。owner 判定は `groupConvo.joinRequestCount` の存在で実施（lexicon spec 通り）
+- [x] **[D-P3-3] 招待リンク管理（owner）** — `GroupSettingsView` 内に統合。`createJoinLink` / `editJoinLink`（joinRule + requireApproval）/ `enableJoinLink` / `disableJoinLink`。コピー・ブラウザで開く・有効化/無効化トグルの UI
+- [x] **[D-P3-4] ロック機能** — `useLockConvo` / `useUnlockConvo` フック。`locked-permanently` 状態はロック解除 UI 非表示
+- [x] **[D-P3-5] 参加申請承認画面** — `JoinRequestsView.tsx` 新設。ルート `/messages/:convoId/requests`。`listJoinRequests` ページング / `approveJoinRequest` / `rejectJoinRequest`。画面オープン時に `updateJoinRequestsRead` で自動既読化。`MemberLimitReached` エラーをローカライズ
+- [x] **[D-P3-6] チャット送信時の招待リンク embed 添付（フック）** — `useSendJoinLinkMessage` フック追加。`chat.bsky.embed.joinLink` を `sendMessage.embed` に詰めて送信。**UI（チャット選択ピッカー）は未実装**。当面は招待 URL を通常のテキストとして貼る運用（投稿カード型のリンクカード経由で `/chat/:code` に遷移可能）でカバー
+- [x] **[D-P3-7] DMThreadView ヘッダから設定画面への導線** — group の場合グループ名ヘッダをタップで `/messages/:convoId/settings` へ遷移。未読参加申請があれば赤バッジ表示
+- [x] **[D-P3-8] 「新規グループ」エントリーポイント** — `AppLayout` のメッセージ画面 FAB にグループ作成ボタンを追加（既存 DM 用 FAB の上に積み重ね）。DMListView 空状態にも「新規グループ」ボタン併設
+
+### Phase 4（未着手）
+
+- [ ] **[D-P4] `allowGroupInvites` プライバシー設定 UI** — `chat.bsky.actor.declaration` レコードに `allowGroupInvites: "all" \| "none" \| "following"` を保存する設定画面 UI
 
 ## CI/CD 改修（2026-06-12）
 

@@ -9,8 +9,10 @@ import { ContextMenu } from "../common/ContextMenu";
 import { ReportModal } from "../moderation/ReportModal";
 import { ListMembershipModal } from "../profile/ListMembershipModal";
 import { DMComposeModal } from "../messages/DMComposeModal";
+import { CreateGroupModal } from "../messages/CreateGroupModal";
 import { useComposeStore } from "../../stores/composeStore";
 import { useDMComposeStore } from "../../stores/dmComposeStore";
+import { useCreateGroupStore } from "../../stores/createGroupStore";
 import { useAuthStore } from "../../stores/authStore";
 import type { AtpSessionData } from "@atproto/api";
 import { useFeedStore, type FeedSource } from "../../stores/feedStore";
@@ -25,6 +27,7 @@ export function AppLayout() {
   const navigate = useNavigate();
   const openCompose = useComposeStore((s) => s.open);
   const openDMCompose = useDMComposeStore((s) => s.open);
+  const openCreateGroup = useCreateGroupStore((s) => s.open);
   const { profile, savedAccounts, activeAccountDID, switchAccount } = useAuthStore();
   const isSettings = location.pathname.startsWith("/settings");
   const isMessages = location.pathname.startsWith("/messages");
@@ -145,16 +148,25 @@ export function AppLayout() {
         </div>
       </main>
 
-      {/* FAB - New Post / New DM */}
+      {/* FAB - New Post / New DM / New Group */}
       {!isSettings && (
         isMessages ? (
-          <button
-            onClick={() => openDMCompose()}
-            className="fixed bottom-5 right-5 w-11 h-11 bg-primary/60 text-white rounded-full shadow-lg hover:bg-primary/80 transition-colors flex items-center justify-center text-xl leading-none z-40"
-            title={t("messages.newMessage")}
-          >
-            <Icon name="mail" size={22} />
-          </button>
+          <>
+            <button
+              onClick={() => openCreateGroup()}
+              className="fixed bottom-[5.5rem] right-5 w-11 h-11 bg-primary/60 text-white rounded-full shadow-lg hover:bg-primary/80 transition-colors flex items-center justify-center z-40"
+              title={t("messages.group.newGroup")}
+            >
+              <Icon name="group_add" size={22} />
+            </button>
+            <button
+              onClick={() => openDMCompose()}
+              className="fixed bottom-5 right-5 w-11 h-11 bg-primary/60 text-white rounded-full shadow-lg hover:bg-primary/80 transition-colors flex items-center justify-center text-xl leading-none z-40"
+              title={t("messages.newMessage")}
+            >
+              <Icon name="mail" size={22} />
+            </button>
+          </>
         ) : (
           <button
             onClick={() => {
@@ -204,6 +216,9 @@ export function AppLayout() {
 
       {/* DM Compose Modal */}
       <DMComposeModal />
+
+      {/* Create Group Modal */}
+      <CreateGroupModal />
 
       {/* Context Menu */}
       <ContextMenu />

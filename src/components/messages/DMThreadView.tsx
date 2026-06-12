@@ -184,7 +184,12 @@ export function DMThreadView() {
           <Icon name="arrow_back" size={20} />
         </button>
         {isGroup && group ? (
-          <div className="flex items-center gap-2 min-w-0">
+          <button
+            type="button"
+            onClick={() => navigate(`/messages/${convoId}/settings`)}
+            className="flex items-center gap-2 min-w-0 hover:opacity-80 text-left"
+            title={t("messages.group.settingsTitle")}
+          >
             <div className="w-8 h-8 flex-shrink-0 rounded-full bg-primary/15 dark:bg-primary/25 flex items-center justify-center text-primary">
               <Icon name="group" size={18} />
             </div>
@@ -198,12 +203,17 @@ export function DMThreadView() {
                     className="text-gray-400 flex-shrink-0"
                   />
                 )}
+                {group.unreadJoinRequestCount !== undefined && group.unreadJoinRequestCount > 0 && (
+                  <span className="ml-1 text-[10px] bg-red-500 text-white rounded-full px-1.5 leading-tight">
+                    {group.unreadJoinRequestCount > 99 ? "99+" : group.unreadJoinRequestCount}
+                  </span>
+                )}
               </p>
               <p className="text-xs text-gray-400">
                 {t("messages.group.memberCount", { count: group.memberCount })}
               </p>
             </div>
-          </div>
+          </button>
         ) : other ? (
           <button
             onClick={() => navigate(`/profile/${other.handle}`)}

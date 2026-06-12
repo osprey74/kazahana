@@ -1,6 +1,6 @@
 # kazahana Platform Feature Matrix
 
-> **Last updated:** 2026-06-12 (Bluesky v1.124 グループチャット Phase 1 受信側 + Phase 2 招待リンクからの参加を Desktop で実装。CI/CD から macOS Tauri バイナリ生成を撤去)
+> **Last updated:** 2026-06-12 (Bluesky v1.124 グループチャット Phase 1-3 を Desktop で実装。グループ作成 / メンバー管理 / 招待リンク管理 / ロック / 参加申請承認の owner 機能まで完了。CI/CD から macOS Tauri バイナリ生成を撤去)
 > **Source:** Compiled from the following repositories
 > - Desktop (Windows / macOS Tauri build): https://github.com/osprey74/kazahana
 > - macOS (Catalyst) — generated from kazahana-ios: https://github.com/osprey74/kazahana-ios
@@ -188,15 +188,17 @@
 | **招待リンク embed 受信表示（`chat.bsky.embed.joinLink`）** | ✅ | ✅ | ❓ | ⬜ | ⬜ | チャットメッセージ内の招待リンクカード描画。有効 / 無効化 / 無効リンクの 3 状態。「参加」アクションは Phase 2 で追加予定 |
 | **グループロック中の入力抑止** | ✅ | ✅ | ❓ | ⬜ | ⬜ | `lockStatus: locked` / `locked-permanently` 時は入力欄を非表示にロック通知を表示 |
 | **参加リクエスト一覧（`listConvoRequests`）** | ✅ | ✅ | ❓ | ⬜ | ⬜ | incoming 招待 + outgoing 参加申請を統合取得。`useConvoRequests` フック |
-| グループ作成（`createGroup`） | ⬜ | ⬜ | ❓ | ⬜ | ⬜ | Phase 3 |
-| グループメンバー管理（追加・削除） | ⬜ | ⬜ | ❓ | ⬜ | ⬜ | Phase 3 |
-| 招待リンク生成・無効化（owner） | ⬜ | ⬜ | ❓ | ⬜ | ⬜ | Phase 3 |
+| グループ作成（`createGroup`） | ✅ | ✅ | ❓ | ⬜ | ⬜ | Desktop: `CreateGroupModal` で名前 ≤50 文字 + メンバー ≤49 名選択。エラー 7 種（UserForbidsGroups / NotFollowedBySender 等）をローカライズ |
+| グループメンバー管理（追加・削除） | ✅ | ✅ | ❓ | ⬜ | ⬜ | Desktop: `GroupSettingsView` 内で `addMembers` / `removeMembers`。`getConvoMembers` でページング表示 |
+| グループ名編集（`editGroup`） | ✅ | ✅ | ❓ | ⬜ | ⬜ | owner のみ。Desktop: 設定画面の編集ボタン |
+| 招待リンク生成・無効化（owner） | ✅ | ✅ | ❓ | ⬜ | ⬜ | Desktop: `createJoinLink` / `editJoinLink`（joinRule + requireApproval）/ `enableJoinLink` / `disableJoinLink`。コピー・外部ブラウザで開く UI |
 | **招待 URL `bsky.app/chat/<code>` の in-app 解決** | ✅ | ✅ | ❓ | ⬜ | ⬜ | `lib/externalLink.ts` ヘルパー経由で `PostContent` / `LinkCard` / `MessageBubble` が `/chat/:code` ルートへ内部遷移 |
 | **招待リンク参加プレビュー画面（`getJoinLinkPreviews`）** | ✅ | ✅ | ❓ | ⬜ | ⬜ | `/chat/:code` で `JoinLinkView` を表示。グループ名 / メンバー数 / オーナー / 参加 CTA / pending・joined・disabled・invalid 状態 |
 | **招待リンクからの参加（`requestJoin`）** | ✅ | ✅ | ❓ | ⬜ | ⬜ | `joined` 時は会話画面へ自動遷移、`pending` 時はバナー表示。`ConvoLocked` / `FollowRequired` / `InvalidCode` / `LinkDisabled` / `MemberLimitReached` / `UserKicked` のエラーをローカライズ表示 |
 | **参加申請の取り下げ（`withdrawJoinRequest`）** | ✅ | ✅ | ❓ | ⬜ | ⬜ | プレビュー画面で `viewer.requestedAt` が存在する場合に取り下げボタンを表示 |
-| 参加申請承認 / 拒否 | ⬜ | ⬜ | ❓ | ⬜ | ⬜ | Phase 3 |
-| グループロック操作（owner） | ⬜ | ⬜ | ❓ | ⬜ | ⬜ | Phase 3 |
+| 参加申請承認 / 拒否 | ✅ | ✅ | ❓ | ⬜ | ⬜ | Desktop: `JoinRequestsView`（/messages/:convoId/requests）。`listJoinRequests` ページング + `approveJoinRequest` / `rejectJoinRequest`。画面オープン時に `updateJoinRequestsRead` で自動既読化 |
+| グループロック操作（owner） | ✅ | ✅ | ❓ | ⬜ | ⬜ | Desktop: 設定画面のトグル。`lockConvo` / `unlockConvo`。`locked-permanently` 状態は解除 UI 非表示 |
+| 招待リンク embed のチャット送信（owner→他 DM への共有） | 🚧 | 🚧 | ❓ | ⬜ | ⬜ | `useSendJoinLinkMessage` フックのみ実装。チャット選択ピッカー UI は未着手。当面は URL を通常テキストとして貼る運用で代替 |
 | グループ招待プライバシー設定（`allowGroupInvites`） | ⬜ | ⬜ | ❓ | ⬜ | ⬜ | Phase 4 |
 
 ---

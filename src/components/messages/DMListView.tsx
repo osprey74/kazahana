@@ -4,6 +4,7 @@ import { Virtuoso } from "react-virtuoso";
 import type { ChatBskyConvoDefs } from "@atproto/api";
 import { useConversations } from "../../hooks/useConversations";
 import { useDMComposeStore } from "../../stores/dmComposeStore";
+import { useCreateGroupStore } from "../../stores/createGroupStore";
 import { ConversationItem } from "./ConversationItem";
 import { LoadingSpinner } from "../common/LoadingSpinner";
 import { Icon } from "../common/Icon";
@@ -12,6 +13,7 @@ export function DMListView() {
   const { t } = useTranslation();
   const [scrollParent, setScrollParent] = useState<HTMLElement | null>(null);
   const openCompose = useDMComposeStore((s) => s.open);
+  const openCreateGroup = useCreateGroupStore((s) => s.open);
 
   useLayoutEffect(() => {
     setScrollParent(document.querySelector("main"));
@@ -64,13 +66,24 @@ export function DMListView() {
     return (
       <div className="flex flex-col items-center justify-center py-12 text-gray-400 gap-3">
         <p>{t("messages.empty")}</p>
-        <button
-          onClick={() => openCompose()}
-          className="px-4 py-1.5 bg-primary text-white text-sm rounded-btn hover:bg-blue-600 flex items-center gap-1"
-        >
-          <Icon name="edit_square" size={16} />
-          {t("messages.newMessage")}
-        </button>
+        <div className="flex gap-2">
+          <button
+            type="button"
+            onClick={() => openCompose()}
+            className="px-4 py-1.5 bg-primary text-white text-sm rounded-btn hover:bg-blue-600 flex items-center gap-1"
+          >
+            <Icon name="edit_square" size={16} />
+            {t("messages.newMessage")}
+          </button>
+          <button
+            type="button"
+            onClick={() => openCreateGroup()}
+            className="px-4 py-1.5 border border-border-light dark:border-border-dark text-text-light dark:text-text-dark text-sm rounded-btn hover:bg-gray-50 dark:hover:bg-gray-800 flex items-center gap-1"
+          >
+            <Icon name="group_add" size={16} />
+            {t("messages.group.newGroup")}
+          </button>
+        </div>
       </div>
     );
   }
