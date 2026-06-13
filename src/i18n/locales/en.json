@@ -434,6 +434,7 @@
     "recentRecipients": "Recent",
     "group": {
       "memberCount": "{{count}} members",
+      "joinRequestsBadge": "{{count}} pending join requests",
       "lockedNotice": "This group is locked",
       "lockedPermanentlyNotice": "This group is permanently locked",
       "leaveConfirmGroup": "Leave this group?",

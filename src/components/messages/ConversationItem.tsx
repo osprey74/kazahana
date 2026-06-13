@@ -82,6 +82,11 @@ export function ConversationItem({ conversation }: ConversationItemProps) {
             <span className="text-xs text-gray-400 flex-shrink-0">{timeAgo}</span>
           )}
         </div>
+        {group && group.unreadJoinRequestCount !== undefined && group.unreadJoinRequestCount > 0 && (
+          <p className="text-xs font-bold text-primary">
+            {t("messages.group.joinRequestsBadge", { count: group.unreadJoinRequestCount })}
+          </p>
+        )}
         <div className="flex items-center gap-1">
           <p className={`text-xs truncate ${isUnread ? "font-semibold text-text-light dark:text-text-dark" : "text-gray-500 dark:text-gray-400"}`}>
             {preview || t("messages.noMessages")}

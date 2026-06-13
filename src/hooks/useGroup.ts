@@ -251,6 +251,7 @@ export function useUpdateJoinRequestsRead() {
     },
     onSuccess: (_data, { convoId }) => {
       queryClient.invalidateQueries({ queryKey: ["conversation", convoId] });
+      queryClient.invalidateQueries({ queryKey: ["unreadDMs"] });
     },
   });
 }

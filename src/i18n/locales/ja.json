@@ -434,6 +434,7 @@
     "recentRecipients": "最近の宛先",
     "group": {
       "memberCount": "{{count}} 人",
+      "joinRequestsBadge": "{{count}} 件の参加申請",
       "lockedNotice": "このグループはロックされています",
       "lockedPermanentlyNotice": "このグループは恒久的にロックされています",
       "leaveConfirmGroup": "このグループから退出しますか？",
