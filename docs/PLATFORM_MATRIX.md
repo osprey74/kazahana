@@ -1,6 +1,6 @@
 # kazahana Platform Feature Matrix
 
-> **Last updated:** 2026-06-13 (Bluesky v1.124 グループチャット Phase 4 を Desktop で実装。`allowGroupInvites` プライバシー設定 UI を追加し Desktop 全 4 フェーズ完走。iOS / Android は Phase 1 から未着手)
+> **Last updated:** 2026-06-13 (Bluesky v1.124 グループチャットを Android v3.4.0 で実装し Google Play 公開。Phase 1〜5 相当（受信・招待リンク参加・作成/owner 操作・`allowGroupInvites`・参加申請のアプリ内通知）に対応。プロフィール QR コードも Android v3.4.0 で対応。残: `listConvoRequests` 統合・メンバー追加 UI・投稿内招待リンク解決・取り下げ UI。iOS は Phase 1 から未着手)
 > **Source:** Compiled from the following repositories
 > - Desktop (Windows / macOS Tauri build): https://github.com/osprey74/kazahana
 > - macOS (Catalyst) — generated from kazahana-ios: https://github.com/osprey74/kazahana-ios
@@ -155,6 +155,7 @@
 | ピン留め投稿表示 | ✅ | ✅ | ❓ | ✅ | ✅ | |
 | ブックマークタブ（自分のプロフィール） | ✅ | ✅ | ❓ | ✅ | ✅ | 自分のプロフィールでのみ表示 |
 | プロフィール内検索 | ✅ | ✅ | ❓ | ✅ | ✅ | |
+| **プロフィール QR コード生成・共有** | N/A | N/A | N/A | ✅ | ⬜ | Bluesky v1.124 同梱機能。自分のプロフィールから QR シートを開き `bsky.app/profile/{handle}` を符号化。リンクのコピー / 共有 / QR 画像のギャラリー保存。iOS / Android のみ（Desktop はスコープ外）。HANDOFF_kazahana-profile-qr.md。Android v3.4.0：ZXing で生成、`MediaStore` 保存 |
 
 ---
 
@@ -183,23 +184,24 @@
 | URL / ハッシュタグのリンク化 | ✅ | ✅ | ❓ | ✅ | ✅ | |
 | DM 自動更新（ポーリング） | ✅ | ✅ | ❓ | ✅ | ✅ | iOS・Android: 15秒 |
 | DM 新規会話作成履歴 | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| **グループ会話表示（`groupConvo` kind）** | ✅ | ✅ | ❓ | ⬜ | ⬜ | Bluesky v1.124 グループチャット受信対応。グループ名 + メンバー数 + ロック状態を会話一覧およびスレッドヘッダに表示。HANDOFF_kazahana-group-chat.md Phase 1 |
-| **グループシステムメッセージ表示** | ✅ | ✅ | ❓ | ⬜ | ⬜ | 全 12 種（addMember / memberJoin / lockConvo / editGroup / createJoinLink ほか）を中央寄せ italic で表示 |
-| **招待リンク embed 受信表示（`chat.bsky.embed.joinLink`）** | ✅ | ✅ | ❓ | ⬜ | ⬜ | チャットメッセージ内の招待リンクカード描画。有効 / 無効化 / 無効リンクの 3 状態。「参加」アクションは Phase 2 で追加予定 |
-| **グループロック中の入力抑止** | ✅ | ✅ | ❓ | ⬜ | ⬜ | `lockStatus: locked` / `locked-permanently` 時は入力欄を非表示にロック通知を表示 |
-| **参加リクエスト一覧（`listConvoRequests`）** | ✅ | ✅ | ❓ | ⬜ | ⬜ | incoming 招待 + outgoing 参加申請を統合取得。`useConvoRequests` フック |
-| グループ作成（`createGroup`） | ✅ | ✅ | ❓ | ⬜ | ⬜ | Desktop: `CreateGroupModal` で名前 ≤50 文字 + メンバー ≤49 名選択。エラー 7 種（UserForbidsGroups / NotFollowedBySender 等）をローカライズ |
-| グループメンバー管理（追加・削除） | ✅ | ✅ | ❓ | ⬜ | ⬜ | Desktop: `GroupSettingsView` 内で `addMembers` / `removeMembers`。`getConvoMembers` でページング表示 |
-| グループ名編集（`editGroup`） | ✅ | ✅ | ❓ | ⬜ | ⬜ | owner のみ。Desktop: 設定画面の編集ボタン |
-| 招待リンク生成・無効化（owner） | ✅ | ✅ | ❓ | ⬜ | ⬜ | Desktop: `createJoinLink` / `editJoinLink`（joinRule + requireApproval）/ `enableJoinLink` / `disableJoinLink`。コピー・外部ブラウザで開く UI |
-| **招待 URL `bsky.app/chat/<code>` の in-app 解決** | ✅ | ✅ | ❓ | ⬜ | ⬜ | `lib/externalLink.ts` ヘルパー経由で `PostContent` / `LinkCard` / `MessageBubble` が `/chat/:code` ルートへ内部遷移 |
-| **招待リンク参加プレビュー画面（`getJoinLinkPreviews`）** | ✅ | ✅ | ❓ | ⬜ | ⬜ | `/chat/:code` で `JoinLinkView` を表示。グループ名 / メンバー数 / オーナー / 参加 CTA / pending・joined・disabled・invalid 状態 |
-| **招待リンクからの参加（`requestJoin`）** | ✅ | ✅ | ❓ | ⬜ | ⬜ | `joined` 時は会話画面へ自動遷移、`pending` 時はバナー表示。`ConvoLocked` / `FollowRequired` / `InvalidCode` / `LinkDisabled` / `MemberLimitReached` / `UserKicked` のエラーをローカライズ表示 |
-| **参加申請の取り下げ（`withdrawJoinRequest`）** | ✅ | ✅ | ❓ | ⬜ | ⬜ | プレビュー画面で `viewer.requestedAt` が存在する場合に取り下げボタンを表示 |
-| 参加申請承認 / 拒否 | ✅ | ✅ | ❓ | ⬜ | ⬜ | Desktop: `JoinRequestsView`（/messages/:convoId/requests）。`listJoinRequests` ページング + `approveJoinRequest` / `rejectJoinRequest`。画面オープン時に `updateJoinRequestsRead` で自動既読化 |
-| グループロック操作（owner） | ✅ | ✅ | ❓ | ⬜ | ⬜ | Desktop: 設定画面のトグル。`lockConvo` / `unlockConvo`。`locked-permanently` 状態は解除 UI 非表示 |
+| **グループ会話表示（`groupConvo` kind）** | ✅ | ✅ | ❓ | ✅ | ⬜ | Bluesky v1.124 グループチャット受信対応。グループ名 + メンバー数 + ロック状態を会話一覧およびスレッドヘッダに表示。HANDOFF_kazahana-group-chat.md Phase 1。Android v3.4.0：会話一覧は重ねアバター表示 |
+| **グループシステムメッセージ表示** | ✅ | ✅ | ❓ | ✅ | ⬜ | 全 12 種（addMember / memberJoin / lockConvo / editGroup / createJoinLink ほか）を中央寄せ italic で表示。Android v3.4.0 対応 |
+| **招待リンク embed 受信表示（`chat.bsky.embed.joinLink`）** | ✅ | ✅ | ❓ | ✅ | ⬜ | チャットメッセージ内の招待リンクカード描画。有効 / 無効化 / 無効リンクの 3 状態。Android v3.4.0 対応（参加アクションも接続済み） |
+| **グループロック中の入力抑止** | ✅ | ✅ | ❓ | ✅ | ⬜ | `lockStatus: locked` / `locked-permanently` 時は入力欄を非表示にロック通知を表示。Android v3.4.0 対応 |
+| **参加リクエスト一覧（`listConvoRequests`）** | ✅ | ✅ | ❓ | ⬜ | ⬜ | incoming 招待 + outgoing 参加申請を統合取得。`useConvoRequests` フック。Android：既存のメッセージリクエスト（`status`）流用のため `listConvoRequests` 統合は未実装 |
+| グループ作成（`createGroup`） | ✅ | ✅ | ❓ | ✅ | ⬜ | Desktop: `CreateGroupModal` で名前 ≤50 文字 + メンバー ≤49 名選択。エラー 7 種（UserForbidsGroups / NotFollowedBySender 等）をローカライズ。Android v3.4.0：`CreateGroupScreen` |
+| グループメンバー管理（追加・削除） | ✅ | ✅ | ❓ | 🚧 | ⬜ | Desktop: `GroupSettingsView` 内で `addMembers` / `removeMembers`。`getConvoMembers` でページング表示。Android v3.4.0：削除（kick）のみ UI 実装。追加 UI は未実装（`addMembers` は repository 実装済み） |
+| グループ名編集（`editGroup`） | ✅ | ✅ | ❓ | ✅ | ⬜ | owner のみ。Desktop: 設定画面の編集ボタン。Android v3.4.0：設定画面の編集ダイアログ |
+| 招待リンク生成・無効化（owner） | ✅ | ✅ | ❓ | ✅ | ⬜ | Desktop: `createJoinLink` / `editJoinLink`（joinRule + requireApproval）/ `enableJoinLink` / `disableJoinLink`。コピー・外部ブラウザで開く UI。Android v3.4.0：生成 / 有効・無効トグル / コピー / 共有（`editJoinLink` は未使用） |
+| **招待 URL `bsky.app/chat/<code>` の in-app 解決** | ✅ | ✅ | ❓ | 🚧 | ⬜ | `lib/externalLink.ts` ヘルパー経由で `PostContent` / `LinkCard` / `MessageBubble` が `/chat/:code` ルートへ内部遷移。Android v3.4.0：DM メッセージ内リンクのみ対応。投稿内リンクは未対応 |
+| **招待リンク参加プレビュー画面（`getJoinLinkPreviews`）** | ✅ | ✅ | ❓ | ✅ | ⬜ | `/chat/:code` で `JoinLinkView` を表示。グループ名 / メンバー数 / オーナー / 参加 CTA / pending・joined・disabled・invalid 状態。Android v3.4.0：`JoinGroupScreen` |
+| **招待リンクからの参加（`requestJoin`）** | ✅ | ✅ | ❓ | ✅ | ⬜ | `joined` 時は会話画面へ自動遷移、`pending` 時はバナー表示。`ConvoLocked` / `FollowRequired` / `InvalidCode` / `LinkDisabled` / `MemberLimitReached` / `UserKicked` のエラーをローカライズ表示。Android v3.4.0：`joined` で会話へ遷移、`pending` でトースト |
+| **参加申請の取り下げ（`withdrawJoinRequest`）** | ✅ | ✅ | ❓ | ⬜ | ⬜ | プレビュー画面で `viewer.requestedAt` が存在する場合に取り下げボタンを表示。Android：repository のみ実装、取り下げ UI 未実装 |
+| 参加申請承認 / 拒否 | ✅ | ✅ | ❓ | ✅ | ⬜ | Desktop: `JoinRequestsView`（/messages/:convoId/requests）。`listJoinRequests` ページング + `approveJoinRequest` / `rejectJoinRequest`。画面オープン時に `updateJoinRequestsRead` で自動既読化。Android v3.4.0：`GroupSettingsScreen` 内に申請一覧 + 承認 / 拒否、`updateJoinRequestsRead` 自動既読化 |
+| グループロック操作（owner） | ✅ | ✅ | ❓ | ✅ | ⬜ | Desktop: 設定画面のトグル。`lockConvo` / `unlockConvo`。`locked-permanently` 状態は解除 UI 非表示。Android v3.4.0：設定画面のトグル |
 | 招待リンク embed のチャット送信（owner→他 DM への共有） | 🚧 | 🚧 | ❓ | ⬜ | ⬜ | `useSendJoinLinkMessage` フックのみ実装。チャット選択ピッカー UI は未着手。当面は URL を通常テキストとして貼る運用で代替 |
-| グループ招待プライバシー設定（`allowGroupInvites`） | ✅ | ✅ | ❓ | ⬜ | ⬜ | Desktop: 設定画面 > チャット セクションのラジオ選択（全員 / フォロー中 / 誰からも）。`chat.bsky.actor.declaration/self` レコードへ `putRecord`、`allowIncoming` 既存値を保持しつつ更新 |
+| グループ招待プライバシー設定（`allowGroupInvites`） | ✅ | ✅ | ❓ | ✅ | ⬜ | Desktop: 設定画面 > チャット セクションのラジオ選択（全員 / フォロー中 / 誰からも）。`chat.bsky.actor.declaration/self` レコードへ `putRecord`、`allowIncoming` 既存値を保持しつつ更新。Android v3.4.0：設定 > チャット |
+| **未読参加申請バッジ + アプリ内通知（owner）** | ⬜ | ⬜ | ❓ | ✅ | ⬜ | Android v3.4.0 独自：`unreadJoinRequestCount` を会話一覧・チャットヘッダ・メッセージタブのバッジに表示。新規申請をアプリ起動中ローカル通知で通知（サーバープッシュは push backend 制約で不可。HANDOFF [A-8]/[I-9]） |
 
 ---
 
