@@ -58,3 +58,15 @@
     display: none;
   }
 }
+
+@layer utilities {
+  @keyframes kazahana-message-flash {
+    0%, 100% { background-color: transparent; }
+    25% { background-color: rgba(56, 132, 255, 0.18); }
+  }
+
+  .kazahana-message-flash {
+    animation: kazahana-message-flash 0.9s ease-in-out;
+    border-radius: 1rem;
+  }
+}

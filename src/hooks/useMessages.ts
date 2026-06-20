@@ -3,6 +3,7 @@ import { useInfiniteQuery, useMutation, useQueryClient } from "@tanstack/react-q
 import { RichText } from "@atproto/api";
 import { getChatAgent } from "../lib/chatAgent";
 import { getAgent } from "../lib/agent";
+import { sanitizeFacets } from "../lib/richtext";
 
 export function useMessages(convoId: string) {
   return useInfiniteQuery({
@@ -28,7 +29,15 @@ export function useSendMessage() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ convoId, text }: { convoId: string; text: string }) => {
+    mutationFn: async ({
+      convoId,
+      text,
+      replyToMessageId,
+    }: {
+      convoId: string;
+      text: string;
+      replyToMessageId?: string;
+    }) => {
       const agent = getChatAgent();
       const rt = new RichText({ text });
       await rt.detectFacets(getAgent());
@@ -36,7 +45,10 @@ export function useSendMessage() {
         convoId,
         message: {
           text: rt.text,
-          facets: rt.facets,
+          facets: sanitizeFacets(rt.facets),
+          ...(replyToMessageId
+            ? { replyTo: { messageId: replyToMessageId } }
+            : {}),
         },
       });
       return res.data;

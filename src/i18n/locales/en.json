@@ -149,7 +149,8 @@
   },
   "common": {
     "retry": "Retry",
-    "clear": "Clear"
+    "clear": "Clear",
+    "menu": "Menu"
   },
   "moderation": {
     "postHidden": "Post hidden by moderation",
@@ -432,6 +433,12 @@
     "accept": "Accept",
     "requests": "Message requests",
     "recentRecipients": "Recent",
+    "reply": {
+      "replyingTo": "Replying to",
+      "action": "Reply",
+      "cancel": "Cancel reply",
+      "targetNotFound": "The message you replied to could not be found (it may have been deleted)."
+    },
     "group": {
       "memberCount": "{{count}} members",
       "joinRequestsBadge": "{{count}} pending join requests",

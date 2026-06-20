@@ -5,6 +5,7 @@ import { getAgent } from "../lib/agent";
 import { useSettingsStore } from "../stores/settingsStore";
 import { compressImage, IMAGE_FALLBACK_BYTES, isBlobTooLargeError } from "../lib/imageCompress";
 import { CAROUSEL_THRESHOLD } from "../lib/embed/gallery";
+import { sanitizeFacets } from "../lib/richtext";
 import i18n from "../i18n";
 
 interface CreatePostImage {
@@ -317,7 +318,7 @@ export function useCreatePost() {
       const record: Record<string, unknown> = {
         $type: "app.bsky.feed.post",
         text: rt.text,
-        facets: rt.facets,
+        facets: sanitizeFacets(rt.facets),
         createdAt: new Date().toISOString(),
         langs: [i18n.language.split("-")[0]],
         ...(useSettingsStore.getState().showVia ? { $via: "kazahana" } : {}),

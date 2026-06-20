@@ -6,7 +6,7 @@ import { ChatBskyConvoDefs } from "@atproto/api";
 import { useMessages, useSendMessage, useMarkConvoAsRead } from "../../hooks/useMessages";
 import { getChatAgent } from "../../lib/chatAgent";
 import { useAuthStore } from "../../stores/authStore";
-import { MessageBubble } from "./MessageBubble";
+import { MessageBubble, type ReplyTargetSelection } from "./MessageBubble";
 import { SystemMessage } from "./SystemMessage";
 import { Avatar } from "../common/Avatar";
 import { LoadingSpinner } from "../common/LoadingSpinner";
@@ -20,6 +20,8 @@ export function DMThreadView() {
   const queryClient = useQueryClient();
   const [text, setText] = useState("");
   const [showMenu, setShowMenu] = useState(false);
+  const [replyTarget, setReplyTarget] = useState<ReplyTargetSelection | null>(null);
+  const [sendError, setSendError] = useState<string | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
 
@@ -109,13 +111,27 @@ export function DMThreadView() {
   const handleSend = useCallback(async () => {
     const trimmed = text.trim();
     if (!trimmed || !convoId) return;
+    const replyMessageId = replyTarget?.messageId;
     setText("");
+    setSendError(null);
+    setReplyTarget(null);
     try {
-      await sendMessage.mutateAsync({ convoId, text: trimmed });
-    } catch {
+      await sendMessage.mutateAsync({
+        convoId,
+        text: trimmed,
+        replyToMessageId: replyMessageId,
+      });
+    } catch (err) {
       setText(trimmed);
+      const errorName = (err as { error?: string } | undefined)?.error;
+      if (errorName === "ReplyTargetNotFound") {
+        setSendError(t("messages.reply.targetNotFound"));
+      } else if (replyMessageId && replyTarget) {
+        // Non-target errors: restore the reply target so the user can retry
+        setReplyTarget(replyTarget);
+      }
     }
-  }, [text, convoId, sendMessage]);
+  }, [text, convoId, sendMessage, replyTarget, t]);
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
@@ -319,6 +335,15 @@ export function DMThreadView() {
                 ChatBskyConvoDefs.isMessageView(nonSystem) && nonSystem.sender.did === myDid
               }
               convoId={convoId!}
+              onReply={
+                ChatBskyConvoDefs.isMessageView(nonSystem)
+                  ? (target) => {
+                      setReplyTarget(target);
+                      setSendError(null);
+                      textareaRef.current?.focus();
+                    }
+                  : undefined
+              }
             />
           );
         })}
@@ -335,24 +360,63 @@ export function DMThreadView() {
               : t("messages.group.lockedNotice")}
           </div>
         ) : (
-          <div className="flex items-end gap-2">
-            <textarea
-              ref={textareaRef}
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              onKeyDown={handleKeyDown}
-              placeholder={t("messages.placeholder")}
-              rows={1}
-              className="flex-1 resize-none bg-gray-100 dark:bg-gray-800 text-text-light dark:text-text-dark text-sm rounded-2xl px-3 py-2 outline-none focus:ring-1 focus:ring-primary scrollbar-thin"
-            />
-            <button
-              onClick={handleSend}
-              disabled={!text.trim() || sendMessage.isPending}
-              className="flex-shrink-0 w-8 h-8 flex items-center justify-center bg-primary text-white rounded-full disabled:opacity-40 hover:bg-blue-600 transition-colors"
-            >
-              <Icon name="send" size={18} />
-            </button>
-          </div>
+          <>
+            {sendError && (
+              <div className="flex items-start gap-2 mb-2 px-3 py-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg text-xs text-red-700 dark:text-red-300">
+                <Icon name="error" size={14} className="flex-shrink-0 mt-0.5" />
+                <span className="flex-1">{sendError}</span>
+                <button
+                  type="button"
+                  onClick={() => setSendError(null)}
+                  className="flex-shrink-0 text-red-500 hover:text-red-700"
+                  title={t("common.clear")}
+                >
+                  <Icon name="close" size={14} />
+                </button>
+              </div>
+            )}
+            {replyTarget && (
+              <div className="flex items-stretch gap-2 mb-2 px-2 py-1.5 bg-gray-50 dark:bg-gray-800/60 rounded-lg">
+                <span className="w-0.5 rounded-full bg-primary/60 self-stretch" />
+                <div className="flex flex-col min-w-0 flex-1 text-xs">
+                  <span className="font-medium text-gray-500 dark:text-gray-400">
+                    {t("messages.reply.replyingTo")}
+                  </span>
+                  <span className={`truncate text-text-light dark:text-text-dark ${replyTarget.isDeleted ? "italic text-gray-400" : ""}`}>
+                    {replyTarget.isDeleted ? t("messages.deleted") : replyTarget.preview}
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setReplyTarget(null)}
+                  className="flex-shrink-0 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 self-start"
+                  title={t("messages.reply.cancel")}
+                >
+                  <Icon name="close" size={16} />
+                </button>
+              </div>
+            )}
+            <div className="flex items-end gap-2">
+              <textarea
+                ref={textareaRef}
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+                onKeyDown={handleKeyDown}
+                placeholder={t("messages.placeholder")}
+                rows={1}
+                className="flex-1 resize-none bg-gray-100 dark:bg-gray-800 text-text-light dark:text-text-dark text-sm rounded-2xl px-3 py-2 outline-none focus:ring-1 focus:ring-primary scrollbar-thin"
+              />
+              <button
+                type="button"
+                onClick={handleSend}
+                disabled={!text.trim() || sendMessage.isPending}
+                className="flex-shrink-0 w-8 h-8 flex items-center justify-center bg-primary text-white rounded-full disabled:opacity-40 hover:bg-blue-600 transition-colors"
+                title={t("messages.placeholder")}
+              >
+                <Icon name="send" size={18} />
+              </button>
+            </div>
+          </>
         )}
       </div>
 
