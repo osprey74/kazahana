@@ -1,6 +1,6 @@
 # kazahana Platform Feature Matrix
 
-> **Last updated:** 2026-06-20 (iOS v3.5.0: OGP 文字コード自動判定対応（Issue #12）、チャット内メッセージ返信（受信・送信・フラッシュ表示）、引用元ポストのタップ遷移、返信先 @handle 表示、プロフィール QR コードを macOS Catalyst では非表示化。Desktop v3.5.0 で Bluesky social-app v1.125.0 のチャット内メッセージ返信機能を取り込み。Desktop v3.4.2 で OGP 文字コード自動判定対応。Android は順次対応予定)
+> **Last updated:** 2026-06-20 (iOS v3.5.0: OGP 文字コード自動判定対応（Issue #12）、チャット内メッセージ返信（受信・送信・フラッシュ表示）、引用元ポストのタップ遷移、返信先 @handle 表示、プロフィール QR コードを macOS Catalyst では非表示化。Desktop v3.5.0 で Bluesky social-app v1.125.0 のチャット内メッセージ返信機能を取り込み。Desktop v3.4.2 で OGP 文字コード自動判定対応。Android（次期リリース）も v1.125 チャット内メッセージ返信（受信・送信・スクロール+フラッシュ）、OGP 文字コード自動判定、引用投稿表示・タイムライン返信先 @handle 表示の不具合修正を実装)
 > **Source:** Compiled from the following repositories
 > - Desktop (Windows / macOS Tauri build): https://github.com/osprey74/kazahana
 > - macOS (Catalyst) — generated from kazahana-ios: https://github.com/osprey74/kazahana-ios
@@ -56,7 +56,7 @@
 | 画像ライトボックス（フルスクリーン） | ✅ | ✅ | ❓ | ✅ | ✅ | Desktop: キーボードナビ対応 |
 | 画像表示モード設定（アプリ内/ブラウザ） | ✅ | ✅ | ❓ | N/A | N/A | |
 | 動画再生（HLS） | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| リンクカード（OGP） | ✅ | ✅ | ✅ | ✅ | ✅ | 文字コード自動判定: Desktop v3.4.2 / iOS v3.5.0 で Content-Type / `<meta charset>` を優先する HTML living standard 準拠の検出に対応（Shift_JIS / EUC-JP 等の非 UTF-8 サイト文字化け解消）。`CFStringConvertIANACharSetNameToEncoding` で全 IANA charset 名に対応。Android は Issue #12 で順次対応予定 |
+| リンクカード（OGP） | ✅ | ✅ | ✅ | ✅ | ✅ | 文字コード自動判定: Desktop v3.4.2 / iOS v3.5.0 / Android（次期リリース）で Content-Type / `<meta charset>` を優先する HTML living standard 準拠の検出に対応（Shift_JIS / EUC-JP 等の非 UTF-8 サイト文字化け解消）。iOS は `CFStringConvertIANACharSetNameToEncoding`、Android は `Charset.forName` で全 IANA charset 名に対応 |
 | Standard Site 拡張リンクカード（受信） | ✅ | ✅ | ❓ | ✅ | ⬜ | 公開日 / 読了時間 / パブリケーション情報・著者・テーマカラー表示。HANDOFF_kazahana-standard-site-embed.md 参照 |
 | 引用投稿表示 | ✅ | ✅ | ❓ | ✅ | ✅ | |
 | スレッド表示（親チェーン＋返信一覧） | ✅ | ✅ | ❓ | ✅ | ✅ | |
@@ -176,8 +176,8 @@
 |------|:-------:|:-------------:|:----------------:|:-------:|:---:|------|
 | 会話一覧 | ✅ | ✅ | ❓ | ✅ | ✅ | |
 | メッセージ送受信 | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| **チャット内メッセージ返信表示（受信、`replyTo`）** | ✅ | ✅ | ✅ | ⬜ | ✅ | Bluesky social-app v1.125.0（2026-06-17 リリース）対応。`chat.bsky.convo.defs#replyRef` / `messageView.replyTo` 受信 → 返信元バブルプレビュー＋削除済み (`deletedMessageView`) フォールバック表示。返信元タップで元バブルへ平滑スクロール + フラッシュ。Desktop v3.5.0 / iOS v3.5.0 |
-| **チャット内メッセージ返信送信（`messageInput.replyTo`）** | ✅ | ✅ | ✅ | ⬜ | ✅ | コンテキストメニューから「返信」→ composer 上部に返信先チップ（キャンセル可）→ `sendMessage` で `replyTo: { messageId }` 付与。Desktop v3.5.0 / iOS v3.5.0 |
+| **チャット内メッセージ返信表示（受信、`replyTo`）** | ✅ | ✅ | ✅ | ✅ | ✅ | Bluesky social-app v1.125.0（2026-06-17 リリース）対応。`chat.bsky.convo.defs#replyRef` / `messageView.replyTo` 受信 → 返信元バブルプレビュー＋削除済み (`deletedMessageView`) フォールバック表示。返信元タップで元バブルへ平滑スクロール + フラッシュ。Desktop v3.5.0 / iOS v3.5.0 / Android（次期リリース） |
+| **チャット内メッセージ返信送信（`messageInput.replyTo`）** | ✅ | ✅ | ✅ | ✅ | ✅ | コンテキストメニュー（Android は長押し）から「返信」→ composer 上部に返信先チップ（キャンセル可）→ `sendMessage` で `replyTo: { messageId }` 付与。`ReplyTargetNotFound` をローカライズ表示。Desktop v3.5.0 / iOS v3.5.0 / Android（次期リリース） |
 | 絵文字リアクション | ✅ | ✅ | ❓ | ✅ | ✅ | |
 | 新規会話作成 | ✅ | ✅ | ❓ | ✅ | ✅ | |
 | メッセージ削除 | ✅ | ✅ | ❓ | ✅ | ✅ | |
@@ -344,12 +344,6 @@
 | 機能 | Android | 備考 |
 |------|:-------:|------|
 | 独自 PDS ログイン（DNS/well-known からの PDS 自動解決） | ⬜ | Desktop v2.7.0 / iOS v3.1.0 で実装。Android は did:plc の DID ドキュメントからの PDS 解決のみ対応（ハンドル解決は bsky.social 固定） |
-
-### Desktop / iOS 先行実装（Android 未実装）
-
-| 機能 | Android | 備考 |
-|------|:-------:|------|
-| チャット内メッセージ返信（受信・送信） | ⬜ | Bluesky social-app v1.125.0（2026-06-17）対応。Desktop v3.5.0 / iOS v3.5.0 で実装。`chat.bsky.convo.defs#replyRef` / `messageInput.replyTo` / `messageView.replyTo`、返信元バブルへスクロール + フラッシュ |
 
 ### Desktop / Android 実装済み（iOS 未実装）
 
