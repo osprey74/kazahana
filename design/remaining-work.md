@@ -378,3 +378,13 @@ Collaborator: よつぎnん / @yotsugin.bsky.social
 ## CI/CD 改修（2026-06-12）
 
 - [x] **macOS Tauri バイナリの自動生成を停止** — `.github/workflows/release.yml` のマトリクスを撤去し `runs-on: windows-latest` 単一構成に変更。macOS 版は Mac App Store で配信中の Catalyst 版（kazahana-ios リポジトリ）へ移行済みのため Tauri 経由の macOS リリースは不要
+
+## OGP 取得時の文字コード自動判定対応（2026-06-20） — Issue #12
+
+> 報告者: KC-2001MS 様（[#12](https://github.com/osprey74/kazahana/issues/12)）
+> 3 プラットフォーム共通の不具合。詳細調査は `HANDOFF_kazahana-bugs-2026-06-20.md` 参照。
+> 本セクションは Desktop 対応分。iOS / Android は各リポジトリで順次対応予定。
+
+- [x] **Desktop: `fetchHtml()` の charset 自動判定対応** — `src/lib/ogp.ts` を改修。従来は Web Fetch API の `res.text()` が UTF-8 固定でデコードしていたため、Shift_JIS / EUC-JP 等の非 UTF-8 サイトで OGP メタデータ（`og:title` / `og:description`）が文字化けし、`app.bsky.embed.external` レコードへ永続化されていた。HTML living standard 準拠の優先度（1. Content-Type ヘッダ `charset=...` → 2. HTML 先頭 4096 バイトの `<meta charset>` / `<meta http-equiv>` → 3. UTF-8 フォールバック）で検出し、`TextDecoder` でデコードする実装に変更。`detectCharset()` / `normalizeCharset()` / `decodeBuffer()` を補助関数として切り出し
+- [ ] **iOS: 同等の charset 自動判定対応** — kazahana-ios リポジトリで対応。`Services/LinkPreviewService.swift` と `ShareExtension/ShareATProtoClient.swift` の 2 箇所に同一ロジックの重複実装あり
+- [ ] **Android: 同等の charset 自動判定対応** — kazahana-android リポジトリで対応。`data/ogp/OgpService.kt` の `fetchHtml()` を Ktor `bodyAsText()` から生バイト取得 + `Charset.forName()` デコードに変更

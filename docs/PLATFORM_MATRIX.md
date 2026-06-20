@@ -1,6 +1,6 @@
 # kazahana Platform Feature Matrix
 
-> **Last updated:** 2026-06-13 (Bluesky v1.124 グループチャットを Android v3.4.0 で実装し Google Play 公開。Phase 1〜5 相当（受信・招待リンク参加・作成/owner 操作・`allowGroupInvites`・参加申請のアプリ内通知）に対応。プロフィール QR コードも Android v3.4.0 で対応。残: `listConvoRequests` 統合・メンバー追加 UI・投稿内招待リンク解決・取り下げ UI。iOS は Phase 1 から未着手)
+> **Last updated:** 2026-06-20 (Desktop で OGP 取得時の文字コード自動判定対応。Content-Type / `<meta charset>` を優先し、Shift_JIS / EUC-JP 等の非 UTF-8 サイトでリンクカードが文字化けしない実装に改修。Issue #12 の Desktop 分対応完了。iOS / Android は同 Issue で順次対応予定。2026-06-13 までの履歴: Bluesky v1.124 グループチャットを Android v3.4.0 で実装し Google Play 公開。Phase 1〜5 相当（受信・招待リンク参加・作成/owner 操作・`allowGroupInvites`・参加申請のアプリ内通知）に対応。プロフィール QR コードも Android v3.4.0 で対応。残: `listConvoRequests` 統合・メンバー追加 UI・投稿内招待リンク解決・取り下げ UI。iOS は Phase 1 から未着手)
 > **Source:** Compiled from the following repositories
 > - Desktop (Windows / macOS Tauri build): https://github.com/osprey74/kazahana
 > - macOS (Catalyst) — generated from kazahana-ios: https://github.com/osprey74/kazahana-ios
@@ -56,7 +56,7 @@
 | 画像ライトボックス（フルスクリーン） | ✅ | ✅ | ❓ | ✅ | ✅ | Desktop: キーボードナビ対応 |
 | 画像表示モード設定（アプリ内/ブラウザ） | ✅ | ✅ | ❓ | N/A | N/A | |
 | 動画再生（HLS） | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| リンクカード（OGP） | ✅ | ✅ | ❓ | ✅ | ✅ | |
+| リンクカード（OGP） | ✅ | ✅ | ❓ | ✅ | ✅ | 文字コード自動判定: Desktop v3.4.2 で Content-Type / `<meta charset>` を優先する HTML living standard 準拠の検出に対応（Shift_JIS / EUC-JP 等の非 UTF-8 サイト文字化け解消）。iOS / Android は Issue #12 で順次対応予定 |
 | Standard Site 拡張リンクカード（受信） | ✅ | ✅ | ❓ | ✅ | ⬜ | 公開日 / 読了時間 / パブリケーション情報・著者・テーマカラー表示。HANDOFF_kazahana-standard-site-embed.md 参照 |
 | 引用投稿表示 | ✅ | ✅ | ❓ | ✅ | ✅ | |
 | スレッド表示（親チェーン＋返信一覧） | ✅ | ✅ | ❓ | ✅ | ✅ | |

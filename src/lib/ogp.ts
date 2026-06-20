@@ -19,6 +19,10 @@ export function extractUrl(text: string): string | null {
 /**
  * Fetch HTML body from a URL using Tauri HTTP plugin (no CORS).
  * Used by OGP parsing and Standard Site URI extraction.
+ *
+ * Decodes the response with charset detection following the HTML living
+ * standard priority: Content-Type header → <meta charset> → UTF-8 fallback.
+ * Without this, Shift_JIS / EUC-JP sites would mojibake.
  */
 export async function fetchHtml(url: string): Promise<string | null> {
   try {
@@ -31,9 +35,57 @@ export async function fetchHtml(url: string): Promise<string | null> {
       connectTimeout: 8000,
     });
     if (!res.ok) return null;
-    return await res.text();
+
+    const buffer = await res.arrayBuffer();
+    const contentType = res.headers.get("Content-Type") ?? "";
+    const charset = detectCharset(contentType, buffer);
+    return decodeBuffer(buffer, charset);
   } catch {
     return null;
+  }
+}
+
+/**
+ * Detect the charset of an HTML response.
+ * Priority: Content-Type header > <meta charset> / <meta http-equiv> > utf-8.
+ */
+function detectCharset(contentType: string, buffer: ArrayBuffer): string {
+  const headerCharset = /charset\s*=\s*["']?([^"';\s]+)/i.exec(contentType)?.[1];
+  if (headerCharset) return normalizeCharset(headerCharset);
+
+  // Inspect the first ~4096 bytes as ASCII to find a meta declaration.
+  // ASCII-decoding is safe here because meta tags use ASCII-only syntax.
+  const head = new TextDecoder("ascii", { fatal: false }).decode(
+    buffer.slice(0, Math.min(4096, buffer.byteLength)),
+  );
+
+  const metaCharset =
+    /<meta[^>]+charset\s*=\s*["']?([^"'>\s/]+)/i.exec(head)?.[1] ??
+    /<meta[^>]+http-equiv\s*=\s*["']?content-type["']?[^>]*content\s*=\s*["'][^"']*charset\s*=\s*([^"'>\s;]+)/i.exec(
+      head,
+    )?.[1];
+
+  return metaCharset ? normalizeCharset(metaCharset) : "utf-8";
+}
+
+/**
+ * Normalize charset aliases that TextDecoder accepts but with different
+ * canonical spellings. TextDecoder handles common aliases (e.g. "shift_jis",
+ * "sjis", "x-sjis") natively, so this only lowercases for safety.
+ */
+function normalizeCharset(charset: string): string {
+  return charset.toLowerCase();
+}
+
+/**
+ * Decode a byte buffer using the given charset. Falls back to UTF-8 if
+ * TextDecoder rejects the label.
+ */
+function decodeBuffer(buffer: ArrayBuffer, charset: string): string {
+  try {
+    return new TextDecoder(charset, { fatal: false }).decode(buffer);
+  } catch {
+    return new TextDecoder("utf-8", { fatal: false }).decode(buffer);
   }
 }
 
