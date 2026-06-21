@@ -1,6 +1,6 @@
 # kazahana Platform Feature Matrix
 
-> **Last updated:** 2026-06-21 (macOS Catalyst: 全機能の ❓ 一掃 — フィードピン同期・フォントサイズ4段階・macOS通知ポーリング・プロフィールリンク有効化・Cmd+Return送信・リロードボタン・フォロー並び順統一・タブチェックマーク連動・ディープリンクtitle+url対応。iOS: フィードスワイプ切替・画像ズーム時ドラッグ対応)
+> **Last updated:** 2026-06-22 (iOS / macOS Catalyst 棚卸し — ウォーターマーク全機能・Standard Site 拡張リンクカード・standard.site 長文連携・グループチャット全機能を ⬜→✅ に修正。Catalyst: BSAF ローカル JSON 登録を ⬜→✅ に修正。差異サマリー更新)
 > **Source:** Compiled from the following repositories
 > - Desktop (Windows / macOS Tauri build): https://github.com/osprey74/kazahana
 > - macOS (Catalyst) — generated from kazahana-ios: https://github.com/osprey74/kazahana-ios
@@ -57,7 +57,7 @@
 | 画像表示モード設定（アプリ内/ブラウザ） | ✅ | ✅ | ✅ | N/A | N/A | |
 | 動画再生（HLS） | ✅ | ✅ | ✅ | ✅ | ✅ | |
 | リンクカード（OGP） | ✅ | ✅ | ✅ | ✅ | ✅ | 文字コード自動判定: Desktop v3.4.2 / iOS v3.5.0 / Android（次期リリース）で Content-Type / `<meta charset>` を優先する HTML living standard 準拠の検出に対応（Shift_JIS / EUC-JP 等の非 UTF-8 サイト文字化け解消）。iOS は `CFStringConvertIANACharSetNameToEncoding`、Android は `Charset.forName` で全 IANA charset 名に対応 |
-| Standard Site 拡張リンクカード（受信） | ✅ | ✅ | ⬜ | ✅ | ⬜ | 公開日 / 読了時間 / パブリケーション情報・著者・テーマカラー表示。HANDOFF_kazahana-standard-site-embed.md 参照 |
+| Standard Site 拡張リンクカード（受信） | ✅ | ✅ | ✅ | ✅ | ✅ | 公開日 / 読了時間 / パブリケーション情報・著者・テーマカラー表示。iOS v3.0.0 / Catalyst 同時対応。3 パターン描画（document / publication / 両方）。`LinkCardView.swift` / `LinkPreviewService.swift` |
 | 引用投稿表示 | ✅ | ✅ | ✅ | ✅ | ✅ | |
 | スレッド表示（親チェーン＋返信一覧） | ✅ | ✅ | ✅ | ✅ | ✅ | |
 | ALT テキスト表示（投稿カード、128文字） | ✅ | ✅ | ✅ | ✅ | ✅ | |
@@ -105,7 +105,7 @@
 | ALT テキスト自動生成（Claude API） | ✅ | ✅ | ✅ | ✅ | ✅ | |
 | 画像自動圧縮 | ✅ | ✅ | ✅ | ✅ | ✅ | |
 | リンクカード自動生成（URL貼り付け） | ✅ | ✅ | ✅ | ✅ | ✅ | |
-| Standard Site 拡張リンクカード（送信） | ✅ | ✅ | ⬜ | ✅ | ⬜ | `getEmbedExternalView` 経由でプレビュー取得、`associatedRefs` を投稿レコードに含める。HANDOFF_kazahana-standard-site-embed.md 参照 |
+| Standard Site 拡張リンクカード（送信） | ✅ | ✅ | ✅ | ✅ | ✅ | `getEmbedExternalView` 経由でプレビュー取得、`associatedRefs` を投稿レコードに含める。iOS v3.0.0 / Catalyst 同時対応 |
 | メンションオートコンプリート（`@`） | ✅ | ✅ | ✅ | ✅ | ✅ | |
 | ハッシュタグ/URL ファセット自動検出 | ✅ | ✅ | ✅ | ✅ | ✅ | |
 | ドラッグ＆ドロップ画像添付 | ✅ | ✅ | ⬜ | N/A | N/A | Desktop 固有 / Catalyst は macOS のドラッグ＆ドロップ対応要確認 |
@@ -114,12 +114,12 @@
 | キーボードショートカット（Cmd+N / Cmd+Return / Cmd+R） | ✅ | ✅ | ✅ | N/A | N/A | |
 | Option+Enter（macOS） | N/A | ✅ | N/A | N/A | N/A | macOS のみ |
 | プロフィールページからの自動メンション挿入 | ✅ | ✅ | ✅ | ✅ | ✅ | |
-| ウォーターマーク合成（画像） | ✅ | ✅ | ⬜ | ✅ | ⬜ | 投稿前に著作権・AI拒否文言を画像に合成。Canvas API / CoreGraphics / Android Canvas。HANDOFF_watermark.md 参照 |
-| ウォーターマーク — プリセット文言（6種） | ✅ | ✅ | ⬜ | ✅ | ⬜ | 無断転載禁止 / AI学習禁止(JP) / No AI Training / AI+JP / 撮影・編集 / カスタム入力 |
-| ウォーターマーク — 位置・不透明度・サイズ設定 | ✅ | ✅ | ⬜ | ✅ | ⬜ | 6方向（＋ランダム/タイル）/ 不透明度 20〜100% / フォントサイズ 8〜20px |
-| ウォーターマーク — 投稿前確認モーダル | ✅ | ✅ | ⬜ | ✅ | ⬜ | `confirmBeforePost` 設定。合成結果を確認してから送信。WMなし投稿ボタンあり |
-| ウォーターマーク — 動画スキップ設定 | ✅ | ✅ | ⬜ | ✅ | ⬜ | `skipVideo` 設定。Phase 1 は動画本体へは非適用 |
-| 長文投稿サービス連携（standard.site） | ✅ | ✅ | ⬜ | ✅ | ⬜ | 設定済み URL を OS 既定ブラウザ（Android: Custom Tabs）で開く軽量ハンドオフ。HANDOFF_kazahana-standard-site.md 参照 |
+| ウォーターマーク合成（画像） | ✅ | ✅ | ✅ | ✅ | ✅ | 投稿前に著作権・AI拒否文言を画像に合成。Canvas API / CoreGraphics / Android Canvas。iOS: `WatermarkService.swift`（8 方向 + タイル、11 言語対応） |
+| ウォーターマーク — プリセット文言（6種） | ✅ | ✅ | ✅ | ✅ | ✅ | 無断転載禁止 / AI学習禁止(JP) / No AI Training / AI+JP / 撮影・編集 / カスタム入力 |
+| ウォーターマーク — 位置・不透明度・サイズ設定 | ✅ | ✅ | ✅ | ✅ | ✅ | 8 方向（6 方向＋ランダム＋タイル）/ 不透明度 20〜100% / フォントサイズ 8〜20px / W3C 16 色＋HEX 入力 |
+| ウォーターマーク — 投稿前確認モーダル | ✅ | ✅ | ✅ | ✅ | ✅ | `confirmBeforePost` 設定。合成結果を確認してから送信。WMなし投稿ボタンあり |
+| ウォーターマーク — 動画スキップ設定 | ✅ | ✅ | ✅ | ✅ | ✅ | `skipVideo` 設定。Phase 1 は動画本体へは非適用 |
+| 長文投稿サービス連携（standard.site） | ✅ | ✅ | ✅ | ✅ | ✅ | 設定済み URL を OS 既定ブラウザ（Android: Custom Tabs / iOS: SFSafariViewController）で開く軽量ハンドオフ。iOS v2.3.0 / Catalyst 同時対応 |
 ---
 
 ## 5. 通知
@@ -186,23 +186,23 @@
 | URL / ハッシュタグのリンク化 | ✅ | ✅ | ✅ | ✅ | ✅ | |
 | DM 自動更新（ポーリング） | ✅ | ✅ | ✅ | ✅ | ✅ | iOS・Android: 15秒 |
 | DM 新規会話作成履歴 | ✅ | ✅ | ✅ | ✅ | ✅ | |
-| **グループ会話表示（`groupConvo` kind）** | ✅ | ✅ | ⬜ | ✅ | ⬜ | Bluesky v1.124 グループチャット受信対応。グループ名 + メンバー数 + ロック状態を会話一覧およびスレッドヘッダに表示。HANDOFF_kazahana-group-chat.md Phase 1。Android v3.4.0：会話一覧は重ねアバター表示 |
-| **グループシステムメッセージ表示** | ✅ | ✅ | ⬜ | ✅ | ⬜ | 全 12 種（addMember / memberJoin / lockConvo / editGroup / createJoinLink ほか）を中央寄せ italic で表示。Android v3.4.0 対応 |
-| **招待リンク embed 受信表示（`chat.bsky.embed.joinLink`）** | ✅ | ✅ | ⬜ | ✅ | ⬜ | チャットメッセージ内の招待リンクカード描画。有効 / 無効化 / 無効リンクの 3 状態。Android v3.4.0 対応（参加アクションも接続済み） |
-| **グループロック中の入力抑止** | ✅ | ✅ | ⬜ | ✅ | ⬜ | `lockStatus: locked` / `locked-permanently` 時は入力欄を非表示にロック通知を表示。Android v3.4.0 対応 |
-| **参加リクエスト一覧（`listConvoRequests`）** | ✅ | ✅ | ⬜ | ⬜ | ⬜ | incoming 招待 + outgoing 参加申請を統合取得。`useConvoRequests` フック。Android：既存のメッセージリクエスト（`status`）流用のため `listConvoRequests` 統合は未実装 |
-| グループ作成（`createGroup`） | ✅ | ✅ | ⬜ | ✅ | ⬜ | Desktop: `CreateGroupModal` で名前 ≤50 文字 + メンバー ≤49 名選択。エラー 7 種（UserForbidsGroups / NotFollowedBySender 等）をローカライズ。Android v3.4.0：`CreateGroupScreen` |
-| グループメンバー管理（追加・削除） | ✅ | ✅ | ⬜ | 🚧 | ⬜ | Desktop: `GroupSettingsView` 内で `addMembers` / `removeMembers`。`getConvoMembers` でページング表示。Android v3.4.0：削除（kick）のみ UI 実装。追加 UI は未実装（`addMembers` は repository 実装済み） |
-| グループ名編集（`editGroup`） | ✅ | ✅ | ⬜ | ✅ | ⬜ | owner のみ。Desktop: 設定画面の編集ボタン。Android v3.4.0：設定画面の編集ダイアログ |
-| 招待リンク生成・無効化（owner） | ✅ | ✅ | ⬜ | ✅ | ⬜ | Desktop: `createJoinLink` / `editJoinLink`（joinRule + requireApproval）/ `enableJoinLink` / `disableJoinLink`。コピー・外部ブラウザで開く UI。Android v3.4.0：生成 / 有効・無効トグル / コピー / 共有（`editJoinLink` は未使用） |
-| **招待 URL `bsky.app/chat/<code>` の in-app 解決** | ✅ | ✅ | ⬜ | 🚧 | ⬜ | `lib/externalLink.ts` ヘルパー経由で `PostContent` / `LinkCard` / `MessageBubble` が `/chat/:code` ルートへ内部遷移。Android v3.4.0：DM メッセージ内リンクのみ対応。投稿内リンクは未対応 |
-| **招待リンク参加プレビュー画面（`getJoinLinkPreviews`）** | ✅ | ✅ | ⬜ | ✅ | ⬜ | `/chat/:code` で `JoinLinkView` を表示。グループ名 / メンバー数 / オーナー / 参加 CTA / pending・joined・disabled・invalid 状態。Android v3.4.0：`JoinGroupScreen` |
-| **招待リンクからの参加（`requestJoin`）** | ✅ | ✅ | ⬜ | ✅ | ⬜ | `joined` 時は会話画面へ自動遷移、`pending` 時はバナー表示。`ConvoLocked` / `FollowRequired` / `InvalidCode` / `LinkDisabled` / `MemberLimitReached` / `UserKicked` のエラーをローカライズ表示。Android v3.4.0：`joined` で会話へ遷移、`pending` でトースト |
-| **参加申請の取り下げ（`withdrawJoinRequest`）** | ✅ | ✅ | ⬜ | ⬜ | ⬜ | プレビュー画面で `viewer.requestedAt` が存在する場合に取り下げボタンを表示。Android：repository のみ実装、取り下げ UI 未実装 |
-| 参加申請承認 / 拒否 | ✅ | ✅ | ⬜ | ✅ | ⬜ | Desktop: `JoinRequestsView`（/messages/:convoId/requests）。`listJoinRequests` ページング + `approveJoinRequest` / `rejectJoinRequest`。画面オープン時に `updateJoinRequestsRead` で自動既読化。Android v3.4.0：`GroupSettingsScreen` 内に申請一覧 + 承認 / 拒否、`updateJoinRequestsRead` 自動既読化 |
-| グループロック操作（owner） | ✅ | ✅ | ⬜ | ✅ | ⬜ | Desktop: 設定画面のトグル。`lockConvo` / `unlockConvo`。`locked-permanently` 状態は解除 UI 非表示。Android v3.4.0：設定画面のトグル |
+| **グループ会話表示（`groupConvo` kind）** | ✅ | ✅ | ✅ | ✅ | ✅ | Bluesky v1.124 グループチャット受信対応。グループ名 + メンバー数 + ロック状態を会話一覧およびスレッドヘッダに表示。Android v3.4.0 / iOS v3.4.0 / Catalyst 同時対応 |
+| **グループシステムメッセージ表示** | ✅ | ✅ | ✅ | ✅ | ✅ | 全 14 種（addMember / removeMember / memberJoin / memberLeave / lockConvo / unlockConvo / lockConvoPermanently / editGroup / createJoinLink / editJoinLink / enableJoinLink / disableJoinLink ほか）を中央寄せ italic で表示。Android v3.4.0 / iOS v3.4.0 |
+| **招待リンク embed 受信表示（`chat.bsky.embed.joinLink`）** | ✅ | ✅ | ✅ | ✅ | ✅ | チャットメッセージ内の招待リンクカード描画。有効 / 無効化 / 無効リンクの 3 状態。Android v3.4.0 / iOS v3.4.0：`JoinLinkEmbedView.swift` |
+| **グループロック中の入力抑止** | ✅ | ✅ | ✅ | ✅ | ✅ | `lockStatus: locked` / `locked-permanently` 時は入力欄を非表示にロック通知を表示。Android v3.4.0 / iOS v3.4.0 |
+| **参加リクエスト一覧（`listConvoRequests`）** | ✅ | ✅ | ✅ | ⬜ | ✅ | incoming 招待 + outgoing 参加申請を統合取得。iOS v3.4.0：`GroupSettingsView.swift` で実装。Android：既存のメッセージリクエスト（`status`）流用のため `listConvoRequests` 統合は未実装 |
+| グループ作成（`createGroup`） | ✅ | ✅ | ✅ | ✅ | ✅ | Desktop: `CreateGroupModal`。iOS v3.4.0：`CreateGroupView.swift` で名前 ≤50 文字 + メンバー ≤49 名選択。Android v3.4.0：`CreateGroupScreen` |
+| グループメンバー管理（追加・削除） | ✅ | ✅ | ✅ | 🚧 | ✅ | Desktop / iOS: `GroupSettingsView` 内で `addMembers` / `removeMembers`。`getConvoMembers` でページング表示。Android v3.4.0：削除（kick）のみ UI 実装。追加 UI は未実装（`addMembers` は repository 実装済み） |
+| グループ名編集（`editGroup`） | ✅ | ✅ | ✅ | ✅ | ✅ | owner のみ。Desktop: 設定画面の編集ボタン。iOS v3.4.0：`GroupSettingsView.swift`。Android v3.4.0：設定画面の編集ダイアログ |
+| 招待リンク生成・無効化（owner） | ✅ | ✅ | ✅ | ✅ | ✅ | Desktop: `createJoinLink` / `editJoinLink`（joinRule + requireApproval）/ `enableJoinLink` / `disableJoinLink`。iOS v3.4.0：`GroupSettingsView.swift` + `ChatService.swift`。Android v3.4.0：生成 / 有効・無効トグル / コピー / 共有 |
+| **招待 URL `bsky.app/chat/<code>` の in-app 解決** | ✅ | ✅ | ✅ | 🚧 | ✅ | Desktop: `lib/externalLink.ts` ヘルパー。iOS v3.4.0：ディープリンク対応。Android v3.4.0：DM メッセージ内リンクのみ対応。投稿内リンクは未対応 |
+| **招待リンク参加プレビュー画面（`getJoinLinkPreviews`）** | ✅ | ✅ | ✅ | ✅ | ✅ | `/chat/:code` で `JoinLinkView` を表示。グループ名 / メンバー数 / オーナー / 参加 CTA / pending・joined・disabled・invalid 状態。iOS v3.4.0 / Android v3.4.0 |
+| **招待リンクからの参加（`requestJoin`）** | ✅ | ✅ | ✅ | ✅ | ✅ | `joined` 時は会話画面へ自動遷移、`pending` 時はバナー表示。エラーをローカライズ表示。iOS v3.4.0 / Android v3.4.0 |
+| **参加申請の取り下げ（`withdrawJoinRequest`）** | ✅ | ✅ | ✅ | ⬜ | ✅ | プレビュー画面で `viewer.requestedAt` が存在する場合に取り下げボタンを表示。iOS v3.4.0：実装済み。Android：repository のみ実装、取り下げ UI 未実装 |
+| 参加申請承認 / 拒否 | ✅ | ✅ | ✅ | ✅ | ✅ | Desktop: `JoinRequestsView`。iOS v3.4.0：`GroupSettingsView.swift` 内に申請一覧 + 承認 / 拒否。Android v3.4.0：`GroupSettingsScreen` 内に申請一覧 + 承認 / 拒否、`updateJoinRequestsRead` 自動既読化 |
+| グループロック操作（owner） | ✅ | ✅ | ✅ | ✅ | ✅ | Desktop / iOS: 設定画面のトグル。`lockConvo` / `unlockConvo`。`locked-permanently` 状態は解除 UI 非表示。Android v3.4.0：設定画面のトグル |
 | 招待リンク embed のチャット送信（owner→他 DM への共有） | 🚧 | 🚧 | ⬜ | ⬜ | ⬜ | `useSendJoinLinkMessage` フックのみ実装。チャット選択ピッカー UI は未着手。当面は URL を通常テキストとして貼る運用で代替 |
-| グループ招待プライバシー設定（`allowGroupInvites`） | ✅ | ✅ | ⬜ | ✅ | ⬜ | Desktop: 設定画面 > チャット セクションのラジオ選択（全員 / フォロー中 / 誰からも）。`chat.bsky.actor.declaration/self` レコードへ `putRecord`、`allowIncoming` 既存値を保持しつつ更新。Android v3.4.0：設定 > チャット |
+| グループ招待プライバシー設定（`allowGroupInvites`） | ✅ | ✅ | ✅ | ✅ | ✅ | Desktop / iOS: 設定画面 > チャット セクションのラジオ選択（全員 / フォロー中 / 誰からも）。`chat.bsky.actor.declaration/self` レコードへ `putRecord`、`allowIncoming` 既存値を保持しつつ更新。Android v3.4.0：設定 > チャット |
 | **未読参加申請バッジ + アプリ内通知（owner）** | ⬜ | ⬜ | ⬜ | ✅ | ⬜ | Android v3.4.0 独自：`unreadJoinRequestCount` を会話一覧・チャットヘッダ・メッセージタブのバッジに表示。新規申請をアプリ起動中ローカル通知で通知（サーバープッシュは push backend 制約で不可。HANDOFF [A-8]/[I-9]） |
 
 ---
@@ -233,7 +233,7 @@
 | 深刻度カラーボーダー | ✅ | ✅ | ✅ | ✅ | ✅ | |
 | BSAF タグバッジ表示 | ✅ | ✅ | ✅ | ✅ | ✅ | |
 | Bot 定義自動更新チェック | ✅ | ✅ | ✅ | ✅ | ✅ | |
-| ローカル JSON ファイルからの登録 | ✅ | ✅ | ⬜ | N/A | N/A | Desktop: ファイルダイアログ対応 / Catalyst は HANDOFF Phase 3 で対応予定 |
+| ローカル JSON ファイルからの登録 | ✅ | ✅ | ✅ | N/A | N/A | Desktop: ファイルダイアログ対応 / Catalyst：`.fileImporter` で実装済み（`BsafBotsView.swift`） |
 
 ---
 
@@ -263,7 +263,7 @@
 | VIA 表示設定 | ✅ | ✅ | ✅ | ✅ | ✅ | |
 | 投稿言語（Bluesky アカウント設定から優先取得） | ⬜ | ⬜ | ✅ | ✅ | ✅ | アプリ設定 → Bluesky設定 → 端末ロケールの優先順 |
 | ログインハンドル履歴（オートコンプリート） | ✅ | ✅ | ✅ | N/A | N/A | |
-| ウォーターマーク設定画面 | ✅ | ✅ | ⬜ | ✅ | ⬜ | ON/OFF、プリセット選択、位置・不透明度・サイズ・文字色、確認モーダル設定。各 OS 標準のストレージに永続化 |
+| ウォーターマーク設定画面 | ✅ | ✅ | ✅ | ✅ | ✅ | ON/OFF、プリセット選択、位置・不透明度・サイズ・文字色（W3C 16 色＋HEX）、確認モーダル設定。リアルタイムプレビュー付き。各 OS 標準のストレージに永続化 |
 
 ---
 
@@ -292,7 +292,7 @@
 | 閉じるボタン動作設定（終了/最小化） | ✅ | 設定画面で実装済み |
 | メニューバー（標準 macOS メニュー） | ✅ | Cmd+N, Cmd+R, Cmd+Return, Cmd+1-5 |
 | キーボードショートカット（macOS 標準） | ✅ | Cmd+N, Cmd+R, Cmd+Return, Cmd+1-5 |
-| ローカル JSON ファイル登録（BSAF Bot） | ⬜ | HANDOFF Phase 3 で実装予定（.fileImporter） |
+| ローカル JSON ファイル登録（BSAF Bot） | ✅ | `.fileImporter` で実装済み（`BsafBotsView.swift`） |
 | サポーターバッジ（StoreKit IAP） | ✅ | iOS と同一の IAP プロダクトを利用 |
 
 ### iOS 固有
@@ -345,14 +345,6 @@
 |------|:-------:|------|
 | 独自 PDS ログイン（DNS/well-known からの PDS 自動解決） | ⬜ | Desktop v2.7.0 / iOS v3.1.0 で実装。Android は did:plc の DID ドキュメントからの PDS 解決のみ対応（ハンドル解決は bsky.social 固定） |
 
-### Desktop / Android 実装済み（iOS 未実装）
-
-| 機能 | iOS | 備考 |
-|------|:---:|------|
-| Standard Site 拡張リンクカード（受信・送信） | ⬜ | HANDOFF_kazahana-standard-site-embed.md 参照 |
-| ウォーターマーク合成（設定画面・プリセット・確認モーダル含む） | ⬜ | HANDOFF_watermark.md 参照 |
-| 長文投稿サービス連携（standard.site） | ⬜ | HANDOFF_kazahana-standard-site.md 参照 |
-
 ### Desktop 未実装
 
 | 機能 | Desktop |
@@ -365,13 +357,8 @@
 | 機能 | macOS (Catalyst) | 備考 |
 |------|:----------------:|------|
 | システムトレイアイコン | ⬜ | HANDOFF Phase 3 で実装予定（NSStatusItem） |
-| ローカル JSON ファイル登録（BSAF Bot） | ⬜ | HANDOFF Phase 3 で実装予定（.fileImporter） |
 | ドラッグ＆ドロップ画像添付 | ⬜ | macOS のドラッグ＆ドロップ対応要確認 |
 | クリップボード画像ペースト | ⬜ | macOS のペースト対応要確認 |
-| Standard Site 拡張リンクカード（受信・送信） | ⬜ | iOS と同様に未実装 |
-| ウォーターマーク（設定画面・合成・プリセット・確認モーダル含む） | ⬜ | iOS と同様に未実装 |
-| 長文投稿サービス連携（standard.site） | ⬜ | iOS と同様に未実装 |
-| グループチャット機能一式 | ⬜ | iOS と同様に未実装 |
 
 ---
 
