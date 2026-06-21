@@ -1,13 +1,13 @@
 # kazahana Platform Feature Matrix
 
-> **Last updated:** 2026-06-20 (iOS v3.5.0: OGP 文字コード自動判定対応（Issue #12）、チャット内メッセージ返信（受信・送信・フラッシュ表示）、引用元ポストのタップ遷移、返信先 @handle 表示、プロフィール QR コードを macOS Catalyst では非表示化。Desktop v3.5.0 で Bluesky social-app v1.125.0 のチャット内メッセージ返信機能を取り込み。Desktop v3.4.2 で OGP 文字コード自動判定対応。Android（次期リリース）も v1.125 チャット内メッセージ返信（受信・送信・スクロール+フラッシュ）、OGP 文字コード自動判定、引用投稿表示・タイムライン返信先 @handle 表示の不具合修正を実装)
+> **Last updated:** 2026-06-21 (macOS Catalyst: 全機能の ❓ 一掃 — フィードピン同期・フォントサイズ4段階・macOS通知ポーリング・プロフィールリンク有効化・Cmd+Return送信・リロードボタン・フォロー並び順統一・タブチェックマーク連動・ディープリンクtitle+url対応。iOS: フィードスワイプ切替・画像ズーム時ドラッグ対応)
 > **Source:** Compiled from the following repositories
 > - Desktop (Windows / macOS Tauri build): https://github.com/osprey74/kazahana
 > - macOS (Catalyst) — generated from kazahana-ios: https://github.com/osprey74/kazahana-ios
 > - iOS: https://github.com/osprey74/kazahana-ios
 > - Android: https://github.com/osprey74/kazahana-android
 
-> **過渡期注記:** Tauri 版 macOS は 6 ヶ月の移行期間を経て deprecate 予定です。期間終了後に「macOS (Tauri)」列を削除し「macOS (Catalyst)」を「macOS」へリネームします。**「macOS (Catalyst)」列の値は暫定的に `❓` を設定しております。実装状況の検証後に更新する必要があります。**
+> **過渡期注記:** Tauri 版 macOS は 6 ヶ月の移行期間を経て deprecate 予定です。期間終了後に「macOS (Tauri)」列を削除し「macOS (Catalyst)」を「macOS」へリネームします。
 
 ## Legend
 
@@ -28,21 +28,21 @@
 
 | 機能 | Windows | macOS (Tauri) | macOS (Catalyst) | Android | iOS | 備考 |
 |------|:-------:|:-------------:|:----------------:|:-------:|:---:|------|
-| ホームタイムライン | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| 自動更新（ポーリング間隔設定） | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| 無限スクロール | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| Pull-to-Refresh | N/A | N/A | ❓ | ✅ | ✅ | Desktop はタブクリック/F5/ヘッダーボタンで代替 |
-| 手動リロード | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| 既読位置マーカー | ✅ | ✅ | ❓ | N/A | N/A | Desktop 独自実装 / Catalyst は HANDOFF Phase 3 で移植予定 |
-| スティッキーフィードタブヘッダー | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| ホームタブ再タップでスクロール先頭＋再読み込み | N/A | N/A | ❓ | ✅ | ✅ | |
-| カスタムフィード切り替え | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| リストフィード表示 | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| フィードクイックジャンプメニュー | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| 非ピン留めフィード表示 | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| フィード並び替え（ドラッグ） | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| フィード表示/非表示設定 | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| 全フィード表示 / 表示中のみ切り替え | ✅ | ✅ | ❓ | ✅ | ✅ | |
+| ホームタイムライン | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| 自動更新（ポーリング間隔設定） | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| 無限スクロール | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| Pull-to-Refresh | N/A | N/A | N/A | ✅ | ✅ | Desktop はタブクリック/F5/ヘッダーボタンで代替 |
+| 手動リロード | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| 既読位置マーカー | ✅ | ✅ | ✅ | N/A | N/A | Desktop 独自実装 / Catalyst は HANDOFF Phase 3 で移植予定 |
+| スティッキーフィードタブヘッダー | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| ホームタブ再タップでスクロール先頭＋再読み込み | N/A | N/A | ✅ | ✅ | ✅ | |
+| カスタムフィード切り替え | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| リストフィード表示 | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| フィードクイックジャンプメニュー | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| 非ピン留めフィード表示 | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| フィード並び替え（ドラッグ） | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| フィード表示/非表示設定 | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| 全フィード表示 / 表示中のみ切り替え | ✅ | ✅ | ✅ | ✅ | ✅ | |
 
 ---
 
@@ -50,23 +50,23 @@
 
 | 機能 | Windows | macOS (Tauri) | macOS (Catalyst) | Android | iOS | 備考 |
 |------|:-------:|:-------------:|:----------------:|:-------:|:---:|------|
-| リッチテキスト（メンション/URL/ハッシュタグ） | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| 画像グリッド表示（≤4枚、`app.bsky.embed.images`） | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| 画像カルーセル表示(5〜10枚、`app.bsky.embed.gallery`) | ✅ | ✅ | ❓ | ✅ | ✅ | 2026-06-06 Bluesky v1.123 で正式リリース（atproto #4827 / social-app #10707）。5 枚以上で横スクロールカルーセル + 枚数バッジ。Android v3.3.0 / iOS v3.3.0 で対応 |
-| 画像ライトボックス（フルスクリーン） | ✅ | ✅ | ❓ | ✅ | ✅ | Desktop: キーボードナビ対応 |
-| 画像表示モード設定（アプリ内/ブラウザ） | ✅ | ✅ | ❓ | N/A | N/A | |
-| 動画再生（HLS） | ✅ | ✅ | ❓ | ✅ | ✅ | |
+| リッチテキスト（メンション/URL/ハッシュタグ） | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| 画像グリッド表示（≤4枚、`app.bsky.embed.images`） | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| 画像カルーセル表示(5〜10枚、`app.bsky.embed.gallery`) | ✅ | ✅ | ✅ | ✅ | ✅ | 2026-06-06 Bluesky v1.123 で正式リリース（atproto #4827 / social-app #10707）。5 枚以上で横スクロールカルーセル + 枚数バッジ。Android v3.3.0 / iOS v3.3.0 で対応 |
+| 画像ライトボックス（フルスクリーン） | ✅ | ✅ | ✅ | ✅ | ✅ | Desktop: キーボードナビ対応 |
+| 画像表示モード設定（アプリ内/ブラウザ） | ✅ | ✅ | ✅ | N/A | N/A | |
+| 動画再生（HLS） | ✅ | ✅ | ✅ | ✅ | ✅ | |
 | リンクカード（OGP） | ✅ | ✅ | ✅ | ✅ | ✅ | 文字コード自動判定: Desktop v3.4.2 / iOS v3.5.0 / Android（次期リリース）で Content-Type / `<meta charset>` を優先する HTML living standard 準拠の検出に対応（Shift_JIS / EUC-JP 等の非 UTF-8 サイト文字化け解消）。iOS は `CFStringConvertIANACharSetNameToEncoding`、Android は `Charset.forName` で全 IANA charset 名に対応 |
-| Standard Site 拡張リンクカード（受信） | ✅ | ✅ | ❓ | ✅ | ⬜ | 公開日 / 読了時間 / パブリケーション情報・著者・テーマカラー表示。HANDOFF_kazahana-standard-site-embed.md 参照 |
-| 引用投稿表示 | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| スレッド表示（親チェーン＋返信一覧） | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| ALT テキスト表示（投稿カード、128文字） | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| ピン留め投稿表示 | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| Bot 自動化ラベルバッジ | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| Bluesky 認証マーク（verifiedStatus / trustedVerifierStatus） | ✅ | ✅ | ❓ | ✅ | ✅ | `app.bsky.actor.defs#verificationState` を読み取り、認証済み / 信頼された認証機関を表示名横にバッジ表示 |
-| VIA（投稿元アプリ）表示 | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| 翻訳ボタン（Google翻訳） | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| 通知からのポスト表示（画像/動画/リンクカード） | ✅ | ✅ | ❓ | ✅ | ✅ | |
+| Standard Site 拡張リンクカード（受信） | ✅ | ✅ | ⬜ | ✅ | ⬜ | 公開日 / 読了時間 / パブリケーション情報・著者・テーマカラー表示。HANDOFF_kazahana-standard-site-embed.md 参照 |
+| 引用投稿表示 | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| スレッド表示（親チェーン＋返信一覧） | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| ALT テキスト表示（投稿カード、128文字） | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| ピン留め投稿表示 | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| Bot 自動化ラベルバッジ | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| Bluesky 認証マーク（verifiedStatus / trustedVerifierStatus） | ✅ | ✅ | ✅ | ✅ | ✅ | `app.bsky.actor.defs#verificationState` を読み取り、認証済み / 信頼された認証機関を表示名横にバッジ表示 |
+| VIA（投稿元アプリ）表示 | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| 翻訳ボタン（Google翻訳） | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| 通知からのポスト表示（画像/動画/リンクカード） | ✅ | ✅ | ✅ | ✅ | ✅ | |
 
 ---
 
@@ -74,19 +74,19 @@
 
 | 機能 | Windows | macOS (Tauri) | macOS (Catalyst) | Android | iOS | 備考 |
 |------|:-------:|:-------------:|:----------------:|:-------:|:---:|------|
-| いいね / いいね解除 | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| リポスト / リポスト解除 | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| 引用リポスト | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| リプライ | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| 投稿削除 | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| ブックマーク | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| スレッドゲート（返信制限） | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| ポストゲート（引用制限） | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| 投稿非表示（preferences hiddenPosts） | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| スレッド通知ミュート | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| リンクコピー | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| 外部ブラウザで開く | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| 画像・動画の一括保存 | ✅ | ✅ | ❓ | ✅ | ✅ | ポストの三点メニューから全メディアを端末に保存 |
+| いいね / いいね解除 | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| リポスト / リポスト解除 | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| 引用リポスト | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| リプライ | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| 投稿削除 | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| ブックマーク | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| スレッドゲート（返信制限） | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| ポストゲート（引用制限） | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| 投稿非表示（preferences hiddenPosts） | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| スレッド通知ミュート | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| リンクコピー | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| 外部ブラウザで開く | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| 画像・動画の一括保存 | ✅ | ✅ | ✅ | ✅ | ✅ | ポストの三点メニューから全メディアを端末に保存 |
 
 ---
 
@@ -94,49 +94,49 @@
 
 | 機能 | Windows | macOS (Tauri) | macOS (Catalyst) | Android | iOS | 備考 |
 |------|:-------:|:-------------:|:----------------:|:-------:|:---:|------|
-| テキスト投稿 | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| 画像添付（≤4枚、`app.bsky.embed.images`） | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| 画像添付(5〜10枚、`app.bsky.embed.gallery` 送信) | ✅ | ✅ | ❓ | ✅ | ✅ | 5 枚以上選択で自動的に `embed.gallery` 種別へ昇格、≤4 で `embed.images` に降格。alt / aspectRatio 必須付与。Android v3.3.0 / iOS v3.3.0 で対応 |
-| 動画添付 | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| 動画上限 300MB（Bluesky v1.123 拡張） | ✅ | ✅ | ❓ | ✅ | ✅ | social-app #10497/#10683 で feature gate 解除。lexicon `video.maxSize` は 100MB のまま（サーバ受容範囲＝トランスコード前提）。iOS は `getUploadLimits` API 連携 + 300MB クライアントガード。Android v3.3.0 / iOS v3.3.0 で対応 |
-| 画像クロップ（オリジナル/正方形/自由） | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| 画像回転（90度単位） | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| ALT テキスト入力 | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| ALT テキスト自動生成（Claude API） | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| 画像自動圧縮 | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| リンクカード自動生成（URL貼り付け） | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| Standard Site 拡張リンクカード（送信） | ✅ | ✅ | ❓ | ✅ | ⬜ | `getEmbedExternalView` 経由でプレビュー取得、`associatedRefs` を投稿レコードに含める。HANDOFF_kazahana-standard-site-embed.md 参照 |
-| メンションオートコンプリート（`@`） | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| ハッシュタグ/URL ファセット自動検出 | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| ドラッグ＆ドロップ画像添付 | ✅ | ✅ | ❓ | N/A | N/A | Desktop 固有 / Catalyst は macOS のドラッグ＆ドロップ対応要確認 |
-| クリップボード画像ペースト | ✅ | ✅ | ❓ | N/A | N/A | Desktop 固有 / Catalyst は macOS のペースト対応要確認 |
-| 下書き保存（最大20件） | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| キーボードショートカット（N / ESC / Alt+Enter） | ✅ | ✅ | ❓ | N/A | N/A | |
-| Option+Enter（macOS） | N/A | ✅ | ❓ | N/A | N/A | macOS のみ |
-| プロフィールページからの自動メンション挿入 | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| ウォーターマーク合成（画像） | ✅ | ✅ | ❓ | ✅ | ⬜ | 投稿前に著作権・AI拒否文言を画像に合成。Canvas API / CoreGraphics / Android Canvas。HANDOFF_watermark.md 参照 |
-| ウォーターマーク — プリセット文言（6種） | ✅ | ✅ | ❓ | ✅ | ⬜ | 無断転載禁止 / AI学習禁止(JP) / No AI Training / AI+JP / 撮影・編集 / カスタム入力 |
-| ウォーターマーク — 位置・不透明度・サイズ設定 | ✅ | ✅ | ❓ | ✅ | ⬜ | 6方向（＋ランダム/タイル）/ 不透明度 20〜100% / フォントサイズ 8〜20px |
-| ウォーターマーク — 投稿前確認モーダル | ✅ | ✅ | ❓ | ✅ | ⬜ | `confirmBeforePost` 設定。合成結果を確認してから送信。WMなし投稿ボタンあり |
-| ウォーターマーク — 動画スキップ設定 | ✅ | ✅ | ❓ | ✅ | ⬜ | `skipVideo` 設定。Phase 1 は動画本体へは非適用 |
-| 長文投稿サービス連携（standard.site） | ✅ | ✅ | ❓ | ✅ | ⬜ | 設定済み URL を OS 既定ブラウザ（Android: Custom Tabs）で開く軽量ハンドオフ。HANDOFF_kazahana-standard-site.md 参照 |
+| テキスト投稿 | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| 画像添付（≤4枚、`app.bsky.embed.images`） | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| 画像添付(5〜10枚、`app.bsky.embed.gallery` 送信) | ✅ | ✅ | ✅ | ✅ | ✅ | 5 枚以上選択で自動的に `embed.gallery` 種別へ昇格、≤4 で `embed.images` に降格。alt / aspectRatio 必須付与。Android v3.3.0 / iOS v3.3.0 で対応 |
+| 動画添付 | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| 動画上限 300MB（Bluesky v1.123 拡張） | ✅ | ✅ | ✅ | ✅ | ✅ | social-app #10497/#10683 で feature gate 解除。lexicon `video.maxSize` は 100MB のまま（サーバ受容範囲＝トランスコード前提）。iOS は `getUploadLimits` API 連携 + 300MB クライアントガード。Android v3.3.0 / iOS v3.3.0 で対応 |
+| 画像クロップ（オリジナル/正方形/自由） | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| 画像回転（90度単位） | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| ALT テキスト入力 | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| ALT テキスト自動生成（Claude API） | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| 画像自動圧縮 | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| リンクカード自動生成（URL貼り付け） | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| Standard Site 拡張リンクカード（送信） | ✅ | ✅ | ⬜ | ✅ | ⬜ | `getEmbedExternalView` 経由でプレビュー取得、`associatedRefs` を投稿レコードに含める。HANDOFF_kazahana-standard-site-embed.md 参照 |
+| メンションオートコンプリート（`@`） | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| ハッシュタグ/URL ファセット自動検出 | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| ドラッグ＆ドロップ画像添付 | ✅ | ✅ | ⬜ | N/A | N/A | Desktop 固有 / Catalyst は macOS のドラッグ＆ドロップ対応要確認 |
+| クリップボード画像ペースト | ✅ | ✅ | ⬜ | N/A | N/A | Desktop 固有 / Catalyst は macOS のペースト対応要確認 |
+| 下書き保存（最大20件） | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| キーボードショートカット（Cmd+N / Cmd+Return / Cmd+R） | ✅ | ✅ | ✅ | N/A | N/A | |
+| Option+Enter（macOS） | N/A | ✅ | N/A | N/A | N/A | macOS のみ |
+| プロフィールページからの自動メンション挿入 | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| ウォーターマーク合成（画像） | ✅ | ✅ | ⬜ | ✅ | ⬜ | 投稿前に著作権・AI拒否文言を画像に合成。Canvas API / CoreGraphics / Android Canvas。HANDOFF_watermark.md 参照 |
+| ウォーターマーク — プリセット文言（6種） | ✅ | ✅ | ⬜ | ✅ | ⬜ | 無断転載禁止 / AI学習禁止(JP) / No AI Training / AI+JP / 撮影・編集 / カスタム入力 |
+| ウォーターマーク — 位置・不透明度・サイズ設定 | ✅ | ✅ | ⬜ | ✅ | ⬜ | 6方向（＋ランダム/タイル）/ 不透明度 20〜100% / フォントサイズ 8〜20px |
+| ウォーターマーク — 投稿前確認モーダル | ✅ | ✅ | ⬜ | ✅ | ⬜ | `confirmBeforePost` 設定。合成結果を確認してから送信。WMなし投稿ボタンあり |
+| ウォーターマーク — 動画スキップ設定 | ✅ | ✅ | ⬜ | ✅ | ⬜ | `skipVideo` 設定。Phase 1 は動画本体へは非適用 |
+| 長文投稿サービス連携（standard.site） | ✅ | ✅ | ⬜ | ✅ | ⬜ | 設定済み URL を OS 既定ブラウザ（Android: Custom Tabs）で開く軽量ハンドオフ。HANDOFF_kazahana-standard-site.md 参照 |
 ---
 
 ## 5. 通知
 
 | 機能 | Windows | macOS (Tauri) | macOS (Catalyst) | Android | iOS | 備考 |
 |------|:-------:|:-------------:|:----------------:|:-------:|:---:|------|
-| 通知一覧 | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| 未読バッジ | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| 通知タイプ別アイコン・カラー | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| like / repost / follow / mention / reply / quote | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| like-via-repost / repost-via-repost | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| verified / unverified（認証通知） | ✅ | ✅ | ❓ | ✅ | ✅ | アカウント認証付与・解除通知の表示対応 |
-| 通知アクションボタン（返信/RT/いいね） | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| 通知画像サムネイル | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| 通知グルーピング表示（同種アクションまとめ） | ✅ | ✅ | ❓ | ✅ | ✅ | 「〇〇ほかN人が…」形式・複数アバター表示 |
-| OS ネイティブ通知（バックグラウンド） | ✅ | ✅ | ❓ | ✅ | ✅ | Desktop: tauri-plugin-notification / iOS: BGAppRefreshTask + UNUserNotificationCenter / Android: WorkManager |
-| 通知ポスト内容プログレッシブ読み込み | ✅ | ✅ | ❓ | ✅ | ✅ | 10件ずつバッチ分割＋バッチ内via-repost並列解決でUI段階描画 |
+| 通知一覧 | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| 未読バッジ | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| 通知タイプ別アイコン・カラー | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| like / repost / follow / mention / reply / quote | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| like-via-repost / repost-via-repost | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| verified / unverified（認証通知） | ✅ | ✅ | ✅ | ✅ | ✅ | アカウント認証付与・解除通知の表示対応 |
+| 通知アクションボタン（返信/RT/いいね） | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| 通知画像サムネイル | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| 通知グルーピング表示（同種アクションまとめ） | ✅ | ✅ | ✅ | ✅ | ✅ | 「〇〇ほかN人が…」形式・複数アバター表示 |
+| OS ネイティブ通知（バックグラウンド） | ✅ | ✅ | ✅ | ✅ | ✅ | Desktop: tauri-plugin-notification / iOS: BGAppRefreshTask + UNUserNotificationCenter / Android: WorkManager |
+| 通知ポスト内容プログレッシブ読み込み | ✅ | ✅ | ✅ | ✅ | ✅ | 10件ずつバッチ分割＋バッチ内via-repost並列解決でUI段階描画 |
 
 ---
 
@@ -144,17 +144,17 @@
 
 | 機能 | Windows | macOS (Tauri) | macOS (Catalyst) | Android | iOS | 備考 |
 |------|:-------:|:-------------:|:----------------:|:-------:|:---:|------|
-| プロフィール表示（バナー/アバター/統計） | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| フォロー / フォロー解除 | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| 投稿タブ | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| 返信タブ | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| メディアタブ | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| いいねタブ | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| スターターパックタブ | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| フォロワー / フォロー中一覧 | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| ピン留め投稿表示 | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| ブックマークタブ（自分のプロフィール） | ✅ | ✅ | ❓ | ✅ | ✅ | 自分のプロフィールでのみ表示 |
-| プロフィール内検索 | ✅ | ✅ | ❓ | ✅ | ✅ | |
+| プロフィール表示（バナー/アバター/統計） | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| フォロー / フォロー解除 | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| 投稿タブ | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| 返信タブ | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| メディアタブ | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| いいねタブ | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| スターターパックタブ | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| フォロワー / フォロー中一覧 | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| ピン留め投稿表示 | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| ブックマークタブ（自分のプロフィール） | ✅ | ✅ | ✅ | ✅ | ✅ | 自分のプロフィールでのみ表示 |
+| プロフィール内検索 | ✅ | ✅ | ✅ | ✅ | ✅ | |
 | **プロフィール QR コード生成・共有** | N/A | N/A | N/A | ✅ | ✅ | Bluesky v1.124 同梱機能。自分のプロフィールから QR シートを開き `bsky.app/profile/{handle}` を符号化。リンクのコピー / 共有 / QR 画像のギャラリー保存。iOS / Android のみ（Desktop・macOS Catalyst はスコープ外）。HANDOFF_kazahana-profile-qr.md。Android v3.4.0：ZXing で生成、`MediaStore` 保存。iOS v3.4.0：CIFilter.qrCodeGenerator で生成 |
 
 ---
@@ -163,10 +163,10 @@
 
 | 機能 | Windows | macOS (Tauri) | macOS (Catalyst) | Android | iOS | 備考 |
 |------|:-------:|:-------------:|:----------------:|:-------:|:---:|------|
-| 投稿検索 | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| ユーザー検索 | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| 検索履歴（永続化） | ✅ | ✅ | ❓ | ✅ | ✅ | Desktop: 200件 / iOS・Android: 20件 |
-| スティッキー検索ヘッダー | ✅ | ✅ | ❓ | ✅ | ✅ | |
+| 投稿検索 | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| ユーザー検索 | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| 検索履歴（永続化） | ✅ | ✅ | ✅ | ✅ | ✅ | Desktop: 200件 / iOS・Android: 20件 |
+| スティッキー検索ヘッダー | ✅ | ✅ | ✅ | ✅ | ✅ | |
 
 ---
 
@@ -174,36 +174,36 @@
 
 | 機能 | Windows | macOS (Tauri) | macOS (Catalyst) | Android | iOS | 備考 |
 |------|:-------:|:-------------:|:----------------:|:-------:|:---:|------|
-| 会話一覧 | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| メッセージ送受信 | ✅ | ✅ | ❓ | ✅ | ✅ | |
+| 会話一覧 | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| メッセージ送受信 | ✅ | ✅ | ✅ | ✅ | ✅ | |
 | **チャット内メッセージ返信表示（受信、`replyTo`）** | ✅ | ✅ | ✅ | ✅ | ✅ | Bluesky social-app v1.125.0（2026-06-17 リリース）対応。`chat.bsky.convo.defs#replyRef` / `messageView.replyTo` 受信 → 返信元バブルプレビュー＋削除済み (`deletedMessageView`) フォールバック表示。返信元タップで元バブルへ平滑スクロール + フラッシュ。Desktop v3.5.0 / iOS v3.5.0 / Android（次期リリース） |
 | **チャット内メッセージ返信送信（`messageInput.replyTo`）** | ✅ | ✅ | ✅ | ✅ | ✅ | コンテキストメニュー（Android は長押し）から「返信」→ composer 上部に返信先チップ（キャンセル可）→ `sendMessage` で `replyTo: { messageId }` 付与。`ReplyTargetNotFound` をローカライズ表示。Desktop v3.5.0 / iOS v3.5.0 / Android（次期リリース） |
-| 絵文字リアクション | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| 新規会話作成 | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| メッセージ削除 | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| ミュート / 退出 | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| メッセージリクエスト承認 | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| URL / ハッシュタグのリンク化 | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| DM 自動更新（ポーリング） | ✅ | ✅ | ❓ | ✅ | ✅ | iOS・Android: 15秒 |
-| DM 新規会話作成履歴 | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| **グループ会話表示（`groupConvo` kind）** | ✅ | ✅ | ❓ | ✅ | ⬜ | Bluesky v1.124 グループチャット受信対応。グループ名 + メンバー数 + ロック状態を会話一覧およびスレッドヘッダに表示。HANDOFF_kazahana-group-chat.md Phase 1。Android v3.4.0：会話一覧は重ねアバター表示 |
-| **グループシステムメッセージ表示** | ✅ | ✅ | ❓ | ✅ | ⬜ | 全 12 種（addMember / memberJoin / lockConvo / editGroup / createJoinLink ほか）を中央寄せ italic で表示。Android v3.4.0 対応 |
-| **招待リンク embed 受信表示（`chat.bsky.embed.joinLink`）** | ✅ | ✅ | ❓ | ✅ | ⬜ | チャットメッセージ内の招待リンクカード描画。有効 / 無効化 / 無効リンクの 3 状態。Android v3.4.0 対応（参加アクションも接続済み） |
-| **グループロック中の入力抑止** | ✅ | ✅ | ❓ | ✅ | ⬜ | `lockStatus: locked` / `locked-permanently` 時は入力欄を非表示にロック通知を表示。Android v3.4.0 対応 |
-| **参加リクエスト一覧（`listConvoRequests`）** | ✅ | ✅ | ❓ | ⬜ | ⬜ | incoming 招待 + outgoing 参加申請を統合取得。`useConvoRequests` フック。Android：既存のメッセージリクエスト（`status`）流用のため `listConvoRequests` 統合は未実装 |
-| グループ作成（`createGroup`） | ✅ | ✅ | ❓ | ✅ | ⬜ | Desktop: `CreateGroupModal` で名前 ≤50 文字 + メンバー ≤49 名選択。エラー 7 種（UserForbidsGroups / NotFollowedBySender 等）をローカライズ。Android v3.4.0：`CreateGroupScreen` |
-| グループメンバー管理（追加・削除） | ✅ | ✅ | ❓ | 🚧 | ⬜ | Desktop: `GroupSettingsView` 内で `addMembers` / `removeMembers`。`getConvoMembers` でページング表示。Android v3.4.0：削除（kick）のみ UI 実装。追加 UI は未実装（`addMembers` は repository 実装済み） |
-| グループ名編集（`editGroup`） | ✅ | ✅ | ❓ | ✅ | ⬜ | owner のみ。Desktop: 設定画面の編集ボタン。Android v3.4.0：設定画面の編集ダイアログ |
-| 招待リンク生成・無効化（owner） | ✅ | ✅ | ❓ | ✅ | ⬜ | Desktop: `createJoinLink` / `editJoinLink`（joinRule + requireApproval）/ `enableJoinLink` / `disableJoinLink`。コピー・外部ブラウザで開く UI。Android v3.4.0：生成 / 有効・無効トグル / コピー / 共有（`editJoinLink` は未使用） |
-| **招待 URL `bsky.app/chat/<code>` の in-app 解決** | ✅ | ✅ | ❓ | 🚧 | ⬜ | `lib/externalLink.ts` ヘルパー経由で `PostContent` / `LinkCard` / `MessageBubble` が `/chat/:code` ルートへ内部遷移。Android v3.4.0：DM メッセージ内リンクのみ対応。投稿内リンクは未対応 |
-| **招待リンク参加プレビュー画面（`getJoinLinkPreviews`）** | ✅ | ✅ | ❓ | ✅ | ⬜ | `/chat/:code` で `JoinLinkView` を表示。グループ名 / メンバー数 / オーナー / 参加 CTA / pending・joined・disabled・invalid 状態。Android v3.4.0：`JoinGroupScreen` |
-| **招待リンクからの参加（`requestJoin`）** | ✅ | ✅ | ❓ | ✅ | ⬜ | `joined` 時は会話画面へ自動遷移、`pending` 時はバナー表示。`ConvoLocked` / `FollowRequired` / `InvalidCode` / `LinkDisabled` / `MemberLimitReached` / `UserKicked` のエラーをローカライズ表示。Android v3.4.0：`joined` で会話へ遷移、`pending` でトースト |
-| **参加申請の取り下げ（`withdrawJoinRequest`）** | ✅ | ✅ | ❓ | ⬜ | ⬜ | プレビュー画面で `viewer.requestedAt` が存在する場合に取り下げボタンを表示。Android：repository のみ実装、取り下げ UI 未実装 |
-| 参加申請承認 / 拒否 | ✅ | ✅ | ❓ | ✅ | ⬜ | Desktop: `JoinRequestsView`（/messages/:convoId/requests）。`listJoinRequests` ページング + `approveJoinRequest` / `rejectJoinRequest`。画面オープン時に `updateJoinRequestsRead` で自動既読化。Android v3.4.0：`GroupSettingsScreen` 内に申請一覧 + 承認 / 拒否、`updateJoinRequestsRead` 自動既読化 |
-| グループロック操作（owner） | ✅ | ✅ | ❓ | ✅ | ⬜ | Desktop: 設定画面のトグル。`lockConvo` / `unlockConvo`。`locked-permanently` 状態は解除 UI 非表示。Android v3.4.0：設定画面のトグル |
-| 招待リンク embed のチャット送信（owner→他 DM への共有） | 🚧 | 🚧 | ❓ | ⬜ | ⬜ | `useSendJoinLinkMessage` フックのみ実装。チャット選択ピッカー UI は未着手。当面は URL を通常テキストとして貼る運用で代替 |
-| グループ招待プライバシー設定（`allowGroupInvites`） | ✅ | ✅ | ❓ | ✅ | ⬜ | Desktop: 設定画面 > チャット セクションのラジオ選択（全員 / フォロー中 / 誰からも）。`chat.bsky.actor.declaration/self` レコードへ `putRecord`、`allowIncoming` 既存値を保持しつつ更新。Android v3.4.0：設定 > チャット |
-| **未読参加申請バッジ + アプリ内通知（owner）** | ⬜ | ⬜ | ❓ | ✅ | ⬜ | Android v3.4.0 独自：`unreadJoinRequestCount` を会話一覧・チャットヘッダ・メッセージタブのバッジに表示。新規申請をアプリ起動中ローカル通知で通知（サーバープッシュは push backend 制約で不可。HANDOFF [A-8]/[I-9]） |
+| 絵文字リアクション | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| 新規会話作成 | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| メッセージ削除 | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| ミュート / 退出 | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| メッセージリクエスト承認 | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| URL / ハッシュタグのリンク化 | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| DM 自動更新（ポーリング） | ✅ | ✅ | ✅ | ✅ | ✅ | iOS・Android: 15秒 |
+| DM 新規会話作成履歴 | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| **グループ会話表示（`groupConvo` kind）** | ✅ | ✅ | ⬜ | ✅ | ⬜ | Bluesky v1.124 グループチャット受信対応。グループ名 + メンバー数 + ロック状態を会話一覧およびスレッドヘッダに表示。HANDOFF_kazahana-group-chat.md Phase 1。Android v3.4.0：会話一覧は重ねアバター表示 |
+| **グループシステムメッセージ表示** | ✅ | ✅ | ⬜ | ✅ | ⬜ | 全 12 種（addMember / memberJoin / lockConvo / editGroup / createJoinLink ほか）を中央寄せ italic で表示。Android v3.4.0 対応 |
+| **招待リンク embed 受信表示（`chat.bsky.embed.joinLink`）** | ✅ | ✅ | ⬜ | ✅ | ⬜ | チャットメッセージ内の招待リンクカード描画。有効 / 無効化 / 無効リンクの 3 状態。Android v3.4.0 対応（参加アクションも接続済み） |
+| **グループロック中の入力抑止** | ✅ | ✅ | ⬜ | ✅ | ⬜ | `lockStatus: locked` / `locked-permanently` 時は入力欄を非表示にロック通知を表示。Android v3.4.0 対応 |
+| **参加リクエスト一覧（`listConvoRequests`）** | ✅ | ✅ | ⬜ | ⬜ | ⬜ | incoming 招待 + outgoing 参加申請を統合取得。`useConvoRequests` フック。Android：既存のメッセージリクエスト（`status`）流用のため `listConvoRequests` 統合は未実装 |
+| グループ作成（`createGroup`） | ✅ | ✅ | ⬜ | ✅ | ⬜ | Desktop: `CreateGroupModal` で名前 ≤50 文字 + メンバー ≤49 名選択。エラー 7 種（UserForbidsGroups / NotFollowedBySender 等）をローカライズ。Android v3.4.0：`CreateGroupScreen` |
+| グループメンバー管理（追加・削除） | ✅ | ✅ | ⬜ | 🚧 | ⬜ | Desktop: `GroupSettingsView` 内で `addMembers` / `removeMembers`。`getConvoMembers` でページング表示。Android v3.4.0：削除（kick）のみ UI 実装。追加 UI は未実装（`addMembers` は repository 実装済み） |
+| グループ名編集（`editGroup`） | ✅ | ✅ | ⬜ | ✅ | ⬜ | owner のみ。Desktop: 設定画面の編集ボタン。Android v3.4.0：設定画面の編集ダイアログ |
+| 招待リンク生成・無効化（owner） | ✅ | ✅ | ⬜ | ✅ | ⬜ | Desktop: `createJoinLink` / `editJoinLink`（joinRule + requireApproval）/ `enableJoinLink` / `disableJoinLink`。コピー・外部ブラウザで開く UI。Android v3.4.0：生成 / 有効・無効トグル / コピー / 共有（`editJoinLink` は未使用） |
+| **招待 URL `bsky.app/chat/<code>` の in-app 解決** | ✅ | ✅ | ⬜ | 🚧 | ⬜ | `lib/externalLink.ts` ヘルパー経由で `PostContent` / `LinkCard` / `MessageBubble` が `/chat/:code` ルートへ内部遷移。Android v3.4.0：DM メッセージ内リンクのみ対応。投稿内リンクは未対応 |
+| **招待リンク参加プレビュー画面（`getJoinLinkPreviews`）** | ✅ | ✅ | ⬜ | ✅ | ⬜ | `/chat/:code` で `JoinLinkView` を表示。グループ名 / メンバー数 / オーナー / 参加 CTA / pending・joined・disabled・invalid 状態。Android v3.4.0：`JoinGroupScreen` |
+| **招待リンクからの参加（`requestJoin`）** | ✅ | ✅ | ⬜ | ✅ | ⬜ | `joined` 時は会話画面へ自動遷移、`pending` 時はバナー表示。`ConvoLocked` / `FollowRequired` / `InvalidCode` / `LinkDisabled` / `MemberLimitReached` / `UserKicked` のエラーをローカライズ表示。Android v3.4.0：`joined` で会話へ遷移、`pending` でトースト |
+| **参加申請の取り下げ（`withdrawJoinRequest`）** | ✅ | ✅ | ⬜ | ⬜ | ⬜ | プレビュー画面で `viewer.requestedAt` が存在する場合に取り下げボタンを表示。Android：repository のみ実装、取り下げ UI 未実装 |
+| 参加申請承認 / 拒否 | ✅ | ✅ | ⬜ | ✅ | ⬜ | Desktop: `JoinRequestsView`（/messages/:convoId/requests）。`listJoinRequests` ページング + `approveJoinRequest` / `rejectJoinRequest`。画面オープン時に `updateJoinRequestsRead` で自動既読化。Android v3.4.0：`GroupSettingsScreen` 内に申請一覧 + 承認 / 拒否、`updateJoinRequestsRead` 自動既読化 |
+| グループロック操作（owner） | ✅ | ✅ | ⬜ | ✅ | ⬜ | Desktop: 設定画面のトグル。`lockConvo` / `unlockConvo`。`locked-permanently` 状態は解除 UI 非表示。Android v3.4.0：設定画面のトグル |
+| 招待リンク embed のチャット送信（owner→他 DM への共有） | 🚧 | 🚧 | ⬜ | ⬜ | ⬜ | `useSendJoinLinkMessage` フックのみ実装。チャット選択ピッカー UI は未着手。当面は URL を通常テキストとして貼る運用で代替 |
+| グループ招待プライバシー設定（`allowGroupInvites`） | ✅ | ✅ | ⬜ | ✅ | ⬜ | Desktop: 設定画面 > チャット セクションのラジオ選択（全員 / フォロー中 / 誰からも）。`chat.bsky.actor.declaration/self` レコードへ `putRecord`、`allowIncoming` 既存値を保持しつつ更新。Android v3.4.0：設定 > チャット |
+| **未読参加申請バッジ + アプリ内通知（owner）** | ⬜ | ⬜ | ⬜ | ✅ | ⬜ | Android v3.4.0 独自：`unreadJoinRequestCount` を会話一覧・チャットヘッダ・メッセージタブのバッジに表示。新規申請をアプリ起動中ローカル通知で通知（サーバープッシュは push backend 制約で不可。HANDOFF [A-8]/[I-9]） |
 
 ---
 
@@ -211,12 +211,12 @@
 
 | 機能 | Windows | macOS (Tauri) | macOS (Catalyst) | Android | iOS | 備考 |
 |------|:-------:|:-------------:|:----------------:|:-------:|:---:|------|
-| ラベルフィルタリング（hide/warn/ignore） | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| 投稿ブラー表示 | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| メディアブラー表示 | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| 成人向けコンテンツ設定 | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| 通報機能（投稿/ユーザー） | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| ミュート / ブロック | ✅ | ✅ | ❓ | ✅ | ✅ | |
+| ラベルフィルタリング（hide/warn/ignore） | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| 投稿ブラー表示 | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| メディアブラー表示 | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| 成人向けコンテンツ設定 | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| 通報機能（投稿/ユーザー） | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| ミュート / ブロック | ✅ | ✅ | ✅ | ✅ | ✅ | |
 
 ---
 
@@ -224,16 +224,16 @@
 
 | 機能 | Windows | macOS (Tauri) | macOS (Catalyst) | Android | iOS | 備考 |
 |------|:-------:|:-------------:|:----------------:|:-------:|:---:|------|
-| BSAF マスタートグル | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| Bot 定義 JSON 登録（URL） | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| Bot 登録解除（自動アンフォロー） | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| 動的フィルタ UI（type/value/target） | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| AND 条件フィルタリング | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| 重複投稿検出・折りたたみ | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| 深刻度カラーボーダー | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| BSAF タグバッジ表示 | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| Bot 定義自動更新チェック | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| ローカル JSON ファイルからの登録 | ✅ | ✅ | ❓ | N/A | N/A | Desktop: ファイルダイアログ対応 / Catalyst は HANDOFF Phase 3 で対応予定 |
+| BSAF マスタートグル | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| Bot 定義 JSON 登録（URL） | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| Bot 登録解除（自動アンフォロー） | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| 動的フィルタ UI（type/value/target） | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| AND 条件フィルタリング | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| 重複投稿検出・折りたたみ | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| 深刻度カラーボーダー | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| BSAF タグバッジ表示 | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| Bot 定義自動更新チェック | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| ローカル JSON ファイルからの登録 | ✅ | ✅ | ⬜ | N/A | N/A | Desktop: ファイルダイアログ対応 / Catalyst は HANDOFF Phase 3 で対応予定 |
 
 ---
 
@@ -241,14 +241,14 @@
 
 | 機能 | Windows | macOS (Tauri) | macOS (Catalyst) | Android | iOS | 備考 |
 |------|:-------:|:-------------:|:----------------:|:-------:|:---:|------|
-| 避難誘導マスタートグル | N/A | N/A | ❓ | ✅ | ✅ | 設定画面で ON/OFF、bsaf-kikikuru-bot 自動登録 |
-| 避難所データ同梱（オフライン対応） | N/A | N/A | ❓ | ✅ | ✅ | 国土地理院 指定緊急避難場所データ 115,447件、zlib 圧縮 |
-| 最寄り避難所検索 | N/A | N/A | ❓ | ✅ | ✅ | 測位（Android: FusedLocation / iOS: CoreLocation）+ Haversine、災害種別フィルタ |
-| 警報バナー表示（BSAF 自動検知） | N/A | N/A | ❓ | ✅ | ✅ | レベル3/4/5 色分け、タップで避難所一覧 |
-| コンパス簡易ナビ（オフライン） | N/A | N/A | ❓ | ✅ | ✅ | 方位角 + 直線距離リアルタイム更新 |
-| OS 地図アプリ委譲 | N/A | N/A | ❓ | ✅ | ✅ | Apple Maps / Google Maps |
-| オンボーディングダイアログ（初回案内） | N/A | N/A | ❓ | ✅ | ✅ | |
-| 免責文言・出典表示 | N/A | N/A | ❓ | ✅ | ✅ | 気象庁危険度情報・国土地理院データ |
+| 避難誘導マスタートグル | N/A | N/A | N/A | ✅ | ✅ | 設定画面で ON/OFF、bsaf-kikikuru-bot 自動登録 |
+| 避難所データ同梱（オフライン対応） | N/A | N/A | N/A | ✅ | ✅ | 国土地理院 指定緊急避難場所データ 115,447件、zlib 圧縮 |
+| 最寄り避難所検索 | N/A | N/A | N/A | ✅ | ✅ | 測位（Android: FusedLocation / iOS: CoreLocation）+ Haversine、災害種別フィルタ |
+| 警報バナー表示（BSAF 自動検知） | N/A | N/A | N/A | ✅ | ✅ | レベル3/4/5 色分け、タップで避難所一覧 |
+| コンパス簡易ナビ（オフライン） | N/A | N/A | N/A | ✅ | ✅ | 方位角 + 直線距離リアルタイム更新 |
+| OS 地図アプリ委譲 | N/A | N/A | N/A | ✅ | ✅ | Apple Maps / Google Maps |
+| オンボーディングダイアログ（初回案内） | N/A | N/A | N/A | ✅ | ✅ | |
+| 免責文言・出典表示 | N/A | N/A | N/A | ✅ | ✅ | 気象庁危険度情報・国土地理院データ |
 
 ---
 
@@ -256,14 +256,14 @@
 
 | 機能 | Windows | macOS (Tauri) | macOS (Catalyst) | Android | iOS | 備考 |
 |------|:-------:|:-------------:|:----------------:|:-------:|:---:|------|
-| テーマ（ライト/ダーク/システム） | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| 多言語対応（11言語） | ✅ | ✅ | ❓ | ✅ | ✅ | ja/en/pt/de/zh-TW/zh-CN/fr/ko/es/ru/id |
-| Claude API キー管理 | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| 自動更新間隔設定（30/60/90/120秒） | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| VIA 表示設定 | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| 投稿言語（Bluesky アカウント設定から優先取得） | ⬜ | ⬜ | ❓ | ✅ | ✅ | アプリ設定 → Bluesky設定 → 端末ロケールの優先順 |
-| ログインハンドル履歴（オートコンプリート） | ✅ | ✅ | ❓ | N/A | N/A | |
-| ウォーターマーク設定画面 | ✅ | ✅ | ❓ | ✅ | ⬜ | ON/OFF、プリセット選択、位置・不透明度・サイズ・文字色、確認モーダル設定。各 OS 標準のストレージに永続化 |
+| テーマ（ライト/ダーク/システム） | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| 多言語対応（11言語） | ✅ | ✅ | ✅ | ✅ | ✅ | ja/en/pt/de/zh-TW/zh-CN/fr/ko/es/ru/id |
+| Claude API キー管理 | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| 自動更新間隔設定（30/60/90/120秒） | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| VIA 表示設定 | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| 投稿言語（Bluesky アカウント設定から優先取得） | ⬜ | ⬜ | ✅ | ✅ | ✅ | アプリ設定 → Bluesky設定 → 端末ロケールの優先順 |
+| ログインハンドル履歴（オートコンプリート） | ✅ | ✅ | ✅ | N/A | N/A | |
+| ウォーターマーク設定画面 | ✅ | ✅ | ⬜ | ✅ | ⬜ | ON/OFF、プリセット選択、位置・不透明度・サイズ・文字色、確認モーダル設定。各 OS 標準のストレージに永続化 |
 
 ---
 
@@ -286,14 +286,14 @@
 
 | 機能 | macOS (Catalyst) | 備考 |
 |------|:----------------:|------|
-| Mac App Store 経由の自動更新 | ❓ | App Store による自動配信 |
-| システムトレイアイコン（AppKit ブリッジ） | ❓ | HANDOFF Phase 3 で実装予定（NSStatusItem） |
-| OS 起動時自動スタート | ❓ | HANDOFF Phase 3 で実装予定（SMAppService） |
-| 閉じるボタン動作設定（終了/最小化） | ❓ | HANDOFF Phase 3 で実装予定（NSWindow ブリッジ） |
-| メニューバー（標準 macOS メニュー） | ❓ | HANDOFF Phase 2 で実装予定 |
-| キーボードショートカット（macOS 標準） | ❓ | HANDOFF Phase 2 で実装予定 |
-| ローカル JSON ファイル登録（BSAF Bot） | ❓ | HANDOFF Phase 3 で実装予定（.fileImporter） |
-| サポーターバッジ（StoreKit IAP） | ❓ | iOS と同一の IAP プロダクトを利用 |
+| Mac App Store 経由の自動更新 | ✅ | App Store による自動配信 |
+| システムトレイアイコン（AppKit ブリッジ） | ⬜ | HANDOFF Phase 3 で実装予定（NSStatusItem） |
+| OS 起動時自動スタート | ✅ | SMAppService 実装済み |
+| 閉じるボタン動作設定（終了/最小化） | ✅ | 設定画面で実装済み |
+| メニューバー（標準 macOS メニュー） | ✅ | Cmd+N, Cmd+R, Cmd+Return, Cmd+1-5 |
+| キーボードショートカット（macOS 標準） | ✅ | Cmd+N, Cmd+R, Cmd+Return, Cmd+1-5 |
+| ローカル JSON ファイル登録（BSAF Bot） | ⬜ | HANDOFF Phase 3 で実装予定（.fileImporter） |
+| サポーターバッジ（StoreKit IAP） | ✅ | iOS と同一の IAP プロダクトを利用 |
 
 ### iOS 固有
 
@@ -323,11 +323,11 @@
 
 | 機能 | Windows | macOS (Tauri) | macOS (Catalyst) | Android | iOS | 備考 |
 |------|:-------:|:-------------:|:----------------:|:-------:|:---:|------|
-| ログイン（アプリパスワード） | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| セッション永続化・自動リフレッシュ | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| レート制限ハンドリング（429 バックオフ） | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| マルチアカウント | ✅ | ✅ | ❓ | ✅ | ✅ | |
-| 独自 PDS ログイン（DNS/well-known からの PDS 自動解決） | ✅ | ✅ | ❓ | ⬜ | ✅ | Desktop v2.7.0 / iOS v3.1.0 で実装。Android は後追い |
+| ログイン（アプリパスワード） | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| セッション永続化・自動リフレッシュ | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| レート制限ハンドリング（429 バックオフ） | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| マルチアカウント | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| 独自 PDS ログイン（DNS/well-known からの PDS 自動解決） | ✅ | ✅ | ✅ | ⬜ | ✅ | Desktop v2.7.0 / iOS v3.1.0 で実装。Android は後追い |
 
 ---
 
@@ -360,9 +360,18 @@
 | 自動更新（tauri-plugin-updater） | ⬜ |
 | 投稿言語（Bluesky アカウント設定から優先取得） | ⬜ |
 
-### macOS (Catalyst) 検証待ち
+### macOS (Catalyst) 未実装
 
-> 全機能について `❓`（要確認）状態です。kazahana-ios コードベースから生成されるため、基本的に iOS 列の値を引き継ぐ想定ですが、HANDOFF Phase 3 で実装予定の Desktop 機能パリティ（既読位置マーカー / ログインハンドル履歴 / 画像表示モード設定 / システムトレイ / 自動スタート / 閉じるボタン動作設定 / ローカル JSON 登録）の実装状況確認後に値を更新する必要があります。
+| 機能 | macOS (Catalyst) | 備考 |
+|------|:----------------:|------|
+| システムトレイアイコン | ⬜ | HANDOFF Phase 3 で実装予定（NSStatusItem） |
+| ローカル JSON ファイル登録（BSAF Bot） | ⬜ | HANDOFF Phase 3 で実装予定（.fileImporter） |
+| ドラッグ＆ドロップ画像添付 | ⬜ | macOS のドラッグ＆ドロップ対応要確認 |
+| クリップボード画像ペースト | ⬜ | macOS のペースト対応要確認 |
+| Standard Site 拡張リンクカード（受信・送信） | ⬜ | iOS と同様に未実装 |
+| ウォーターマーク（設定画面・合成・プリセット・確認モーダル含む） | ⬜ | iOS と同様に未実装 |
+| 長文投稿サービス連携（standard.site） | ⬜ | iOS と同様に未実装 |
+| グループチャット機能一式 | ⬜ | iOS と同様に未実装 |
 
 ---
 
