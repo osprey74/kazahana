@@ -1,6 +1,6 @@
 # kazahana Platform Feature Matrix
 
-> **Last updated:** 2026-06-22 (iOS / macOS Catalyst 棚卸し — ウォーターマーク全機能・Standard Site 拡張リンクカード・standard.site 長文連携・グループチャット全機能を ⬜→✅ に修正。Catalyst: BSAF ローカル JSON 登録を ⬜→✅ に修正。差異サマリー更新)
+> **Last updated:** 2026-06-24 (v3.7.0 — macOS Catalyst: クリップボード画像ペースト ⬜→✅。Share Extension URL 取得・OGP・表示名修正。差異サマリー更新)
 > **Source:** Compiled from the following repositories
 > - Desktop (Windows / macOS Tauri build): https://github.com/osprey74/kazahana
 > - macOS (Catalyst) — generated from kazahana-ios: https://github.com/osprey74/kazahana-ios
@@ -109,7 +109,7 @@
 | メンションオートコンプリート（`@`） | ✅ | ✅ | ✅ | ✅ | ✅ | |
 | ハッシュタグ/URL ファセット自動検出 | ✅ | ✅ | ✅ | ✅ | ✅ | |
 | ドラッグ＆ドロップ画像添付 | ✅ | ✅ | ⬜ | N/A | N/A | Desktop 固有 / Catalyst は macOS のドラッグ＆ドロップ対応要確認 |
-| クリップボード画像ペースト | ✅ | ✅ | ⬜ | N/A | N/A | Desktop 固有 / Catalyst は macOS のペースト対応要確認 |
+| クリップボード画像ペースト | ✅ | ✅ | ✅ | N/A | N/A | Catalyst: v3.7.0 で `CatalystTextEditor`（`UITextView` サブクラス）の `paste:` をオーバーライドし `UIPasteboard.general.images` をインターセプト |
 | 下書き保存（最大20件） | ✅ | ✅ | ✅ | ✅ | ✅ | |
 | キーボードショートカット（Cmd+N / Cmd+Return / Cmd+R） | ✅ | ✅ | ✅ | N/A | N/A | |
 | Option+Enter（macOS） | N/A | ✅ | N/A | N/A | N/A | macOS のみ |
@@ -357,8 +357,7 @@
 | 機能 | macOS (Catalyst) | 備考 |
 |------|:----------------:|------|
 | システムトレイアイコン | ⬜ | HANDOFF Phase 3 で実装予定（NSStatusItem） |
-| ドラッグ＆ドロップ画像添付 | ⬜ | macOS のドラッグ＆ドロップ対応要確認 |
-| クリップボード画像ペースト | ⬜ | macOS のペースト対応要確認 |
+| ドラッグ＆ドロップ画像添付 | ⬜ | SwiftUI `.onDrop` が macOS Catalyst でボタンクリックを奪うため削除済み。`NSDropTargetView` 等の別実装を将来検討 |
 
 ---
 
