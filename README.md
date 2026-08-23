@@ -43,6 +43,7 @@ Kazahana is designed as a **lightweight, always-running companion app** — not 
 - [x] Horizontal-scrolling carousel for 5+ image posts (compatible with official v1.123, with image count badge)
 - [x] Link card (OGP preview)
 - [x] Thread view
+- [x] OP thread numbering badge (shows a post's position within the author's contiguous self-thread, e.g. 2/3 — compatible with official v1.130)
 - [x] Notifications (like, repost, follow, mention, reply, quote, like-via-repost, repost-via-repost)
 - [x] User profile / Follow / Unfollow / Likes / Media tabs / Pinned post
 - [x] Search (posts & users)

@@ -1,6 +1,7 @@
 # kazahana Platform Feature Matrix
 
-> **Last updated:** 2026-06-24 (v3.7.0 — macOS Catalyst: クリップボード画像ペースト ⬜→✅。Share Extension URL 取得・OGP・表示名修正。差異サマリー更新)
+> **Last updated:** 2026-08-23 (Desktop — OP スレッド番号付けバッジ ⬜→✅。同一著者連続スレッドの位置表示。iOS/Android/Catalyst は parity 対象)
+> **Previously:** 2026-06-24 (v3.7.0 — macOS Catalyst: クリップボード画像ペースト ⬜→✅。Share Extension URL 取得・OGP・表示名修正。差異サマリー更新)
 > **Source:** Compiled from the following repositories
 > - Desktop (Windows / macOS Tauri build): https://github.com/osprey74/kazahana
 > - macOS (Catalyst) — generated from kazahana-ios: https://github.com/osprey74/kazahana-ios
@@ -51,6 +52,7 @@
 | 機能 | Windows | macOS (Tauri) | macOS (Catalyst) | Android | iOS | 備考 |
 |------|:-------:|:-------------:|:----------------:|:-------:|:---:|------|
 | リッチテキスト（メンション/URL/ハッシュタグ） | ✅ | ✅ | ✅ | ✅ | ✅ | |
+| OP スレッド番号付けバッジ | ✅ | ✅ | ⬜ | ⬜ | ⬜ | 同一著者の連続スレッド内の位置（例 2/3）。AppView 提供の `opThreadPostIndex`/`opThreadPostCount`（social-app PR #11472・公式 v1.130 互換）を局所アクセサで読み取り表示。Desktop で先行実装。iOS/Android/Catalyst 未対応（parity） |
 | 画像グリッド表示（≤4枚、`app.bsky.embed.images`） | ✅ | ✅ | ✅ | ✅ | ✅ | |
 | 画像カルーセル表示(5〜10枚、`app.bsky.embed.gallery`) | ✅ | ✅ | ✅ | ✅ | ✅ | 2026-06-06 Bluesky v1.123 で正式リリース（atproto #4827 / social-app #10707）。5 枚以上で横スクロールカルーセル + 枚数バッジ。Android v3.3.0 / iOS v3.3.0 で対応 |
 | 画像ライトボックス（フルスクリーン） | ✅ | ✅ | ✅ | ✅ | ✅ | Desktop: キーボードナビ対応 |

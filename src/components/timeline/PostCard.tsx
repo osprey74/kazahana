@@ -24,6 +24,7 @@ import { useModerationOpts } from "../../contexts/ModerationContext";
 import { useSettingsStore } from "../../stores/settingsStore";
 import { useBsafStore } from "../../stores/bsafStore";
 import { parseBsafTags, getSeverityBorderColor } from "../../lib/bsaf";
+import { getOpThreadNumbering } from "../../lib/opThread";
 import type { BsafDuplicateInfo } from "../../hooks/useBsafDuplicates";
 
 interface PostCardProps {
@@ -63,6 +64,9 @@ export function PostCard({ feedItem, showParentContext, bsafDuplicateInfo }: Pos
     ? (reason as { by?: { displayName?: string; handle?: string } }).by
     : null;
   const isPinned = reason?.$type === "app.bsky.feed.defs#reasonPin";
+
+  // OP thread numbering (position within the author's contiguous self-thread)
+  const opThread = getOpThreadNumbering(feedItem);
 
   const images = getImages(post);
   const videoEmbed = getVideoEmbed(post);
@@ -157,6 +161,19 @@ export function PostCard({ feedItem, showParentContext, bsafDuplicateInfo }: Pos
                   {timeAgo}
                 </span>
               </>
+            )}
+            {opThread && (
+              <span
+                className="flex items-center gap-0.5 text-[11px] text-gray-500 flex-shrink-0"
+                title={t("post.opThread", {
+                  index: opThread.index,
+                  count: opThread.count,
+                  defaultValue: "Thread {{index}}/{{count}}",
+                })}
+              >
+                <Icon name="format_list_numbered" size={12} />
+                {opThread.index}/{opThread.count}
+              </span>
             )}
           </div>
 
