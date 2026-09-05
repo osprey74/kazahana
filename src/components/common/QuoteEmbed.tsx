@@ -4,7 +4,9 @@ import type { RichText } from "@atproto/api";
 import { Avatar } from "./Avatar";
 import { BotBadge, isBotAccount } from "./BotBadge";
 import { ImageGrid } from "./ImageGrid";
+import { VideoPlayer } from "./VideoPlayer";
 import { extractImagesFromQuoteEmbeds } from "../../lib/embed/gallery";
+import { extractVideoFromQuoteEmbeds } from "../../lib/embed/video";
 import { PostContent } from "../timeline/PostContent";
 import { Icon } from "./Icon";
 
@@ -63,6 +65,7 @@ export function QuoteEmbed({ record }: QuoteEmbedProps) {
   if (!author) return null;
 
   const images = extractImagesFromQuoteEmbeds(record.embeds);
+  const video = extractVideoFromQuoteEmbeds(record.embeds);
 
   const handleClick = (e: React.MouseEvent) => {
     if ((e.target as HTMLElement).closest("button, a")) return;
@@ -98,6 +101,16 @@ export function QuoteEmbed({ record }: QuoteEmbedProps) {
 
       {/* Images from quote */}
       {images.length > 0 && <ImageGrid images={images} />}
+
+      {/* Video from quote */}
+      {video && (
+        <>
+          <VideoPlayer {...video} />
+          {video.alt && (
+            <p className="text-[11px] text-gray-500 dark:text-gray-400 leading-snug mt-1">{video.alt}</p>
+          )}
+        </>
+      )}
     </div>
   );
 }

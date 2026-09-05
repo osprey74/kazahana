@@ -388,3 +388,12 @@ Collaborator: よつぎnん / @yotsugin.bsky.social
 - [x] **Desktop: `fetchHtml()` の charset 自動判定対応** — `src/lib/ogp.ts` を改修。従来は Web Fetch API の `res.text()` が UTF-8 固定でデコードしていたため、Shift_JIS / EUC-JP 等の非 UTF-8 サイトで OGP メタデータ（`og:title` / `og:description`）が文字化けし、`app.bsky.embed.external` レコードへ永続化されていた。HTML living standard 準拠の優先度（1. Content-Type ヘッダ `charset=...` → 2. HTML 先頭 4096 バイトの `<meta charset>` / `<meta http-equiv>` → 3. UTF-8 フォールバック）で検出し、`TextDecoder` でデコードする実装に変更。`detectCharset()` / `normalizeCharset()` / `decodeBuffer()` を補助関数として切り出し
 - [ ] **iOS: 同等の charset 自動判定対応** — kazahana-ios リポジトリで対応。`Services/LinkPreviewService.swift` と `ShareExtension/ShareATProtoClient.swift` の 2 箇所に同一ロジックの重複実装あり
 - [ ] **Android: 同等の charset 自動判定対応** — kazahana-android リポジトリで対応。`data/ogp/OgpService.kt` の `fetchHtml()` を Ktor `bodyAsText()` から生バイト取得 + `Charset.forName()` デコードに変更
+
+## 動画 embed ALT テキスト対応（引用投稿内）(2026-09-05)
+
+> 背景: Bluesky 公式 v1.132 の「動画 embed lexicon の ALT テキスト修正」を機に kazahana の動画 ALT 対応状況を点検。送信（VideoUpload の ALT 入力 → usePost の embed 付与）・主要表示面（PostCard / ThreadView / NotificationItem / GroupedNotificationItem）は既に実装済みだったが、**引用投稿カード（QuoteEmbed）内で動画が一切描画されず**（画像のみ表示、動画と ALT を破棄）、これが唯一の実ギャップだった。
+
+- [x] **[D-1] 動画抽出ヘルパー新設** — `src/lib/embed/video.ts` を新規作成。`gallery.ts` の画像抽出パターンに倣い `extractVideoFromEmbed()` / `extractVideoFromQuoteEmbeds()` を実装。`app.bsky.embed.video#view` および `recordWithMedia#view.media` を再帰展開して `VideoEmbedView`（playlist / thumbnail / alt / aspectRatio）を返却
+- [x] **[D-2] QuoteEmbed に動画描画 + ALT 表示を追加** — `src/components/common/QuoteEmbed.tsx`。`extractVideoFromQuoteEmbeds(record.embeds)` で動画を取得し、画像グリッドの下に `VideoPlayer` + ALT 本文（`text-[11px]` グレー、他表示面と同一スタイル）を描画
+- [x] **[D-3] PLATFORM_MATRIX.md 更新** — セクション 2「投稿表示」に「動画 ALT テキスト表示（タイムライン/スレッド/通知/引用内）」行を追加（Desktop=✅、iOS/Android/Catalyst=❓ parity 要確認）
+- [ ] **iOS / Android / Catalyst 後追い確認** — 引用投稿内の動画描画 + ALT 表示の実装状況を各リポジトリで検証（`platform:ios` / `platform:android` + `parity` ラベル）
