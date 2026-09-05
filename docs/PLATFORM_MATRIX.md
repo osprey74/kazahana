@@ -1,6 +1,7 @@
 # kazahana Platform Feature Matrix
 
-> **Last updated:** 2026-09-05 (Android v3.6.0 — 動画 ALT テキスト表示 ❓→✅（引用投稿内・通知を含む全表示面）、OP スレッド番号付けバッジ ⬜→✅。あわせて Android v3.5.0 リリース済み項目の「次期リリース」表記を解消)
+> **Last updated:** 2026-09-05 (iOS/Catalyst v3.8.0 — 動画 ALT テキスト表示 ❓→✅（サムネ ALT バッジ + テキスト本文、引用投稿内メディア描画含む全表示面）、OP スレッド番号付けバッジ ⬜→✅（FeedViewPost.opThreadPostIndex/opThreadPostCount、タイムライン著者行）)
+> **Previously:** 2026-09-05 (Android v3.6.0 — 動画 ALT テキスト表示 ❓→✅（引用投稿内・通知を含む全表示面）、OP スレッド番号付けバッジ ⬜→✅。あわせて Android v3.5.0 リリース済み項目の「次期リリース」表記を解消)
 > **Previously:** 2026-09-05 (棚卸 — 廃止済みの macOS (Tauri) 列を全表から削除し、macOS は Mac App Store 配信の Catalyst 版へ一本化。各 Claude Code は自リポジトリ担当列のみ更新するルールを明記。Windows 列を v3.6.0 時点へ棚卸)
 > **Previously:** 2026-09-05 (Desktop — 引用投稿内の動画 embed 描画 + ALT テキスト表示に対応。従来は引用カード内で画像のみ表示し動画を破棄していた不具合を修正。iOS/Android/Catalyst は parity 要確認)
 > **Previously:** 2026-08-23 (Desktop — OP スレッド番号付けバッジ ⬜→✅。同一著者連続スレッドの位置表示。iOS/Android/Catalyst は parity 対象)
@@ -62,7 +63,7 @@
 | 機能 | Windows | macOS (Catalyst) | Android | iOS | 備考 |
 |------|:-------:|:----------------:|:-------:|:---:|------|
 | リッチテキスト（メンション/URL/ハッシュタグ） | ✅ | ✅ | ✅ | ✅ | |
-| OP スレッド番号付けバッジ | ✅ | ⬜ | ✅ | ⬜ | 同一著者の連続スレッド内の位置（例 2/3）。AppView 提供の `opThreadPostIndex`/`opThreadPostCount`（social-app PR #11472・公式 v1.130 互換）を局所アクセサで読み取り表示。Desktop で先行実装。Android v3.6.0：`FeedViewPost.opThreadNumbering`（count≥2 かつ 1≤index≤count のときのみ表示）+ 著者行のバッジ。iOS/Catalyst 未対応（parity） |
+| OP スレッド番号付けバッジ | ✅ | ✅ | ✅ | ✅ | 同一著者の連続スレッド内の位置（例 2/3）。AppView 提供の `opThreadPostIndex`/`opThreadPostCount`（social-app PR #11472・公式 v1.130 互換）を局所アクセサで読み取り表示。Desktop で先行実装。Android v3.6.0：`FeedViewPost.opThreadNumbering`（count≥2 かつ 1≤index≤count のときのみ表示）+ 著者行のバッジ。iOS/Catalyst v3.8.0：`FeedViewPost.opThreadPostIndex`/`opThreadPostCount` を読み取り `OpThreadBadge` で著者行に表示（count≥2 かつ 1≤index≤count） |
 | 画像グリッド表示（≤4枚、`app.bsky.embed.images`） | ✅ | ✅ | ✅ | ✅ | |
 | 画像カルーセル表示(5〜10枚、`app.bsky.embed.gallery`) | ✅ | ✅ | ✅ | ✅ | 2026-06-06 Bluesky v1.123 で正式リリース（atproto #4827 / social-app #10707）。5 枚以上で横スクロールカルーセル + 枚数バッジ。Android v3.3.0 / iOS v3.3.0 で対応 |
 | 画像ライトボックス（フルスクリーン） | ✅ | ✅ | ✅ | ✅ | Desktop: キーボードナビ対応 |
@@ -73,7 +74,7 @@
 | 引用投稿表示 | ✅ | ✅ | ✅ | ✅ | |
 | スレッド表示（親チェーン＋返信一覧） | ✅ | ✅ | ✅ | ✅ | |
 | ALT テキスト表示（投稿カード、128文字） | ✅ | ✅ | ✅ | ✅ | |
-| 動画 ALT テキスト表示（タイムライン/スレッド/通知/引用内） | ✅ | ❓ | ✅ | ❓ | Desktop: `app.bsky.embed.video#view.alt` を動画下に表示 + サムネに ALT バッジ。2026-09-05 に引用投稿内（`QuoteEmbed`）の動画描画 + ALT を追加し全表示面で網羅。Android v3.6.0：`PostEmbedView.displayVideo` で `video#view` / `recordWithMedia#view.media` を正規化し、`VideoPlayer` の ALT バッジ + ALT 本文を本文・スレッド・引用カード・通知の全面で表示（引用投稿内の動画描画も同時に追加）。iOS/Catalyst は要確認（parity） |
+| 動画 ALT テキスト表示（タイムライン/スレッド/通知/引用内） | ✅ | ✅ | ✅ | ✅ | Desktop: `app.bsky.embed.video#view.alt` を動画下に表示 + サムネに ALT バッジ。2026-09-05 に引用投稿内（`QuoteEmbed`）の動画描画 + ALT を追加し全表示面で網羅。Android v3.6.0：`PostEmbedView.displayVideo` で `video#view` / `recordWithMedia#view.media` を正規化し、`VideoPlayer` の ALT バッジ + ALT 本文を本文・スレッド・引用カード・通知の全面で表示（引用投稿内の動画描画も同時に追加）。iOS/Catalyst v3.8.0：`VideoPlayerView` にサムネ左下 ALT バッジ + 動画下 ALT テキスト本文（128文字、2行）を追加。`EmbedRecordView.embeds` を追加し `QuoteEmbedView` で引用投稿内の動画描画 + ALT を表示。thumbnailOnly モード（通知）では ALT バッジのみ表示 |
 | ピン留め投稿表示 | ✅ | ✅ | ✅ | ✅ | |
 | Bot 自動化ラベルバッジ | ✅ | ✅ | ✅ | ✅ | |
 | Bluesky 認証マーク（verifiedStatus / trustedVerifierStatus） | ✅ | ✅ | ✅ | ✅ | `app.bsky.actor.defs#verificationState` を読み取り、認証済み / 信頼された認証機関を表示名横にバッジ表示 |
