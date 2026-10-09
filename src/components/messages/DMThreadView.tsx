@@ -2,8 +2,9 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { ChatBskyConvoDefs } from "@atproto/api";
+import { ChatBskyActorDefs, ChatBskyConvoDefs } from "@atproto/api";
 import { useMessages, useSendMessage, useMarkConvoAsRead } from "../../hooks/useMessages";
+import { useConvoMembers } from "../../hooks/useGroup";
 import { getChatAgent } from "../../lib/chatAgent";
 import { useAuthStore } from "../../stores/authStore";
 import { MessageBubble, type ReplyTargetSelection } from "./MessageBubble";
@@ -11,6 +12,9 @@ import { SystemMessage } from "./SystemMessage";
 import { Avatar } from "../common/Avatar";
 import { LoadingSpinner } from "../common/LoadingSpinner";
 import { Icon } from "../common/Icon";
+
+/** Consecutive messages from the same sender within this window are grouped under one name/avatar. */
+const SENDER_RUN_GAP_MS = 5 * 60 * 1000;
 
 export function DMThreadView() {
   const { convoId } = useParams<{ convoId: string }>();
@@ -157,6 +161,41 @@ export function DMThreadView() {
   const other = convo?.members.find((m) => m.did !== myDid) ?? convo?.members[0];
   const isRequest = convo?.status === "request";
   const isLocked = group?.lockStatus === "locked" || group?.lockStatus === "locked-permanently";
+
+  // Group convos may carry only a subset of members in `convo.members`;
+  // merge in the paged member list so senders can be resolved by DID.
+  const membersQuery = useConvoMembers(isGroup ? convoId : undefined);
+  const memberMap = useMemo(() => {
+    const map = new Map<string, ChatBskyActorDefs.ProfileViewBasic>();
+    for (const m of convo?.members ?? []) map.set(m.did, m);
+    for (const page of membersQuery.data?.pages ?? []) {
+      for (const m of page.members) map.set(m.did, m);
+    }
+    return map;
+  }, [convo?.members, membersQuery.data]);
+  const memberList = useMemo(() => [...memberMap.values()], [memberMap]);
+
+  // For group convos, mark the first (name) and last (avatar) bubble of each
+  // run of consecutive messages from the same sender, like the official app.
+  const senderRuns = useMemo(() => {
+    const runs = new Map<string, { first: boolean; last: boolean }>();
+    if (!isGroup) return runs;
+    const senderOf = (i: number) => {
+      const m = messages[i];
+      if (!m || ChatBskyConvoDefs.isSystemMessageView(m)) return null;
+      return m.sender.did;
+    };
+    const continues = (a: number, b: number) =>
+      senderOf(a) !== null &&
+      senderOf(a) === senderOf(b) &&
+      new Date(messages[b].sentAt).getTime() - new Date(messages[a].sentAt).getTime() <
+        SENDER_RUN_GAP_MS;
+    messages.forEach((m, i) => {
+      if (ChatBskyConvoDefs.isSystemMessageView(m)) return;
+      runs.set(m.id, { first: !continues(i - 1, i), last: !continues(i, i + 1) });
+    });
+    return runs;
+  }, [isGroup, messages]);
 
   const handleMuteToggle = useCallback(async () => {
     if (!convoId || !convo) return;
@@ -320,21 +359,30 @@ export function DMThreadView() {
               <SystemMessage
                 key={msg.id}
                 message={msg}
-                members={convo?.members ?? []}
+                members={memberList}
               />
             );
           }
           const nonSystem = msg as
             | ChatBskyConvoDefs.MessageView
             | ChatBskyConvoDefs.DeletedMessageView;
+          const run = senderRuns.get(nonSystem.id);
           return (
             <MessageBubble
               key={nonSystem.id}
               message={nonSystem}
-              isMine={
-                ChatBskyConvoDefs.isMessageView(nonSystem) && nonSystem.sender.did === myDid
-              }
+              isMine={nonSystem.sender.did === myDid}
               convoId={convoId!}
+              senderInfo={
+                isGroup && run
+                  ? {
+                      profile: memberMap.get(nonSystem.sender.did),
+                      did: nonSystem.sender.did,
+                      showName: run.first,
+                      showAvatar: run.last,
+                    }
+                  : undefined
+              }
               onReply={
                 ChatBskyConvoDefs.isMessageView(nonSystem)
                   ? (target) => {

@@ -226,6 +226,7 @@ kazahanaは全機能を網羅するスタンドアロンアプリではなく、
 | スターターパック一覧 | `app.bsky.graph.getActorStarterPacks` | ✅ |
 | フォロー/フォロワー数表示 | `getProfile` レスポンス内 | ✅ |
 | フォロー/解除 | `com.atproto.repo.createRecord` / `deleteRecord` | ✅ |
+| 被フォロー表示 | `getProfile` の `viewer.followedBy` が存在する場合、ハンドル横に「あなたをフォローしています」バッジを表示（自分・ブロック中は非表示） | ✅ |
 | フォロワー一覧ページ | `app.bsky.graph.getFollowers`（ページネーション付き） | ✅ |
 | フォロー中一覧ページ | `app.bsky.graph.getFollows`（ページネーション付き） | ✅ |
 | リプライ先コンテキスト | 親ポストをインラインで表示 | ✅ |
@@ -276,6 +277,7 @@ kazahanaは全機能を網羅するスタンドアロンアプリではなく、
 | 自動更新 | メッセージ: 15秒ポーリング、未読: 30秒ポーリング | ✅ |
 | リアクション追加 | `chat.bsky.convo.addReaction` (絵文字クイックピッカー) | ✅ |
 | リアクション削除 | `chat.bsky.convo.removeReaction` (トグル操作) | ✅ |
+| グループの送信者表示 | 他者メッセージの連続ブロック先頭に送信者名、末尾にアバターを表示（同一送信者・5分以内を1ブロック）。名前は `convo.members` + `chat.bsky.convo.getConvoMembers` から解決し、システムメッセージの名前解決にも使用 | ✅ |
 
 ### 4.10 スターターパック
 | 機能 | API | 状態 |

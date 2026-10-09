@@ -213,7 +213,14 @@ export function ProfileHeader({ profile, isOwnProfile }: ProfileHeaderProps) {
             <VerificationBadge profile={profile} size={18} />
             {isBotAccount(profile) && <BotBadge size={18} />}
           </h2>
-          <p className="text-sm text-gray-500">@{profile.handle}</p>
+          <div className="flex items-center gap-2 flex-wrap">
+            <p className="text-sm text-gray-500">@{profile.handle}</p>
+            {!isOwnProfile && profile.viewer?.followedBy && !isBlocking && (
+              <span className="px-1.5 py-0.5 text-[11px] leading-none rounded bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400">
+                {t("profile.followsYou")}
+              </span>
+            )}
+          </div>
         </div>
 
         {/* Bio */}

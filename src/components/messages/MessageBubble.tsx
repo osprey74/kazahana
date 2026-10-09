@@ -3,12 +3,13 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { formatDistanceToNowStrict, type Locale } from "date-fns";
 import { ja, enUS, de, es, fr, ko, pt, ru, id, zhTW, zhCN } from "date-fns/locale";
-import { ChatBskyConvoDefs, ChatBskyEmbedJoinLink } from "@atproto/api";
+import { ChatBskyActorDefs, ChatBskyConvoDefs, ChatBskyEmbedJoinLink } from "@atproto/api";
 import { useDeleteMessage, useAddReaction, useRemoveReaction } from "../../hooks/useMessages";
 import { getAgent } from "../../lib/agent";
 import { parseRichText } from "../../lib/richtext";
 import { resolveInAppRoute } from "../../lib/externalLink";
 import { Icon } from "../common/Icon";
+import { Avatar } from "../common/Avatar";
 import { JoinLinkEmbed } from "./JoinLinkEmbed";
 
 const dateFnsLocales: Record<string, Locale> = {
@@ -23,14 +24,25 @@ export interface ReplyTargetSelection {
   isDeleted: boolean;
 }
 
+/** Sender display for group convos (omitted in 1:1 chats). */
+export interface MessageSenderInfo {
+  profile?: ChatBskyActorDefs.ProfileViewBasic;
+  did: string;
+  /** First bubble of a run from this sender: show the name above it. */
+  showName: boolean;
+  /** Last bubble of a run from this sender: show the avatar beside it. */
+  showAvatar: boolean;
+}
+
 interface MessageBubbleProps {
   message: ChatBskyConvoDefs.MessageView | ChatBskyConvoDefs.DeletedMessageView;
   isMine: boolean;
   convoId: string;
   onReply?: (target: ReplyTargetSelection) => void;
+  senderInfo?: MessageSenderInfo;
 }
 
-export function MessageBubble({ message, isMine, convoId, onReply }: MessageBubbleProps) {
+export function MessageBubble({ message, isMine, convoId, onReply, senderInfo }: MessageBubbleProps) {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
@@ -47,14 +59,50 @@ export function MessageBubble({ message, isMine, convoId, onReply }: MessageBubb
     locale,
   });
 
+  // Others' messages in group convos get a name label and an avatar column.
+  const sender = !isMine ? senderInfo : undefined;
+  const senderName = sender
+    ? sender.profile?.displayName || sender.profile?.handle || shortDid(sender.did)
+    : "";
+  const senderHandle = sender?.profile?.handle;
+  const goToSender = () => navigate(`/profile/${senderHandle ?? sender!.did}`);
+  const avatarColumn = sender && (
+    <div className="w-8 flex-shrink-0 self-end mr-2 mb-4">
+      {sender.showAvatar && (
+        <button type="button" onClick={goToSender} className="block hover:opacity-80" title={senderName}>
+          <Avatar src={sender.profile?.avatar} alt={senderName} size="sm" />
+        </button>
+      )}
+    </div>
+  );
+  const nameLabel = sender?.showName && (
+    <button
+      type="button"
+      onClick={goToSender}
+      className="block max-w-full truncate mb-0.5 px-1 text-xs text-gray-500 dark:text-gray-400 hover:underline text-left"
+      title={senderHandle ? `@${senderHandle}` : sender.did}
+    >
+      {senderName}
+    </button>
+  );
+  const rowSpacing = sender && !sender.showName ? "pt-0.5 pb-1" : "py-1";
+
   if (isDeleted) {
     return (
       <div
         data-message-id={(message as ChatBskyConvoDefs.DeletedMessageView).id}
-        className={`flex ${isMine ? "justify-end" : "justify-start"} px-4 py-1`}
+        className={`flex ${isMine ? "justify-end" : "justify-start"} px-4 ${rowSpacing}`}
       >
-        <div className="px-3 py-2 rounded-2xl bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-500 text-sm italic">
-          {t("messages.deleted")}
+        {sender && (
+          <div className="w-8 flex-shrink-0 self-end mr-2">
+            {sender.showAvatar && <Avatar src={sender.profile?.avatar} alt={senderName} size="sm" />}
+          </div>
+        )}
+        <div className="min-w-0">
+          {nameLabel}
+          <div className="px-3 py-2 rounded-2xl bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-500 text-sm italic">
+            {t("messages.deleted")}
+          </div>
         </div>
       </div>
     );
@@ -91,10 +139,12 @@ export function MessageBubble({ message, isMine, convoId, onReply }: MessageBubb
   return (
     <div
       data-message-id={msg.id}
-      className={`flex ${isMine ? "justify-end" : "justify-start"} px-4 py-1 group`}
+      className={`flex ${isMine ? "justify-end" : "justify-start"} px-4 ${rowSpacing} group`}
       onMouseLeave={() => { setShowMenu(false); setShowEmojiPicker(false); }}
     >
-      <div className="relative max-w-[75%]">
+      {avatarColumn}
+      <div className="relative max-w-[75%] min-w-0">
+        {nameLabel}
         {replyTarget && (
           <button
             type="button"
@@ -281,6 +331,12 @@ export function MessageBubble({ message, isMine, convoId, onReply }: MessageBubb
       </div>
     </div>
   );
+}
+
+function shortDid(did: string): string {
+  if (!did.startsWith("did:")) return did;
+  const tail = did.slice(did.lastIndexOf(":") + 1);
+  return tail.length > 8 ? `${tail.slice(0, 4)}…${tail.slice(-4)}` : tail;
 }
 
 interface ReplyTarget {
