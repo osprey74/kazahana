@@ -183,7 +183,7 @@ export function DMThreadView() {
     const senderOf = (i: number) => {
       const m = messages[i];
       if (!m || ChatBskyConvoDefs.isSystemMessageView(m)) return null;
-      return m.sender.did;
+      return (m as ChatBskyConvoDefs.MessageView | ChatBskyConvoDefs.DeletedMessageView).sender.did;
     };
     const continues = (a: number, b: number) =>
       senderOf(a) !== null &&
