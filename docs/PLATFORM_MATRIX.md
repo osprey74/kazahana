@@ -1,6 +1,6 @@
 # kazahana Platform Feature Matrix
 
-> **Last updated:** 2026-10-09 (Android 棚卸 — 被フォロー表示「あなたをフォローしています」❓→✅（v2.0.3 時点で実装済み。表示位置は統計行下のテキストで Desktop のハンドル横バッジとは差異あり）、グループチャットの送信者表示（名前・アバター）❓→⬜（未実装。parity Issue 起票対象）)
+> **Last updated:** 2026-10-09 (Android 棚卸 — 被フォロー表示「あなたをフォローしています」❓→✅（v2.0.3 時点で実装済み。表示位置は統計行下のテキストで Desktop のハンドル横バッジとは差異あり）、グループチャットの送信者表示（名前・アバター）❓→⬜（未実装。kazahana#22 起票済み。受け入れ要件は送信者名の表示までに緩和）)
 > **Previously:** 2026-10-09 (Desktop v3.6.1 — グループチャットの送信者名・アバター表示、プロフィールの「あなたをフォローしています」バッジを追加。iOS/Android/Catalyst は parity 要確認)
 > **Previously:** 2026-09-05 (iOS/Catalyst v3.8.0 — 動画 ALT テキスト表示 ❓→✅（サムネ ALT バッジ + テキスト本文、引用投稿内メディア描画含む全表示面）、OP スレッド番号付けバッジ ⬜→✅（FeedViewPost.opThreadPostIndex/opThreadPostCount、タイムライン著者行）)
 > **Previously:** 2026-09-05 (Android v3.6.0 — 動画 ALT テキスト表示 ❓→✅（引用投稿内・通知を含む全表示面）、OP スレッド番号付けバッジ ⬜→✅。あわせて Android v3.5.0 リリース済み項目の「次期リリース」表記を解消)
@@ -161,7 +161,7 @@
 |------|:-------:|:----------------:|:-------:|:---:|------|
 | プロフィール表示（バナー/アバター/統計） | ✅ | ✅ | ✅ | ✅ | |
 | フォロー / フォロー解除 | ✅ | ✅ | ✅ | ✅ | |
-| **被フォロー表示（「あなたをフォローしています」バッジ）** | ✅ | ❓ | ✅ | ❓ | `getProfile` の `viewer.followedBy` が存在する場合にハンドル横へバッジ表示（自分のプロフィール・ブロック中は非表示）。文言は既存 i18n キー `profile.followsYou` を流用。Desktop v3.6.1。**Android は v2.0.3 時点で実装済み**（`ProfileScreen.kt` / `R.string.profile_follows_you`、全 11 言語リソースあり）。ただし表示位置は統計行の下のテキストで、Desktop のハンドル横バッジとは異なる（表示位置の統一は別途検討）。iOS/Catalyst は parity 対象 |
+| **被フォロー表示（「あなたをフォローしています」バッジ）** | ✅ | ❓ | ✅ | ❓ | `getProfile` の `viewer.followedBy` が存在する場合にハンドル横へバッジ表示（自分のプロフィール・ブロック中は非表示）。文言は既存 i18n キー `profile.followsYou` を流用。Desktop v3.6.1。**Android は v2.0.3 時点で実装済み**（`ProfileScreen.kt` / `R.string.profile_follows_you`、全 11 言語リソースあり）。表示位置は統計行の下のテキストで Desktop のハンドル横バッジとは異なるが、**表示位置の統一は不要と判断**（2026-10-09）。iOS/Catalyst は parity 対象 |
 | 投稿タブ | ✅ | ✅ | ✅ | ✅ | |
 | 返信タブ | ✅ | ✅ | ✅ | ✅ | |
 | メディアタブ | ✅ | ✅ | ✅ | ✅ | |
@@ -204,7 +204,7 @@
 | DM 新規会話作成履歴 | ✅ | ✅ | ✅ | ✅ | |
 | **グループ会話表示（`groupConvo` kind）** | ✅ | ✅ | ✅ | ✅ | Bluesky v1.124 グループチャット受信対応。グループ名 + メンバー数 + ロック状態を会話一覧およびスレッドヘッダに表示。Android v3.4.0 / iOS v3.4.0 / Catalyst 同時対応 |
 | **グループシステムメッセージ表示** | ✅ | ✅ | ✅ | ✅ | 全 14 種（addMember / removeMember / memberJoin / memberLeave / lockConvo / unlockConvo / lockConvoPermanently / editGroup / createJoinLink / editJoinLink / enableJoinLink / disableJoinLink ほか）を中央寄せ italic で表示。Android v3.4.0 / iOS v3.4.0 |
-| **グループチャットの送信者表示（名前・アバター）** | ✅ | ❓ | ⬜ | ❓ | 他者メッセージを「同一送信者・5 分以内」の連続ブロックにまとめ、先頭吹き出しの上に表示名（なければハンドル→短縮 DID）、末尾吹き出しの左にアバターを表示（公式アプリ準拠）。名前・アバターはタップでプロフィールへ。送信者は `convo.members` に `getConvoMembers` の結果をマージして解決（`convo.members` は部分集合のことがあるため）。同じマップをシステムメッセージの名前解決にも使用し、DID 生表示を解消。1:1 DM は対象外。Desktop v3.6.1。**Android は未実装**（`ChatScreen.kt` の `MessageBubble` は送信者名・アバターを描画せず、`getConvoMembers` の呼び出しもなし。システムメッセージの名前解決は `convo.members` のみに依存）。iOS/Catalyst は parity 対象 |
+| **グループチャットの送信者表示（名前・アバター）** | ✅ | ❓ | ⬜ | ❓ | 他者メッセージを「同一送信者・5 分以内」の連続ブロックにまとめ、先頭吹き出しの上に表示名（なければハンドル→短縮 DID）、末尾吹き出しの左にアバターを表示（公式アプリ準拠）。名前・アバターはタップでプロフィールへ。送信者は `convo.members` に `getConvoMembers` の結果をマージして解決（`convo.members` は部分集合のことがあるため）。同じマップをシステムメッセージの名前解決にも使用し、DID 生表示を解消。1:1 DM は対象外。Desktop v3.6.1。**Android は未実装**（`ChatScreen.kt` の `MessageBubble` は送信者名・アバターを描画せず、`getConvoMembers` の呼び出しもなし。システムメッセージの名前解決は `convo.members` のみに依存）。**Android の受け入れ要件は「送信者名がいずれかの箇所に表示されること」まで緩和**（アバター表示・同一送信者 5 分以内の連続ブロック化は必須としない。2026-10-09 判断、kazahana#22）。iOS/Catalyst は parity 対象 |
 | **招待リンク embed 受信表示（`chat.bsky.embed.joinLink`）** | ✅ | ✅ | ✅ | ✅ | チャットメッセージ内の招待リンクカード描画。有効 / 無効化 / 無効リンクの 3 状態。Android v3.4.0 / iOS v3.4.0：`JoinLinkEmbedView.swift` |
 | **グループロック中の入力抑止** | ✅ | ✅ | ✅ | ✅ | `lockStatus: locked` / `locked-permanently` 時は入力欄を非表示にロック通知を表示。Android v3.4.0 / iOS v3.4.0 |
 | **参加リクエスト一覧（`listConvoRequests`）** | ✅ | ✅ | ⬜ | ✅ | incoming 招待 + outgoing 参加申請を統合取得。iOS v3.4.0：`GroupSettingsView.swift` で実装。Android：既存のメッセージリクエスト（`status`）流用のため `listConvoRequests` 統合は未実装 |
@@ -360,7 +360,7 @@
 | 機能 | Android | 備考 |
 |------|:-------:|------|
 | 独自 PDS ログイン（DNS/well-known からの PDS 自動解決） | ⬜ | Desktop v2.7.0 / iOS v3.1.0 で実装。Android は did:plc の DID ドキュメントからの PDS 解決のみ対応（ハンドル解決は bsky.social 固定） |
-| グループチャットの送信者表示（名前・アバター） | ⬜ | Desktop v3.6.1 で実装。Android は `MessageBubble` に送信者名・アバター表示がなく、`getConvoMembers` によるメンバー解決も未対応。グループ会話で誰の発言か判別できない |
+| グループチャットの送信者表示（名前・アバター） | ⬜ | Desktop v3.6.1 で実装。Android は `MessageBubble` に送信者名・アバター表示がなく、`getConvoMembers` によるメンバー解決も未対応。グループ会話で誰の発言か判別できない。受け入れ要件は送信者名の表示までに緩和（kazahana#22） |
 
 ### Desktop 未実装
 
