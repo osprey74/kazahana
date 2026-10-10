@@ -1,6 +1,7 @@
 # kazahana Platform Feature Matrix
 
-> **Last updated:** 2026-10-10 (iOS — iPhone Duo 対応を「iOS 固有」に追加。Xcode 27.1 RC / iOS 27.1 シミュレータで外側・内側ディスプレイ（縦横）・一部折りたたみを確認し、外側/内側ディスプレイのリサイズ ✅、ツールバー・タブバーの側面縦配置 ✅。フィードタブ帯が縦配置バーの下にはみ出す不具合を修正（次期リリース）。折りたたみ領域（ReservedRegion）を避ける個別レイアウトは未対応（縦スクロールのため HIG 上許容）)
+> **Last updated:** 2026-10-10 (iOS — 「iOS 固有」の Share Extension 行の備考を更新（v3.7.1 のクロップ・ALT テキスト対応を追記、App Group 共有を明記、フォルダ整理後にシミュレータで動作確認）。ステータス変更なし)
+> **Previously:** 2026-10-10 (iOS — iPhone Duo 対応を「iOS 固有」に追加。Xcode 27.1 RC / iOS 27.1 シミュレータで外側・内側ディスプレイ（縦横）・一部折りたたみを確認し、外側/内側ディスプレイのリサイズ ✅、ツールバー・タブバーの側面縦配置 ✅。フィードタブ帯が縦配置バーの下にはみ出す不具合を修正（次期リリース）。折りたたみ領域（ReservedRegion）を避ける個別レイアウトは未対応（縦スクロールのため HIG 上許容）)
 > **Previously:** 2026-10-10 (iOS/Catalyst 次期リリース — 被フォロー表示 ❓→✅（ハンドル横バッジ、`profile.followsYou` 11 言語）、グループチャットの送信者表示 ❓→✅（`getConvoMembers` マージ、連続投稿の先頭のみ送信者名、タップでプロフィール、表示名 → ハンドル → 短縮 DID。システムメッセージの参照ユーザー（DID のみ）のデコード失敗で該当メッセージが表示されなかった不具合も修正。アバター・5 分ブロック化は Android と同じく見送り）)
 > **Previously:** 2026-10-09 (Android v3.7.0 — グループチャットの送信者表示 ❓→✅（送信者名表示 + `getConvoMembers` マージ。アバター・連続ブロック化は要件緩和により見送り、kazahana#22）、被フォロー表示「あなたをフォローしています」❓→✅（v2.0.3 時点で実装済み。表示位置は統計行下のテキストで Desktop のハンドル横バッジとは差異あり。位置統一は不要と判断）)
 > **Previously:** 2026-10-09 (Desktop v3.6.1 — グループチャットの送信者名・アバター表示、プロフィールの「あなたをフォローしています」バッジを追加。iOS/Android/Catalyst は parity 要確認)
@@ -317,7 +318,7 @@
 
 | 機能 | iOS | 備考 |
 |------|:---:|------|
-| Share Extension（他アプリからの共有受信） | ✅ | KeyChain accessGroup 共有 |
+| Share Extension（他アプリからの共有受信） | ✅ | KeyChain accessGroup + App Group 共有。URL の OGP リンクカード、画像のクロップ・ALT テキスト（v3.7.1）。2026-10-10 フォルダ整理後にシミュレータで Safari からの共有を確認 |
 | 共有シート（他アプリへの共有送信） | ✅ | UIActivityViewController |
 | ディープリンク（profile/post/hashtag） | ✅ | kazahana://profile/{} 等 |
 | バックグラウンドポーリング（BGAppRefreshTask） | ✅ | |
