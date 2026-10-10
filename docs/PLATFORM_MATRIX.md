@@ -1,6 +1,7 @@
 # kazahana Platform Feature Matrix
 
-> **Last updated:** 2026-10-10 (iOS — 「iOS 固有」の Share Extension 行の備考を更新（v3.7.1 のクロップ・ALT テキスト対応を追記、App Group 共有を明記、フォルダ整理後にシミュレータで動作確認）。ステータス変更なし)
+> **Last updated:** 2026-10-10 (iOS/Catalyst 次期リリース — 「グループシステムメッセージ表示」の備考に unlockConvo が lockConvo と表示される不具合の修正を追記（kazahana-ios#5）。ステータス変更なし)
+> **Previously:** 2026-10-10 (iOS — 「iOS 固有」の Share Extension 行の備考を更新（v3.7.1 のクロップ・ALT テキスト対応を追記、App Group 共有を明記、フォルダ整理後にシミュレータで動作確認）。ステータス変更なし)
 > **Previously:** 2026-10-10 (iOS — iPhone Duo 対応を「iOS 固有」に追加。Xcode 27.1 RC / iOS 27.1 シミュレータで外側・内側ディスプレイ（縦横）・一部折りたたみを確認し、外側/内側ディスプレイのリサイズ ✅、ツールバー・タブバーの側面縦配置 ✅。フィードタブ帯が縦配置バーの下にはみ出す不具合を修正（次期リリース）。折りたたみ領域（ReservedRegion）を避ける個別レイアウトは未対応（縦スクロールのため HIG 上許容）)
 > **Previously:** 2026-10-10 (iOS/Catalyst 次期リリース — 被フォロー表示 ❓→✅（ハンドル横バッジ、`profile.followsYou` 11 言語）、グループチャットの送信者表示 ❓→✅（`getConvoMembers` マージ、連続投稿の先頭のみ送信者名、タップでプロフィール、表示名 → ハンドル → 短縮 DID。システムメッセージの参照ユーザー（DID のみ）のデコード失敗で該当メッセージが表示されなかった不具合も修正。アバター・5 分ブロック化は Android と同じく見送り）)
 > **Previously:** 2026-10-09 (Android v3.7.0 — グループチャットの送信者表示 ❓→✅（送信者名表示 + `getConvoMembers` マージ。アバター・連続ブロック化は要件緩和により見送り、kazahana#22）、被フォロー表示「あなたをフォローしています」❓→✅（v2.0.3 時点で実装済み。表示位置は統計行下のテキストで Desktop のハンドル横バッジとは差異あり。位置統一は不要と判断）)
@@ -206,7 +207,7 @@
 | DM 自動更新（ポーリング） | ✅ | ✅ | ✅ | ✅ | iOS・Android: 15秒 |
 | DM 新規会話作成履歴 | ✅ | ✅ | ✅ | ✅ | |
 | **グループ会話表示（`groupConvo` kind）** | ✅ | ✅ | ✅ | ✅ | Bluesky v1.124 グループチャット受信対応。グループ名 + メンバー数 + ロック状態を会話一覧およびスレッドヘッダに表示。Android v3.4.0 / iOS v3.4.0 / Catalyst 同時対応 |
-| **グループシステムメッセージ表示** | ✅ | ✅ | ✅ | ✅ | 全 14 種（addMember / removeMember / memberJoin / memberLeave / lockConvo / unlockConvo / lockConvoPermanently / editGroup / createJoinLink / editJoinLink / enableJoinLink / disableJoinLink ほか）を中央寄せ italic で表示。Android v3.4.0 / iOS v3.4.0 |
+| **グループシステムメッセージ表示** | ✅ | ✅ | ✅ | ✅ | 全 14 種（addMember / removeMember / memberJoin / memberLeave / lockConvo / unlockConvo / lockConvoPermanently / editGroup / createJoinLink / editJoinLink / enableJoinLink / disableJoinLink ほか）を中央寄せ italic で表示。Android v3.4.0 / iOS v3.4.0。**iOS / Catalyst:** v3.8.1 まで unlockConvo が lockConvo として表示される不具合あり（`…UnlockConvo` が `lockConvo` の末尾一致に先に掛かっていた）。判定順を修正（次期リリース、kazahana-ios#5） |
 | **グループチャットの送信者表示（名前・アバター）** | ✅ | ✅ | ✅ | ✅ | 他者メッセージを「同一送信者・5 分以内」の連続ブロックにまとめ、先頭吹き出しの上に表示名（なければハンドル→短縮 DID）、末尾吹き出しの左にアバターを表示（公式アプリ準拠）。名前・アバターはタップでプロフィールへ。送信者は `convo.members` に `getConvoMembers` の結果をマージして解決（`convo.members` は部分集合のことがあるため）。同じマップをシステムメッセージの名前解決にも使用し、DID 生表示を解消。1:1 DM は対象外。Desktop v3.6.1。**Android v3.7.0 で対応**（kazahana#22）：`getConvoMembers` を `convo.members` にマージして `ChatUiState.members` に保持し、グループ会話の他者メッセージに送信者名を吹き出し上へ表示（同一送信者の連続投稿は先頭のみ、タップでプロフィールへ）。名前解決は表示名 → ハンドル → 短縮 DID。同じマップをシステムメッセージと返信プレビューにも使用。受け入れ要件の緩和（2026-10-09）により、アバター表示と「同一送信者・5 分以内」の連続ブロック化は Android では見送り。**iOS/Catalyst 次期リリースで対応**：`ChatThreadViewModel.loadMembers()` で `getConvoMembers` を `convo.members` にマージし、同一送信者の連続投稿の先頭のみ送信者名を表示（タップでプロフィール）。名前解決は表示名 → ハンドル → 短縮 DID。同じリストをシステムメッセージ・返信プレビュー・会話一覧のプレビューにも使用。システムメッセージの参照ユーザー（`systemMessageReferredUser` = DID のみ）を `ChatMember` としてデコードしていたため該当メッセージが破棄されていた不具合も修正。アバター・連続ブロック化は Android と同じく見送り |
 | **招待リンク embed 受信表示（`chat.bsky.embed.joinLink`）** | ✅ | ✅ | ✅ | ✅ | チャットメッセージ内の招待リンクカード描画。有効 / 無効化 / 無効リンクの 3 状態。Android v3.4.0 / iOS v3.4.0：`JoinLinkEmbedView.swift` |
 | **グループロック中の入力抑止** | ✅ | ✅ | ✅ | ✅ | `lockStatus: locked` / `locked-permanently` 時は入力欄を非表示にロック通知を表示。Android v3.4.0 / iOS v3.4.0 |
