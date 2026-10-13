@@ -1,6 +1,7 @@
 # kazahana Platform Feature Matrix
 
-> **Last updated:** 2026-10-11 (iOS/Catalyst v3.8.1 公開 — 「被フォロー表示」「グループチャットの送信者表示」の備考の「次期リリースで対応」を「v3.8.1 で対応」に更新。ステータス変更なし)
+> **Last updated:** 2026-10-13 (iOS v3.9.0 公開 — 「iPhone Duo 対応」「iPhone Duo のツールバー・タブバー側面縦配置」「グループシステムメッセージ表示」の備考の「次期リリース」を「iOS v3.9.0」に更新（Catalyst は v3.9.0 未リリースのため unlockConvo 修正は次回 Catalyst リリースで反映）。ステータス変更なし)
+> **Previously:** 2026-10-11 (iOS/Catalyst v3.8.1 公開 — 「被フォロー表示」「グループチャットの送信者表示」の備考の「次期リリースで対応」を「v3.8.1 で対応」に更新。ステータス変更なし)
 > **Previously:** 2026-10-10 (iOS — 「iPhone Duo 対応」の備考に、シミュレータで内側・外側の全画面確認と開閉時のスクロール位置保持を確認した旨、実機未検証である旨を追記。ステータス変更なし)
 > **Previously:** 2026-10-10 (iOS 次期リリース — 「iPhone Duo のツールバー・タブバー側面縦配置」の備考に、外側ディスプレイでプロフィールのタブ帯が側面のステータスバー下にはみ出す不具合の修正を追記（kazahana-ios#6）。ステータス変更なし)
 > **Previously:** 2026-10-10 (iOS/Catalyst 次期リリース — 「グループシステムメッセージ表示」の備考に unlockConvo が lockConvo と表示される不具合の修正を追記（kazahana-ios#5）。ステータス変更なし)
@@ -210,7 +211,7 @@
 | DM 自動更新（ポーリング） | ✅ | ✅ | ✅ | ✅ | iOS・Android: 15秒 |
 | DM 新規会話作成履歴 | ✅ | ✅ | ✅ | ✅ | |
 | **グループ会話表示（`groupConvo` kind）** | ✅ | ✅ | ✅ | ✅ | Bluesky v1.124 グループチャット受信対応。グループ名 + メンバー数 + ロック状態を会話一覧およびスレッドヘッダに表示。Android v3.4.0 / iOS v3.4.0 / Catalyst 同時対応 |
-| **グループシステムメッセージ表示** | ✅ | ✅ | ✅ | ✅ | 全 14 種（addMember / removeMember / memberJoin / memberLeave / lockConvo / unlockConvo / lockConvoPermanently / editGroup / createJoinLink / editJoinLink / enableJoinLink / disableJoinLink ほか）を中央寄せ italic で表示。Android v3.4.0 / iOS v3.4.0。**iOS / Catalyst:** v3.8.1 まで unlockConvo が lockConvo として表示される不具合あり（`…UnlockConvo` が `lockConvo` の末尾一致に先に掛かっていた）。判定順を修正（次期リリース、kazahana-ios#5） |
+| **グループシステムメッセージ表示** | ✅ | ✅ | ✅ | ✅ | 全 14 種（addMember / removeMember / memberJoin / memberLeave / lockConvo / unlockConvo / lockConvoPermanently / editGroup / createJoinLink / editJoinLink / enableJoinLink / disableJoinLink ほか）を中央寄せ italic で表示。Android v3.4.0 / iOS v3.4.0。**iOS / Catalyst:** v3.8.1 まで unlockConvo が lockConvo として表示される不具合あり（`…UnlockConvo` が `lockConvo` の末尾一致に先に掛かっていた）。判定順を修正（iOS v3.9.0 で修正済み。Catalyst は次回リリースで反映、kazahana-ios#5） |
 | **グループチャットの送信者表示（名前・アバター）** | ✅ | ✅ | ✅ | ✅ | 他者メッセージを「同一送信者・5 分以内」の連続ブロックにまとめ、先頭吹き出しの上に表示名（なければハンドル→短縮 DID）、末尾吹き出しの左にアバターを表示（公式アプリ準拠）。名前・アバターはタップでプロフィールへ。送信者は `convo.members` に `getConvoMembers` の結果をマージして解決（`convo.members` は部分集合のことがあるため）。同じマップをシステムメッセージの名前解決にも使用し、DID 生表示を解消。1:1 DM は対象外。Desktop v3.6.1。**Android v3.7.0 で対応**（kazahana#22）：`getConvoMembers` を `convo.members` にマージして `ChatUiState.members` に保持し、グループ会話の他者メッセージに送信者名を吹き出し上へ表示（同一送信者の連続投稿は先頭のみ、タップでプロフィールへ）。名前解決は表示名 → ハンドル → 短縮 DID。同じマップをシステムメッセージと返信プレビューにも使用。受け入れ要件の緩和（2026-10-09）により、アバター表示と「同一送信者・5 分以内」の連続ブロック化は Android では見送り。**iOS/Catalyst v3.8.1 で対応**：`ChatThreadViewModel.loadMembers()` で `getConvoMembers` を `convo.members` にマージし、同一送信者の連続投稿の先頭のみ送信者名を表示（タップでプロフィール）。名前解決は表示名 → ハンドル → 短縮 DID。同じリストをシステムメッセージ・返信プレビュー・会話一覧のプレビューにも使用。システムメッセージの参照ユーザー（`systemMessageReferredUser` = DID のみ）を `ChatMember` としてデコードしていたため該当メッセージが破棄されていた不具合も修正。アバター・連続ブロック化は Android と同じく見送り |
 | **招待リンク embed 受信表示（`chat.bsky.embed.joinLink`）** | ✅ | ✅ | ✅ | ✅ | チャットメッセージ内の招待リンクカード描画。有効 / 無効化 / 無効リンクの 3 状態。Android v3.4.0 / iOS v3.4.0：`JoinLinkEmbedView.swift` |
 | **グループロック中の入力抑止** | ✅ | ✅ | ✅ | ✅ | `lockStatus: locked` / `locked-permanently` 時は入力欄を非表示にロック通知を表示。Android v3.4.0 / iOS v3.4.0 |
@@ -330,8 +331,8 @@
 | スワイプバック対応（ナビバー非表示時） | ✅ | |
 | マルチアカウント（切替/追加/削除） | ✅ | v1.1.0 で実装 |
 | サポーターバッジ（IAP 30日） | ✅ | StoreKit 2 |
-| iPhone Duo 対応（外側/内側ディスプレイのリサイズ） | ✅ | Xcode 27 ビルドで全画面。外側（縦横）・内側（縦横）とも全幅表示、内側横画面は iPad 版と同じく全幅。折りたたみ領域（ReservedRegion）を避ける個別レイアウトは未対応（縦スクロールのため HIG 上許容）。2026-10-10 シミュレータ（Xcode 27.1 RC / iOS 27.1）で内側・外側ディスプレイの全画面を目視確認し問題なし、開閉時もスクロール位置はほぼ保持。実機は未検証（入手後に確認予定） |
-| iPhone Duo のツールバー・タブバー側面縦配置 | ✅ | システム標準の TabView / toolbar で自動対応。横スクロールのタブ帯が側面のステータスバー下にはみ出す不具合を修正（ホームのフィードタブ帯: kazahana-ios#3、プロフィールのタブ帯: kazahana-ios#6。いずれも次期リリース） |
+| iPhone Duo 対応（外側/内側ディスプレイのリサイズ） | ✅ | iOS v3.9.0 で対応（Xcode 27.1 ビルド）。Xcode 27 ビルドで全画面。外側（縦横）・内側（縦横）とも全幅表示、内側横画面は iPad 版と同じく全幅。折りたたみ領域（ReservedRegion）を避ける個別レイアウトは未対応（縦スクロールのため HIG 上許容）。2026-10-10 シミュレータ（Xcode 27.1 RC / iOS 27.1）で内側・外側ディスプレイの全画面を目視確認し問題なし、開閉時もスクロール位置はほぼ保持。実機は未検証（入手後に確認予定） |
+| iPhone Duo のツールバー・タブバー側面縦配置 | ✅ | システム標準の TabView / toolbar で自動対応。横スクロールのタブ帯が側面のステータスバー下にはみ出す不具合を修正（ホームのフィードタブ帯: kazahana-ios#3、プロフィールのタブ帯: kazahana-ios#6。いずれも iOS v3.9.0 で修正済み） |
 
 ### Android 固有
 
