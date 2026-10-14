@@ -397,3 +397,14 @@ Collaborator: よつぎnん / @yotsugin.bsky.social
 - [x] **[D-2] QuoteEmbed に動画描画 + ALT 表示を追加** — `src/components/common/QuoteEmbed.tsx`。`extractVideoFromQuoteEmbeds(record.embeds)` で動画を取得し、画像グリッドの下に `VideoPlayer` + ALT 本文（`text-[11px]` グレー、他表示面と同一スタイル）を描画
 - [x] **[D-3] PLATFORM_MATRIX.md 更新** — セクション 2「投稿表示」に「動画 ALT テキスト表示（タイムライン/スレッド/通知/引用内）」行を追加（Desktop=✅、iOS/Android/Catalyst=❓ parity 要確認）
 - [ ] **iOS / Android / Catalyst 後追い確認** — 引用投稿内の動画描画 + ALT 表示の実装状況を各リポジトリで検証（`platform:ios` / `platform:android` + `parity` ラベル）
+
+## Web 版設定の反映対応（2026-10-15）
+
+> 背景: 公式 Bluesky との機能差を棚卸し。kazahana の方針は「日常的に触れる部分を実装し、設定・管理系の操作は公式 Web 版に任せる」。ただし、この割り切りは **Web 版で設定した内容が kazahana にも反映される** ことが前提になる。クライアント側で処理される設定のうち、kazahana が読み取っていないため反映されないもの（コード読解による判断、実機未検証）を以下に登録する。
+> 確認済み（対応不要）: ミュートワード（`prefs.moderationPrefs` を `moderatePost` に渡しており反映済み）、フィードのピン留め（`getPreferences` 経由で反映済み）。
+
+- [ ] **[D-1] 購読ラベラーのラベル適用** — Web 版で購読したラベラーのラベルが kazahana に効いていない可能性。`src/lib/agent.ts` で `atproto-accept-labelers` ヘッダを設定していない（`prefs.moderationPrefs.labelers` の DID を `configureLabelersHeader` 等で付与する）。まず Web 版でラベラーを購読し、kazahana の表示で実機確認する
+- [ ] **[D-2] Following フィードの絞り込み設定（feedViewPref）の適用** — Web 版の「返信・リポスト・引用を隠す」等が、クライアント側の処理なので kazahana のホームタイムラインに効かない。`getPreferences()` の `feedViewPrefs` を読み、`useTimeline` で絞り込みを適用。あわせてスレッドの並び順設定（`threadViewPrefs`）の適用要否も検討
+- [ ] **[D-3] hide reply（`threadgate.hiddenReplies`）の適用** — スレッドの作者が Web 版で非表示にした返信が、kazahana のスレッド表示（`ThreadView`）で見えている可能性。`threadgate` レコードの `hiddenReplies` を参照し、公式と同様に折りたたむか非表示にする。実機確認から始める
+- [ ] **[D-4] `subscribed-post` 通知の表示対応** — Web 版でアクティビティ購読（特定ユーザーの投稿を通知）した場合に届く `subscribed-post` reason を `NotificationItem` / `GroupedNotificationItem` / OS 通知で扱っていない。アイコン・文言（11 ロケール）・投稿プレビューを追加
+- [ ] **[D-5] PLATFORM_MATRIX.md 更新 + iOS / Android 後追い確認** — 上記 4 件を対応表に追加し、各プラットフォームの対応状況を確認（`parity` ラベル）
