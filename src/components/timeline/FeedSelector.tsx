@@ -141,6 +141,7 @@ export function FeedSelector() {
                   setCurrentFeed(tab.feed);
                 }
               }}
+              aria-current={active}
               className={`flex-shrink-0 px-4 py-2 text-xs font-medium transition-colors relative whitespace-nowrap ${
                 active
                   ? "text-primary"

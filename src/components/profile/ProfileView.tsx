@@ -264,6 +264,7 @@ export function ProfileView() {
                 if (tabKey === "bookmarks") refetchBookmarks();
               }
             }}
+            aria-current={tab === tabKey}
             className={`flex-1 py-2.5 text-sm font-medium transition-colors ${
               tab === tabKey
                 ? "text-primary border-b-2 border-primary"

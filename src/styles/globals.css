@@ -70,3 +70,53 @@
     border-radius: 1rem;
   }
 }
+
+/*
+ * Windows high contrast (forced colors). The browser drops author background
+ * colors, so pill buttons lose their shape and selected states that rely on
+ * `bg-primary` / `text-primary` become indistinguishable. Draw button outlines
+ * and paint selected states (aria-pressed / aria-current) with system colors.
+ */
+@media (forced-colors: active) {
+  button[class*="rounded"],
+  a[class*="rounded-btn"] {
+    outline: 1px solid ButtonText;
+    outline-offset: -1px;
+  }
+
+  button:disabled {
+    outline-color: GrayText;
+  }
+
+  [aria-pressed="true"],
+  [aria-current]:not([aria-current="false"]) {
+    forced-color-adjust: none;
+    background-color: Highlight !important;
+    color: HighlightText !important;
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+
+  [aria-pressed="true"] *,
+  [aria-current]:not([aria-current="false"]) * {
+    color: HighlightText !important;
+    border-color: HighlightText !important;
+  }
+
+  /* Color pickers must keep their real colors */
+  .color-swatch {
+    forced-color-adjust: none;
+    border-color: CanvasText !important;
+    outline: none;
+  }
+
+  .color-swatch[data-selected="true"] {
+    outline: 3px solid Highlight;
+    outline-offset: 2px;
+  }
+
+  /* Own chat bubbles, unread badges and other primary-filled surfaces */
+  .bg-primary:not(button) {
+    outline: 1px solid CanvasText;
+  }
+}

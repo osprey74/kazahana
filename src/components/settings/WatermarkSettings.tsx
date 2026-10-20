@@ -133,6 +133,7 @@ export function WatermarkSettings() {
                 <button
                   key={p.id}
                   onClick={() => update({ preset: p.id })}
+                  aria-pressed={settings.preset === p.id}
                   className={`px-3 py-1.5 text-xs rounded-btn transition-colors ${
                     settings.preset === p.id
                       ? "bg-primary text-white"
@@ -168,6 +169,7 @@ export function WatermarkSettings() {
                 <button
                   key={p.id}
                   onClick={() => update({ position: p.id })}
+                  aria-pressed={settings.position === p.id}
                   className={`px-2 py-1.5 text-xs rounded-btn transition-colors ${
                     settings.position === p.id
                       ? "bg-primary text-white"
@@ -183,6 +185,7 @@ export function WatermarkSettings() {
                 <button
                   key={p.id}
                   onClick={() => update({ position: p.id })}
+                  aria-pressed={settings.position === p.id}
                   className={`flex-1 px-2 py-1.5 text-xs rounded-btn transition-colors ${
                     settings.position === p.id
                       ? "bg-primary text-white"
@@ -238,7 +241,8 @@ export function WatermarkSettings() {
                   key={c.hex}
                   onClick={() => update({ textColor: c.hex })}
                   title={c.name}
-                  className={`w-6 h-6 rounded-full border-2 transition-all ${
+                  data-selected={settings.textColor?.toUpperCase() === c.hex}
+                  className={`w-6 h-6 rounded-full color-swatch border-2 transition-all ${
                     settings.textColor?.toUpperCase() === c.hex
                       ? "border-primary scale-110"
                       : "border-gray-300 dark:border-gray-600 hover:border-gray-400"
@@ -270,7 +274,7 @@ export function WatermarkSettings() {
                 className="w-24 text-sm px-2 py-1 rounded border border-border-light dark:border-border-dark bg-transparent text-text-light dark:text-text-dark font-mono focus:outline-none focus:border-primary"
               />
               <div
-                className="w-6 h-6 rounded border border-gray-300 dark:border-gray-600"
+                className="w-6 h-6 rounded border border-gray-300 dark:border-gray-600 color-swatch"
                 style={{ backgroundColor: isValidHex(colorInput) ? colorInput : (settings.textColor ?? "#FFFFFF") }}
               />
             </div>

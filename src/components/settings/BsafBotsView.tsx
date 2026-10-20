@@ -279,6 +279,7 @@ function BotItem({ bot, expanded, onToggle, onFilterChange, confirmUnregister, o
                       <button
                         key={option.value}
                         onClick={() => handleToggleOption(filter.tag, option.value)}
+                        aria-pressed={isEnabled}
                         className={`px-2.5 py-1 text-xs rounded-btn transition-colors ${
                           isEnabled
                             ? "bg-primary text-white"

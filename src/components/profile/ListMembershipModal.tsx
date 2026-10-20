@@ -70,6 +70,7 @@ export function ListMembershipModal() {
                   key={list.uri}
                   onClick={() => handleToggle(list.uri)}
                   disabled={isPending || !memberships}
+                  aria-pressed={isMember}
                   className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors disabled:opacity-50"
                 >
                   <div

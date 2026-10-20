@@ -407,6 +407,7 @@ kazahanaは全機能を網羅するスタンドアロンアプリではなく、
 - **角丸**: カード `8px`、ボタン `6px`、アバター `50%`
 - **レスポンシブ**: 最小幅 400px、最大幅 600px（コンテンツエリア）
 - **ダークモード**: TailwindCSS `darkMode: "class"`、`html` 要素のクラス切替
+- **ハイコントラスト（Windows 強制カラー）**: `src/styles/globals.css` の `@media (forced-colors: active)` で対応。選択状態は背景色だけに頼らず `aria-pressed`（切り替えボタン）/ `aria-current`（タブ・下部ナビ）で明示し、強制カラー時はシステム色 `Highlight` / `HighlightText` で塗る。角丸ボタンには `ButtonText` の枠線を引く。色見本（`.color-swatch`）は `forced-color-adjust: none` で本来の色を保ち、選択中は `data-selected` で強調色の輪を付ける。新しい選択 UI を追加するときも同じ属性を付けること
 
 ---
 

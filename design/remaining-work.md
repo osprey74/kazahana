@@ -408,3 +408,11 @@ Collaborator: よつぎnん / @yotsugin.bsky.social
 - [ ] **[D-3] hide reply（`threadgate.hiddenReplies`）の適用** — スレッドの作者が Web 版で非表示にした返信が、kazahana のスレッド表示（`ThreadView`）で見えている可能性。`threadgate` レコードの `hiddenReplies` を参照し、公式と同様に折りたたむか非表示にする。実機確認から始める
 - [ ] **[D-4] `subscribed-post` 通知の表示対応** — Web 版でアクティビティ購読（特定ユーザーの投稿を通知）した場合に届く `subscribed-post` reason を `NotificationItem` / `GroupedNotificationItem` / OS 通知で扱っていない。アイコン・文言（11 ロケール）・投稿プレビューを追加
 - [ ] **[D-5] PLATFORM_MATRIX.md 更新 + iOS / Android 後追い確認** — 上記 4 件を対応表に追加し、各プラットフォームの対応状況を確認（`parity` ラベル）
+
+## Windows ハイコントラストモード対応（2026-10-20）
+
+> 背景: Windows をハイコントラストモードにすると WebView2 がアプリの背景色を無視してシステム色に置き換える（強制カラー）。ボタンの形と選択状態を背景色だけで表していたため、ボタンが文字だけになり、どれが選択中か分からず操作できなかった。
+
+- [x] **[D-1] 強制カラー用 CSS を追加** — `src/styles/globals.css` に `@media (forced-colors: active)` を追加。角丸ボタンに `ButtonText` の枠線、選択中（`aria-pressed="true"` / `aria-current`）を `Highlight` / `HighlightText` で塗る。`bg-primary` の吹き出し・バッジにも輪郭を付ける
+- [x] **[D-2] 選択状態を ARIA 属性で明示** — 切り替えボタンに `aria-pressed`（テーマ、取得タイミング、ラベル設定、ウォーターマーク、BSAF フィルタ、画像クロップ、グループ作成・リスト追加のチェック行）、タブに `aria-current`（プロフィール、検索、フィード）を付与。下部ナビは React Router の `NavLink` が `aria-current="page"` を自動付与。スクリーンリーダーにも選択状態が伝わる
+- [x] **[D-3] 色見本の本来の色を保持** — ウォーターマークの文字色見本に `color-swatch` クラスと `data-selected` を付け、`forced-color-adjust: none` で本来の色を表示。選択中は強調色の輪で示す

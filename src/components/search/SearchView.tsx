@@ -103,6 +103,7 @@ export function SearchView() {
         <div className="flex border-b border-border-light dark:border-border-dark">
           <button
             onClick={() => setTab("posts")}
+            aria-current={tab === "posts"}
             className={`flex-1 py-2.5 text-sm font-medium transition-colors ${
               tab === "posts"
                 ? "text-primary border-b-2 border-primary"
@@ -113,6 +114,7 @@ export function SearchView() {
           </button>
           <button
             onClick={() => setTab("users")}
+            aria-current={tab === "users"}
             className={`flex-1 py-2.5 text-sm font-medium transition-colors ${
               tab === "users"
                 ? "text-primary border-b-2 border-primary"

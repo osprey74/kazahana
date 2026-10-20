@@ -538,6 +538,7 @@ export function ImageEditModal({ file, onApply, onClose }: ImageEditModalProps) 
           <button
             onClick={() => toggleCropMode("free")}
             disabled={isApplying}
+            aria-pressed={cropMode === "free"}
             className={`flex items-center gap-1 px-2.5 py-1.5 text-xs rounded-btn transition-colors disabled:opacity-50 ${
               cropMode === "free"
                 ? "bg-primary text-white"
@@ -550,6 +551,7 @@ export function ImageEditModal({ file, onApply, onClose }: ImageEditModalProps) 
           <button
             onClick={() => toggleCropMode("original")}
             disabled={isApplying}
+            aria-pressed={cropMode === "original"}
             className={`flex items-center gap-1 px-2.5 py-1.5 text-xs rounded-btn transition-colors disabled:opacity-50 ${
               cropMode === "original"
                 ? "bg-primary text-white"
@@ -562,6 +564,7 @@ export function ImageEditModal({ file, onApply, onClose }: ImageEditModalProps) 
           <button
             onClick={() => toggleCropMode("square")}
             disabled={isApplying}
+            aria-pressed={cropMode === "square"}
             className={`flex items-center gap-1 px-2.5 py-1.5 text-xs rounded-btn transition-colors disabled:opacity-50 ${
               cropMode === "square"
                 ? "bg-primary text-white"

@@ -207,6 +207,7 @@ export function CreateGroupModal() {
                 key={user.did}
                 onClick={() => toggleSelect(user)}
                 disabled={atLimit}
+                aria-pressed={checked}
                 className={`w-full flex items-center gap-3 px-4 py-2 text-left transition-colors ${
                   atLimit
                     ? "opacity-40 cursor-not-allowed"

@@ -138,6 +138,7 @@ export function SettingsView() {
             <button
               key={opt}
               onClick={() => setTheme(opt)}
+              aria-pressed={theme === opt}
               className={`px-4 py-2 text-sm rounded-btn transition-colors ${
                 theme === opt
                   ? "bg-primary text-white"
@@ -158,6 +159,7 @@ export function SettingsView() {
             <button
               key={sec}
               onClick={() => setPollInterval(sec)}
+              aria-pressed={pollInterval === sec}
               className={`px-4 py-2 text-sm rounded-btn transition-colors ${
                 pollInterval === sec
                   ? "bg-primary text-white"
@@ -502,6 +504,7 @@ export function SettingsView() {
                         <button
                           key={pref}
                           onClick={() => handleLabelPref(label.id, pref)}
+                          aria-pressed={currentPref === pref}
                           className={`px-3 py-1 text-xs rounded-btn transition-colors ${
                             currentPref === pref
                               ? "bg-primary text-white"
@@ -533,6 +536,7 @@ export function SettingsView() {
                       <button
                         key={pref}
                         onClick={() => handleLabelPref(label.id, pref)}
+                        aria-pressed={currentPref === pref}
                         className={`px-3 py-1 text-xs rounded-btn transition-colors ${
                           currentPref === pref
                             ? "bg-primary text-white"
