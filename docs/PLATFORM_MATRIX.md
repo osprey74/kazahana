@@ -1,6 +1,7 @@
 # kazahana Platform Feature Matrix
 
-> **Last updated:** 2026-10-13 (iOS v3.9.0 公開 — 「iPhone Duo 対応」「iPhone Duo のツールバー・タブバー側面縦配置」「グループシステムメッセージ表示」の備考の「次期リリース」を「iOS v3.9.0」に更新（Catalyst は v3.9.0 未リリースのため unlockConvo 修正は次回 Catalyst リリースで反映）。ステータス変更なし)
+> **Last updated:** 2026-10-20 (Desktop — 「Desktop 固有」に「Windows ハイコントラストモード（強制カラー）対応」を追加。選択状態を `aria-pressed` / `aria-current` で明示し、強制カラー時にシステム色で描画)
+> **Previously:** 2026-10-13 (iOS v3.9.0 公開 — 「iPhone Duo 対応」「iPhone Duo のツールバー・タブバー側面縦配置」「グループシステムメッセージ表示」の備考の「次期リリース」を「iOS v3.9.0」に更新（Catalyst は v3.9.0 未リリースのため unlockConvo 修正は次回 Catalyst リリースで反映）。ステータス変更なし)
 > **Previously:** 2026-10-11 (iOS/Catalyst v3.8.1 公開 — 「被フォロー表示」「グループチャットの送信者表示」の備考の「次期リリースで対応」を「v3.8.1 で対応」に更新。ステータス変更なし)
 > **Previously:** 2026-10-10 (iOS — 「iPhone Duo 対応」の備考に、シミュレータで内側・外側の全画面確認と開閉時のスクロール位置保持を確認した旨、実機未検証である旨を追記。ステータス変更なし)
 > **Previously:** 2026-10-10 (iOS 次期リリース — 「iPhone Duo のツールバー・タブバー側面縦配置」の備考に、外側ディスプレイでプロフィールのタブ帯が側面のステータスバー下にはみ出す不具合の修正を追記（kazahana-ios#6）。ステータス変更なし)
@@ -305,6 +306,7 @@
 | ブックマークレット連携 | ✅ | kazahana://compose |
 | カスタム URI スキーム（compose） | ✅ | |
 | 自動更新（tauri-plugin-updater） | ⬜ | コード署名導入後に実装 |
+| Windows ハイコントラストモード（強制カラー）対応 | ✅ | `@media (forced-colors: active)`。ボタン枠線・選択状態の `Highlight` 描画・色見本の色保持。iOS/Android の OS 標準コントラスト設定は各リポジトリで別途確認 |
 
 ### macOS (Catalyst) 固有
 
