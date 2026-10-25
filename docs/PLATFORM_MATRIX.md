@@ -1,6 +1,7 @@
 # kazahana Platform Feature Matrix
 
-> **Last updated:** 2026-10-20 (Desktop — 「Desktop 固有」に「Windows ハイコントラストモード（強制カラー）対応」を追加。選択状態を `aria-pressed` / `aria-current` で明示し、強制カラー時にシステム色で描画)
+> **Last updated:** 2026-10-26 (iOS/Catalyst v3.9.1・v3.9.2 公開 — 「リストフィード表示」「リプライ」「グループシステムメッセージ表示」「ディープリンク（profile/post/hashtag）」の備考に v3.9.1・v3.9.2 の不具合修正を追記。ステータス変更なし)
+> **Previously:** 2026-10-20 (Desktop — 「Desktop 固有」に「Windows ハイコントラストモード（強制カラー）対応」を追加。選択状態を `aria-pressed` / `aria-current` で明示し、強制カラー時にシステム色で描画)
 > **Previously:** 2026-10-13 (iOS v3.9.0 公開 — 「iPhone Duo 対応」「iPhone Duo のツールバー・タブバー側面縦配置」「グループシステムメッセージ表示」の備考の「次期リリース」を「iOS v3.9.0」に更新（Catalyst は v3.9.0 未リリースのため unlockConvo 修正は次回 Catalyst リリースで反映）。ステータス変更なし)
 > **Previously:** 2026-10-11 (iOS/Catalyst v3.8.1 公開 — 「被フォロー表示」「グループチャットの送信者表示」の備考の「次期リリースで対応」を「v3.8.1 で対応」に更新。ステータス変更なし)
 > **Previously:** 2026-10-10 (iOS — 「iPhone Duo 対応」の備考に、シミュレータで内側・外側の全画面確認と開閉時のスクロール位置保持を確認した旨、実機未検証である旨を追記。ステータス変更なし)
@@ -60,7 +61,7 @@
 | スティッキーフィードタブヘッダー | ✅ | ✅ | ✅ | ✅ | |
 | ホームタブ再タップでスクロール先頭＋再読み込み | N/A | ✅ | ✅ | ✅ | |
 | カスタムフィード切り替え | ✅ | ✅ | ✅ | ✅ | |
-| リストフィード表示 | ✅ | ✅ | ✅ | ✅ | |
+| リストフィード表示 | ✅ | ✅ | ✅ | ✅ | **iOS / Catalyst:** v3.7.1〜v3.9.1 では、新規作成しただけのリスト（preferences の `savedFeedsPrefV2` に未保存）がフィード選択に表示されない不具合あり。`getLists` で取得した自分のリストを重複除去してマージするよう修正（Desktop `useMyLists` と同じ方式、v3.9.2 で修正済み） |
 | フィードクイックジャンプメニュー | ✅ | ✅ | ✅ | ✅ | |
 | 非ピン留めフィード表示 | ✅ | ✅ | ✅ | ✅ | |
 | フィード並び替え（ドラッグ） | ✅ | ✅ | ✅ | ✅ | |
@@ -102,7 +103,7 @@
 | いいね / いいね解除 | ✅ | ✅ | ✅ | ✅ | |
 | リポスト / リポスト解除 | ✅ | ✅ | ✅ | ✅ | |
 | 引用リポスト | ✅ | ✅ | ✅ | ✅ | |
-| リプライ | ✅ | ✅ | ✅ | ✅ | |
+| リプライ | ✅ | ✅ | ✅ | ✅ | **iOS / Catalyst:** v3.9.1 より前は、返信先が返信のときも返信先の投稿を `reply.root` にしていたため、2 段目以降への返信がスレッドにつながらない不具合あり。返信先の `record.reply.root` を引き継ぐよう修正（Desktop `PostActions.tsx` と同じ方式、v3.9.1 で修正済み。修正前に投稿した返信のレコードは直らない） |
 | 投稿削除 | ✅ | ✅ | ✅ | ✅ | |
 | ブックマーク | ✅ | ✅ | ✅ | ✅ | |
 | スレッドゲート（返信制限） | ✅ | ✅ | ✅ | ✅ | |
@@ -212,7 +213,7 @@
 | DM 自動更新（ポーリング） | ✅ | ✅ | ✅ | ✅ | iOS・Android: 15秒 |
 | DM 新規会話作成履歴 | ✅ | ✅ | ✅ | ✅ | |
 | **グループ会話表示（`groupConvo` kind）** | ✅ | ✅ | ✅ | ✅ | Bluesky v1.124 グループチャット受信対応。グループ名 + メンバー数 + ロック状態を会話一覧およびスレッドヘッダに表示。Android v3.4.0 / iOS v3.4.0 / Catalyst 同時対応 |
-| **グループシステムメッセージ表示** | ✅ | ✅ | ✅ | ✅ | 全 14 種（addMember / removeMember / memberJoin / memberLeave / lockConvo / unlockConvo / lockConvoPermanently / editGroup / createJoinLink / editJoinLink / enableJoinLink / disableJoinLink ほか）を中央寄せ italic で表示。Android v3.4.0 / iOS v3.4.0。**iOS / Catalyst:** v3.8.1 まで unlockConvo が lockConvo として表示される不具合あり（`…UnlockConvo` が `lockConvo` の末尾一致に先に掛かっていた）。判定順を修正（iOS v3.9.0 で修正済み。Catalyst は次回リリースで反映、kazahana-ios#5） |
+| **グループシステムメッセージ表示** | ✅ | ✅ | ✅ | ✅ | 全 14 種（addMember / removeMember / memberJoin / memberLeave / lockConvo / unlockConvo / lockConvoPermanently / editGroup / createJoinLink / editJoinLink / enableJoinLink / disableJoinLink ほか）を中央寄せ italic で表示。Android v3.4.0 / iOS v3.4.0。**iOS / Catalyst:** v3.8.1 まで unlockConvo が lockConvo として表示される不具合あり（`…UnlockConvo` が `lockConvo` の末尾一致に先に掛かっていた）。判定順を修正（iOS v3.9.0・Catalyst v3.9.1 で修正済み、kazahana-ios#5） |
 | **グループチャットの送信者表示（名前・アバター）** | ✅ | ✅ | ✅ | ✅ | 他者メッセージを「同一送信者・5 分以内」の連続ブロックにまとめ、先頭吹き出しの上に表示名（なければハンドル→短縮 DID）、末尾吹き出しの左にアバターを表示（公式アプリ準拠）。名前・アバターはタップでプロフィールへ。送信者は `convo.members` に `getConvoMembers` の結果をマージして解決（`convo.members` は部分集合のことがあるため）。同じマップをシステムメッセージの名前解決にも使用し、DID 生表示を解消。1:1 DM は対象外。Desktop v3.6.1。**Android v3.7.0 で対応**（kazahana#22）：`getConvoMembers` を `convo.members` にマージして `ChatUiState.members` に保持し、グループ会話の他者メッセージに送信者名を吹き出し上へ表示（同一送信者の連続投稿は先頭のみ、タップでプロフィールへ）。名前解決は表示名 → ハンドル → 短縮 DID。同じマップをシステムメッセージと返信プレビューにも使用。受け入れ要件の緩和（2026-10-09）により、アバター表示と「同一送信者・5 分以内」の連続ブロック化は Android では見送り。**iOS/Catalyst v3.8.1 で対応**：`ChatThreadViewModel.loadMembers()` で `getConvoMembers` を `convo.members` にマージし、同一送信者の連続投稿の先頭のみ送信者名を表示（タップでプロフィール）。名前解決は表示名 → ハンドル → 短縮 DID。同じリストをシステムメッセージ・返信プレビュー・会話一覧のプレビューにも使用。システムメッセージの参照ユーザー（`systemMessageReferredUser` = DID のみ）を `ChatMember` としてデコードしていたため該当メッセージが破棄されていた不具合も修正。アバター・連続ブロック化は Android と同じく見送り |
 | **招待リンク embed 受信表示（`chat.bsky.embed.joinLink`）** | ✅ | ✅ | ✅ | ✅ | チャットメッセージ内の招待リンクカード描画。有効 / 無効化 / 無効リンクの 3 状態。Android v3.4.0 / iOS v3.4.0：`JoinLinkEmbedView.swift` |
 | **グループロック中の入力抑止** | ✅ | ✅ | ✅ | ✅ | `lockStatus: locked` / `locked-permanently` 時は入力欄を非表示にロック通知を表示。Android v3.4.0 / iOS v3.4.0 |
@@ -327,7 +328,7 @@
 |------|:---:|------|
 | Share Extension（他アプリからの共有受信） | ✅ | KeyChain accessGroup + App Group 共有。URL の OGP リンクカード、画像のクロップ・ALT テキスト（v3.7.1）。2026-10-10 フォルダ整理後にシミュレータで Safari からの共有を確認 |
 | 共有シート（他アプリへの共有送信） | ✅ | UIActivityViewController |
-| ディープリンク（profile/post/hashtag） | ✅ | kazahana://profile/{} 等 |
+| ディープリンク（profile/post/hashtag） | ✅ | kazahana://profile/{} 等。v3.9.1 より前は `kazahana://post/` にパーセントエンコードした AT-URI を渡すと開けない不具合あり（v3.9.1 で修正済み。未エンコードの AT-URI も受け付ける） |
 | バックグラウンドポーリング（BGAppRefreshTask） | ✅ | |
 | ローカルプッシュ通知 | ✅ | |
 | スワイプバック対応（ナビバー非表示時） | ✅ | |
