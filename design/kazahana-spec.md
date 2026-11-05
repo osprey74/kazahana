@@ -227,6 +227,8 @@ kazahanaは全機能を網羅するスタンドアロンアプリではなく、
 | フォロー/フォロワー数表示 | `getProfile` レスポンス内 | ✅ |
 | フォロー/解除 | `com.atproto.repo.createRecord` / `deleteRecord` | ✅ |
 | 被フォロー表示 | `getProfile` の `viewer.followedBy` が存在する場合、ハンドル横に「あなたをフォローしています」バッジを表示（自分・ブロック中は非表示） | ✅ |
+| プロフィールリンク（表示のみ） | `getProfile` の `links`（`profileLinkView`、`app.bsky.actor.link`）を自己紹介の下に favicon + タイトルのピルで表示。タイトルが無ければドメイン名。クリックで外部ブラウザ。最大 10 件・タイトル 30 書記素、https 以外・短縮 URL・重複は除外、ラベルで filter / blur 判定のリンクは非表示（公式 social-app `profileLinks` と同じ規則）。編集は公式 Web 版で行う前提。`src/lib/profileLinks.ts` / `ProfileLinks.tsx` | ✅ |
+| Web 版プロフィールを開く | プロフィールヘッダー右上の `open_in_new` ボタン（自分・他人とも表示）で `https://bsky.app/profile/{handle}` を外部ブラウザで開く。ハンドルが `handle.invalid` の場合は DID を使用 | ✅ |
 | フォロワー一覧ページ | `app.bsky.graph.getFollowers`（ページネーション付き） | ✅ |
 | フォロー中一覧ページ | `app.bsky.graph.getFollows`（ページネーション付き） | ✅ |
 | リプライ先コンテキスト | 親ポストをインラインで表示 | ✅ |

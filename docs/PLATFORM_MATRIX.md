@@ -1,6 +1,7 @@
 # kazahana Platform Feature Matrix
 
-> **Last updated:** 2026-11-05 (公式 social-app v1.138.0 の「プロフィールリンク（`app.bsky.actor.link`）」を「6. プロフィール」に追加。Desktop ⬜、iOS / Catalyst / Android ❓)
+> **Last updated:** 2026-11-05 (Desktop — 「プロフィールリンク（`app.bsky.actor.link`）」⬜→✅（表示のみ）。差異サマリーの「Desktop 未実装」から削除。「6. プロフィール」に「Web 版プロフィールを開く（bsky.app）」を追加（Desktop ✅、iOS / Catalyst / Android ❓）)
+> **Previously:** 2026-11-05 (公式 social-app v1.138.0 の「プロフィールリンク（`app.bsky.actor.link`）」を「6. プロフィール」に追加。Desktop ⬜、iOS / Catalyst / Android ❓)
 > **Previously:** 2026-10-26 (iOS/Catalyst v3.9.1・v3.9.2 公開 — 「リストフィード表示」「リプライ」「グループシステムメッセージ表示」「ディープリンク（profile/post/hashtag）」の備考に v3.9.1・v3.9.2 の不具合修正を追記。ステータス変更なし)
 > **Previously:** 2026-10-20 (Desktop — 「Desktop 固有」に「Windows ハイコントラストモード（強制カラー）対応」を追加。選択状態を `aria-pressed` / `aria-current` で明示し、強制カラー時にシステム色で描画)
 > **Previously:** 2026-10-13 (iOS v3.9.0 公開 — 「iPhone Duo 対応」「iPhone Duo のツールバー・タブバー側面縦配置」「グループシステムメッセージ表示」の備考の「次期リリース」を「iOS v3.9.0」に更新（Catalyst は v3.9.0 未リリースのため unlockConvo 修正は次回 Catalyst リリースで反映）。ステータス変更なし)
@@ -182,7 +183,8 @@
 | ピン留め投稿表示 | ✅ | ✅ | ✅ | ✅ | |
 | ブックマークタブ（自分のプロフィール） | ✅ | ✅ | ✅ | ✅ | 自分のプロフィールでのみ表示 |
 | プロフィール内検索 | ✅ | ✅ | ✅ | ✅ | |
-| **プロフィールリンク（`app.bsky.actor.link`）** | ⬜ | ❓ | ❓ | ❓ | 公式 social-app v1.138.0 で確認（`src/features/profileLinks`）。プロフィールに外部リンクを最大 10 件表示（タイトル 30 文字まで）。リンクは別レコード `app.bsky.actor.link` に保存され、`getProfile` の `links`（`ProfileLinkView`）で返る。短縮 URL・非 HTTPS・重複は非表示、ラベルでぼかし／非表示になるリンクは表示しない。Ko-fi・GitHub 等の対応サイトは緑のサポートボタンとして表示。自分のプロフィールでの追加・編集・削除、他者のリンクの通報あり。Desktop は未実装（2026-11-05 `src/` に該当なし）。iOS / Catalyst / Android は各リポジトリで要確認 |
+| Web 版プロフィールを開く（bsky.app） | ✅ | ❓ | ❓ | ❓ | Desktop: プロフィールヘッダー右上のボタン（自分・他人とも）で `https://bsky.app/profile/{handle}` を外部ブラウザで開く（`handle.invalid` は DID）。iOS / Catalyst / Android は各リポジトリで要確認 |
+| **プロフィールリンク（`app.bsky.actor.link`）** | ✅ | ❓ | ❓ | ❓ | 公式 social-app v1.138.0 で確認（`src/features/profileLinks`）。プロフィールに外部リンクを最大 10 件表示（タイトル 30 文字まで）。リンクは別レコード `app.bsky.actor.link` に保存され、`getProfile` の `links`（`ProfileLinkView`）で返る。短縮 URL・非 HTTPS・重複は非表示、ラベルでぼかし／非表示になるリンクは表示しない。Ko-fi・GitHub 等の対応サイトは緑のサポートボタンとして表示。自分のプロフィールでの追加・編集・削除、他者のリンクの通報あり。**Desktop は表示のみ対応**（編集は公式 Web 版で行う方針）：自己紹介の下に favicon + タイトル（無ければドメイン名）のピルで表示し、クリックで外部ブラウザ。除外規則とラベル判定は公式と同じ。サポートサイトのロゴは同梱せず favicon に統一（`src/lib/profileLinks.ts` / `ProfileLinks.tsx`）。iOS / Catalyst / Android は各リポジトリで要確認 |
 | **プロフィール QR コード生成・共有** | N/A | N/A | ✅ | ✅ | Bluesky v1.124 同梱機能。自分のプロフィールから QR シートを開き `bsky.app/profile/{handle}` を符号化。リンクのコピー / 共有 / QR 画像のギャラリー保存。iOS / Android のみ（Desktop・macOS Catalyst はスコープ外）。HANDOFF_kazahana-profile-qr.md。Android v3.4.0：ZXing で生成、`MediaStore` 保存。iOS v3.4.0：CIFilter.qrCodeGenerator で生成 |
 
 ---
@@ -382,7 +384,6 @@
 |------|:-------:|
 | 自動更新（tauri-plugin-updater） | ⬜ |
 | 投稿言語（Bluesky アカウント設定から優先取得） | ⬜ |
-| プロフィールリンク（`app.bsky.actor.link`） | ⬜ |
 
 ### macOS (Catalyst) 未実装
 

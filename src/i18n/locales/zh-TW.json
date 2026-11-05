@@ -223,6 +223,8 @@
     "loadFailed": "無法載入個人檔案",
     "followsYou": "追蹤了你",
     "notFollowsYou": "未追蹤你",
+    "links": "連結",
+    "openInWeb": "在 Bluesky 網頁版中開啟",
     "logout": "登出",
     "mute": "靜音",
     "unmute": "取消靜音",

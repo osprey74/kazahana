@@ -223,6 +223,8 @@
     "loadFailed": "프로필을 불러오지 못했습니다",
     "followsYou": "나를 팔로우 중",
     "notFollowsYou": "나를 팔로우하지 않음",
+    "links": "링크",
+    "openInWeb": "Bluesky 웹에서 열기",
     "logout": "로그아웃",
     "mute": "뮤트",
     "unmute": "뮤트 해제",

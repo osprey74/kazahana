@@ -416,3 +416,13 @@ Collaborator: よつぎnん / @yotsugin.bsky.social
 - [x] **[D-1] 強制カラー用 CSS を追加** — `src/styles/globals.css` に `@media (forced-colors: active)` を追加。角丸ボタンに `ButtonText` の枠線、選択中（`aria-pressed="true"` / `aria-current`）を `Highlight` / `HighlightText` で塗る。`bg-primary` の吹き出し・バッジにも輪郭を付ける
 - [x] **[D-2] 選択状態を ARIA 属性で明示** — 切り替えボタンに `aria-pressed`（テーマ、取得タイミング、ラベル設定、ウォーターマーク、BSAF フィルタ、画像クロップ、グループ作成・リスト追加のチェック行）、タブに `aria-current`（プロフィール、検索、フィード）を付与。下部ナビは React Router の `NavLink` が `aria-current="page"` を自動付与。スクリーンリーダーにも選択状態が伝わる
 - [x] **[D-3] 色見本の本来の色を保持** — ウォーターマークの文字色見本に `color-swatch` クラスと `data-selected` を付け、`forced-color-adjust: none` で本来の色を表示。選択中は強調色の輪で示す
+
+## プロフィールリンク表示（2026-11-05）
+
+> 背景: 公式 social-app v1.138.0 の「プロフィールリンク」（`app.bsky.actor.link`）に対応。AppView は `getProfile` の `links` で返却済み（本番で確認）。方針により**表示のみ**とし、編集は公式 Web 版で行う。サポートサイトのロゴ（緑のボタン）は同梱せず favicon に統一。
+
+- [x] **[D-1] リンク抽出ヘルパー新設** — `src/lib/profileLinks.ts`。@atproto/api 0.20.16 に型が無いため局所キャストで `links` を読む。公式 `record.ts` と同じ規則（最大 10 件、タイトル 30 書記素、https のみ、短縮 URL・重複除外）。ラベルは `ModerationDecision` の `contentList` で filter / blur なら非表示
+- [x] **[D-2] プロフィールヘッダーに表示** — `src/components/profile/ProfileLinks.tsx` を自己紹介の下に配置。favicon（読み込み失敗時は `link` アイコン）+ タイトル（無ければドメイン名）のピル、クリックで `openUrl`。`profile.links`（aria-label）を 11 言語に追加
+- [x] **[D-3] PLATFORM_MATRIX.md 更新** — Windows 列を ✅ に変更
+- [x] **[D-4] Web 版プロフィールを開くボタン** — `ProfileHeader.tsx` の右上（「…」メニューの左）に `open_in_new` ボタンを追加。自分のプロフィールでも表示。`https://bsky.app/profile/{handle}`（`handle.invalid` は DID）を `openUrl` で開く。`profile.openInWeb` を 11 言語に追加。PLATFORM_MATRIX に行を追加
+- [ ] **iOS / Android / Catalyst 後追い確認** — プロフィールリンク表示・Web 版プロフィールを開くボタンの実装状況を各リポジトリで確認（`parity` ラベル）

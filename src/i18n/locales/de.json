@@ -223,6 +223,8 @@
     "loadFailed": "Profil konnte nicht geladen werden",
     "followsYou": "Folgt dir",
     "notFollowsYou": "Folgt dir nicht",
+    "links": "Links",
+    "openInWeb": "In Bluesky Web öffnen",
     "logout": "Abmelden",
     "mute": "Stummschalten",
     "unmute": "Stummschaltung aufheben",

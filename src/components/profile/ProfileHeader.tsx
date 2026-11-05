@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { moderateProfile } from "@atproto/api";
+import { openUrl } from "@tauri-apps/plugin-opener";
 import type { AppBskyActorDefs } from "@atproto/api";
 type ProfileViewDetailed = AppBskyActorDefs.ProfileViewDetailed;
 import { useFollow, useUnfollow, useMuteActor, useUnmuteActor, useBlockActor, useUnblockActor } from "../../hooks/useProfile";
@@ -15,6 +16,7 @@ import { BotBadge, isBotAccount } from "../common/BotBadge";
 import { VerificationBadge } from "../common/VerificationBadge";
 import { ContentWarning } from "../common/ContentWarning";
 import { ProfileDescription } from "./ProfileDescription";
+import { ProfileLinks } from "./ProfileLinks";
 interface ProfileHeaderProps {
   profile: ProfileViewDetailed;
   isOwnProfile: boolean;
@@ -109,6 +111,11 @@ export function ProfileHeader({ profile, isOwnProfile }: ProfileHeaderProps) {
 
   const isPending = follow.isPending || unfollow.isPending;
 
+  // Accounts whose handle failed verification fall back to the DID.
+  const webProfileUrl = `https://bsky.app/profile/${
+    profile.handle === "handle.invalid" ? profile.did : profile.handle
+  }`;
+
   return (
     <div className="border-b border-border-light dark:border-border-dark">
       {/* Banner */}
@@ -136,21 +143,29 @@ export function ProfileHeader({ profile, isOwnProfile }: ProfileHeaderProps) {
           ) : (
             <Avatar src={profile.avatar} alt={profile.displayName} size="lg" />
           )}
-          {!isOwnProfile && (
-            <div className="flex items-center gap-2">
-              {!isBlocking && (
-                <button
-                  onClick={handleFollowClick}
-                  disabled={isPending}
-                  className={`px-4 py-1.5 text-sm font-medium rounded-btn transition-colors disabled:opacity-50 ${
-                    isFollowing
-                      ? "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-red-100 hover:text-red-600"
-                      : "bg-primary text-white hover:bg-blue-600"
-                  }`}
-                >
-                  {isFollowing ? t("profile.following") : t("profile.follow")}
-                </button>
-              )}
+          <div className="flex items-center gap-2">
+            {!isOwnProfile && !isBlocking && (
+              <button
+                onClick={handleFollowClick}
+                disabled={isPending}
+                className={`px-4 py-1.5 text-sm font-medium rounded-btn transition-colors disabled:opacity-50 ${
+                  isFollowing
+                    ? "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-red-100 hover:text-red-600"
+                    : "bg-primary text-white hover:bg-blue-600"
+                }`}
+              >
+                {isFollowing ? t("profile.following") : t("profile.follow")}
+              </button>
+            )}
+            <button
+              onClick={() => openUrl(webProfileUrl)}
+              title={t("profile.openInWeb")}
+              aria-label={t("profile.openInWeb")}
+              className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+            >
+              <Icon name="open_in_new" size={18} />
+            </button>
+            {!isOwnProfile && (
               <div className="relative">
                 <button
                   onClick={() => setMenuOpen((v) => !v)}
@@ -202,8 +217,8 @@ export function ProfileHeader({ profile, isOwnProfile }: ProfileHeaderProps) {
                   </>
                 )}
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
 
         {/* Name & handle */}
@@ -227,6 +242,9 @@ export function ProfileHeader({ profile, isOwnProfile }: ProfileHeaderProps) {
         {profile.description && (
           <ProfileDescription text={profile.description} />
         )}
+
+        {/* Profile links (app.bsky.actor.link) */}
+        <ProfileLinks profile={profile} />
 
         {/* Stats */}
         <div className="flex gap-4 mt-3 text-sm">

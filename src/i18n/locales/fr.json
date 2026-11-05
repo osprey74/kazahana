@@ -223,6 +223,8 @@
     "loadFailed": "Échec du chargement du profil",
     "followsYou": "Vous suit",
     "notFollowsYou": "Ne vous suit pas",
+    "links": "Liens",
+    "openInWeb": "Ouvrir dans Bluesky Web",
     "logout": "Se déconnecter",
     "mute": "Masquer",
     "unmute": "Ne plus masquer",

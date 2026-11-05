@@ -223,6 +223,8 @@
     "loadFailed": "个人资料加载失败",
     "followsYou": "关注了你",
     "notFollowsYou": "未关注你",
+    "links": "链接",
+    "openInWeb": "在 Bluesky 网页版中打开",
     "logout": "退出登录",
     "mute": "静音",
     "unmute": "取消静音",

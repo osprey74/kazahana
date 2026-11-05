@@ -225,6 +225,8 @@
     "loadFailed": "プロフィールの読み込みに失敗しました",
     "followsYou": "あなたをフォローしています",
     "notFollowsYou": "あなたをフォローしていません",
+    "links": "リンク",
+    "openInWeb": "Web 版で開く",
     "logout": "ログアウト",
     "mute": "このユーザーをミュート",
     "unmute": "このユーザーのミュートを解除",
